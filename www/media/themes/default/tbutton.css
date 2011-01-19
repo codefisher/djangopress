@@ -1,0 +1,5 @@
+#button-list li {
+    width:50%;
+    float:left;
+    list-style-type:none;
+}

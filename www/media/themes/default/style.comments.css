@@ -1,0 +1,47 @@
+#comment_form label {
+    display:block;
+    padding:0.25em 0;
+}
+
+#comment_comment, #comment_details {
+	float:left;
+	padding: 0 1em;
+}
+
+#comment_form, ul#comments {
+    -moz-border-radius:6px;
+    border-radius:6px;
+    -moz-outline-radius:6px;
+    outline-radius:6px;
+    outline: 1px solid rgba(0, 0, 0, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#comment_form p.submit {
+    clear:both;
+    padding: 0 1em;
+}
+
+ul#comments {
+    padding:0;
+}
+
+#comments > li {
+    list-style-type:none;
+    margin:0;
+    padding:0.5em 1em;
+}
+
+#comments > li h4 {
+    font-size:1.125em;
+    margin:0;
+}
+
+#comments > li small {
+    font-size:0.675em;
+    opacity:0.75;
+}
+
+#comments li.odd {
+    background:rgba(0, 0, 0, 0.1)
+}

@@ -1,0 +1,30 @@
+.blog-entry h3 {
+    padding:0;
+    margin:1em 0 0;
+    font-size:1.125em;
+}
+
+.blog-entry small {
+	font-size:0.675em;
+	color:#98bc55;
+}
+
+.blog-entry h3 a {
+    text-decoration:none;
+}
+
+.blog-entry-footer {
+    padding:0.5em;
+    text-align:center;
+}
+
+.blog-entry-tags,
+.blog-entry-links {
+    display:block;
+    font-size:0.8em;
+}
+
+h2.category {
+    font-size:1.25em;
+    text-align:center;
+}

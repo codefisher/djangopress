@@ -1,0 +1,73 @@
+.front-page {
+    width:100%;
+    /* table-layout:fixed; */ /*makes google chrome go crazy */
+    display:table;
+    border-collapse:separate;
+    border-spacing:1em;
+}
+.front-page-row {
+    display:table-row;
+    height:100%;
+}
+.front-page-cell {
+    padding:2.5%;
+    display:table-cell;
+    height:90%;
+    vertical-align:middle;
+    border: 1px solid rgba(0, 0, 0, 1);
+    -moz-border-radius:6px;
+    border-radius:6px;
+    -moz-box-shadow: 0px 0px 1px rgba(255, 255, 255, 0.5);
+    -webkit-box-shadow: 0px 0px 1px rgba(255, 255, 255, 0.5);
+    box-shadow: 0px 0px 1px rgba(255, 255, 255, 0.5);
+}
+.front-page-cell:hover {
+    background:rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    -moz-border-radius:6px;
+    -moz-outline-radius:7px;
+    border-radius:6px;
+    outline-radius:7px;
+    -moz-box-shadow: 0px 0px 3px rgba(0, 0, 0, 1);
+    -webkit-box-shadow: 0px 0px 4px rgba(0, 0, 0, 1);
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 1);
+}
+.front-page-cell-content {
+    padding:3% 5%;
+    color:#ffffff;
+    min-height:90%;
+    font-size:0.8em;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgb(255, 255, 255);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    -moz-border-radius:6px;
+    border-radius:6px;
+    -moz-box-shadow: 0px 0px 5px #000;
+    -webkit-box-shadow: 0px 0px 5px #000;
+    box-shadow: 0px 0px 5px #000;
+    /*text-shadow: #000000 0.5px 0.5px 0.5px;*/
+}
+.front-page-cell-content:hover {
+    background: rgba(255, 255, 255, 0.075);
+    text-shadow: #000000 1px 1px 1px;
+}
+.front-page-cell h2 {
+    margin:0.25em;
+    font-size:1.4em;
+    font-variant:small-caps;
+}
+.front-page-cell h2 img {
+    vertical-align:middle;
+    margin:0 5px;
+}
+
+.front-page-cell h2 a {
+    text-decoration:none;
+    color:#ffffff;
+    text-shadow: #000000 1px 1px 1px;
+}
+#content .front-page-cell h2 a:hover {
+    text-decoration:underline;
+    color:#ffffff;
+}
+

@@ -1,0 +1,58 @@
+#top-menu {
+	max-width:1100px;
+	margin:0 auto;
+	height:90px;
+}
+#logo {
+	margin:0 20px;
+	float:left;
+}
+#util-menu {
+	float:right;
+	margin:0;
+	padding:0;
+}
+#util-menu li {
+	float:left;
+	display:block;
+	margin:0;
+	padding:0;
+	min-width:50px;
+	text-align:center;
+	padding:30px 11px 15px 11px;
+	margin:0px 0px;
+}
+#util-menu li a {
+	text-shadow: #000000 1px 1px 1px;
+	color:#ffffff;
+	text-decoration:none;
+	font-size:12px;
+	font-family:sans-serif;
+	display:block;
+	min-width:50px;
+	background:url(images/link-bar.png) center 15px no-repeat;
+	padding-top:20px;
+	font-variant:small-caps;
+}
+#util-menu li:hover a, #util-menu li a:hover {
+	background:url(images/link-bar-hover.png) center 15px no-repeat;
+	color:#7a8863;
+}
+#util-menu .active, #util-menu .active:hover {
+	background:url(images/menu.png) 0px 0px no-repeat;
+}
+#util-menu .active:hover a, #util-menu .active a:hover {
+	color:#ffffff;
+	text-shadow: #000000 2px 2px 2px;
+}
+#util-menu li:hover {
+	background:url(images/menu.png) -72px 0px no-repeat;
+}
+
+#util-menu .feed a {
+    background:url(images/feed.png) center 0px no-repeat;
+}
+#util-menu .feed:hover a, #util-menu .feed a:hover {
+    background:url(images/feed-hover.png) center 0px no-repeat;
+    color:#7a8863;
+}
