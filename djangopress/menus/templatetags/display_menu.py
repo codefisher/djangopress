@@ -31,7 +31,6 @@ class MenuDisplayNode(template.Node):
                 if active:
                     active.discard("active")
                 active = item_tags
-                print item_tags
             tags.append(item_tags)
         return tags
 

@@ -10,7 +10,6 @@ class StaticLinkForm(forms.ModelForm):
         }
 
 class StaticLinkAdmin(admin.ModelAdmin):
-    exclude = ('class_name',)
     form = StaticLinkForm
 
 admin.site.register(StaticLink, StaticLinkAdmin)

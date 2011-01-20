@@ -10,7 +10,7 @@ class MenuLinkMeta(models.base.ModelBase):
 
 class MenuLink(models.Model):
 
-    class_name = models.CharField(max_length=50)
+    class_name = models.CharField(max_length=50, editable=False)
     __metaclass__ = MenuLinkMeta
 
     def save(self):
@@ -23,7 +23,7 @@ class MenuLink(models.Model):
             cls = MenuLink.sub_classes.get(self.class_name)
             if cls:
                 link = cls.objects.get(pk=self.pk)
-                return link.location
+                return link.get_location()
 
     def __str__(self):
         location = self.get_location()
@@ -56,6 +56,3 @@ class StaticLink(MenuLink):
 
     def get_location(self):
         return self.location
-
-    def __str__(self):
-        return self.get_location()

@@ -1,0 +1,7 @@
+{% for entry in entries %}
+    <p class="news">
+     <span class="date"><span class="month">{{ entry.posted|date:"M" }}</span><span class="day">{{ entry.posted|date:"jS" }}</span></span>
+     <a href="{{ entry.perma_link }}" class="title">{{ entry.title }}</a>
+     {{ entry.body|striptags|truncatewords:words }} <a href="{{ entry.perma_link }}">more</a>
+    </p>
+{% endfor %}

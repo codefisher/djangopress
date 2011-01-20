@@ -1,0 +1,27 @@
+<div class="blog-entry">
+    <h3><a href="{{ entry.perma_link }}">{{ entry.title }}</a></h3>
+    <small>{{ entry.posted|date:"DATE_FORMAT" }} by {{ entry.author }}</small>
+    <div class="blog-entry-content">
+        {{ entry.body|safe }}
+    </div>
+    <div class="blog-entry-footer">
+        {% if entry.tags.all %}
+            <span class="blog-entry-tags">
+                {% for tag in entry.tags.all %}
+                    <a href="{% url djangopress.blog.views.tag slug=tag.slug %}">{{ tag.name }}</a>{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            </span>
+        {% endif %}
+        <span class="blog-entry-links">
+            {% if entry.categories.all %}
+                Posted in
+                {% for category in entry.categories.all %}
+                    <a href="{% url djangopress.blog.views.category slug=category.slug %}">{{ category.name }}</a>{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            {% endif %}
+            {% if respond %}
+                &bull; <a href="{{ entry.perma_link }}#respond">Leave a comment</a>
+            {% endif %}
+        </span>
+    </div>
+</div>

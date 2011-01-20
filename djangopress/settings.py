@@ -2,9 +2,6 @@
 
 import sys
 
-if "/home/michael/Dev/Extension/toolbar_buttons/" not in sys.path:
-    sys.path.append("/home/michael/Dev/Extension/toolbar_buttons/")
-
 if "/home/michael/Dev/Extension/" not in sys.path:
     sys.path.append("/home/michael/Dev/Extension/")
 
@@ -68,6 +65,8 @@ ADMIN_MEDIA_PREFIX = '/admin-media/'
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '7vb=x8)-d#7_m(1xk3jt6e)@rpa4$vh*elcahy3)bh&f(!8@nt'
 
+DATE_FORMAT = "F j, Y"
+
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -98,14 +97,19 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
+    'django.contrib.markup',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
+    # 3rd party apps
+    'south',
     # djangopress and other custom apps
-    'toolbar_buttons_web.tbutton_maker',
+    'toolbar_buttons.toolbar_buttons_web.tbutton_maker',
     'djangopress.blog',
     'djangopress.menus',
+    'djangopress.util',
+    'django.contrib.comments',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -116,5 +120,4 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.request",
 )
 
-
-TBUTTON_DATA = "/home/michael/Dev/Extension/ToolbarButtons/"
+from toolbar_buttons.toolbar_buttons_web.tbutton_maker.settings import *

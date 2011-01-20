@@ -1,0 +1,19 @@
+{% extends "general.html" %}
+{% load show_pagination %}
+
+{% block head_tags %}
+    <link type="text/css" rel="stylesheet" href="/media/themes/default/blog.css">
+{% endblock %}
+
+{% block page_title %}
+    {{ title }} :: Archive for {{ date|date:format }}
+{% endblock %}
+
+{% block general-content %}
+    <h2 class="category">Archive for {{ date|date:format }}</h2>
+    {% for entry in entries.object_list %}
+        {% include "blog/entry.html" %}
+    {% endfor %}
+
+    {% show_pagination entries %}
+{% endblock %}

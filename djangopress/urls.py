@@ -11,12 +11,14 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
+    # the django comment app
+    (r'^comments/', include('django.contrib.comments.urls')),
 
     # the Toolbar Buttons section of the site (custom maker etc.)
-    (r'^toolbar_buttons/',        include('toolbar_buttons_web.tbutton_maker.urls')),
+    (r'^toolbar_buttons/',        include('toolbar_buttons.toolbar_buttons_web.tbutton_maker.urls')),
 
     # the blog system
-    (r'^(?:(?P<slug>[\w\-]*)/)?/news/', include('djangopress.blog'))
+    (r'^(?:(?P<blog>[\w\-]*)/)?news/', include('djangopress.blog.urls')),
 )
 
 # if debug is enabled use the static server for media

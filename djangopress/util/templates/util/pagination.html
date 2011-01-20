@@ -1,0 +1,24 @@
+{% if pages %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if pages.has_previous %}
+                <a class="previous-link" href="?page={{ pages.previous_page_number }}">Previous</a>
+            {% endif %}
+            <span class="range-links">
+	            {% for i in range %}
+	                {% if i == pages.number %}
+	                    <span class="current-link">{{ i }}</span>
+	                {% else %}
+	                    <a href="?page={{ i }}">{{ i }}</a>
+	                {% endif %}
+	            {% endfor %}
+            </span>
+            {% if pages.has_next %}
+                <a class="next-link" href="?page={{ pages.next_page_number }}">Next</a>
+            {% endif %}
+        </span>
+        <span class="location">
+             Page {{ pages.number }} of {{ pages.paginator.num_pages }}
+        </span>
+    </div>
+{% endif %}
