@@ -16,7 +16,6 @@ def resolve_blog(function):
 
 def display_list(request, entries_list, blog, extra=None, template='blog/index.html'):
     paginator = Paginator(entries_list, 10)
-
     try:
         page = int(request.GET.get('page', '1'))
     except ValueError:
@@ -90,4 +89,4 @@ def category(request, slug, blog=None):
 @resolve_blog
 def moved(request, post=None, blog=None):
     entry = get_object_or_404(Entry, pk=post, blog=blog)
-    return redirect(entry.perma_link())
+    return redirect(entry.get_absolute_url())

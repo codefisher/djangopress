@@ -30,9 +30,6 @@ class BlogFeed(Feed):
     def item_description(self, item):
         return item.body
 
-    def item_link(self, item):
-        return item.perma_link()
-
     def item_author_name(self, item):
         return item.author
 

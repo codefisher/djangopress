@@ -1,4 +1,4 @@
-{% extends "general.html" %}
+{% extends "base.html" %}
 {% load comments %}
 
 
@@ -6,15 +6,19 @@
     <link type="text/css" rel="stylesheet" href="/media/themes/default/blog.css">
 {% endblock %}
 
-{% block general-content %}
+{% block content %}
     {% include "blog/entry.html" %}
 
     {% get_comment_count for entry as comment_count %}
-    <h3>This post has {{ comment_count }} comment{{ comment_count|pluralize }} so far.</h3>
-    <div id="blog-comments">
-        {% render_comment_list for entry %}
-    </div>
 
+    {% if comment_count == 0 %}
+        <h3>This post has no comments, be the first to post.</h3>
+    {% else %}
+        <h3>This post has {{ comment_count }} comment{{ comment_count|pluralize }} so far.</h3>
+	    <div id="blog-comments">
+	        {% render_comment_list for entry %}
+	    </div>
+    {% endif %}
     <div id="respond">
         {% render_comment_form for entry %}
     </div>

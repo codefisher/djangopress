@@ -7,18 +7,26 @@ class Tag(models.Model):
     name = models.CharField(max_length=30, unique=True)
     description = models.TextField(blank=True, null=False)
     slug = models.SlugField(blank=True, unique=True)
+    #blog =
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("blog-tag", kwargs={"slug": self.slug})
 
 class Category(models.Model):
     name = models.CharField(max_length=30, unique=True)
     description = models.TextField(blank=True, null=False)
     slug = models.SlugField(blank=True, unique=True)
     parent_category = models.ForeignKey('self', null=True, blank=True)
+    #blog =
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse("blog-category", kwargs={"slug": self.slug})
 
 class Blog(models.Model):
     name = models.CharField(max_length=30, unique=True)
@@ -27,6 +35,12 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        kwargs = {}
+        if self.blog.slug:
+            kwargs["blog"] = self.blog.slug
+        return reverse("blog-post", kwargs=kwargs)
 
 class Entry(models.Model):
     PUBLICATION_LEVEL = (
@@ -52,9 +66,8 @@ class Entry(models.Model):
     # change to user profile
     author = models.CharField(blank=False, max_length=30)
     edited = models.DateTimeField(blank=True,
-            default=datetime.datetime.now, verbose_name="Last Edited",
-            editable=False)
-    posted = models.DateTimeField(blank=True, default=datetime.datetime.now,
+            auto_now=True, verbose_name="Last Edited", editable=False)
+    posted = models.DateTimeField(blank=True, auto_now_add=True,
             verbose_name="Publication Date")
     status = models.CharField(blank=False, max_length=2,
             choices=PUBLICATION_LEVEL, default="DR")
@@ -71,7 +84,7 @@ class Entry(models.Model):
         self.edited = datetime.datetime.now
         super(Entry, self).save()
 
-    def perma_link(self):
+    def get_absolute_url(self):
         kwargs = {
             "year": self.posted.year,
             "month": "%02d" % self.posted.month,
@@ -86,4 +99,4 @@ class EntryMenuLink(MenuLink):
     entry = models.ForeignKey(Entry, null=False, blank=False)
 
     def get_location(self):
-        return self.entry.perma_link()
+        return self.entry.get_absolute_url()

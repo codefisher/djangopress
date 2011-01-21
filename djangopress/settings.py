@@ -1,9 +1,11 @@
 # Django settings for codefisher project.
 
-import sys
+import os
 
-if "/home/michael/Dev/Extension/" not in sys.path:
-    sys.path.append("/home/michael/Dev/Extension/")
+#import sys
+#if "/home/michael/Dev/Extension/" not in sys.path:
+#    sys.path.append("/home/michael/Dev/Extension/")
+#from toolbar_buttons.toolbar_buttons_web.tbutton_maker.settings import *
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -32,7 +34,7 @@ DATABASES = {
 # timezone as the operating system.
 # If running in a Windows environment this must be set to the same as your
 # system time zone.
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'Australia/Brisbane'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -51,11 +53,12 @@ USE_L10N = True
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = '/home/michael/WebSites/dev/codefisher/www/media'
+MEDIA_UPLOAD = os.path.join(MEDIA_ROOT, "uploads")
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
 # trailing slash.
@@ -64,8 +67,6 @@ ADMIN_MEDIA_PREFIX = '/admin-media/'
 
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '7vb=x8)-d#7_m(1xk3jt6e)@rpa4$vh*elcahy3)bh&f(!8@nt'
-
-DATE_FORMAT = "F j, Y"
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -102,14 +103,17 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
+    # extra django apps
+    'django.contrib.comments',
     # 3rd party apps
     'south',
+    'haystack',
     # djangopress and other custom apps
-    'toolbar_buttons.toolbar_buttons_web.tbutton_maker',
+    #'toolbar_buttons.toolbar_buttons_web.tbutton_maker',
     'djangopress.blog',
     'djangopress.menus',
     'djangopress.util',
-    'django.contrib.comments',
+    'djangopress.accounts',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -120,4 +124,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.request",
 )
 
-from toolbar_buttons.toolbar_buttons_web.tbutton_maker.settings import *
+AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+HAYSTACK_SITECONF = 'djangopress.search_sites'
+HAYSTACK_SEARCH_ENGINE = 'whoosh'
+HAYSTACK_WHOOSH_PATH = '/home/michael/WebSites/dev/codefisher/djangopress_index'

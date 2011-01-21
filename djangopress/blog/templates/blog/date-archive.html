@@ -1,4 +1,4 @@
-{% extends "general.html" %}
+{% extends "base.html" %}
 {% load show_pagination %}
 
 {% block head_tags %}
@@ -9,7 +9,7 @@
     {{ title }} :: Archive for {{ date|date:format }}
 {% endblock %}
 
-{% block general-content %}
+{% block content %}
     <h2 class="category">Archive for {{ date|date:format }}</h2>
     {% for entry in entries.object_list %}
         {% include "blog/entry.html" %}

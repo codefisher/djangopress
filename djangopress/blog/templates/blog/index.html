@@ -1,4 +1,4 @@
-{% extends "general.html" %}
+{% extends "base.html" %}
 {% load show_pagination %}
 
 {% block head_tags %}
@@ -9,7 +9,7 @@
     {{ title }} {% if blog_heading %}::{{ blog_heading }}{% endif %}
 {% endblock %}
 
-{% block general-content %}
+{% block content %}
     {% if blog_heading %}
         <h2 class="category">{{ blog_heading }}</h2>
     {% endif %}
