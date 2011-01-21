@@ -1,0 +1,31 @@
+/* try and keep this matching the style of the blog entries */
+
+#search-results h3 {
+    padding:0;
+    margin:1em 0 0;
+    font-size:1.125em;
+}
+
+#search-results small {
+    font-size:0.675em;
+    color:#98bc55;
+}
+
+
+#search-results p {
+    margin:0;
+}
+
+#search-results p .highlighted {
+    font-weight:bold;
+    color:#fff;
+}
+
+#search-results h3 a {
+    text-decoration:none;
+}
+
+#search-results .result-link {
+    font-size:0.675em;
+    color:#98bc55;
+}

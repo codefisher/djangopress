@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load show_pagination %}
+{% load highlight %}
+{% load timezone %}
+
+{% block head_tags %}
+    <link type="text/css" rel="stylesheet" href="/media/themes/default/search.css">
+{% endblock %}
+
+{% block content %}
+    <h2>Search</h2>
+
+    <form method="get" action=".">
+        <div>
+            {% for field in form %}
+		            {{ field.label_tag }}: {{ field }}
+		    {% endfor %}
+            <input type="submit" value="Search">
+        </div>
+        {% if query %}
+            <h3>Results for &#8220;{{ query }}&#8221;</h3>
+
+            <ul id="search-results">
+            {% for result in page.object_list %}
+                <li>
+                    <h3><a href="{{ result.object.get_absolute_url }}">{{ result.object.title }}</a></h3>
+                    <small>
+                        {% if result.pub_date %}
+                        {{ result.pub_date|user_timezone:user|date:"DATE_FORMAT" }}
+                        {% endif %}
+                        {% if result.author %}
+                           by {{ result.author }}
+                        {% endif %}
+                    </small>
+                    <p>
+                        {% highlight result.text with query max_length 100 %}
+                    </p>
+                    <span class="result-link">{{ result.object.get_absolute_url }}</span>
+                </li>
+            {% empty %}
+                <li>No results found.</li>
+            {% endfor %}
+            </ul>
+
+            {% show_pagination page query_args %}
+        {% else %}
+            {# Show some example queries to run, maybe query syntax, something else? #}
+        {% endif %}
+    </form>
+{% endblock %}
