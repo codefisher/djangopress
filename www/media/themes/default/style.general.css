@@ -82,6 +82,7 @@ img {
     margin-bottom:250px;
     z-index:0;
     width:100%;
+    font-size:0.9em;
 }
 #content a {
     color:#ffffff;
@@ -102,6 +103,7 @@ img {
     color:#e8f1d7;
     position:relative;
 }
+/* forms */
 
 form fieldset {
     margin:1em;
@@ -114,6 +116,39 @@ form fieldset {
 form fieldset legend {
     position:relative;
 }
+
+fieldset.errors {
+    background:#300;
+}
+
+fieldset.errors dl,
+fieldset.errors dl ul {
+    margin:0;
+    padding:0;
+}
+
+form.field-form .form-input label {
+    display:block;
+}
+form.field-form .form-field input,
+form.field-form .form-field select {
+	margin-left:2em;
+}
+form.field-form .form-input label:after {
+    content: ":"
+}
+form.field-form .form-field-help {
+    margin-left:1em;
+    margin-bottom:0.5em;
+}
+div.form-field {
+    margin:0.5em;
+}
+
+.input-error input {
+    border:2px solid #600;
+}
+/* pagination */
 
 .pagination {
 	text-align:center;
