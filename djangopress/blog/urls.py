@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls.defaults import url, patterns
 from djangopress.blog.feeds import BlogFeed, BlogAtomFeed
 
 urlpatterns = patterns('djangopress.blog.views',

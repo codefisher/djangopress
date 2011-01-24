@@ -41,6 +41,8 @@ urlpatterns = patterns('',
             results_per_page=10,
         ), name='haystack_search'),
 
+    # the user accounts system
+    (r'^accounts/', include('djangopress.accounts.urls')),
 )
 
 # if debug is enabled use the static server for media

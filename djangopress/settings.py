@@ -92,6 +92,8 @@ TEMPLATE_DIRS = (
     "/home/michael/WebSites/dev/codefisher/templates",
 )
 
+TITLE_FORMAT = "%s :: %s"
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',

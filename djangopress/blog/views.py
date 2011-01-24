@@ -1,10 +1,11 @@
 import datetime
 
 from django.shortcuts import render_to_response, redirect, get_object_or_404
-from django.http import HttpResponseNotFound
 from django.template import RequestContext
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from djangopress.blog.models import Blog, Entry, Tag, Category
+from django.utils.translation import ugettext as _
+from django.conf import settings
 
 #TODO: neither the visibility nor status tags are currently used
 
@@ -45,17 +46,14 @@ def index(request, blog=None):
 @resolve_blog
 def archive(request, year, month=None, blog=None):
     extra = {"format": "YEAR_MONTH_FORMAT"}
-    try:
-        year = int(year)
-        entries_list = Entry.objects.filter(blog=blog, posted__year=year)
-        if month is None:
-            month = 1
-            extra["format"] = "Y"
-        else:
-            month = int(month)
-            entries_list = entries_list.filter(posted__month=month)
-    except ValueError:
-        return HttpResponseNotFound("Blog Archive page does not exist")
+    year = int(year)
+    entries_list = Entry.objects.filter(blog=blog, posted__year=year)
+    if month is None:
+        month = 1
+        extra["format"] = "Y"
+    else:
+        month = int(month)
+        entries_list = entries_list.filter(posted__month=month)
     extra["date"] = datetime.date(year=year, month=month, day=1)
     entries_list = entries_list.order_by('-posted')
     return display_list(request, entries_list, blog, extra, "blog/date-archive.html")
@@ -64,7 +62,7 @@ def archive(request, year, month=None, blog=None):
 def post(request, year, month, day, slug, blog=None):
     entry = get_object_or_404(Entry, posted__year=year, posted__month=month, posted__day=day, slug=slug)
     data = {
-        "title": "%s :: %s" % (blog.name, entry.title),
+        "title": settings.TITLE_FORMAT % (blog.name, entry.title),
         "entry": entry,
         "respond": False,
     }
@@ -76,7 +74,7 @@ def tag(request, slug, blog=None):
     post_tag = get_object_or_404(Tag, slug=slug)
     entries_list = Entry.objects.filter(blog=blog, tags__slug=slug).order_by('-posted')
     return display_list(request, entries_list, blog,
-            {"blog_heading": "Posts Tagged '%s'" % post_tag.name})
+            {"blog_heading": _("Posts Tagged '%s'") % post_tag.name})
 
 
 @resolve_blog
@@ -84,7 +82,7 @@ def category(request, slug, blog=None):
     post_category = get_object_or_404(Category, slug=slug)
     entries_list = Entry.objects.filter(blog=blog, categories__slug=slug).order_by('-posted')
     return display_list(request, entries_list, blog,
-            {"blog_heading": "Archive for the '%s' Category" % post_category.name})
+            {"blog_heading": _("Archive for the '%s' Category") % post_category.name})
 
 @resolve_blog
 def moved(request, post=None, blog=None):

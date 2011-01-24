@@ -1,0 +1,37 @@
+{% load field_form %}
+<form action="{{ action }}" method="POST" class="field-form">
+	{% if errors %}
+	    <fieldset class="errors">
+	        <legend>Errors</legend>
+	        <dl>
+			    {% for field in errors %}
+			        <dt>{{ field.label }}</dt><dd>{{ field.errors }}</dd>
+			    {% endfor %}
+		    </dl>
+	    </fieldset>
+	{% endif %}
+	{% for legend, fields in fieldsets %}
+	    <fieldset>
+	        <legend>{{ legend }}</legend>
+	        {% for field in fields %}
+	            <div class="form-field">
+	                {% if field.field.widget|is_checkbox %}
+	                   <span class="form-checkbox">{{ field }} {{ field.label_tag }}</span>
+	                {% else %}
+	                   <span class="form-input{% if field.errors %} input-error{% endif %}">{{ field.label_tag }} {{ field }}</span>
+	                {% endif %}
+	                {% if field.help_text %}
+	                    <div class="form-field-help">{{ field.help_text }}</div>
+	                {% endif %}
+	            </div>
+	        {% endfor %}
+	    </fieldset>
+	{% endfor %}
+    <div>
+        {% for field in form.hidden_fields %}
+            {{ field }}
+        {% endfor %}
+        {% csrf_token %}
+        <input type="submit" value="Submit">
+    </div>
+</form>

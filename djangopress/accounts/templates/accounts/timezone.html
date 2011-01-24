@@ -1,5 +1,0 @@
-<select id="timezone-offset" name="timezone-offset">
-    {% for zone, label in zones %}
-        <option{% if zone == current %} selected{% endif %} value="{{ zone }}">{{ label }}</option>
-    {% endfor %}
-</select>
