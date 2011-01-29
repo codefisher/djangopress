@@ -22,7 +22,7 @@ class BlogFeed(Feed):
         return obj.tagline
 
     def items(self, obj):
-        return Entry.objects.filter(blog=obj).order_by('-sticky', '-posted')[:10]
+        return Entry.get_entries(blog=blog)[:10]
 
     def item_title(self, item):
         return item.title

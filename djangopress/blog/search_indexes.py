@@ -10,6 +10,6 @@ class EntryIndex(indexes.SearchIndex):
 
     def get_queryset(self):
         """Used when the entire index for model is updated."""
-        return Entry.objects.filter(posted__lte=datetime.datetime.now())
+        return Entry.get_entries(sorted=False)
 
 site.register(Entry, EntryIndex)

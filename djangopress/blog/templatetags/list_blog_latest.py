@@ -10,7 +10,7 @@ def list_blog_latest(number=5, blog=None):
         number = int(number)
     except ValueError:
         number = 5
-    entries_list = Entry.objects.filter(blog=blog).order_by('-sticky', '-posted')[0:number]
+    entries_list = Entry.get_entries(blog=blog)[0:number]
     return {
         "entries": entries_list,
     }

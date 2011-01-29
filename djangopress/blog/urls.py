@@ -12,5 +12,5 @@ urlpatterns = patterns('djangopress.blog.views',
     url(r'^feed/rss/$', BlogFeed(), name='blog-rss-feed'),
 
     # rule for backwards compatibility with old site
-    url(r'^archive[\-/].*[\-/](?P<post>\d+)/?', 'moved', name='blog-moved')
+    url(r'^archive[\-/].*[\-/](?P<post>\d+)/?', 'moved', name='blog-moved'),
 )

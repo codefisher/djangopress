@@ -1,5 +1,6 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
+from djangopress.sitemaps import sitemap_patterns
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
@@ -16,7 +17,6 @@ class SiteSearchView(SearchView):
         extra = super(SiteSearchView, self).extra_context()
         extra["query_args"] = {"q": self.get_query()}
         return extra
-
 
 urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
@@ -44,6 +44,8 @@ urlpatterns = patterns('',
     # the user accounts system
     (r'^accounts/', include('djangopress.accounts.urls')),
 )
+
+urlpatterns += sitemap_patterns
 
 # if debug is enabled use the static server for media
 if settings.DEBUG:

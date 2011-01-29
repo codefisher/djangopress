@@ -38,9 +38,9 @@ class Blog(models.Model):
 
     def get_absolute_url(self):
         kwargs = {}
-        if self.blog.slug:
-            kwargs["blog"] = self.blog.slug
-        return reverse("blog-post", kwargs=kwargs)
+        if self.slug:
+            kwargs["blog"] = self.slug
+        return reverse("blog-index", kwargs=kwargs)
 
 class Entry(models.Model):
     PUBLICATION_LEVEL = (
@@ -76,6 +76,15 @@ class Entry(models.Model):
             choices=VISIBILITY_LEVEL, default="VI")
     tags = models.ManyToManyField(Tag, blank=True)
     categories = models.ManyToManyField(Category)
+
+    @staticmethod
+    def get_entries(blog=None, sorted=True):
+        entry_list = Entry.objects.filter(status="PB", visibility="VI")
+        if blog is not None:
+            entry_list.filter(blog=blog)
+        if sorted:
+            return entry_list.order_by('-sticky', '-posted')
+        return entry_list
 
     def __str__(self):
         return self.title

@@ -1,5 +1,13 @@
 {% load timezone %}
 <div class="blog-entry">
+    <div id="previous-next-links">
+        {% if previous %}
+            <a class="previous-link" href="{{ previous.get_absolute_url }}">&laquo; {{ previous.title }}</a>
+        {% endif %}
+        {% if next %}
+            <a class="next-link" href="{{ next.get_absolute_url }}">{{ next.title }}  &raquo;</a>
+        {% endif %}
+    </div>
     <h3><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h3>
     <small>{{ entry.posted|user_timezone:user|date:"DATE_FORMAT" }} by {{ entry.author }}</small>
     <div class="blog-entry-content">
