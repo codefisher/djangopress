@@ -8,7 +8,7 @@ function FlyOutMenu(menuId) {
     this.setEventListener(document, 'keydown',
         function(event) {
             return self.keydown(event);
-        }, false);
+        }, true);
     this.setEventListener(menuRoot, 'mouseover',
         function(event) {
             return self.mouseover(event);
@@ -145,6 +145,7 @@ FlyOutMenu.prototype.mouseout = function(event) {
         event.newTarget = parent;
         this.mouseout(event);
     }
+    this.currentItem = null;
 };
 
 FlyOutMenu.prototype.findRealPos = function(obj) {
@@ -190,7 +191,7 @@ FlyOutMenu.prototype.keydown = function(event) {
         if(currentItem.nextMenuItem) {
             this.focusElement(currentItem.nextMenuItem);
         }
-    } else if(action == subMenu) {
+    } else if(action == submenu) {
         subMenu = this.firstChildByName(currentItem, 'ul');
         if(subMenu) {
             this.focusElement(subMenu.firstMenuItem);
@@ -324,10 +325,12 @@ FlyOutMenu.prototype.getEventTarget = function(event, name) {
 FlyOutMenu.prototype.noAction = function(event) {
     if(event.cancelBubble) {
         event.cancelBubble = true;
-    } else {
-        try {
-            event.stopPropagation();
-        } catch(e) {}
+    }
+    if(event.stopPropagation) {
+        event.stopPropagation();
+    }
+    if(event.preventDefault) {
+        event.preventDefault();
     }
     return false;
 };
