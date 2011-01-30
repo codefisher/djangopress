@@ -1,7 +1,23 @@
+#previous-next-links .previous-link {
+    float:left;
+}
+
+#previous-next-links .next-link {
+    float:right;
+}
+
+#previous-next-links {
+    padding:0 0 1em;
+    font-size:0.75em;
+}
+#previous-next-links a {
+    text-decoration:none;
+}
 .blog-entry h3 {
     padding:0;
     margin:1em 0 0;
     font-size:1.125em;
+    clear:both;
 }
 
 .blog-entry small {

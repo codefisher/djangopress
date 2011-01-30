@@ -54,9 +54,8 @@ FlyOutMenu.prototype.setUpMenu = function(node, depth) {
             this.setClass(menuItem, 'has-submenu');
             this.setClass(subMenu, 'vertical');
             this.setUpMenu(subMenu, depth + 1);
-        } else {
-            menuItem.setAttribute('role', 'role:menuitem');
         }
+        menuItem.setAttribute('role', 'role:menuitem');
     }
 };
 
