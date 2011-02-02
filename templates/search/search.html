@@ -18,7 +18,7 @@
             <input type="submit" value="Search">
         </div>
         {% if query %}
-            <h3>Results for &#8220;{{ query }}&#8221;</h3>
+            <h3>Results for &#8220;{{ query|escape }}&#8221;</h3>
 
             <ul id="search-results">
             {% for result in page.object_list %}

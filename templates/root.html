@@ -1,6 +1,6 @@
 {% load display_menu %}
-{% load list_blog_latest %}
-<!DOCTYPE html>
+{% load blog_tags %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <head>
  <title>Codefisher.org :: {% block page_title %}{{ title|default:"Firefox Add-ons, Code Resources and More" }}{% endblock %}</title>
  <link type="text/css" rel="stylesheet" href="/media/themes/default/style.css">
@@ -24,14 +24,17 @@
  <div id="footer-content">
   <div class="footer-section" id="footer-left">
    <div class="footer-box">
+   {% block first_footer_box %}
    <h3>Latest Posts</h3>
     <ul>
      {% list_blog_latest %}
     </ul>
+    {% endblock %}
    </div>
   </div>
   <div class="footer-section" id="footer-center-left">
    <div class="footer-box">
+   {% block second_footer_box %}
    <h3>Forum Topics</h3>
     <ul>
      <li><a href="#">Another new button ...</a></li>
@@ -40,23 +43,28 @@
      <li><a href="#">Add activity &amp; Add ...</a></li>
      <li><a href="#">Request - how to create ...</a></li>
     </ul>
+    {% endblock %}
    </div>
   </div>
   <div class="footer-section" id="footer-center-right">
    <div class="footer-box">
+   {% block third_footer_box %}
    <h3>About</h3>
     <p>
      <a href="/">Codefisher.org</a> is the virtual portfolio and exhibition of the work of its owners, covering Mozilla extensions, web design and programming and graphic work.
     </p>
+    {% endblock %}
    </div>
   </div>
   <div class="footer-section" id="footer-right">
    <div class="footer-box">
+   {% block fourth_footer_box %}
     <div id="copyright" class="footer-detail">Design and content &copy; of Michael Buckley.</div>
     <div class="footer-detail">
       <a href="#">Contact</a> &bull;
       <a href="#">Site Map</a>
    </div>
+   {% endblock %}
    </div>
   </div>
   </div>

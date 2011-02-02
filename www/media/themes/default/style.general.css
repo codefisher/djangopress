@@ -73,11 +73,10 @@ img {
 #wrapper {
     max-width:850px;
     margin:0 auto;
-    padding-right:290px;
+    padding-right:260px;
 }
 #content {
     float:left;
-    margin:1em;
     position: relative;
     margin-bottom:250px;
     z-index:0;
@@ -100,6 +99,7 @@ img {
     outline: 1px solid rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(0, 0, 0, 0.6);
     padding:1em;
+    margin:1em;
     color:#e8f1d7;
     position:relative;
 }

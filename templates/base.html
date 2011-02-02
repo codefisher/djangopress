@@ -1,5 +1,5 @@
 {% extends "simple.html" %}
-{% load show_blog_latest %}
+{% load blog_tags %}
 
 {% block simple-content %}
 <div id="wrapper">
@@ -8,7 +8,12 @@
    <div id="construction">This site is under constructions, for the live site see <a href="http://codefisher.org/">Codefisher.org</a></div>
     -->
     <div id="general">
-        {% block content %}{% endblock %}
+        {% block content %}
+		    <h2>{{ page_header }}</h2>
+		    <p>
+		       {{ page_message }}
+		    </p>
+        {% endblock %}
     </div>
  </div>
  <div id="sidebar">
@@ -20,12 +25,14 @@
       </div>
      </form>
   </div>
-  <div class="side-bar-item">
-   <h3>Latest News</h3>
-   <div class="side-bar-content">
-     {% show_blog_latest 4 22 %}
+  {% block sidebar %}
+   <div class="side-bar-item">
+    <h3>Latest News</h3>
+    <div class="side-bar-content">
+      {% show_blog_latest 4 22 %}
+    </div>
    </div>
-  </div>
+  {% endblock %}
  </div>
  <div class="clear"></div>
 </div>

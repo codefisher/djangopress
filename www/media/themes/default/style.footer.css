@@ -10,7 +10,7 @@
 #footer {
     background:#71962f;
     border-top:1px solid #98bc55;
-    height:149px;
+    min-height:150px;
     position: absolute;
     bottom:0;
     left:0;
@@ -39,7 +39,7 @@
 }
 
 .footer-box {
-	padding:1em;
+	padding:1em 1em 0 1em;
 }
 
 .footer-box ul {

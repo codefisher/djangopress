@@ -2,6 +2,7 @@ function FlyOutMenu(menuId) {
     var self = this,
         wrapper = document.getElementById(menuId),
         menuRoot = this.firstChildByName(wrapper, 'ul');
+    wrapper.setAttribute("role", "navigation");
     this.removeClass(wrapper, 'css-fly-out-menu');
     this.currentItem = null;
 
@@ -82,7 +83,8 @@ FlyOutMenu.prototype.mouseover = function(event) {
     if(target.subMenu && !target.focused) {
     	var self = this;
     	target.timeout = setTimeout(function() {
-	        if(self.isClass(target.parentNode, 'horizontal')) {
+	        target.subMenu.style.display = "block";
+    		if(self.isClass(target.parentNode, 'horizontal')) {
 	        	self.setClass(target, 'open');
 	        } else {
 	            pos = self.findRealPos(target);
@@ -93,7 +95,6 @@ FlyOutMenu.prototype.mouseover = function(event) {
 	            	self.setClass(target, 'open-right');
 	            }
 	        }
-	        target.subMenu.style.display = "block";
     	}, 75);
     }
     target.focused = true;
@@ -125,13 +126,13 @@ FlyOutMenu.prototype.mouseout = function(event) {
     var self = this,
         target = this.getEventTarget(event, 'li'),
         parent = target.parentNode.parentNode;
-    self.removeClass(target, 'focused');
     target.focused = false;
 
     if(target.timeout) {
         clearTimeout(target.timeout);
     }
     target.timeout = setTimeout(function() {
+        self.removeClass(target, 'focused');
         if(target.subMenu && !target.focused && (!target.focusedChidren || target.focusedChidren < 1)) {
             target.focusedChidren = 0;
             self.removeClass(target, "open-left");
