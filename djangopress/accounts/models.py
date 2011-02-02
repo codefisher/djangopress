@@ -9,7 +9,7 @@ from django.contrib.auth.models import get_hexdigest, User
 from django.db.models.signals import post_save
 
 
-from djangopress.util.models import Property
+from djangopress.core.models import Property
 
 # Create your models here.
 
@@ -45,12 +45,13 @@ class UserProfile(models.Model):
         key = "".join(str(item) for item in (self.user.username,
                 self.user.email, datetime.datetime.now()))
         hsh = get_hexdigest(algo, salt, key)
-        self.activate_key = '%s$%s$%s' % (algo, salt, hsh)
+        self.activate_key = hsh
         self.activate_key_expirary = datetime.datetime.fromtimestamp(time.time() + (7 * 24 * 60 * 60))
 
     def check_activate_key(self, hsh):
-        return (hsh == self.activate_key.split("$")[2]
-                and self.activate_key_expirary < datetime.datetime.now())
+        print self.activate_key_expirary, datetime.datetime.now()
+        return (hsh == self.activate_key
+                and datetime.datetime.now() <= self.activate_key_expirary)
 
 def create_profile(sender, **kargs):
     if kargs.get("created", False):
@@ -67,7 +68,7 @@ class UsersOnline(models.Model):
 
 
 class UserBan(models.Model):
-    ban_user = models.ForeignKey(User)
+    ban_user = models.ForeignKey(User, related_name='banned_users')
     ban_ip = models.IPAddressField()
     ban_email = models.CharField(max_length=100)
     ban_name = models.CharField(max_length=100)

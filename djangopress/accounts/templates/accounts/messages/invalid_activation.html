@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Account could not be validated</h2>
+    <p>
+       The account could not be validated, either the validation link was incorrect or the validation period has expired.
+    </p>
+    <form method="post" action="{% url accounts-reactivate user=params.user %}">
+        {% csrf_token %}
+        <input type="submit" value="Resend Validation Email">
+    </form>
+{% endblock %}
