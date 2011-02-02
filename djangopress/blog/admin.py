@@ -1,5 +1,5 @@
 from django.contrib import admin
-from djangopress.blog.models import Category, Entry, Tag, Blog, EntryMenuLink
+from djangopress.blog.models import Category, Entry, Tag, Blog, EntryLink
 
 class BlogAdmin(admin.ModelAdmin):
     pass
@@ -13,9 +13,9 @@ class EntryAdmin(admin.ModelAdmin):
     pass
 admin.site.register(Entry, EntryAdmin)
 
-class EntryMenuLinkAdmin(admin.ModelAdmin):
+class EntryLinkAdmin(admin.ModelAdmin):
     pass
-admin.site.register(EntryMenuLink, EntryMenuLinkAdmin)
+admin.site.register(EntryLink, EntryLinkAdmin)
 
 class TagAdmin(admin.ModelAdmin):
     pass

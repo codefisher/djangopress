@@ -1,0 +1,3 @@
+{% for month in dates %}
+    <li><a href="{% url blog-archive year=month.year, month=month.month %}">{{ month|date:"YEAR_MONTH_FORMAT" }}</a></li>
+{% endfor %}

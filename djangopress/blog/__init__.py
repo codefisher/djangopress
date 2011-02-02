@@ -1,0 +1,1 @@
+from djangopress.blog.sitemaps import *

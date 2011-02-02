@@ -1,5 +1,6 @@
 from django.contrib.sitemaps import Sitemap
 from djangopress.blog.models import Entry, Blog, Category, Tag
+from djangopress.core.sitemaps import register
 
 #todo, add last mod field for Category and Tag
 
@@ -13,6 +14,8 @@ class EntrySitemap(Sitemap):
     def lastmod(self, obj):
         return obj.edited
 
+register('blog-entry', EntrySitemap)
+
 class BlogSitemap(Sitemap):
     changefreq = "weekly"
     priority = 0.5
@@ -24,6 +27,8 @@ class BlogSitemap(Sitemap):
     def lastmod(self, obj):
         return Entry.get_entries(blog=obj)[0].edited
 
+register('blog', BlogSitemap)
+
 class CategorySitemap(Sitemap):
     changefreq = "weekly"
     priority = 0.1
@@ -32,6 +37,8 @@ class CategorySitemap(Sitemap):
     def items(self):
         return Category.objects.all()
 
+register('blog-category', CategorySitemap)
+
 class TagSitemap(Sitemap):
     changefreq = "weekly"
     priority = 0.1
@@ -39,3 +46,5 @@ class TagSitemap(Sitemap):
 
     def items(self):
         return Tag.objects.all()
+
+register('blog-tag', TagSitemap)

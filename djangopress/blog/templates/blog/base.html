@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% load blog_tags %}
+
+{% block sidebar %}
+   <div class="side-bar-item">
+    <h3>Archives</h3>
+    <div class="side-bar-content">
+        <ul>
+           {% list_blog_archive blog %}
+        </ul>
+    </div>
+   </div>
+   <div class="side-bar-item">
+    <h3>Categories</h3>
+    <div class="side-bar-content">
+        <ul>
+          {% list_blog_categories blog %}
+        </ul>
+    </div>
+   </div>
+{% endblock %}

@@ -9,7 +9,7 @@ from django.conf import settings
 
 def resolve_blog(function):
     def _resolve_blog(*args, **kargs):
-        kargs["blog"] = get_object_or_404(Blog, slug=kargs.get("blog"))
+        kargs["blog"] = get_object_or_404(Blog, slug=kargs.get("blog"), sites__id__exact=settings.SITE_ID)
         return function(*args, **kargs)
     return _resolve_blog
 
@@ -53,7 +53,7 @@ def archive(request, year, month=None, blog=None):
         month = int(month)
         entries_list = entries_list.filter(posted__month=month)
     extra["date"] = datetime.date(year=year, month=month, day=1)
-    return display_list(request, entries_list, blog, extra, "blog/date-archive.html")
+    return display_list(request, entries_list, blog, extra, "blog/date_archive.html")
 
 @resolve_blog
 def post(request, year, month, day, slug, blog=None):
@@ -78,13 +78,14 @@ def post(request, year, month, day, slug, blog=None):
         "respond": False,
         "next": next,
         "previous": previous,
+        "blog": blog,
     }
     return render_to_response("blog/post.html", data,
             context_instance=RequestContext(request))
 
 @resolve_blog
 def tag(request, slug, blog=None):
-    post_tag = get_object_or_404(Tag, slug=slug)
+    post_tag = get_object_or_404(Tag, slug=slug, blog=blog)
     entries_list = Entry.get_entries(blog=blog).filter(tags__slug=slug)
     return display_list(request, entries_list, blog,
             {"blog_heading": _("Posts Tagged '%s'") % post_tag.name})
@@ -92,7 +93,7 @@ def tag(request, slug, blog=None):
 
 @resolve_blog
 def category(request, slug, blog=None):
-    post_category = get_object_or_404(Category, slug=slug)
+    post_category = get_object_or_404(Category, slug=slug, blog=blog)
     entries_list = Entry.get_entries(blog=blog).filter(categories__slug=slug)
     return display_list(request, entries_list, blog,
             {"blog_heading": _("Archive for the '%s' Category") % post_category.name})
