@@ -1,6 +1,9 @@
 # Django settings for codefisher project.
 
 import os
+PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
+
+from pages.settings import PAGES_TEMPLATES
 
 #import sys
 #if "/home/michael/Dev/Extension/" not in sys.path:
@@ -19,7 +22,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/home/michael/WebSites/dev/codefisher/sqlite.db',                      # Or path to database file if using sqlite3.
+        'NAME': os.path.join(PROJECT_PATH, '..', 'sqlite.db'),                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -52,7 +55,7 @@ USE_L10N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = '/home/michael/WebSites/dev/codefisher/www/media'
+MEDIA_ROOT = os.path.join(PROJECT_PATH, '..', 'www', 'media')
 MEDIA_UPLOAD = os.path.join(MEDIA_ROOT, "uploads")
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
@@ -77,6 +80,7 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
+    'djangopress.pages.middleware.PagesMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -89,7 +93,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    "/home/michael/WebSites/dev/codefisher/templates",
+    os.path.join(PROJECT_PATH, '..', 'templates'),
 )
 
 TITLE_FORMAT = "%s :: %s"
@@ -109,14 +113,16 @@ INSTALLED_APPS = (
     # extra django apps
     'django.contrib.comments',
     # 3rd party apps
-    'south',
+    #'south',
     'haystack',
     # djangopress and other custom apps
     #'toolbar_buttons.toolbar_buttons_web.tbutton_maker',
     'djangopress.blog',
     'djangopress.menus',
-    'djangopress.util',
+    'djangopress.core',
+    'djangopress.core.links',
     'djangopress.accounts',
+    'djangopress.pages',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -130,4 +136,4 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 HAYSTACK_SITECONF = 'djangopress.search_sites'
 HAYSTACK_SEARCH_ENGINE = 'whoosh'
-HAYSTACK_WHOOSH_PATH = '/home/michael/WebSites/dev/codefisher/djangopress_index'
+HAYSTACK_WHOOSH_PATH = os.path.join(PROJECT_PATH, '..', 'djangopress_index')

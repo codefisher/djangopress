@@ -31,7 +31,7 @@ urlpatterns = patterns('',
     #(r'^toolbar_buttons/',        include('toolbar_buttons.toolbar_buttons_web.tbutton_maker.urls')),
 
     # the blog system
-    (r'^(?:(?P<blog>[\w\-]*)/)?news/', include('djangopress.blog.urls')),
+    (r'^(?:(?P<blog>[\w\-]+)/)?news/', include('djangopress.blog.urls')),
 
     # the haystack search
     url(r'^search/', search_view_factory(
@@ -44,6 +44,12 @@ urlpatterns = patterns('',
     # the user accounts system
     (r'^accounts/', include('djangopress.accounts.urls')),
 )
+
+#urlpatterns += patterns('django.views.generic.simple',
+#    # we don't like the default location for the user page
+#    ('^user/(?P<username>.+)/$', 'redirect_to', {'url': '/accounts/users/%(username)s/'}),
+#)
+
 
 urlpatterns += sitemap_patterns
 

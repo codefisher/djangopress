@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load pages_tags %}
+
+{% block content %}
+    {% placeholder "content" %}
+{% endblock %}
+
+{% block sidebar %}
+
+{% endblock %}
+
+{% block page_title %}
+    {% if page.meta_page_title %}
+        {{ page.meta_page_title }}
+    {% else %}
+        {{ page.title }}
+    {% endif %}
+{% endblock %}

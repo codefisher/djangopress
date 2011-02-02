@@ -8,7 +8,7 @@ class MenuDisplayNode(template.Node):
         self._template = template if template else "menu.html"
 
     def _tags(self, path, item, active_len):
-        link = item.link.get_location()
+        link = item.link.get_absolute_url()
         if path is None or link is None:
             return set(item.tag.split()), None
         tags = set(item.tag.split())
