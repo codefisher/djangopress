@@ -1,0 +1,27 @@
+#djangopress-toolbar {
+    width:100%;
+    height:30px;
+    background:#4c7117;
+}
+
+#djangopress-toolbar:after {
+    display:block;
+    height:5px;
+    width:100%;
+    content:"";
+    background:url(images/top.png) repeat-x;
+}
+
+#djangopress-toolbar a {
+    line-height:30px;
+    padding:2px 5px;
+    margin:5px;
+    color:#fff;
+    border:1px solid #1d2419;
+    text-decoration:none;
+    background: rgba(255,255,255, 0.25);
+}
+
+#djangopress-toolbar a:hover {
+    background: rgba(0, 0, 0, 0.25);
+}

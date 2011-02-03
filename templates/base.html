@@ -4,17 +4,19 @@
 {% block simple-content %}
 <div id="wrapper">
  <div id="content">
-   <!--
+   {% comment %}
    <div id="construction">This site is under constructions, for the live site see <a href="http://codefisher.org/">Codefisher.org</a></div>
-    -->
-    <div id="general">
-        {% block content %}
-		    <h2>{{ page_header }}</h2>
-		    <p>
-		       {{ page_message }}
-		    </p>
-        {% endblock %}
-    </div>
+   {% endcomment %}
+   {% block general %}
+	    <div id="general">
+	        {% block content %}
+			    <h2>{{ page_header }}</h2>
+			    <p>
+			       {{ page_message }}
+			    </p>
+	        {% endblock %}
+	    </div>
+    {% endblock %}
  </div>
  <div id="sidebar">
   <div id="search-sidebar">
@@ -26,10 +28,37 @@
      </form>
   </div>
   {% block sidebar %}
+  {% comment %}
    <div class="side-bar-item">
     <h3>Latest News</h3>
     <div class="side-bar-content">
       {% show_blog_latest 4 22 %}
+    </div>
+   </div>
+   {% endcomment %}
+   <div class="side-bar-item">
+    <h3>Top Content</h3>
+    <div class="side-bar-content">
+        <div class="fragment">
+        <h4><img src="/media/images/icons/toolbar-buttons.png" width="32" height="32" alt=""><a href="#">Toolbar Buttons</a></h4>
+        <p>
+          <a href="/toolbar_buttons/">Toolbar Buttons</a> is a button set for Firefox, Thunerbird.  It is the largest set of buttons available for these application, boasting over 100 buttons for Firefox alone
+        </p>
+        </div>
+
+        <div class="fragment">
+        <h4><img src="/media/images/icons/minimize.png" width="32" height="32" alt=""><a href="#">MinimizeToTray Plus</a></h4>
+        <p>
+         <a href="#">MinimizeToTray Plus</a> will minimise the current window to the system tray for Firefox, Thunerbird and Sunbird among others.
+        </p>
+        </div>
+
+        <div class="fragment">
+        <h4><img src="/media/images/icons/pastel-svg.png" width="32" height="32" alt=""><a href="#">Pastel SVG Icons</a></h4>
+        <p>
+           Pastel SVG is an icon set based on the popular silk icons found as <a href="http://famfamfam.com/">FamFamFam.com</a>. It uses the same style, so some of the icons are almost identical.  The goal of the project is to recreate the entire set in a full range of sizes while also adding many icons that we think the original set is missing.
+        </p>
+        </div>
     </div>
    </div>
   {% endblock %}

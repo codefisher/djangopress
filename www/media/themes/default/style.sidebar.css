@@ -3,7 +3,109 @@
     margin-right:-250px;
     width:250px;
     margin-bottom:250px;
+    color:#ffffff;
 }
+.side-bar-item, .side-bar-item h3, .side-bar-content {
+    background:url(images/side.png) no-repeat;
+}
+
+.side-bar-content {
+    width:230px;
+    padding:10px;
+    background-repeat:repeat-y;
+}
+.side-bar-content p {
+    margin:1em 0;
+    clear:both;
+}
+
+.side-bar-item {
+    font-size:0.75em;
+    background-position:-250px bottom;
+    padding-bottom:6px;
+    color:#ffffff;
+}
+
+.side-bar-item h3 {
+    font-family:sans-serif;
+    padding:5px 10px 12px 10px;
+    margin:0;
+    width:230px;
+    color:#ffffff;
+    text-shadow: #000000 1px 1px 1px;
+    background-position:-500px bottom;
+}
+
+.side-bar-item a {
+    color:#ffffff;
+    text-decoration:none;
+}
+.side-bar-item a:hover {
+    text-decoration:underline;
+}
+
+.side-bar-item h4 {
+    margin:0;
+    display:inline;
+    font-size:1em;
+}
+
+.side-bar-item h4 img {
+    vertical-align: middle;
+}
+
+.side-bar-item h4 a {
+    font-weight:bold;
+    font-family:serif;
+    color:#1d2419;
+    text-shadow: 0px 1px 0 rgba(255,255,255,0.5);
+}
+
+.side-bar-item li {
+    list-style-type:circle;
+}
+
+.side-bar-item .fragment {
+    font-family:sans-serif;
+    background:url(images/hbar.png) bottom center no-repeat;
+    padding:1em 0px;
+}
+.side-bar-item .fragment:last-child {
+    background:none;
+}
+.side-bar-item .fragment p {
+    margin:0;
+}
+.side-bar-item .fragment p a {
+    text-decoration:underline;
+}
+
+/* the date object for something in the sidebar */
+
+.side-bar-item .date {
+    height:70px;
+    width:56px;
+    float:left;
+    display:block;
+    text-align:center;
+    font-family:sans-serif;
+    color:#ffffff;
+    margin:0.3em 0.3em 0;
+    background:url(images/date.png);
+    text-shadow: #000000 1px 1px 1px;
+    font-size:1.2em;
+}
+.side-bar-item .date .month {
+    display:block;
+    line-height:30px;
+}
+.side-bar-item .date .day {
+    display:block;
+    line-height:23px;
+}
+
+/* the search widget in the side bar */
+
 #search-sidebar {
     height:45px;
     width:230px;
@@ -52,85 +154,4 @@
     padding:0;
     right:0;
     background-position:top right;
-}
-
-.side-bar-item, .side-bar-item h3, .side-bar-content {
-    background:url(images/side.png) no-repeat;
-}
-
-.side-bar-content {
-    width:230px;
-    padding:10px;
-    background-repeat:repeat-y;
-}
-.side-bar-content p {
-    margin:1em 0;
-    clear:both;
-}
-.side-bar-item h3 {
-    font-family:sans-serif;
-    padding:5px 10px 12px 10px;
-    margin:0;
-    width:230px;
-    color:#ffffff;
-    text-shadow: #000000 1px 1px 1px;
-    background-position:-500px bottom;
-}
-.side-bar-item {
-    background-position:-250px bottom;
-    padding-bottom:6px;
-    color:#ffffff;
-}
-
-.side-bar-item li {
-    list-style-type:circle;
-}
-
-.side-bar-item a {
-    color:#ffffff;
-    text-decoration:none;
-}
-.side-bar-item .news a.title {
-    font-size:1.15em;
-    font-weight:bold;
-    text-decoration:none;
-    font-family:serif;
-    color:#1d2419;
-    text-shadow: 0px 1px 0 rgba(255,255,255,0.5);
-}
-.side-bar-item .news a {
-    color:#ffffff;
-}
-.side-bar-item .news a:hover {
-    text-decoration:underline;
-}
-.side-bar-item .news {
-    font-size:0.75em;
-    font-family:sans-serif;
-    background:url(images/hbar.png) bottom center no-repeat;
-    padding:1em 0px;
-}
-.side-bar-item .news:last-child{
-    background:none;
-}
-.side-bar-item .date {
-    height:70px;
-    width:56px;
-    float:left;
-    display:block;
-    text-align:center;
-    font-family:sans-serif;
-    color:#ffffff;
-    margin:0 5px;
-    background:url(images/date.png);
-    text-shadow: #000000 1px 1px 1px;
-    font-size:1.2em;
-}
-.side-bar-item .date .month {
-    display:block;
-    line-height:30px;
-}
-.side-bar-item .date .day {
-    display:block;
-    line-height:23px;
 }

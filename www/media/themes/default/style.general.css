@@ -82,6 +82,7 @@ img {
     z-index:0;
     width:100%;
     font-size:0.9em;
+    color:#e8f1d7;
 }
 #content a {
     color:#ffffff;
@@ -100,7 +101,6 @@ img {
     border: 1px solid rgba(0, 0, 0, 0.6);
     padding:1em;
     margin:1em;
-    color:#e8f1d7;
     position:relative;
 }
 /* forms */
@@ -133,6 +133,9 @@ form.field-form .form-input label {
 form.field-form .form-field input,
 form.field-form .form-field select {
 	margin-left:2em;
+}
+form.field-form .form-field textarea {
+    width:100%;
 }
 form.field-form .form-input label:after {
     content: ":"
