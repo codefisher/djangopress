@@ -1,6 +1,6 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
-from djangopress.sitemaps import sitemap_patterns
+from djangopress.sitemap import sitemap_patterns
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin

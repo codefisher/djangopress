@@ -1,0 +1,34 @@
+{% extends "pages/base.html" %}
+{% load pages_tags %}
+
+{% block general %}
+   <div id="front-page">
+   <div class="front-page">
+    <div class="front-page-row">
+     <div class="front-page-cell">
+      <div class="front-page-cell-content">
+        {% placeholder "cell-one" %}
+      </div>
+     </div>
+     <div class="front-page-cell">
+      <div class="front-page-cell-content">
+       {% placeholder "cell-two" %}
+      </div>
+     </div>
+    </div>
+    <div class="front-page-row">
+     <div class="front-page-cell">
+      <div class="front-page-cell-content">
+        {% placeholder "cell-three" %}
+      </div>
+     </div>
+     <div class="front-page-cell">
+      <div class="front-page-cell-content">
+        {% placeholder "cell-four" %}
+      </div>
+     </div>
+    </div>
+   </div>
+   </div>
+   {% placeholder "content" primary %}
+{% endblock %}

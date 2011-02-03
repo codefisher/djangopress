@@ -1,4 +1,5 @@
 {% load field_form %}
+{% if full %}
 <form action="{{ action }}" method="POST" class="field-form">
 	{% if errors %}
 	    <fieldset class="errors">
@@ -10,6 +11,7 @@
 		    </dl>
 	    </fieldset>
 	{% endif %}
+{% endif %}
 	{% for legend, fields in fieldsets %}
 	    <fieldset>
 	        <legend>{{ legend }}</legend>
@@ -23,6 +25,9 @@
 	                {% if field.help_text %}
 	                    <div class="form-field-help">{{ field.help_text }}</div>
 	                {% endif %}
+		            {% if not full and field.errors %}
+		              <div class="form-field-error">{{ field.errors }}</div>
+		            {% endif %}
 	            </div>
 	        {% endfor %}
 	    </fieldset>
@@ -31,7 +36,11 @@
         {% for field in form.hidden_fields %}
             {{ field }}
         {% endfor %}
+    </div>
+{% if full %}
+    <div>
         {% csrf_token %}
         <input type="submit" value="Submit">
     </div>
 </form>
+{% endif %}

@@ -1,6 +1,6 @@
 from django.contrib.sitemaps import Sitemap
 from djangopress.blog.models import Entry, Blog, Category, Tag
-from djangopress.core.sitemaps import register
+from djangopress.core.sitemap import register
 
 #todo, add last mod field for Category and Tag
 

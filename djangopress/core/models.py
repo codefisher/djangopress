@@ -12,7 +12,7 @@ class PropertyMeta(models.base.ModelBase):
 
 class Property(models.Model):
 
-    class_name = models.CharField(max_length=50, editable=False)
+    class_name = models.CharField(max_length=50, editable=False, db_index=True)
     property = models.CharField(max_length=50)
 
     __metaclass__ = PropertyMeta

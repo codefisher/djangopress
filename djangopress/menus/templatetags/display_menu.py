@@ -38,9 +38,10 @@ class MenuDisplayNode(template.Node):
         t = template.loader.get_template(self._template)
         if menu is None:
             menu = Menu.objects.get(name=self._menu)
-        items = MenuItem.objects.filter(parent_menu=menu)
+        print menu
+        items = MenuItem.objects.select_related('link', 'child').filter(parent_menu=menu)
         tags = self._sort_tags(context, items)
-        menu_items = [(item, self.render(context, Menu.objects.filter(parent_item=item)), tag) for item, tag in zip(items, tags)]
+        menu_items = [(item, self.render(context, item.child) if item.has_child else '', tag) for item, tag in zip(items, tags)]
         menu_items.sort()
         data = {
             'menu': menu,

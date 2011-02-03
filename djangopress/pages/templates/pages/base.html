@@ -1,12 +1,36 @@
 {% extends "base.html" %}
 {% load pages_tags %}
 
+{% block head_tags %}
+    {{ block.super }}
+    {% if page.meta_keywords %}
+        <meta name="keywords" content="{{ page.meta_keywords }}" >
+    {% endif %}
+    {% if page.meta_description %}
+        <meta name="description" content="{{ page.meta_description }}" >
+    {% endif %}
+{% endblock %}
+
+{% block page_top %}
+    {% if show_toolbar %}
+        <div id="djangopress-toolbar">
+            {% if enable_page_edit %}
+                <a href="./">Close Edit</a>
+            {% else %}
+                <a href="?edit_cms_page">Edit</a>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}
+
 {% block content %}
-    {% placeholder "content" %}
+    {% placeholder "content" primary %}
 {% endblock %}
 
 {% block sidebar %}
-
+    {% placeholder "sidebar" with_default %}
+        {{ block.super }}
+    {% endplaceholder %}
 {% endblock %}
 
 {% block page_title %}

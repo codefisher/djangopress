@@ -1,0 +1,21 @@
+{% load field_form %}
+
+  {% for field in form %}
+    {% if field.is_hidden %}
+        {{ field }}
+    {% else %}
+      <div class="form-field">
+          {% if field.field.widget|is_checkbox %}
+             <span class="form-checkbox">{{ field }} {{ field.label_tag }}</span>
+          {% else %}
+             <span class="form-input{% if field.errors %} input-error{% endif %}">{{ field.label_tag }} {{ field }}</span>
+          {% endif %}
+          {% if field.help_text %}
+              <div class="form-field-help">{{ field.help_text }}</div>
+          {% endif %}
+          {% if field.errors %}
+            <div class="form-field-error">{{ field.errors }}</div>
+          {% endif %}
+      </div>
+     {% endif %}
+  {% endfor %}

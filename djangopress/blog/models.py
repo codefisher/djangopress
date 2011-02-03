@@ -103,7 +103,7 @@ class Entry(models.Model):
 
     @staticmethod
     def get_entries(blog=None, sorted=True):
-        entry_list = Entry.objects.filter(status="PB", visibility="VI")
+        entry_list = Entry.objects.select_related('blog', 'author').filter(status="PB", visibility="VI")
         if blog is not None:
             entry_list.filter(blog=blog)
         if sorted:

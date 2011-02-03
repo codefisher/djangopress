@@ -5,6 +5,10 @@ PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 
 from pages.settings import PAGES_TEMPLATES
 
+INTERNAL_IPS = (
+    '127.0.0.1',
+)
+
 #import sys
 #if "/home/michael/Dev/Extension/" not in sys.path:
 #    sys.path.append("/home/michael/Dev/Extension/")
@@ -79,6 +83,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'djangopress.pages.middleware.PagesMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -115,6 +120,7 @@ INSTALLED_APPS = (
     # 3rd party apps
     #'south',
     'haystack',
+    #'debug_toolbar',
     # djangopress and other custom apps
     #'toolbar_buttons.toolbar_buttons_web.tbutton_maker',
     'djangopress.blog',

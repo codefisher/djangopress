@@ -4,7 +4,7 @@ from django import template
 register = template.Library()
 
 @register.inclusion_tag('core/form.html')
-def form(pages, form):
+def form(form):
     return {
         "form": form
     }
@@ -14,22 +14,27 @@ def is_checkbox(value):
     return isinstance(value, fields.CheckboxInput)
 
 @register.inclusion_tag('core/field_form.html')
-def field_form(form, action=None):
+def field_form(form, action=None, full=True):
     if not action:
         action = "."
     fieldsets = []
     errors = []
     fields_map =  dict((field.name, field) for field in form)
     form_fields = []
+
     for legend, fields in form.fieldsets:
-        set_fields = [fields_map.get(field) for field in fields]
-        fieldsets.append((legend, set_fields))
-        form_fields.extend(set_fields)
-        errors.extend((field for field in set_fields if field.errors))
+        try:
+            set_fields = [fields_map.get(field) for field in fields]
+            fieldsets.append((legend, set_fields))
+            form_fields.extend(set_fields)
+            errors.extend((field for field in set_fields if field.errors))
+        except:
+            pass
     return {
         "form": form,
         "fieldsets": fieldsets,
         "fields": form_fields,
         "errors": errors,
         "action": action,
+        "full": full,
     }

@@ -25,7 +25,7 @@ def get_child_func(func):
 
 class Link(models.Model):
 
-    class_name = models.CharField(max_length=50, editable=False)
+    class_name = models.CharField(max_length=50, editable=False, db_index=True)
     __metaclass__ = LinkMeta
 
     def __init__(self, *args, **kargs):
