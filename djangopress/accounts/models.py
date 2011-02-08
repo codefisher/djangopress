@@ -27,7 +27,7 @@ class UserProfile(models.Model):
     signature = models.TextField(blank=True)
     timezone = models.CharField(max_length=20, blank=True)
     language = models.CharField(max_length=20, blank=True)
-    registration_ip = models.IPAddressField(blank=True)
+    registration_ip = models.IPAddressField(blank=True, null=True)
     last_ip_used = models.IPAddressField(blank=True, null=True)
     admin_note = models.TextField(blank=True, null=True)
     activate_key = models.CharField(max_length=127, blank=True, editable=False)
