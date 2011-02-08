@@ -105,9 +105,6 @@ class PlaceholderNode(template.Node):
                     if form.is_valid():
                         form.save(True)
                         changes = True
-                    else:
-                        for item in form:
-                            print item.label_tag(), item.errors
                 else:
                     form = block.form(instance=block, prefix=prefix)
                 forms.append(form)

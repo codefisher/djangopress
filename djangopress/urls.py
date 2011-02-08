@@ -1,6 +1,7 @@
 from django.conf.urls.defaults import *
 from django.conf import settings
 from djangopress.sitemap import sitemap_patterns
+from django.core.exceptions import ImproperlyConfigured
 
 # django databrowse application
 #from django.contrib import databrowse
@@ -10,18 +11,6 @@ from djangopress.sitemap import sitemap_patterns
 from django.contrib import admin
 admin.autodiscover()
 
-from haystack.views import SearchView, search_view_factory
-from haystack.forms import SearchForm
-
-class SiteSearchView(SearchView):
-    def __name__(self):
-        return "SiteSearchView"
-
-    def extra_context(self):
-        extra = super(SiteSearchView, self).extra_context()
-        extra["query_args"] = {"q": self.get_query()}
-        return extra
-
 urlpatterns = patterns('',
     # Uncomment the admin/doc line below to enable admin documentation:
     (r'^admin/doc/', include('django.contrib.admindocs.urls')),
@@ -30,12 +19,6 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
     # the django comment app
     (r'^comments/', include('django.contrib.comments.urls')),
-    # the django databrowse app
-    #(r'^databrowse/(.*)', login_required(databrowse.site.root)),
-
-
-    # the Toolbar Buttons section of the site (custom maker etc.)
-    #(r'^toolbar_buttons/',        include('toolbar_buttons.toolbar_buttons_web.tbutton_maker.urls')),
 
     # the blog system
     (r'^(?:(?P<blog>[\w\-]+)/)?news/', include('djangopress.blog.urls')),
@@ -50,7 +33,24 @@ urlpatterns += patterns('django.views.generic.simple',
 )
 
 try:
-    #import haystack # if this failes, don't configure haystack urls
+    try:
+        import haystack
+    except ImproperlyConfigured:
+        pass
+except ImportError:
+    pass
+else:
+    from haystack.views import SearchView, search_view_factory
+    from haystack.forms import SearchForm
+
+    class SiteSearchView(SearchView):
+        def __name__(self):
+            return "SiteSearchView"
+
+        def extra_context(self):
+            extra = super(SiteSearchView, self).extra_context()
+            extra["query_args"] = {"q": self.get_query()}
+            return extra
     urlpatterns += patterns('',
         # the haystack search
         url(r'^search/', search_view_factory(
@@ -60,11 +60,14 @@ try:
                 results_per_page=10,
             ), name='haystack_search'),
     )
-except ImportError:
-    pass
-
 
 urlpatterns += sitemap_patterns
+
+try:
+    from local_urls import urlpatterns as locale_urls
+    urlpatterns += locale_urls
+except ImportError:
+    pass
 
 # if debug is enabled use the static server for media
 if settings.DEBUG:

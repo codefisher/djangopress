@@ -47,7 +47,6 @@ class UserProfile(models.Model):
         self.activate_key_expirary = datetime.datetime.fromtimestamp(time.time() + (7 * 24 * 60 * 60))
 
     def check_activate_key(self, hsh):
-        print self.activate_key_expirary, datetime.datetime.now()
         return (hsh == self.activate_key
                 and datetime.datetime.now() <= self.activate_key_expirary)
 

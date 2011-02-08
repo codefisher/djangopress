@@ -1,5 +1,6 @@
 # Django settings for codefisher project.
 
+from django.core.exceptions import ImproperlyConfigured
 import os
 PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
 
@@ -8,11 +9,6 @@ from pages.settings import PAGES_TEMPLATES
 INTERNAL_IPS = (
     '127.0.0.1',
 )
-
-#import sys
-#if "/home/michael/Dev/Extension/" not in sys.path:
-#    sys.path.append("/home/michael/Dev/Extension/")
-#from toolbar_buttons.toolbar_buttons_web.tbutton_maker.settings import *
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -32,15 +28,6 @@ DATABASES = {
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     },
-    # lol for security on my locale computer
-    'forum': {
-        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'forum',                      # Or path to database file if using sqlite3.
-        'USER': 'root',                      # Not used with sqlite3.
-        'PASSWORD': 'hopin',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
 }
 
 # Local time zone for this installation. Choices can be found here:
@@ -128,11 +115,10 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     # extra django apps
     'django.contrib.comments',
-    #'django.contrib.databrowse',
     # 3rd party apps
-    #'south',
-    #'django_extensions',
-    #'debug_toolbar',
+#    'south',
+#    'django_extensions',
+#    'debug_toolbar',
     # djangopress
     'djangopress.blog',
     'djangopress.menus',
@@ -140,18 +126,20 @@ INSTALLED_APPS = (
     'djangopress.core.links',
     'djangopress.accounts',
     'djangopress.pages',
-    # extra custom apps
-    #'toolbar_buttons.toolbar_buttons_web.tbutton_maker',
 )
 
 try:
+    try:
+        import haystack
+    except ImproperlyConfigured:
+        pass
+except ImportError:
+    pass
+else:
     HAYSTACK_SITECONF = 'djangopress.search_sites'
     HAYSTACK_SEARCH_ENGINE = 'whoosh'
     HAYSTACK_WHOOSH_PATH = os.path.join(PROJECT_PATH, '..', 'djangopress_index')
-    #import haystack
     INSTALLED_APPS += ('haystack', )
-except ImportError:
-    pass
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.auth",
@@ -162,3 +150,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+
+try:
+    from local_settings import *
+except ImportError:
+    pass
