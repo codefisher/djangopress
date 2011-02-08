@@ -14,14 +14,22 @@
 
 #djangopress-toolbar a {
     line-height:30px;
-    padding:2px 5px;
+    padding:2px 5px 2px 26px;
     margin:5px;
     color:#fff;
-    border:1px solid #1d2419;
     text-decoration:none;
-    background: rgba(255,255,255, 0.25);
+    text-shadow: #000000 1px 1px 1px;
+
+    background: rgba(255,255,255, 0.25) no-repeat 6px center;
+    -moz-border-radius:6px;
+    border-radius:6px;
+    border: 1px solid rgba(0, 0, 0, 0.6);
 }
 
 #djangopress-toolbar a:hover {
-    background: rgba(0, 0, 0, 0.25);
+    background-color: rgba(0, 0, 0, 0.25);
+}
+
+#djangopress-toolbar a.edit {
+    background-image: url(../../images/pastel-svg/16/pencil.png);
 }

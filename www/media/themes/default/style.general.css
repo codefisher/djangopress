@@ -75,14 +75,19 @@ img {
     margin:0 auto;
     padding-right:260px;
 }
+#wrapper.no-sidbar {
+    padding:0;
+}
 #content {
     float:left;
     position: relative;
+    z-index:1;
     margin-bottom:250px;
     z-index:0;
     width:100%;
     font-size:0.9em;
     color:#e8f1d7;
+    margin:0 auto;
 }
 #content a {
     color:#ffffff;

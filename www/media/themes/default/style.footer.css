@@ -6,6 +6,7 @@
     bottom:150px;
     left:0;
     width:100%;
+    z-index:-1;
 }
 #footer {
     background:#71962f;
@@ -50,7 +51,7 @@
 
 #footer-right .footer-box {
 	text-align:center;
-	padding:2em;
+	padding:1em;
 }
 
 .footer-detail {
