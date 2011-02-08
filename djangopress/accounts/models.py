@@ -19,21 +19,19 @@ class UserProfile(models.Model):
 
     """
     title = models.CharField(max_length=100, default="New member")
-    homepage = models.CharField(max_length=100, null=True, blank=True)
+    homepage = models.CharField(max_length=100, blank=True)
     #IM contact (jabber, icq, msn, aim, yahoo, gtalk, twitter, facebook)
-    location = models.CharField(max_length=50, null=True, blank=True)
-    avatar = models.ImageField(blank=True, null=True,
+    location = models.CharField(max_length=50, blank=True)
+    avatar = models.ImageField(blank=True,
             upload_to=os.path.join(settings.MEDIA_UPLOAD, "avatars"))
-    signature = models.TextField(blank=True, null=True)
-    timezone = models.CharField(max_length=20, null=True, blank=True)
-    language = models.CharField(max_length=20, null=True, blank=True)
-    registration_ip = models.IPAddressField(null=True)
-    last_ip_used = models.IPAddressField(null=True)
+    signature = models.TextField(blank=True)
+    timezone = models.CharField(max_length=20, blank=True)
+    language = models.CharField(max_length=20, blank=True)
+    registration_ip = models.IPAddressField()
+    last_ip_used = models.IPAddressField()
     admin_note = models.TextField(blank=True)
-    activate_key = models.CharField(max_length=127, null=True,
-            blank=True, editable=False)
-    activate_key_expirary = models.DateTimeField(null=True,
-            blank=True, editable=False)
+    activate_key = models.CharField(max_length=127, blank=True, editable=False)
+    activate_key_expirary = models.DateTimeField(blank=True, editable=False)
     banned = models.BooleanField(default=False)
     remember_between_visits = models.BooleanField(default=True)
     user = models.OneToOneField(User)
@@ -74,7 +72,7 @@ class UserBan(models.Model):
     ban_name = models.CharField(max_length=100)
 
     start = models.DateTimeField(auto_now=True)
-    end = models.DateTimeField(null=True)
+    end = models.DateTimeField(null=True, blank=True)
     reason = models.TextField(blank=True)
     given_reason =models.TextField(blank=True)
 

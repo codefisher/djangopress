@@ -1,5 +1,6 @@
 import datetime
 from django import template
+from django.template.loader import render_to_string
 from django import forms
 from djangopress.pages.models import Page
 from djangopress.pages.blocks import PageBlock
@@ -43,7 +44,7 @@ def do_placeholder(parser, token):
 
 class PlaceholderNode(template.Node):
     def __init__(self, name, nodelist=None, primary=False, identifier=False):
-        self._nodelist = nodelist
+        self.nodelist = nodelist
         self._name = name
         self._primary = primary
         self._identifier = identifier
@@ -58,7 +59,7 @@ class PlaceholderNode(template.Node):
             blocks = PageBlock.objects.filter(block_id=self._name).order_by('position')
         else:
             blocks = page.blocks.filter(block_name=self._name).order_by('position')
-        if (context.get('enable_page_edit') and user
+        if (context.get('enable_page_edit') and user and not self._identifier
                 and user.has_perm('pages.change_page')):
             request = context.get('request')
             submit_name = "%s-submit" % self._name
@@ -103,27 +104,23 @@ class PlaceholderNode(template.Node):
                     form = block.form(request.POST, instance=block, prefix=prefix)
                     if form.is_valid():
                         form.save(True)
+                        changes = True
                     else:
                         for item in form:
                             print item.label_tag(), item.errors
                 else:
                     form = block.form(instance=block, prefix=prefix)
                 forms.append(form)
-            if changes:
+            if changes or created:
                 page.edited_by = user
                 page.edited = datetime.datetime.now()
                 page.save()
                 raise ShouldRedirect()
-            t = template.loader.get_template("pages/editor.html")
-            context.push()
-            context.update(data)
-            result = t.render(context)
-            context.pop()
-            return result
+            return render_to_string("pages/editor.html", data, context_instance=context)
         else:
             output = "\n".join(block.content(context) for block in blocks)
-            if not output and self._nodelist:
-                output = self._nodelist.render(context)
+            if not output and self.nodelist:
+                output = self.nodelist.render(context)
             return output
 
 register.tag('placeholder', do_placeholder)

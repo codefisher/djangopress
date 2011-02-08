@@ -1,4 +1,3 @@
-import datetime
 from haystack import site, indexes
 from djangopress.blog.models import Entry
 

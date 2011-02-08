@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 
 class Tag(models.Model):
     name = models.CharField(max_length=30)
-    description = models.TextField(blank=True, null=False)
+    description = models.TextField(blank=True)
     slug = models.SlugField(blank=True, unique=True)
     blog = models.ForeignKey("Blog", related_name="tags")
 
@@ -24,7 +24,7 @@ class Tag(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=30)
-    description = models.TextField(blank=True, null=False)
+    description = models.TextField(blank=True)
     slug = models.SlugField(blank=True, unique=True)
     parent_category = models.ForeignKey('self', null=True, blank=True,
             related_name="child_categories")
@@ -135,3 +135,6 @@ class EntryLink(Link):
 
     def get_absolute_url(self):
         return self.entry.get_absolute_url()
+
+from django.contrib import databrowse
+databrowse.site.register(Entry)

@@ -1,48 +1,66 @@
+import datetime
 from django.db import models
+from django.contrib.sites.models import Site
+from django.contrib.auth.models import User
+from djangopress.core.models import Property
 
 # Create your models here.
+
+class Forums(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(blank=True, null=True, unique=True)
+    tagline = models.TextField(blank=True, null=False)
+    sites = models.ManyToManyField(Site, related_name="forums")
+
+    #options
+    format = models.CharField(max_length=20)
+
+    properties = models.ManyToManyField(Property, blank=True, null=True)
 
 class ForumCategories(models.Model):
     """
     Describes the categories that each forum is grouped with in.
     """
-    #name
-    #position
+    name = models.CharField(max_length=100, unique=True)
+    position = models.IntegerField(default=1)
+    forums = models.ForeignKey(Forums, related_name="category")
 
 class Forum(models.Model):
     """
     The Forums which threads can be put in.
     """
-    #name
-    #description
+    name = models.CharField(max_length=100)
+    description = models.TextField()
     #redirect_url
-    #topics
-    #posts
-    #last post
-    #position
-    #category
-    #parent forum
-    #password (to limit access)
+    topics = models.IntegerField(default=0)
+    posts = models.IntegerField(default=0)
+    last_post = models.ForeignKey('Post')
+    position = models.IntegerField(default=1)
+    parent_forum = models.ForeignKey('self', null=True, related_name="children")
+    password = models.CharField(max_length=50, null=True, blank=True)
+
+    subscriptions = models.OneToOneField(User, related_name='forum_forum_subscriptions')
 
 
 class Post(models.Model):
-    pass
-    #user
+    author = models.ForeignKey(User, related_name="forum_posts", blank=True,  null=True)
 
-    ## for anonimouse users
-    #poster_id
-    #poster_email
+    ## for anonymous users
+    poster_name = models.CharField(blank=True, max_length=50)
+    poster_email = models.EmailField(blank=True)
 
-    #ip
-    #message
-    #thread
-    #options (show_similies, use bbcode, show sig)
+    ip = models.IPAddressField()
+    message = models.TextField()
+    thread = models.ForeignKey('Thread', relatedName="posts")
+    format = models.CharField(max_length=20)
 
-    #posted
-    #edited_by
-    #edited
-    #edit reason
-    #attachments
+    show_similies = models.BooleanField(default=True)
+
+    posted = models.DateField(default=datetime.datetime.now)
+    edited_by = models.ForeignKey(User, related_name="forum_posts_edited", blank=True, null=True)
+    edited = models.DateField(null=True, blank=True)
+    edit_reason = models.TextField(null=True, blank=True)
+
 
 class Thread(models.Model):
     class Meta:
@@ -52,85 +70,82 @@ class Thread(models.Model):
             ('can_post_replies', 'User is allowed to reply to threads'),
             ('can_post_threads', 'User is allowed to post new thread')
         )
-    pass
-    #poster
-    #subject
-    #posted
-    #last post
-    #num views
-    #num posts
-    #closed
-    #sticky
-    #moved_to (another forum?)
-    #forum
+
+    subscriptions = models.OneToOneField(User, related_name='forum_subscriptions')
+
+    poster = models.ForeignKey(User, blank=True, null=True)
+    subject = models.CharField(max_length=255)
+    posted = models.DateField(default=datetime.datetime.now)
+    first_post = models.ForeignKey(Post, blank=True)
+    last_post = models.ForeignKey(Post, blank=True)
+    num_views = models.IntegerField(default=0)
+    num_posts = models.IntegerField(default=0)
+    closed = models.BooleanField(default=False)
+    sticky = models.BooleanField(default=False)
+    moved_to = models.ForeignKey('Thread', blank=True)
+    forum = models.ForeignKey(Forum)
 
 class Rank(models.Model):
     """
     The titles the user gets as they make more posts
     """
-    #name
-    #min_posts
+    name = models.CharField()
+    min_posts = models.IntegerField()
 
 class Reports(models.Model):
     """
     The reported posts for spamming etc
     """
-    #post
-    #thread
-    #forum
-    #reported_by
-    #created date
-    #message
-    #moderated
-    #moderated_by
+    post = models.ForeignKey(Post, related_name="reports")
+    thread = models.ForeignKey(Thread, related_name="reports")
+    forum = models.ForeignKey(Forum, related_name="reports")
+    reported_by = models.ForeignKey(User, related_name="forum_reports")
+    created_date = models.DateField(default=datetime.datetime.now)
+    message = models.TextField()
+    moderated = models.BooleanField(default=False)
+    moderated_by = models.ForeignKey(User, related_name="forum_moderated_reports")
 
-
-class Subscriptions(models.Model):
-    """
-    Email subscriptions to threads
-    """
-    #user
-    #topic
-
-class ForumSubscriptions(models.Model):
-    """
-    Email subscriptions to forums
-    """
-    #user
-    #forum
 
 class ForumUser(models.Model):
     """
     User class for forum
     """
-    #num_topics
-    #num_posts
 
-    #email settings
-    #notify
-    #show smilies, img, img_sig, avatars, sig
+    EMAIL_SETTINGS = (
+        ('HI', 'Hide Email'),
+        ('SW', 'Show Email'),
+        ('HB', 'Hide email but allow people to contact me though them forum')
+    )
+
+    NOFITY = (
+       ('AL', 'Always Notify'),
+       ('NV', 'Never Notify'),
+       ('DN', 'Send daily digest')
+    )
+
+    user = models.OneToOneField(User, related_name='forum_profile')
+    num_topics = models.IntegerField(default=0)
+    num_posts = models.IntegerField(default=0)
+
+    email_settings = models.CharField(choices=EMAIL_SETTINGS, default='HI')
+    notify = models.CharField()
+
+    show_simlies = models.BooleanField(default=True)
+    img = models.BooleanField(default=True)
+    avatars = models.BooleanField(default=True)
+    sig = models.BooleanField(default=True)
 
 class Attachment(models.Model):
-    """
-    post
-    topic
-    poster
-    location_file_name
-    displya_file_name
-    download_count
-    comment
-    extension
-    mimetype
-    filesize
-    filetime
-    thumbnail
-    """
+    post = models.ForeignKey('Post', related_name="attachments")
+    thread = models.ForeignKey('Thread', related_name="attachments")
 
-class BBcode(models.Model):
-    pass
-
-
-class ForumConfig(models.Model):
-    pass
-    #name
-    #value
+    poster = models.ForeignKey(User, related_name="forum_attachments")
+    #location_file_name
+    #display_file_name
+    #download_count
+    #comment
+    #extension
+    #mimetype
+    #filesize
+    #filetime
+    #thumbnail = FilePathField

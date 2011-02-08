@@ -12,7 +12,8 @@ class ShouldRedirect(template.TemplateSyntaxError):
 
 def show_page(request, path):
     try:
-        page = Page.objects.get(location=path, sites__id__exact=settings.SITE_ID)
+        page = Page.objects.get(location=path, sites__id__exact=settings.SITE_ID,
+                visibility="VI", status="PB")
     except:
         raise Http404
     user = request.user

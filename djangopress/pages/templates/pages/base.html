@@ -15,9 +15,9 @@
     {% if show_toolbar %}
         <div id="djangopress-toolbar">
             {% if enable_page_edit %}
-                <a href="./">Close Edit</a>
+                <a class="edit" href="./">Close Edit</a>
             {% else %}
-                <a href="?edit_cms_page">Edit</a>
+                <a class="edit" href="?edit_cms_page">Edit</a>
             {% endif %}
         </div>
     {% endif %}
@@ -31,6 +31,11 @@
     {% placeholder "sidebar" with_default %}
         {{ block.super }}
     {% endplaceholder %}
+{% endblock %}
+
+{% block copyright_box %}
+    {{ block.super }}
+    <div>Edited {{ page.edited|date:"DATE_FORMAT" }} by {{ page.edited_by.username }}</div>
 {% endblock %}
 
 {% block page_title %}

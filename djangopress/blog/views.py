@@ -13,7 +13,7 @@ def resolve_blog(function):
         return function(*args, **kargs)
     return _resolve_blog
 
-def display_list(request, entries_list, blog, extra=None, template='blog/index.html'):
+def blog_pageinator(request, entries_list, blog):
     paginator = Paginator(entries_list, 10)
     try:
         page = int(request.GET.get('page', '1'))
@@ -25,35 +25,35 @@ def display_list(request, entries_list, blog, extra=None, template='blog/index.h
     except (EmptyPage, InvalidPage):
         entries = paginator.page(paginator.num_pages)
 
-    data = {
+    return {
         "blog": blog,
         "entries": entries,
         "title": blog.name,
         "respond": True,
     }
-    if extra:
-        data.update(extra)
-    return render_to_response(template , data,
-            context_instance=RequestContext(request))
 
 @resolve_blog
 def index(request, blog=None):
     entries_list = Entry.get_entries(blog=blog)
-    return display_list(request, entries_list, blog)
+    data = blog_pageinator(request, entries_list, blog)
+    return render_to_response('blog/index.html' , data,
+            context_instance=RequestContext(request))
 
 @resolve_blog
 def archive(request, year, month=None, blog=None):
-    extra = {"format": "YEAR_MONTH_FORMAT"}
+    data = {"format": "YEAR_MONTH_FORMAT"}
     year = int(year)
     entries_list = Entry.get_entries(blog=blog).filter(posted__year=year)
     if month is None:
         month = 1
-        extra["format"] = "Y"
+        data["format"] = "Y"
     else:
         month = int(month)
         entries_list = entries_list.filter(posted__month=month)
-    extra["date"] = datetime.date(year=year, month=month, day=1)
-    return display_list(request, entries_list, blog, extra, "blog/date_archive.html")
+    data["date"] = datetime.date(year=year, month=month, day=1)
+    data.update(blog_pageinator(request, entries_list, blog))
+    return render_to_response('blog/date_archive.html' , data,
+            context_instance=RequestContext(request))
 
 @resolve_blog
 def post(request, year, month, day, slug, blog=None):
@@ -87,16 +87,20 @@ def post(request, year, month, day, slug, blog=None):
 def tag(request, slug, blog=None):
     post_tag = get_object_or_404(Tag, slug=slug, blog=blog)
     entries_list = Entry.get_entries(blog=blog).filter(tags__slug=slug)
-    return display_list(request, entries_list, blog,
-            {"blog_heading": _("Posts Tagged '%s'") % post_tag.name})
+    data = blog_pageinator(request, entries_list, blog)
+    data["blog_heading"] = _("Posts Tagged '%s'") % post_tag.name
+    return render_to_response('blog/index.html' , data,
+            context_instance=RequestContext(request))
 
 
 @resolve_blog
 def category(request, slug, blog=None):
     post_category = get_object_or_404(Category, slug=slug, blog=blog)
     entries_list = Entry.get_entries(blog=blog).filter(categories__slug=slug)
-    return display_list(request, entries_list, blog,
-            {"blog_heading": _("Archive for the '%s' Category") % post_category.name})
+    data = blog_pageinator(request, entries_list, blog)
+    data["blog_heading"] = _("Archive for the '%s' Category") % post_category.name
+    return render_to_response('blog/index.html' , data,
+            context_instance=RequestContext(request))
 
 @resolve_blog
 def moved(request, post=None, blog=None):

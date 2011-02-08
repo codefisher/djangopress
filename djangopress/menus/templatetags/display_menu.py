@@ -1,4 +1,5 @@
 from django import template
+from django.template.loader import render_to_string
 register = template.Library()
 from djangopress.menus.models import Menu, MenuItem
 
@@ -35,19 +36,18 @@ class MenuDisplayNode(template.Node):
         return tags
 
     def render(self, context, menu=None):
-        t = template.loader.get_template(self._template)
         if menu is None:
             menu = Menu.objects.get(name=self._menu)
-        print menu
         items = MenuItem.objects.select_related('link', 'child').filter(parent_menu=menu)
         tags = self._sort_tags(context, items)
-        menu_items = [(item, self.render(context, item.child) if item.has_child else '', tag) for item, tag in zip(items, tags)]
+        menu_items = [(item, self.render(context, item.child) if item.has_child else '', tag)
+                for item, tag in zip(items, tags)]
         menu_items.sort()
         data = {
             'menu': menu,
             'menu_items': menu_items,
         }
-        return t.render(template.Context(data, autoescape=context.autoescape))
+        return render_to_string(self._template, data, context_instance=context)
 
 
 def do_menu_display(parser, token):

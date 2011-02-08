@@ -31,6 +31,15 @@ DATABASES = {
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
+    },
+    # lol for security on my locale computer
+    'forum': {
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'forum',                      # Or path to database file if using sqlite3.
+        'USER': 'root',                      # Not used with sqlite3.
+        'PASSWORD': 'hopin',                  # Not used with sqlite3.
+        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
     }
 }
 
@@ -77,13 +86,15 @@ SECRET_KEY = '7vb=x8)-d#7_m(1xk3jt6e)@rpa4$vh*elcahy3)bh&f(!8@nt'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
+    #('django.template.loaders.cached.Loader', (
+        'django.template.loaders.filesystem.Loader',
+        'django.template.loaders.app_directories.Loader',
 #     'django.template.loaders.eggs.Loader',
+    #)),
 )
 
 MIDDLEWARE_CLASSES = (
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
+    #'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'djangopress.pages.middleware.PagesMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -117,19 +128,30 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     # extra django apps
     'django.contrib.comments',
+    #'django.contrib.databrowse',
     # 3rd party apps
     #'south',
-    'haystack',
+    #'django_extensions',
     #'debug_toolbar',
-    # djangopress and other custom apps
-    #'toolbar_buttons.toolbar_buttons_web.tbutton_maker',
+    # djangopress
     'djangopress.blog',
     'djangopress.menus',
     'djangopress.core',
     'djangopress.core.links',
     'djangopress.accounts',
     'djangopress.pages',
+    # extra custom apps
+    #'toolbar_buttons.toolbar_buttons_web.tbutton_maker',
 )
+
+try:
+    HAYSTACK_SITECONF = 'djangopress.search_sites'
+    HAYSTACK_SEARCH_ENGINE = 'whoosh'
+    HAYSTACK_WHOOSH_PATH = os.path.join(PROJECT_PATH, '..', 'djangopress_index')
+    #import haystack
+    INSTALLED_APPS += ('haystack', )
+except ImportError:
+    pass
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.auth",
@@ -140,6 +162,3 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 )
 
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
-HAYSTACK_SITECONF = 'djangopress.search_sites'
-HAYSTACK_SEARCH_ENGINE = 'whoosh'
-HAYSTACK_WHOOSH_PATH = os.path.join(PROJECT_PATH, '..', 'djangopress_index')
