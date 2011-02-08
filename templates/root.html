@@ -1,13 +1,13 @@
 {% load display_menu %}
 {% load blog_tags %}
 {% load pages_tags %}
-{% load core_tags %}
+{% load djangopress_tags %}
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <head>
  <title>Codefisher.org :: {% block page_title %}{{ title|default:"Firefox Add-ons, Code Resources and More" }}{% endblock %}</title>
- <link type="text/css" rel="stylesheet" href="{{ media_url}}themes/default/style.css">
- <script type="text/javascript" src="{{ media_url}}js/menu.action.js"></script>
+ <link type="text/css" rel="stylesheet" href="{% media_url %}themes/default/style.css">
+ <script type="text/javascript" src="{% media_url %}js/menu.action.js"></script>
  <link rel="alternate" type="application/atom+xml" href="{% url blog-feed %}">
  {% block head_tags %}{% endblock %}
 </head>
@@ -15,7 +15,7 @@
 {% block page_top %}{% endblock %}
 <div id="top-menu">
  <div id="logo">
-  <a href="/"><img width="175" height="90" src="{{ media_url}}themes/default/images/logo-text.png" alt="Codefisher"></a>
+  <a href="/"><img width="175" height="90" src="{% media_url %}themes/default/images/logo-text.png" alt="Codefisher"></a>
  </div>
  {% display_menu util-menu %}
 </div>
