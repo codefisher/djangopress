@@ -33,3 +33,7 @@
 #djangopress-toolbar a.edit {
     background-image: url(../../images/pastel-svg/16/pencil.png);
 }
+
+#djangopress-toolbar a.page {
+    background-image: url(../../images/pastel-svg/16/layout.png);
+}

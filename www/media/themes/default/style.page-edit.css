@@ -1,0 +1,26 @@
+.edit-block {
+    text-align:center;
+    padding:1em;
+    font-size:1.25em;
+}
+
+#page-edit-pane {
+    border:1px solid #000;
+    background:rgba(0,0,0, 0.8);
+    -moz-border-radius:6px;
+    border-radius:6px;
+    color:#fff;
+
+    z-index:10000;
+    position:absolute;
+    margin:100px;
+    top:0;
+    left:0;
+    right:0;
+}
+
+#page-edit-pane fieldset {
+    border:1px solid #fff;
+    -moz-border-radius:6px;
+    border-radius:6px;
+}

@@ -1,1 +1,165 @@
-[{"pk": 1, "model": "links.link", "fields": {"class_name": "StaticLink"}}, {"pk": 2, "model": "links.link", "fields": {"class_name": "StaticLink"}}, {"pk": 3, "model": "links.link", "fields": {"class_name": "StaticLink"}}, {"pk": 4, "model": "links.link", "fields": {"class_name": "StaticLink"}}, {"pk": 5, "model": "links.link", "fields": {"class_name": "StaticLink"}}, {"pk": 6, "model": "links.link", "fields": {"class_name": "StaticLink"}}, {"pk": 1, "model": "links.staticlink", "fields": {"location": "/", "label_text": "Home"}}, {"pk": 2, "model": "links.staticlink", "fields": {"location": "/forum/", "label_text": "Forum"}}, {"pk": 3, "model": "links.staticlink", "fields": {"location": "/email/", "label_text": "Contact"}}, {"pk": 4, "model": "links.staticlink", "fields": {"location": "/about/", "label_text": "About"}}, {"pk": 5, "model": "links.staticlink", "fields": {"location": "/donate/", "label_text": "Donate"}}, {"pk": 6, "model": "links.staticlink", "fields": {"location": "/news/feed/", "label_text": "Feed"}}]
+[
+  {
+    "pk": 1, 
+    "model": "links.link", 
+    "fields": {
+      "class_name": "StaticLink"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "links.link", 
+    "fields": {
+      "class_name": "StaticLink"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "links.link", 
+    "fields": {
+      "class_name": "StaticLink"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "links.link", 
+    "fields": {
+      "class_name": "StaticLink"
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "links.link", 
+    "fields": {
+      "class_name": "StaticLink"
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "links.link", 
+    "fields": {
+      "class_name": "StaticLink"
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "links.staticlink", 
+    "fields": {
+      "location": "/", 
+      "label_text": "Home"
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "links.staticlink", 
+    "fields": {
+      "location": "/forum/", 
+      "label_text": "Forum"
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "links.staticlink", 
+    "fields": {
+      "location": "/email/", 
+      "label_text": "Contact"
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "links.staticlink", 
+    "fields": {
+      "location": "/about/", 
+      "label_text": "About"
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "links.staticlink", 
+    "fields": {
+      "location": "/donate/", 
+      "label_text": "Donate"
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "links.staticlink", 
+    "fields": {
+      "location": "/news/feed/", 
+      "label_text": "Feed"
+    }
+  }, 
+  {
+    "pk": "util-menu", 
+    "model": "menus.menu", 
+    "fields": {
+      "parent_item": null
+    }
+  }, 
+  {
+    "pk": 1, 
+    "model": "menus.menuitem", 
+    "fields": {
+      "index": 1, 
+      "tag": "", 
+      "link": 1, 
+      "parent_menu": "util-menu", 
+      "has_child": false
+    }
+  }, 
+  {
+    "pk": 2, 
+    "model": "menus.menuitem", 
+    "fields": {
+      "index": 2, 
+      "tag": "", 
+      "link": 2, 
+      "parent_menu": "util-menu", 
+      "has_child": false
+    }
+  }, 
+  {
+    "pk": 3, 
+    "model": "menus.menuitem", 
+    "fields": {
+      "index": 3, 
+      "tag": "", 
+      "link": 3, 
+      "parent_menu": "util-menu", 
+      "has_child": false
+    }
+  }, 
+  {
+    "pk": 4, 
+    "model": "menus.menuitem", 
+    "fields": {
+      "index": 4, 
+      "tag": "", 
+      "link": 4, 
+      "parent_menu": "util-menu", 
+      "has_child": false
+    }
+  }, 
+  {
+    "pk": 5, 
+    "model": "menus.menuitem", 
+    "fields": {
+      "index": 5, 
+      "tag": "", 
+      "link": 5, 
+      "parent_menu": "util-menu", 
+      "has_child": false
+    }
+  }, 
+  {
+    "pk": 6, 
+    "model": "menus.menuitem", 
+    "fields": {
+      "index": 6, 
+      "tag": "feed", 
+      "link": 6, 
+      "parent_menu": "util-menu", 
+      "has_child": false
+    }
+  }
+]
