@@ -1,6 +1,5 @@
 
-import re
-from djangopress.core.format.nodes import TagNode, Library, render, tag_arguments
+from djangopress.core.format.nodes import TagNode, Library, tag_arguments
 from djangopress.core.format.parser import Parser, Lexer, encode_html
 from django.utils.html import urlize
 from djangopress.core.format.smilies import add_smilies

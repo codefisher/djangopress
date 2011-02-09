@@ -25,6 +25,9 @@ urlpatterns = patterns('',
 
     # the user accounts system
     (r'^accounts/', include('djangopress.accounts.urls')),
+
+    # the cms pages editing tools etc/
+    (r'^pages/', include('djangopress.pages.urls')),
 )
 
 urlpatterns += patterns('django.views.generic.simple',

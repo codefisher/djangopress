@@ -1,34 +1,7 @@
-import datetime
 from django import template
 from django.template.loader import render_to_string
-from django import forms
-from djangopress.pages.models import Page
 from djangopress.pages.blocks import PageBlock
-from djangopress.pages.views import ShouldRedirect
 register = template.Library()
-
-def new_block_form(*args, **kargs):
-    choices = [('', ' -- ')] + [(name, cls.name) for name, cls in PageBlock.sub_classes.items()]
-    class NewBlockForm(forms.Form):
-        content_type = forms.ChoiceField(choices=choices, required=False, initial='')
-    return NewBlockForm(*args, **kargs)
-
-class PageForm(forms.ModelForm):
-    fieldsets = (
-        ("Page Details", ('slug', 'title', 'override_location', 'parent')),
-        ("Display Settings", ('status', 'visibility', 'login_required')),
-        ("SEO Options", ('meta_page_title', 'meta_keywords', 'meta_description'))
-    )
-    class Meta:
-        model = Page
-        fields = ('slug', 'title', 'status', 'visibility', 'login_required',
-                'override_location', 'parent',
-                'meta_page_title', 'meta_keywords', 'meta_description')
-        widgets = {
-            'meta_page_title': forms.TextInput(),
-            'meta_keywords': forms.Textarea(attrs={"rows": 3, "cols": 40} ),
-            'meta_description': forms.Textarea(attrs={"rows": 3, "cols": 40} )
-        }
 
 def do_placeholder(parser, token):
     args = token.split_contents()
@@ -39,14 +12,12 @@ def do_placeholder(parser, token):
         nodelist = parser.parse(('endplaceholder',))
         parser.delete_first_token()
     name = args[1][1:-1]
-    return PlaceholderNode(name, nodelist, primary="primary" in args,
-            identifier="identifier" in args)
+    return PlaceholderNode(name, nodelist, identifier="identifier" in args)
 
 class PlaceholderNode(template.Node):
-    def __init__(self, name, nodelist=None, primary=False, identifier=False):
+    def __init__(self, name, nodelist=None, identifier=False):
         self.nodelist = nodelist
         self._name = name
-        self._primary = primary
         self._identifier = identifier
 
     def get_placeholder_name(self):
@@ -56,64 +27,18 @@ class PlaceholderNode(template.Node):
         user = context.get('user')
         page = context.get('page')
         if self._identifier:
-            blocks = PageBlock.objects.filter(block_id=self._name).order_by('position')
+            blocks = PageBlock.objects.filter(block_id=self._name)
         else:
-            blocks = page.blocks.filter(block_name=self._name).order_by('position')
-        if (context.get('enable_page_edit') and user and not self._identifier
+            blocks = page.blocks.filter(block_name=self._name)
+        if (context.get('enable_page_edit') and user
                 and user.has_perm('pages.change_page')):
-            request = context.get('request')
-            submit_name = "%s-submit" % self._name
-            forms = []
-            created = False
-            if (request.method == 'POST'
-                    and submit_name in request.POST):
-                new_block = new_block_form(request.POST, prefix=self._name)
-                if new_block.is_valid():
-                    content_type = new_block.cleaned_data['content_type']
-                    if content_type:
-                        block = PageBlock.sub_classes[content_type](block_name=self._name, position=blocks.count()+1)
-                        block.save()
-                        page.blocks.add(block)
-                        if self._identifier:
-                            blocks = PageBlock.object.filter(block_id=self._name).order_by('position')
-                        else:
-                            blocks = page.blocks.filter(block_name=self._name).order_by('position')
-                        created = True
-            new_block = new_block_form(prefix=self._name)
             data = {
-                "forms": forms,
-                "new_block": new_block,
-                "submit_name": submit_name
+                "blocks": blocks,
+                "page": page,
+                "name": self._name,
+                "identifier": self._identifier,
             }
-            changes = False
-            if self._primary:
-                if (request.method == 'POST'
-                        and submit_name in request.POST):
-                    form = PageForm(request.POST, instance=page, prefix="page-primary")
-                    if form.is_valid():
-                        form.save(True)
-                        changes = True
-                else:
-                    form = PageForm(instance=page, prefix="page-primary")
-                data["primary_form"] = form
-            for block in blocks:
-                block = block.get_child()
-                prefix = "%s-%s" % (block.pk, self._name)
-                if (request.method == 'POST' and not created
-                        and submit_name in request.POST):
-                    form = block.form(request.POST, instance=block, prefix=prefix)
-                    if form.is_valid():
-                        form.save(True)
-                        changes = True
-                else:
-                    form = block.form(instance=block, prefix=prefix)
-                forms.append(form)
-            if changes or created:
-                page.edited_by = user
-                page.edited = datetime.datetime.now()
-                page.save()
-                raise ShouldRedirect()
-            return render_to_string("pages/editor.html", data, context_instance=context)
+            return render_to_string("pages/editor/page_block.html", data, context_instance=context)
         else:
             output = "\n".join(block.content(context) for block in blocks)
             if not output and self.nodelist:

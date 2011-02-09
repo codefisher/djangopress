@@ -1,6 +1,7 @@
 from django.db import models
 from django.template import Template
 from django import forms
+from djangopress.core.format import Library as FormatLibrary
 
 class PageBlockMeta(models.base.ModelBase):
     def __init__(mcs, name, bases, new_attrs):
@@ -21,6 +22,9 @@ class PageBlock(models.Model):
     form = None
 
     __metaclass__ = PageBlockMeta
+
+    class Meta:
+        ordering = ['position']
 
     def __str__(self):
         if self.name:
@@ -47,36 +51,20 @@ class PageBlock(models.Model):
         return None
 
 
-class HTMLBlock(PageBlock):
-    name = "HTML"
+class TextBlock(PageBlock):
+    name = "Text"
     data = models.TextField(blank=True)
+    format = models.CharField(max_length=30, choices=FormatLibrary.choices(False))
 
     def content(self, context):
-        return self.data
+        return FormatLibrary.format(self.format, self.data, False, context=context)
 
-
-class HTMLForm(forms.ModelForm):
+class TextForm(forms.ModelForm):
     template = None
 
     class Meta:
-        model = HTMLBlock
+        model = TextBlock
         widgets = {
             'block_name': forms.HiddenInput()
         }
-HTMLBlock.form = HTMLForm
-
-class TemplateBlock(PageBlock):
-    name = "Template"
-    data = models.TextField(blank=True)
-
-    def content(self, context):
-        t = Template(self.data)
-        return t.render(context)
-
-class TemplateForm(forms.ModelForm):
-    class Meta:
-        model = HTMLBlock
-        widgets = {
-            'block_name': forms.HiddenInput()
-        }
-TemplateBlock.form = TemplateForm
+TextBlock.form = TextForm

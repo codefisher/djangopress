@@ -32,15 +32,18 @@
 	        {% endfor %}
 	    </fieldset>
 	{% endfor %}
+	{% if form.hidden_fields %}
     <div>
         {% for field in form.hidden_fields %}
             {{ field }}
         {% endfor %}
     </div>
+    {% endif %}
 {% if full %}
-    <div>
-        {% csrf_token %}
+    {% csrf_token %}
+    <fieldset>
+        <legend>Submit</legend>
         <input type="submit" value="Submit">
-    </div>
+    </fieldset>
 </form>
 {% endif %}

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from djangopress.pages.models import Page
-from djangopress.pages.blocks import HTMLBlock, TemplateBlock
+from djangopress.pages.blocks import TextBlock
 
 class PageAdmin(admin.ModelAdmin):
 
@@ -38,13 +38,4 @@ class PageAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Page, PageAdmin)
-
-class HTMLBlockAdmin(admin.ModelAdmin):
-    pass
-
-admin.site.register(HTMLBlock, HTMLBlockAdmin)
-
-class TemplateBlockAdmin(admin.ModelAdmin):
-    pass
-
-admin.site.register(TemplateBlock, TemplateBlockAdmin)
+admin.site.register(TextBlock)

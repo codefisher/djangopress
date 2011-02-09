@@ -34,7 +34,7 @@ def blog_pageinator(request, entries_list, blog):
 
 @resolve_blog
 def index(request, blog=None):
-    entries_list = Entry.get_entries(blog=blog)
+    entries_list = Entry.objects.get_entries(blog=blog)
     data = blog_pageinator(request, entries_list, blog)
     return render_to_response('blog/index.html' , data,
             context_instance=RequestContext(request))
@@ -43,7 +43,7 @@ def index(request, blog=None):
 def archive(request, year, month=None, blog=None):
     data = {"format": "YEAR_MONTH_FORMAT"}
     year = int(year)
-    entries_list = Entry.get_entries(blog=blog).filter(posted__year=year)
+    entries_list = Entry.objects.get_entries(blog=blog).filter(posted__year=year)
     if month is None:
         month = 1
         data["format"] = "Y"
@@ -86,7 +86,7 @@ def post(request, year, month, day, slug, blog=None):
 @resolve_blog
 def tag(request, slug, blog=None):
     post_tag = get_object_or_404(Tag, slug=slug, blog=blog)
-    entries_list = Entry.get_entries(blog=blog).filter(tags__slug=slug)
+    entries_list = Entry.objects.get_entries(blog=blog).filter(tags__slug=slug)
     data = blog_pageinator(request, entries_list, blog)
     data["blog_heading"] = _("Posts Tagged '%s'") % post_tag.name
     return render_to_response('blog/index.html' , data,
@@ -96,7 +96,7 @@ def tag(request, slug, blog=None):
 @resolve_blog
 def category(request, slug, blog=None):
     post_category = get_object_or_404(Category, slug=slug, blog=blog)
-    entries_list = Entry.get_entries(blog=blog).filter(categories__slug=slug)
+    entries_list = Entry.objects.get_entries(blog=blog).filter(categories__slug=slug)
     data = blog_pageinator(request, entries_list, blog)
     data["blog_heading"] = _("Archive for the '%s' Category") % post_category.name
     return render_to_response('blog/index.html' , data,

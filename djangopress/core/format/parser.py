@@ -1,5 +1,5 @@
 import re
-from djangopress.core.format.nodes import NodeList, TagNode, TextNode, tag_name_re
+from djangopress.core.format.nodes import NodeList, TagNode, TextNode, tag_name_re, Library
 
 """
 Written while looking at the Django template code.  There is a large
@@ -57,7 +57,7 @@ CHECK_NEXT = 2
 class Parser(object):
     def __init__(self, tokens):
         self.tokens = tokens
-        self.tags = {}
+        self.tags = Library()
 
     def parse(self, parse_until=None, collect=False, check_first=CHECK_NONE):
         if parse_until is None: parse_until = []
@@ -92,7 +92,7 @@ class Parser(object):
                     self.parse_error(nodelist, token)
                     continue
                 try:
-                    compile_func = self.tags[command]
+                    compile_func = self.tags.get(command)
                 except KeyError:
                     self.parse_error(nodelist, token)
                     continue
@@ -138,7 +138,10 @@ class Parser(object):
         self.tokens.insert(0, token)
 
     def add_library(self, lib):
-        self.tags.update(lib.tags)
+        self.tags.push(lib)
+
+    def pop_library(self):
+        self.tags.pop()
 
 def encode_html(text):
     return text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')

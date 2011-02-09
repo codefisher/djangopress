@@ -22,7 +22,7 @@ class BlogFeed(Feed):
         return obj.tagline
 
     def items(self, obj):
-        return Entry.get_entries(blog=obj)[:10]
+        return Entry.objects.get_entries(blog=obj)[:10]
 
     def item_title(self, item):
         return item.title

@@ -35,6 +35,20 @@ class Library(object):
 
     def __init__(self):
         self.tags = {}
+        self.libs = []
+
+    def get(self, name):
+        for lib in self.libs:
+            tag = lib.get(name)
+            if tag:
+                return tag
+        return self.tags[name]
+
+    def push(self, lib):
+        self.libs.insert(0, lib)
+
+    def pop(self):
+        self.libs.pop(0)
 
     def tag(self, name=None, compile_func=None):
         if compile_func:
@@ -47,14 +61,21 @@ class Library(object):
                     self.tags[compile_func.__name__] = compile_func
             return _tag
 
-    def simple_tag(self, tag_name, node_name=None):
+    def simple_tag(self, tag_name, node_name=None, can_contain_self=False, stop_at=None):
         """
         tag_name - name of the code tag
         node_name - name of the html code tag
         """
+        if stop_at == None:
+            stop_at = ()
         def func(parser, token):
-            nodelist = parser.parse(('/%s' % tag_name,))
-            parser.delete_first_token()
+            if can_contain_self:
+                nodelist = parser.parse(('/%s' % tag_name,) + stop_at)
+            else:
+                nodelist = parser.parse(('/%s' % tag_name, tag_name) + stop_at)
+            name = tag_arguments(parser.tokens[0].contents)[0]
+            if name == '/%s' % tag_name:
+                parser.delete_first_token()
             return SimpleTagNode(token, node_name if node_name else tag_name, nodelist)
         self.tag(tag_name, func)
 
@@ -70,20 +91,34 @@ class Library(object):
             return CommentNode(token, tag_name, nodelist)
         self.tag(tag_name, func)
 
-    def argumented_tag(self, tag_name, string):
+    def argumented_tag(self, tag_name, string, can_contain_self=False, stop_at=None):
+        if stop_at == None:
+            stop_at = ()
         def func(parser, token):
             _, arg, kargs = tag_arguments(token.contents)
-            nodelist = parser.parse(('/%s' % tag_name,))
-            parser.delete_first_token()
+            if can_contain_self:
+                nodelist = parser.parse(('/%s' % tag_name,))
+            else:
+                nodelist = parser.parse(('/%s' % tag_name, tag_name))
+            name = tag_arguments(parser.tokens[0].contents)[0]
+            if name == '/%s' % tag_name:
+                parser.delete_first_token()
             return ArgumentedNode(token, string, arg, kargs, nodelist)
         self.tag(tag_name, func)
 
-    def attr_tag(self, tag_name, node_name=None, arg_name=None, attrs=None, closes=True):
+    def attr_tag(self, tag_name, node_name=None, arg_name=None, attrs=None, closes=True, can_contain_self=False, stop_at=None):
+        if stop_at == None:
+            stop_at = ()
         def func(parser, token):
             _, arg, kargs = tag_arguments(token.contents)
             if closes:
-                nodelist = parser.parse(('/%s' % tag_name,))
-                parser.delete_first_token()
+                if can_contain_self:
+                    nodelist = parser.parse(('/%s' % tag_name,) + stop_at)
+                else:
+                    nodelist = parser.parse(('/%s' % tag_name, tag_name) + stop_at)
+                name = tag_arguments(parser.tokens[0].contents)[0]
+                if name == '/%s' % tag_name:
+                    parser.delete_first_token()
             else:
                 nodelist = NodeList()
             return AttrNode(token, node_name if node_name else tag_name,
@@ -106,14 +141,14 @@ class Library(object):
             _, arg, kargs = tag_arguments(token.contents)
             if closes:
                 if not arg and not kargs.get(link_arg):
-                    nodelist = parser.parse(('/%s' % tag_name,), collect=True)
+                    nodelist = parser.parse(('/%s' % tag_name, tag_name), collect=True)
                 else:
-                    nodelist = parser.parse(('/%s' % tag_name,))
+                    nodelist = parser.parse(('/%s' % tag_name, tag_name))
                 parser.delete_first_token()
             else:
                 if content_attr:
                     from djangopress.core.format.parser import CHECK_NEXT
-                    nodelist = parser.parse(('/%s' % tag_name,), check_first=CHECK_NEXT)
+                    nodelist = parser.parse(('/%s' % tag_name, tag_name), check_first=CHECK_NEXT)
                     if nodelist:
                         parser.delete_first_token()
                         kargs[content_attr] = nodelist.contents()
@@ -178,7 +213,7 @@ class TagNode(Node):
     def safe_dict(self, dct):
         result = {}
         for key in dct:
-            if dct[key]:
+            if dct[key] != None:
                 result[key] = dct[key].replace('"', '&quot;')
         return result
 
@@ -191,7 +226,7 @@ class UnclosedTagNode(TagNode):
         return "<%s />" % self.name
 
 class AttrNode(TagNode):
-    def __init__(self, token, node_name, nodelist, arg_name, arg, attrs, kargs, closes):
+    def __init__(self, token, node_name, nodelist=None, arg_name=None, arg=None, attrs=None, kargs=None, closes=True):
         super(AttrNode, self).__init__(token)
         self.node_name = node_name
         self.nodelist = nodelist
@@ -211,7 +246,7 @@ class AttrNode(TagNode):
         return {
             "attrs": self.safe_dict(args),
             "tag": self.node_name,
-            "content": self.nodelist.render(context),
+            "content": self.nodelist.render(context) if self.nodelist else "",
             "closes": self.closes
         }
 
@@ -308,14 +343,57 @@ class DefListNode(TagNode):
 def def_list_func(parser, token):
     tag, arg, _ = tag_arguments(token.contents)
     items = []
-    nodelist = parser.parse(('/%s' % tag, 'dd', '/dd', 'dt', '/dt'))
-    previous = ""
+    nodelist = parser.parse(('/%s' % tag, 'dd', 'dt'))
+    previous = parser.tokens[0].contents
     while previous != '/%s' % tag:
         name, _, _ = tag_arguments(parser.tokens[0].contents)
         parser.delete_first_token()
         nodelist = parser.parse(('/%s' % tag, 'dd', '/dd', 'dt', '/dt'))
-        if previous != "/dd" and previous != '/dt':
+        if previous[0] != "/":
             items.append((name, nodelist))
         previous = parser.tokens[0].contents
     parser.delete_first_token()
     return DefListNode(token, arg, items, tag)
+
+class TableNode(TagNode):
+    def __init__(self, token, nodelist):
+        super(TableNode, self).__init__(token)
+        self.nodelist = nodelist
+
+    def render(self, context):
+        return "<table>%s</table>" % (self.nodelist.render(context))
+
+def td_func(parser, token):
+    lib = Library()
+    lib.attr_tag("td", attrs=("rowspan", "colspan"), stop_at=("tr",))
+    lib.attr_tag("th", attrs=("rowspan", "colspan"), stop_at=("tr",))
+    parser.add_library(lib)
+
+    nodelist = parser.parse(('/tr', 'tr', "tfoot", "thead", "tbody"))
+
+    name = tag_arguments(parser.tokens[0].contents)[0]
+    if name == '/td':
+        parser.delete_first_token()
+
+    parser.pop_library()
+    return SimpleTagNode(token, 'tr', nodelist)
+
+# the col and colgroup tags are not implemented.  Support for nested tables
+# is also not implemented.
+def table_func(parser, token):
+    lib = Library()
+    lib.simple_tag("caption")
+    lib.simple_tag("thead", can_contain_self=False, stop_at=("tfoot", "tbody"))
+    lib.simple_tag("tfoot", can_contain_self=False, stop_at=("thead", "tbody"))
+    lib.simple_tag("tbody", can_contain_self=False, stop_at=("thead", "tfoot"))
+    lib.tag("tr", td_func)
+    parser.add_library(lib)
+
+    tag = tag_arguments(token.contents)[0]
+    nodelist = parser.parse(('/%s' % tag,))
+    parser.delete_first_token()
+    # could here check that all the nodes are in the right older
+    # ie, caption, thead, tfoot, tbody, and no other tags are there that should not be
+
+    parser.pop_library()
+    return TableNode(token, nodelist)

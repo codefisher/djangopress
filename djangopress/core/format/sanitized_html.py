@@ -1,7 +1,6 @@
 import re
-from django.utils.safestring import mark_safe
 from bbcode import Lexer, Parser, encode_html
-from nodes import Library, TagNode, tag_arguments, def_list_func
+from nodes import Library, TagNode, tag_arguments, def_list_func, table_func
 
 TAG_START = "&lt;"
 TAG_END = "&gt;"
@@ -11,12 +10,14 @@ register = Library()
 # these are considered safe, and allowed in the output.  Note that all attributes
 # are ignored.
 for tag in ['address', 'big', 'blockquote', 'cite', 'code', 'del', 'dfn',
-            'div', 'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ins', 'kbd',
-            'p', 'pre', 'q', 'samp', 'small', 'span', 'strong', 'sub', 'sup',
-            'tt', 'var']:
+            'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ins', 'kbd', 'p', 'pre',
+            'q', 'samp', 'small', 'strong', 'sub', 'sup', 'tt', 'var']:
     register.simple_tag(tag)
+for tag in ['div', 'span']:
+    register.simple_tag(tag, can_contain_self=True)
+
 for tag in ['br', 'hr']:
-    pass
+    register.unclosed_tag(tag)
 
 #these nodes are transformed into other equivalent nodes
 for tag, node in [('b', 'strong'), ('i', 'em'), ('strike', 'del'), ('s', 'del'), ]:
@@ -38,6 +39,7 @@ register.link_tag("img", link_arg='src',
 register.link_tag('a', link_arg='href', attrs=('title', 'href'))
 
 register.tag('dl', def_list_func)
+register.tag('table', table_func)
 
 class ListNode(TagNode):
     def __init__(self, token, arg, items, tag):

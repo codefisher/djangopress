@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load pages_tags %}
+{% load djangopress_tags %}
 
 {% block head_tags %}
     {{ block.super }}
@@ -9,6 +10,10 @@
     {% if page.meta_description %}
         <meta name="description" content="{{ page.meta_description }}" >
     {% endif %}
+    {% if show_toolbar %}
+        <link type="text/css" rel="stylesheet" href="{% media_url %}themes/default/style.page-edit.css">
+        <script type="text/javascript" src="{% url page-edit-js %}"></script>
+    {% endif %}
 {% endblock %}
 
 {% block page_top %}
@@ -17,8 +22,9 @@
             {% if enable_page_edit %}
                 <a class="edit" href="./">Close Edit</a>
             {% else %}
-                <a class="edit" href="?edit_cms_page">Edit</a>
+                <a class="edit" href="?edit_cms_page">Edit Page Contents</a>
             {% endif %}
+            <a class="page" href="{% url page-edit-details page=page.id %}" onclick="return editPage(event, {{ page.id }});">Edit page details</a>
         </div>
     {% endif %}
 {% endblock %}

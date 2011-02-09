@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from djangopress.core.links.models import Link
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
+from djangopress.blog.managers import EntryMananger
 
 class Tag(models.Model):
     name = models.CharField(max_length=30)
@@ -101,14 +102,7 @@ class Entry(models.Model):
         verbose_name = "entry"
         verbose_name_plural = "entries"
 
-    @staticmethod
-    def get_entries(blog=None, sorted=True):
-        entry_list = Entry.objects.select_related('blog', 'author').filter(status="PB", visibility="VI")
-        if blog is not None:
-            entry_list.filter(blog=blog)
-        if sorted:
-            return entry_list.order_by('-sticky', '-posted')
-        return entry_list
+    objects = EntryMananger()
 
     def __str__(self):
         return self.title

@@ -1,0 +1,23 @@
+{% load field_form %}
+
+{% if identifier %}
+    <form action="{% url page-edit-ident identifier=name page=page.id %}" method="POST" class="field-form">
+{% else %}
+    <form action="{% url page-edit name=name page=page.id %}" method="POST" class="field-form">
+{% endif %}
+    {% for form in forms %}
+        <fieldset>
+            <legend>{{ form.Meta.model.name }}</legend>
+        {% form form %}
+        </fieldset>
+    {% endfor %}
+    <fieldset>
+         <legend>Select new item to add</legend>
+        {% form new_block %}
+    </fieldset>
+    <fieldset>
+        <legend>Submit</legend>
+        {% csrf_token %}
+        <input type="submit" value="Submit">
+    </fieldset>
+</form>

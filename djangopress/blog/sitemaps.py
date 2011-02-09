@@ -10,7 +10,7 @@ class EntrySitemap(Sitemap):
     priority = 0.5
 
     def items(self):
-        return Entry.get_entries(sorted=False).filter(blog__sites__id__exact=settings.SITE_ID)
+        return Entry.objects.get_entries(sorted=False).filter(blog__sites__id__exact=settings.SITE_ID)
 
     def lastmod(self, obj):
         return obj.edited
@@ -26,7 +26,7 @@ class BlogSitemap(Sitemap):
         return Blog.objects.filter(sites__id__exact=settings.SITE_ID)
 
     def lastmod(self, obj):
-        return Entry.get_entries(blog=obj)[0].edited
+        return Entry.objects.get_entries(blog=obj)[0].edited
 
 register('blog', BlogSitemap)
 

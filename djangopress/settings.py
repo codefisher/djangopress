@@ -120,10 +120,11 @@ INSTALLED_APPS = (
 #    'django_extensions',
 #    'debug_toolbar',
     # djangopress
+    'djangopress.core.links',
+    'djangopress.core.format',
     'djangopress.blog',
     'djangopress.menus',
     'djangopress.core',
-    'djangopress.core.links',
     'djangopress.accounts',
     'djangopress.pages',
 )

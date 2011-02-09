@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+    {% if page.meta_page_title %}
+        {{ page.meta_page_title }}
+    {% else %}
+        {{ page.title }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    {% include "pages/editor/details-form.html" %}
+{% endblock %}

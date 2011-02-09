@@ -1,0 +1,7 @@
+<span class="edit-block">
+	{% if identifier %}
+	    <a href="{% url page-edit-ident identifier=name page=page.id %}" onclick="editContentByIdent(event, '{{ name|escapejs }}', {{ page.id }});">Edit this block</a>
+	{% else %}
+	    <a href="{% url page-edit name=name page=page.id %}" onclick="editContentByName(event, '{{ name|escapejs }}', {{ page.id }});">Edit this block</a>
+	{% endif %}
+</span>

@@ -19,14 +19,14 @@ class UserProfile(models.Model):
 
     """
     title = models.CharField(max_length=100, default="New member")
-    homepage = models.CharField(max_length=100, blank=True)
+    homepage = models.CharField(max_length=100, blank=True, null=True)
     #IM contact (jabber, icq, msn, aim, yahoo, gtalk, twitter, facebook)
-    location = models.CharField(max_length=50, blank=True)
-    avatar = models.ImageField(blank=True,
+    location = models.CharField(max_length=50, blank=True, null=True)
+    avatar = models.ImageField(blank=True, null=True,
             upload_to=os.path.join(settings.MEDIA_UPLOAD, "avatars"))
-    signature = models.TextField(blank=True)
-    timezone = models.CharField(max_length=20, blank=True)
-    language = models.CharField(max_length=20, blank=True)
+    signature = models.TextField(blank=True, null=True)
+    timezone = models.CharField(max_length=20, null=True, blank=True)
+    language = models.CharField(max_length=20, null=True, blank=True)
     registration_ip = models.IPAddressField(blank=True, null=True)
     last_ip_used = models.IPAddressField(blank=True, null=True)
     admin_note = models.TextField(blank=True, null=True)

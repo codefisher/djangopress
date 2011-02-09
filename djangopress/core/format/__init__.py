@@ -7,6 +7,8 @@ from django.utils.html import urlize, escape, fix_ampersands
 from djangopress.core.format.smilies import add_smilies
 from djangopress.core.format.bbcode import bbcode
 from djangopress.core.format.sanitized_html import sanitized_html
+from djangopress.core.format.magic_html import magic_html
+from django.utils.encoding import smart_str, force_unicode
 
 class Library(object):
     formats = {}
@@ -42,45 +44,23 @@ class Library(object):
         raise ValueError("format %s not supported" % name)
 
 def format_plaintext(text, nofollow=True, trim_url_limit=None, smilies=True, *args, **kargs):
-    return mark_safe('''<pre class="plain_text">%s</pre>'''
+    return mark_safe(force_unicode('''<pre class="plain_text">%s</pre>'''
             % add_smilies(urlize(escape(text), nofollow=nofollow,
-                trim_url_limit=trim_url_limit)), smilies=smilies)
+                trim_url_limit=trim_url_limit)), smilies=smilies,
+                encoding='utf-8'))
 
 def format_html(text, nofollow=True, trim_url_limit=None, smilies=True, *args, **kargs):
-    return mark_safe(fix_ampersands(add_smilies(urlize(text,
-            nofollow=nofollow, trim_url_limit=trim_url_limit), smilies=smilies)))
+    return mark_safe(force_unicode(fix_ampersands(add_smilies(urlize(text,
+            nofollow=nofollow, trim_url_limit=trim_url_limit), smilies=smilies)),
+            encoding='utf-8'))
 
 def format_template(text, context=None, *args, **kargs):
     t = Template(text)
     if context == None:
         context = Context()
-    return mark_safe(t.render(context))
-
-def format_markdown(text, *args, **kargs):
-    return markdown(text)
-
-def format_restructuredtext(text, *args, **kargs):
-    return restructuredtext(text)
-
-def format_textile(text, *args, **kargs):
-    return textile(text)
+    return mark_safe(force_unicode(t.render(context), encoding='utf-8'))
 
 FORMATS = {
-    "markdown": {
-        "function": format_markdown,
-        "safe": True,
-        "verbose_name": "Markdown",
-    },
-    "restructuredtext": {
-        "function": format_restructuredtext,
-        "safe": True,
-        "verbose_name": "reStructuredText",
-    },
-    "textile": {
-        "function": format_textile,
-        "safe": True,
-        "verbose_name": "Textile",
-    },
     "plain_text": {
         "function": format_plaintext,
         "safe": True,
@@ -106,6 +86,11 @@ FORMATS = {
         "safe": True,
         "verbose_name": "Sanitized HTML",
     },
+    "magic_html": {
+        "function": magic_html,
+        "safe": False,
+        "verbose_name": "Magic HTML",
+    },
 }
 for name, value in FORMATS.iteritems():
     Library.add(name, **value)
@@ -115,7 +100,34 @@ try:
     from creole.html_emitter import HtmlEmitter
     def format_wiki(text, *args, **kargs):
         document = Parser(text).parse()
-        return mark_safe(HtmlEmitter(document).emit())
+        return mark_safe(force_unicode(HtmlEmitter(document).emit(),
+                 encoding='utf-8', output='utf-8'))
     Library.add("wiki", format_wiki, True, "Wiki")
+except ImportError:
+    pass
+
+try:
+    # added to make it fail if not installed, but we still use the
+    # the Django function because it is easier
+    import textile
+    def format_textile(text, *args, **kargs):
+        return textile(text)
+    Library.add("textile", format_textile, True, "Textile")
+except ImportError:
+    pass
+
+try:
+    import markdown
+    def format_markdown(text, *args, **kargs):
+        return markdown(text)
+    Library.add("markdown", format_markdown, True, "Markdown")
+except ImportError:
+    pass
+
+try:
+    from docutils.core import publish_parts
+    def format_restructuredtext(text, *args, **kargs):
+        return restructuredtext(text)
+    Library.add("restructuredtext", format_restructuredtext, True, "reStructuredText")
 except ImportError:
     pass
