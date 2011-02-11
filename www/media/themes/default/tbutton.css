@@ -3,3 +3,34 @@
     float:left;
     list-style-type:none;
 }
+
+.button-info img {
+    float:left;
+    padding:0 4px;
+}
+
+.button-info {
+    display:none;
+    position:absolute;
+    z-index:10;
+    left:50%;
+    width:100%;
+
+    border:1px solid #000;
+    background:rgba(0,0,0, 0.8);
+    -moz-border-radius:6px;
+    border-radius:6px;
+    color:#fff;
+}
+
+.button-info p {
+    margin:0 0.25em;
+}
+
+.button-item {
+    position:relative;
+}
+
+.button-item:hover .button-info {
+    display:block;
+}
