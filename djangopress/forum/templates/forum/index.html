@@ -1,0 +1,37 @@
+{% extends "forum/base.html" %}
+
+{% block content %}
+    <div>
+      <h2>{{ forums.name }}</h2>
+      {% if forums.tagline %}<p>{{ forums.tagline}}</p>{% endif %}
+    </div>
+    <div id="bread-crumbs">{% block breadcrumbs %}{% endblock %}</div>
+    <div>
+        
+       {% for category in categories %}
+        <div class="category">{{ category.name }}
+        <table>
+        {% for forum in category.forum.all %}
+            <tr><td><a href="{{ forum.get_absolute_url }}">{{ forum.name }}</a> 
+                <p>{{ forum.description }}</p>
+                </td><td>{{ forum.topics }} topics <br /> {{ forum.posts }} posts</td>
+                <td>{% if forum.last_post %}<a href="{{ forum.last_post.get_absolute_url }}">{{ forum.last_post.thread.subject }}</a> 
+                     <br />{{ forum.last_post.posted }} {% endif %}</td></tr>
+        {% endfor %}
+        </table>
+        </div>
+       {% endfor %}
+
+    </div>
+{% endblock %}
+
+{% block second_footer_box %}
+       <h3>Forum Stats</h3>
+       <ul>
+           <li>Total Posts </li>
+           <li>Total Memebers</li>
+           <li>Newest Member</li>
+           <li>Most Unline</li>
+       </ul>
+       Curently Online: members, guests, anaonomous user
+{% endblock %}
