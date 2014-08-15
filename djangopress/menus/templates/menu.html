@@ -1,5 +1,7 @@
-<ul id="{{ menu.name }}">
+<ul{% if menu.class_name %} class="{{ menu.class_name }}"{% endif %} id="{{ menu.name }}">
     {% for item, sub, tag in menu_items %}
-        <li{% if tag %} class="{{ tag|join:" " }}"{% endif %}><a href="{{ item.link.get_absolute_url }}">{{ item.link.label }}</a></li>
+        <li{% if tag %} class="{{ tag|join:" " }}"{% endif %}>
+            <a href="{{ item.link.get_absolute_url }}">{{ item.link.label }}</a>
+            {{ sub }}</li>
     {% endfor %}
 </ul>

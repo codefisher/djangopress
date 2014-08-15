@@ -35,15 +35,16 @@ class MenuDisplayNode(template.Node):
             tags.append(item_tags)
         return tags
 
-    def render(self, context, menu=None):
+    def render(self, context, menu=None, level=1):
         if menu is None:
             menu = Menu.objects.get(name=self._menu)
         items = MenuItem.objects.select_related('link', 'child').filter(parent_menu=menu)
         tags = self._sort_tags(context, items)
-        menu_items = [(item, self.render(context, item.child) if item.has_child else '', tag)
+        menu_items = [(item, self.render(context, Menu.objects.get(parent_item=item), level=level+1) if item.has_child else '', tag)
                 for item, tag in zip(items, tags)]
         menu_items.sort()
         data = {
+            'level': level,
             'menu': menu,
             'menu_items': menu_items,
         }
@@ -55,7 +56,7 @@ def do_menu_display(parser, token):
     if len(args) == 2:
         return MenuDisplayNode(args[1])
     elif len(args) == 3:
-        return MenuDisplayNode(args[1], args[2][1:-1])
+        return MenuDisplayNode(args[1], args[2].strip('"'))
     else:
         raise template.TemplateSyntaxError, "%s expects 1 or 2 arguments" % args[0]
 

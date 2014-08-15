@@ -3,7 +3,8 @@ from djangopress.core.links.models import Link
 
 class Menu(models.Model):
     parent_item = models.ForeignKey('MenuItem', null=True, blank=True, related_name="child")
-    name = models.CharField(max_length=30, primary_key=True)
+    name = models.CharField(max_length=30, db_index=True)
+    class_name = models.CharField(max_length=30, null=True, blank=True)
 
     def save(self):
         if self.parent_item:
@@ -25,7 +26,7 @@ class MenuItem(models.Model):
     link = models.ForeignKey(Link)
     tag = models.CharField(max_length=50, null=True, blank=True)
     index = models.IntegerField()
-    has_child = models.BooleanField(default=False)
+    has_child = models.BooleanField(default=False, editable=False)
 
     def __str__(self):
         return self.link.label()
