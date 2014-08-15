@@ -7,7 +7,7 @@ from django.core.validators import URLValidator
 from django.contrib.sites.models import Site
 from django.core.exceptions import ValidationError
 
-def render(string, data):
+def render(string, data, **kwargs):
     return Template(string).render(Context(data))
 
 tag_name_re = re.compile('([^\w\*\-#])')
@@ -33,23 +33,18 @@ def tag_arguments(contents):
 
 class Library(object):
 
-    def __init__(self):
-        self.tags = {}
-        self.libs = []
+    tags = {}
 
-    def get(self, name):
-        for lib in self.libs:
-            tag = lib.get(name)
-            if tag:
-                return tag
-        return self.tags[name]
+    @classmethod
+    def get(cls, name):
+        tag = cls.tags.get(name)
+        if tag:
+            return tag
+        elif cls != Library:
+            return Library.get(name)
+        raise KeyError
 
-    def push(self, lib):
-        self.libs.insert(0, lib)
-
-    def pop(self):
-        self.libs.pop(0)
-
+    @classmethod
     def tag(self, name=None, compile_func=None):
         if compile_func:
             self.tags[name] = compile_func
@@ -61,6 +56,7 @@ class Library(object):
                     self.tags[compile_func.__name__] = compile_func
             return _tag
 
+    @classmethod
     def simple_tag(self, tag_name, node_name=None, can_contain_self=False, stop_at=None):
         """
         tag_name - name of the code tag
@@ -79,11 +75,13 @@ class Library(object):
             return SimpleTagNode(token, node_name if node_name else tag_name, nodelist)
         self.tag(tag_name, func)
 
+    @classmethod
     def unclosed_tag(self, tag_name, node_name=None):
         def func(parser, token):
             return UnclosedTagNode(token, node_name if node_name else tag_name)
         self.tag(tag_name, func)
 
+    @classmethod
     def comment_tag(self, tag_name):
         def func(parser, token):
             nodelist = parser.parse(('/%s' % tag_name,))
@@ -91,6 +89,7 @@ class Library(object):
             return CommentNode(token, tag_name, nodelist)
         self.tag(tag_name, func)
 
+    @classmethod
     def argumented_tag(self, tag_name, string, can_contain_self=False, stop_at=None):
         if stop_at == None:
             stop_at = ()
@@ -106,6 +105,7 @@ class Library(object):
             return ArgumentedNode(token, string, arg, kargs, nodelist)
         self.tag(tag_name, func)
 
+    @classmethod
     def attr_tag(self, tag_name, node_name=None, arg_name=None, attrs=None, closes=True, can_contain_self=False, stop_at=None):
         if stop_at == None:
             stop_at = ()
@@ -125,6 +125,7 @@ class Library(object):
                     nodelist, arg_name, arg, attrs, kargs, closes)
         self.tag(tag_name, func)
 
+    @classmethod
     def link_tag(self, tag_name, link_arg, node_name=None, arg_name=None,
                  attrs=None, closes=True, content_attr=None):
         """
@@ -166,7 +167,7 @@ class Node(object):
     def __iter__(self):
         yield self
 
-    def render(self, content):
+    def render(self, content, **kwargs):
         pass
 
     def contents(self):
@@ -185,15 +186,15 @@ class Node(object):
 
 class TextNode(Node):
 
-    def render(self, context):
+    def render(self, context, **kwargs):
         return mark_safe(self.token.contents)
 
 class NodeList(list):
     def contents(self):
         return mark_safe(''.join(b.contents() for b in self))
 
-    def render(self, context):
-        return mark_safe(''.join(b.render(context) for b in self))
+    def render(self, context, **kwargs):
+        return mark_safe(''.join(b.render(context, **kwargs) for b in self))
 
     def get_nodes_by_type(self, nodetype):
         "Return a list of all nodes of the given type"
@@ -207,7 +208,7 @@ class TagNode(Node):
     def contents(self):
         return "%s%s%s" % (self.token.start, self.token.contents, self.token.end)
 
-    def render(self, context):
+    def render(self, context, **kwargs):
         return ""
 
     def safe_dict(self, dct):
@@ -222,7 +223,7 @@ class UnclosedTagNode(TagNode):
         super(UnclosedTagNode, self).__init__(token)
         self.name = name
 
-    def render(self, context):
+    def render(self, context, **kwargs):
         return "<%s />" % self.name
 
 class AttrNode(TagNode):
@@ -236,7 +237,7 @@ class AttrNode(TagNode):
         self.kargs = kargs
         self.closes = closes
 
-    def _render(self, context):
+    def _render(self, context, **kwargs):
         if self.attrs:
             args = dict((key, value) for key, value in self.kargs.iteritems() if key in self.attrs)
         else:
@@ -246,12 +247,12 @@ class AttrNode(TagNode):
         return {
             "attrs": self.safe_dict(args),
             "tag": self.node_name,
-            "content": self.nodelist.render(context) if self.nodelist else "",
+            "content": self.nodelist.render(context, **kwargs) if self.nodelist else "",
             "closes": self.closes
         }
 
-    def render(self, context):
-        data = self._render(context)
+    def render(self, context, **kwargs):
+        data = self._render(context, **kwargs)
         if type(data) == dict:
             return render('''<{{tag}}{% for attr, value in attrs.items %} {{attr}}="{{value}}"{% endfor %}{% if closes %}>{{ content }}</{{tag}}>{% else %} />{% endif %}''', data)
         return data
@@ -265,10 +266,10 @@ class LinkNode(AttrNode):
         super(LinkNode, self).__init__(token, node_name, nodelist, arg_name, arg, attrs, kargs, closes)
         self.link_arg = link_arg
 
-    def _render(self, context):
+    def _render(self, context, **kwargs):
         if not self.kargs.get(self.link_arg) and not self.arg:
             self.arg = self.nodelist.contents()
-        data = super(LinkNode, self)._render(context)
+        data = super(LinkNode, self)._render(context, **kwargs)
         link = data["attrs"].get(self.link_arg)
         if not link:
             return ""
@@ -296,12 +297,12 @@ class ArgumentedNode(TagNode):
         self.nodelist = nodelist
         self.string = string
 
-    def render(self, context):
+    def render(self, context, **kwargs):
         args = dict(self.kargs)
         args["arg"] = self.arg
         args = self.safe_dict(args)
 
-        args['content'] = self.nodelist.render(context)
+        args['content'] = self.nodelist.render(context, **kwargs)
         return render(self.string, args)
 
 class SimpleTagNode(TagNode):
@@ -310,16 +311,16 @@ class SimpleTagNode(TagNode):
         self.name = name
         self.nodelist = nodelist
 
-    def render(self, context):
+    def render(self, context, **kwargs):
         args = {
             "tag": self.name,
-            "contents": self.nodelist.render(context)
+            "contents": self.nodelist.render(context, **kwargs)
         }
         return "<%(tag)s>%(contents)s</%(tag)s>" % args
 
 class CommentNode(SimpleTagNode):
 
-    def render(self, context):
+    def render(self, context, **kwargs):
         return ""
 
     def contents(self, context):
@@ -332,10 +333,10 @@ class DefListNode(TagNode):
         self.items = items
         self.tag = tag
 
-    def render(self, context):
+    def render(self, context, **kwargs):
         data = {
             "tag": self.tag,
-            "items": "".join("<%s>%s</%s>" % (tag, item.render(context), tag)
+            "items": "".join("<%s>%s</%s>" % (tag, item.render(context, **kwargs), tag)
                             for tag, item in self.items),
         }
         return '<%(tag)s>%(items)s</%(tag)s>' % data
@@ -360,8 +361,8 @@ class TableNode(TagNode):
         super(TableNode, self).__init__(token)
         self.nodelist = nodelist
 
-    def render(self, context):
-        return "<table>%s</table>" % (self.nodelist.render(context))
+    def render(self, context, **kwargs):
+        return "<table>%s</table>" % (self.nodelist.render(context, **kwargs))
 
 def td_func(parser, token):
     lib = Library()

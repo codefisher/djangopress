@@ -5,41 +5,42 @@ from nodes import Library, TagNode, tag_arguments, def_list_func, table_func
 TAG_START = "&lt;"
 TAG_END = "&gt;"
 
-register = Library()
+class SanitizedLibrary(Library):
+    tags = {}
 
 # these are considered safe, and allowed in the output.  Note that all attributes
 # are ignored.
 for tag in ['address', 'big', 'blockquote', 'cite', 'code', 'del', 'dfn',
             'em', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'ins', 'kbd', 'p', 'pre',
             'q', 'samp', 'small', 'strong', 'sub', 'sup', 'tt', 'var']:
-    register.simple_tag(tag)
+    SanitizedLibrary.simple_tag(tag)
 for tag in ['div', 'span']:
-    register.simple_tag(tag, can_contain_self=True)
+    SanitizedLibrary.simple_tag(tag, can_contain_self=True)
 
 for tag in ['br', 'hr']:
-    register.unclosed_tag(tag)
+    SanitizedLibrary.unclosed_tag(tag)
 
 #these nodes are transformed into other equivalent nodes
 for tag, node in [('b', 'strong'), ('i', 'em'), ('strike', 'del'), ('s', 'del'), ]:
-    register.simple_tag(tag, node)
+    SanitizedLibrary.simple_tag(tag, node)
 
 #these tags are kept along with select attributes
 for tag, attrs in [('abbr', ('title',)), ('acronym', ('title',)), ('bdo', ('dir',))]:
-    register.attr_tag("abbr", attrs=attrs)
+    SanitizedLibrary.attr_tag("abbr", attrs=attrs)
 
 # these tags and their content are striped out
 for tag in ['applet', 'button', 'fieldset', 'form', 'frame', 'frameset',
             'head', 'object', 'select', 'style', 'script', 'video', 'audio']:
-    register.comment_tag(tag)
+    SanitizedLibrary.comment_tag(tag)
 
 #dl, ol, ul, table
 
-register.link_tag("img", link_arg='src',
+SanitizedLibrary.link_tag("img", link_arg='src',
         attrs=("src", "width", "height", "alt", "title"), closes=False)
-register.link_tag('a', link_arg='href', attrs=('title', 'href'))
+SanitizedLibrary.link_tag('a', link_arg='href', attrs=('title', 'href'))
 
-register.tag('dl', def_list_func)
-register.tag('table', table_func)
+SanitizedLibrary.tag('dl', def_list_func)
+SanitizedLibrary.tag('table', table_func)
 
 class ListNode(TagNode):
     def __init__(self, token, arg, items, tag):
@@ -48,10 +49,10 @@ class ListNode(TagNode):
         self.items = items
         self.tag = tag
 
-    def render(self, context):
+    def render(self, context, **kwargs):
         data = {
             "tag": self.tag,
-            "items": "".join("<li>%s</li>" % item.render(context)
+            "items": "".join("<li>%s</li>" % item.render(context, **kwargs)
                             for item in self.items),
         }
         return '<%(tag)s>%(items)s</%(tag)s>' % data
@@ -70,8 +71,8 @@ def list_func(parser, token):
     parser.delete_first_token()
     return ListNode(token, arg, items, tag)
 
-register.tag('ul', list_func)
-register.tag('ol', list_func)
+SanitizedLibrary.tag('ul', list_func)
+SanitizedLibrary.tag('ol', list_func)
 
 class HtmlLexer(Lexer):
     TAG_START = TAG_START
@@ -82,7 +83,7 @@ def sanitized_html(text, context=None, *args, **kargs):
     text = encode_html(text)
     lex = HtmlLexer(text)
     parse = Parser(lex.tokenize())
-    parse.add_library(register)
+    parse.tags = SanitizedLibrary
     return parse.parse().render(context)
 
 if __name__ == "__main__":

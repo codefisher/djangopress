@@ -137,11 +137,5 @@ class Parser(object):
     def prepend_token(self, token):
         self.tokens.insert(0, token)
 
-    def add_library(self, lib):
-        self.tags.push(lib)
-
-    def pop_library(self):
-        self.tags.pop()
-
 def encode_html(text):
     return text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
