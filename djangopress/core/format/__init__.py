@@ -1,13 +1,12 @@
-
 from django.template import Template, Context
-from django.contrib.markup.templatetags.markup import markdown, restructuredtext, textile
+#from django.contrib.markup.templatetags.markup import markdown, restructuredtext, textile
 
 from django.utils.safestring import mark_safe
 from django.utils.html import urlize, escape, fix_ampersands
 from djangopress.core.format.smilies import add_smilies
 from djangopress.core.format.bbcode import bbcode
 from djangopress.core.format.sanitized_html import sanitized_html
-from djangopress.core.format.magic_html import magic_html
+from djangopress.core.format import magic_html as magic_html_mod
 from django.utils.encoding import smart_str, force_unicode
 
 class Library(object):
@@ -87,7 +86,7 @@ FORMATS = {
         "verbose_name": "Sanitized HTML",
     },
     "magic_html": {
-        "function": magic_html,
+        "function": magic_html_mod.magic_html,
         "safe": False,
         "verbose_name": "Magic HTML",
     },
@@ -116,6 +115,7 @@ try:
 except ImportError:
     pass
 
+"""
 try:
     import markdown
     def format_markdown(text, *args, **kargs):
@@ -131,3 +131,4 @@ try:
     Library.add("restructuredtext", format_restructuredtext, True, "reStructuredText")
 except ImportError:
     pass
+"""
