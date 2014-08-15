@@ -54,6 +54,11 @@ class Blog(models.Model):
 
     def __str__(self):
         return self.name
+    
+    def save(self):
+        if self.slug == "":
+            self.slug = None
+        super(Blog, self).save()
 
     def get_absolute_url(self):
         kwargs = {}
@@ -129,6 +134,3 @@ class EntryLink(Link):
 
     def get_absolute_url(self):
         return self.entry.get_absolute_url()
-
-from django.contrib import databrowse
-databrowse.site.register(Entry)
