@@ -11,5 +11,6 @@ class StaticLinkForm(forms.ModelForm):
 
 class StaticLinkAdmin(admin.ModelAdmin):
     form = StaticLinkForm
+    list_display = ('label_text', 'location')
 
 admin.site.register(StaticLink, StaticLinkAdmin)
