@@ -5,7 +5,7 @@
     <p>
        The account could not be validated, either the validation link was incorrect or the validation period has expired.
     </p>
-    <form method="post" action="{% url accounts-reactivate user=params.user %}">
+    <form method="post" action="{% url 'accounts-reactivate' user=params.user %}">
         {% csrf_token %}
         <input type="submit" value="Resend Validation Email">
     </form>

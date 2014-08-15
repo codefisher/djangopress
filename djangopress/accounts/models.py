@@ -2,19 +2,15 @@ import random
 import os
 import datetime
 import time
+import hashlib
 
 from django.db import models
 from django.conf import settings
-from django.contrib.auth.models import get_hexdigest, User
+from django.contrib.auth.models import User
 from django.db.models.signals import post_save
-
-
 from djangopress.core.models import Property
 
-# Create your models here.
-
 class UserProfile(models.Model):
-    pass
     """
 
     """
@@ -38,11 +34,10 @@ class UserProfile(models.Model):
     properties = models.ManyToManyField(Property, null=True)
 
     def set_activate_key(self):
-        algo = 'sha1'
-        salt = get_hexdigest(algo, str(random.random()), str(random.random()))[:5]
+        salt = hashlib.sha1(str(random.random()) + str(random.random())).hexdigest()[:5]
         key = "".join(str(item) for item in (self.user.username,
                 self.user.email, datetime.datetime.now()))
-        hsh = get_hexdigest(algo, salt, key)
+        hsh = hashlib.sha1(salt + key).hexdigest()
         self.activate_key = hsh
         self.activate_key_expirary = datetime.datetime.fromtimestamp(time.time() + (7 * 24 * 60 * 60))
 
