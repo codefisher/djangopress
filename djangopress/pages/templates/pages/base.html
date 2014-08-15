@@ -12,7 +12,7 @@
     {% endif %}
     {% if show_toolbar %}
         <link type="text/css" rel="stylesheet" href="{% media_url %}themes/default/style.page-edit.css">
-        <script type="text/javascript" src="{% url page-edit-js %}"></script>
+        <script type="text/javascript" src="{% url 'page-edit-js' %}"></script>
     {% endif %}
 {% endblock %}
 
@@ -24,7 +24,7 @@
             {% else %}
                 <a class="edit" href="?edit_cms_page">Edit Page Contents</a>
             {% endif %}
-            <a class="page" href="{% url page-edit-details page=page.id %}" onclick="return editPage(event, {{ page.id }});">Edit page details</a>
+            <a class="page" href="{% url 'page-edit-details' page=page.id %}" onclick="return editPage(event, {{ page.id }});">Edit page details</a>
         </div>
     {% endif %}
 {% endblock %}

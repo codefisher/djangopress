@@ -1,7 +1,6 @@
 from django.db import models
-from django.template import Template
 from django import forms
-from djangopress.core.format import Library as FormatLibrary
+from djangopress.core import format
 
 class PageBlockMeta(models.base.ModelBase):
     def __init__(mcs, name, bases, new_attrs):
@@ -13,9 +12,9 @@ class PageBlockMeta(models.base.ModelBase):
 
 class PageBlock(models.Model):
     class_name = models.CharField(max_length=50, editable=False, db_index=True)
-    block_name = models.CharField(max_length=50, db_index=True)
+    block_name = models.CharField(max_length=50, db_index=True, editable=False)
     position = models.IntegerField(blank=True, null=True)
-    block_id = models.CharField(blank=True, null=True, max_length=50, db_index=True,
+    block_id = models.CharField(blank=True, null=True, max_length=50, db_index=True, editable=True,
             help_text="Name used to refer to the block in templates", verbose_name="Id")
     name = "Page Block"
     template = None
@@ -53,18 +52,15 @@ class PageBlock(models.Model):
 
 class TextBlock(PageBlock):
     name = "Text"
-    data = models.TextField(blank=True)
-    format = models.CharField(max_length=30, choices=FormatLibrary.choices(False))
-
+    data = models.TextField(blank=True, verbose_name="Content")
+    format = models.CharField(max_length=30, choices=format.Library.choices(False))
     def content(self, context):
-        return FormatLibrary.format(self.format, self.data, False, context=context)
+        return format.Library.format(self.format, self.data, False, context=context)
 
 class TextForm(forms.ModelForm):
     template = None
-
     class Meta:
+        fields = ("format", "data")
         model = TextBlock
-        widgets = {
-            'block_name': forms.HiddenInput()
-        }
+
 TextBlock.form = TextForm

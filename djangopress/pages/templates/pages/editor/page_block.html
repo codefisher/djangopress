@@ -1,7 +1,13 @@
-<span class="edit-block">
-	{% if identifier %}
-	    <a href="{% url page-edit-ident identifier=name page=page.id %}" onclick="editContentByIdent(event, '{{ name|escapejs }}', {{ page.id }});">Edit this block</a>
-	{% else %}
-	    <a href="{% url page-edit name=name page=page.id %}" onclick="editContentByName(event, '{{ name|escapejs }}', {{ page.id }});">Edit this block</a>
-	{% endif %}
-</span>
+<div class="edit-block">
+    <div class="edit-links">
+		{% if identifier %}
+		<a href="{% url 'page-edit-ident' identifier=name page=page.id %}" onclick="editContentByIdent(event, '{{ name|escapejs }}', {{ page.id }});">Edit this section</a>
+		{% else %}
+		<a href="{% url 'page-edit' name=name page=page.id %}" onclick="editContentByName(event, '{{ name|escapejs }}', {{ page.id }});">Edit this section</a>
+		{% endif %}
+	</div>
+	<div class="edit-content">
+	{{ content|safe }}
+		<div class="clear"></div>
+	</div>
+</div>

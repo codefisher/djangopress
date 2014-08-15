@@ -30,19 +30,20 @@ class PlaceholderNode(template.Node):
             blocks = PageBlock.objects.filter(block_id=self._name)
         else:
             blocks = page.blocks.filter(block_name=self._name)
+        content = "\n".join(block.content(context) for block in blocks)
+        if not content and self.nodelist:
+            content = self.nodelist.render(context)
         if (context.get('enable_page_edit') and user
                 and user.has_perm('pages.change_page')):
             data = {
                 "blocks": blocks,
                 "page": page,
                 "name": self._name,
+                "content": content,
                 "identifier": self._identifier,
             }
             return render_to_string("pages/editor/page_block.html", data, context_instance=context)
         else:
-            output = "\n".join(block.content(context) for block in blocks)
-            if not output and self.nodelist:
-                output = self.nodelist.render(context)
-            return output
+            return content
 
 register.tag('placeholder', do_placeholder)

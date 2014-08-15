@@ -18,7 +18,7 @@ function displayPane(event, data) {
 		$('#page-edit-pane').detach();
 	}
 	$.ajax({
-	      url: '{% url page-edit-ajax %}',
+	      url: '{% url 'page-edit-ajax' %}',
 	      type: "GET",
 	      data: data,
 	      dataType: "html",
@@ -27,6 +27,7 @@ function displayPane(event, data) {
 	         pageDetailsOpen = true;
 	         var height = $('#page-edit-pane').height();
 	         $('html').css("minHeight", (height + 200) + "px");
+	         document.getElementsByTagName("html")[0].scrollTop = 0;
 	      }
 	   }
 	)

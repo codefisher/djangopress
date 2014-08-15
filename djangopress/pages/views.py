@@ -49,13 +49,12 @@ def page_edit(request, identifier=None, name=None, page=None,
         new_block = new_block_form(request.POST, prefix=name)
         if new_block.is_valid() and new_block.cleaned_data.get('content_type'):
             content_type = new_block.cleaned_data.get('content_type')
-            block = PageBlock.sub_classes[content_type](block_name=name, position=blocks.count()+1)
+            block = PageBlock.sub_classes[content_type](block_name=name, block_id=identifier, position=blocks.count()+1)
             block.save()
             page.blocks.add(block)
             blocks = get_blocks(page, identifier, name)
             forms = get_forms(blocks, name)
         else:
-            print "stuff"
             for block in blocks:
                 block = block.get_child()
                 prefix = "%s-%s" % (block.pk, name)

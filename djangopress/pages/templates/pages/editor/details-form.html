@@ -1,5 +1,5 @@
 {% load field_form %}
-<form action="{% url page-edit-details page=page.id %}" method="POST" class="field-form">
+<form action="{% url 'page-edit-details' page=page.id %}" method="POST" class="field-form">
     {% field_form form '' '' %}
     <fieldset>
         <legend>Submit</legend>

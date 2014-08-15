@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import patterns, url, include
 
 urlpatterns = patterns('djangopress.pages.views',
     url(r'^edit/(?P<page>\d+)/(?P<name>[\w\-]+)/$', 'page_edit', name='page-edit'),

@@ -36,6 +36,9 @@ class PageAdmin(admin.ModelAdmin):
         }),
     )
 
+class TextBlockAdmin(admin.ModelAdmin):
+
+    list_display = ('block_name', 'position', 'block_id')
 
 admin.site.register(Page, PageAdmin)
-admin.site.register(TextBlock)
+admin.site.register(TextBlock, TextBlockAdmin)
