@@ -88,6 +88,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
 )
 
 ROOT_URLCONF = 'djangopress.urls'
@@ -107,8 +108,9 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
-    'django.contrib.markup',
+    #'django.contrib.markup',
     'django.contrib.sitemaps',
+    'django.contrib.redirects',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
@@ -127,6 +129,7 @@ INSTALLED_APPS = (
     'djangopress.core',
     'djangopress.accounts',
     'djangopress.pages',
+    'djangopress.forum',
 )
 
 try:
@@ -143,12 +146,14 @@ else:
     INSTALLED_APPS += ('haystack', )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.core.context_processors.auth",
+    "django.contrib.auth.context_processors.auth",
     "django.core.context_processors.debug",
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
     "django.core.context_processors.request",
+    "django.contrib.messages.context_processors.messages"
 )
+
 
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 

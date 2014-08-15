@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import patterns, url, include
 from django.conf import settings
 from djangopress.sitemap import sitemap_patterns
 from django.core.exceptions import ImproperlyConfigured
@@ -22,19 +22,24 @@ urlpatterns = patterns('',
 
     # the blog system
     (r'^(?:(?P<blog>[\w\-]+)/)?news/', include('djangopress.blog.urls')),
-
+    
+    # the forum system
+    (r'^(?:(?P<forums>[\w\-]+)/)?forum/', include('djangopress.forum.urls')),
+    
     # the user accounts system
     (r'^accounts/', include('djangopress.accounts.urls')),
 
     # the cms pages editing tools etc/
     (r'^pages/', include('djangopress.pages.urls')),
-)
 
+    (r'^download/', include('codefisher_apps.downloads.urls')),
+)
+""" needs to be updated for 1.6 
 urlpatterns += patterns('django.views.generic.simple',
     # we don't like the default location for the user page
     ('^user/(?P<username>.+)/$', 'redirect_to', {'url': '/accounts/users/%(username)s/'}),
 )
-
+"""
 try:
     try:
         import haystack
@@ -76,4 +81,5 @@ except ImportError:
 if settings.DEBUG:
     urlpatterns += patterns('',
         (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
+            (r'^admin/admin/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/usr/share/pyshared/django/contrib/admin/static/admin/'}),
     )
