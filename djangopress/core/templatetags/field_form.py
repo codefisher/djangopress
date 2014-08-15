@@ -1,4 +1,5 @@
 from django.forms import fields
+from django import forms
 
 from django import template
 register = template.Library()
@@ -12,6 +13,10 @@ def form(form):
 @register.filter(name='is_checkbox')
 def is_checkbox(value):
     return isinstance(value, fields.CheckboxInput)
+
+@register.filter(name='is_textarea')
+def is_textarea(value):
+    return isinstance(value, forms.Textarea)
 
 @register.inclusion_tag('core/field_form.html')
 def field_form(form, action=None, full=True):
