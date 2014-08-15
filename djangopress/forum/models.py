@@ -4,8 +4,6 @@ from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
 from djangopress.core.models import Property
 
-# Create your models here.
-
 class Forums(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(blank=True, null=True, unique=True)
@@ -16,6 +14,15 @@ class Forums(models.Model):
     format = models.CharField(max_length=20)
 
     properties = models.ManyToManyField(Property, blank=True, null=True)
+    
+    def __str__(self):
+        return str(self.name)
+    
+    def save(self):
+        if self.slug == "":
+            self.slug = None
+        super(Forums, self).save()
+    
 
 class ForumCategories(models.Model):
     """
@@ -24,6 +31,9 @@ class ForumCategories(models.Model):
     name = models.CharField(max_length=100, unique=True)
     position = models.IntegerField(default=1)
     forums = models.ForeignKey(Forums, related_name="category")
+    
+    def __str__(self):
+        return str(self.name)
 
 class Forum(models.Model):
     """
@@ -34,13 +44,20 @@ class Forum(models.Model):
     #redirect_url
     topics = models.IntegerField(default=0)
     posts = models.IntegerField(default=0)
-    last_post = models.ForeignKey('Post')
+    last_post = models.ForeignKey('Post', null=True, blank=True)
     position = models.IntegerField(default=1)
-    parent_forum = models.ForeignKey('self', null=True, related_name="children")
+    category = models.ForeignKey('ForumCategories', null=True, blank=True, related_name="forum")
+    parent_forum = models.ForeignKey('self', null=True, blank=True, related_name="children")
     password = models.CharField(max_length=50, null=True, blank=True)
 
-    subscriptions = models.OneToOneField(User, related_name='forum_forum_subscriptions')
+    subscriptions = models.OneToOneField(User, null=True, blank=True, related_name='forum_forum_subscriptions')
 
+    def __str__(self):
+        return str(self.name)
+    
+    @models.permalink
+    def get_absolute_url(self):
+        return ('djangopress.forum.views.view_forum', [str(self.id)])
 
 class Post(models.Model):
     author = models.ForeignKey(User, related_name="forum_posts", blank=True,  null=True)
@@ -51,7 +68,7 @@ class Post(models.Model):
 
     ip = models.IPAddressField()
     message = models.TextField()
-    thread = models.ForeignKey('Thread', relatedName="posts")
+    thread = models.ForeignKey('Thread', related_name="posts")
     format = models.CharField(max_length=20)
 
     show_similies = models.BooleanField(default=True)
@@ -76,20 +93,23 @@ class Thread(models.Model):
     poster = models.ForeignKey(User, blank=True, null=True)
     subject = models.CharField(max_length=255)
     posted = models.DateField(default=datetime.datetime.now)
-    first_post = models.ForeignKey(Post, blank=True)
-    last_post = models.ForeignKey(Post, blank=True)
+    first_post = models.ForeignKey(Post, blank=True, related_name='thread_first')
+    last_post = models.ForeignKey(Post, blank=True, related_name='thread_last')
     num_views = models.IntegerField(default=0)
     num_posts = models.IntegerField(default=0)
     closed = models.BooleanField(default=False)
     sticky = models.BooleanField(default=False)
     moved_to = models.ForeignKey('Thread', blank=True)
     forum = models.ForeignKey(Forum)
+    
+    def __str__(self):
+        return str(self.subject)
 
 class Rank(models.Model):
     """
     The titles the user gets as they make more posts
     """
-    name = models.CharField()
+    name = models.CharField(max_length=50)
     min_posts = models.IntegerField()
 
 class Reports(models.Model):
@@ -126,26 +146,30 @@ class ForumUser(models.Model):
     user = models.OneToOneField(User, related_name='forum_profile')
     num_topics = models.IntegerField(default=0)
     num_posts = models.IntegerField(default=0)
+    
+    sig = models.TextField(default="")
 
-    email_settings = models.CharField(choices=EMAIL_SETTINGS, default='HI')
-    notify = models.CharField()
+    email_settings = models.CharField(choices=EMAIL_SETTINGS, default='HI', max_length=2)
+    notify = models.CharField(choices=NOFITY, default='AL', max_length=2)
 
     show_simlies = models.BooleanField(default=True)
-    img = models.BooleanField(default=True)
-    avatars = models.BooleanField(default=True)
-    sig = models.BooleanField(default=True)
+    show_img = models.BooleanField(default=True)
+    show_avatars = models.BooleanField(default=True)
+    show_sig = models.BooleanField(default=True)
 
 class Attachment(models.Model):
     post = models.ForeignKey('Post', related_name="attachments")
     thread = models.ForeignKey('Thread', related_name="attachments")
 
     poster = models.ForeignKey(User, related_name="forum_attachments")
-    #location_file_name
-    #display_file_name
-    #download_count
-    #comment
+    download_count = models.IntegerField(default=0)
+    comment = models.TextField()
+    attachment = models.FileField(upload_to='forum/upload/%Y/%m/%d/')
+
     #extension
     #mimetype
     #filesize
     #filetime
     #thumbnail = FilePathField
+    #location_file_name
+    #display_file_name
