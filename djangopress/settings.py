@@ -86,7 +86,7 @@ MIDDLEWARE_CLASSES = (
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'djangopress.pages.middleware.PagesMiddleware',
-    'codefisher_apps.middleware.PagesMiddleware'
+    'codefisher_apps.middleware.PagesMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
