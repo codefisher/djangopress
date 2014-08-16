@@ -1,7 +1,39 @@
-.edit-block {
+.edit-links a {
+	color:#fff;
+	padding:1em;
+	margin:1em;
+	display:block;
+	background:#000;
+	-moz-border-radius:6px;
+    border-radius:6px;
+    -moz-outline-radius:6px;
+    outline-radius:6px;
+    outline: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+.edit-links {
     text-align:center;
     padding:1em;
     font-size:1.25em;
+    position:absolute;
+    top:-0.5em;
+    left:-0.5em;
+    right:-0.5em;
+    bottom:-0.5em;
+    min-height:5em;
+    padding:1em;
+    background:rgba(0, 0, 0, 0.9);
+    -moz-border-radius:6px;
+    border-radius:6px;
+    -moz-outline-radius:6px;
+    outline-radius:6px;
+    outline: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.6);
+}
+
+.edit-block {
+    position:relative;
 }
 
 #page-edit-pane {

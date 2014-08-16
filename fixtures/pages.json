@@ -1,188 +1,271 @@
 [
-  {
-    "pk": 9,
-    "model": "pages.pageblock",
-    "fields": {
-      "class_name": "TextBlock",
-      "block_name": "content",
-      "block_id": "",
-      "position": 1
-    }
-  },
-  {
-    "pk": 10,
-    "model": "pages.pageblock",
-    "fields": {
-      "class_name": "TextBlock",
-      "block_name": "sidebar",
-      "block_id": "site-news",
-      "position": 1
-    }
-  },
-  {
-    "pk": 11,
-    "model": "pages.pageblock",
-    "fields": {
-      "class_name": "TextBlock",
-      "block_name": "cell-one",
-      "block_id": "",
-      "position": 1
-    }
-  },
-  {
-    "pk": 12,
-    "model": "pages.pageblock",
-    "fields": {
-      "class_name": "TextBlock",
-      "block_name": "cell-two",
-      "block_id": "",
-      "position": 1
-    }
-  },
-  {
-    "pk": 13,
-    "model": "pages.pageblock",
-    "fields": {
-      "class_name": "TextBlock",
-      "block_name": "cell-three",
-      "block_id": "",
-      "position": 1
-    }
-  },
-  {
-    "pk": 14,
-    "model": "pages.pageblock",
-    "fields": {
-      "class_name": "TextBlock",
-      "block_name": "cell-four",
-      "block_id": "",
-      "position": 1
-    }
-  },
-  {
-    "pk": 15,
-    "model": "pages.pageblock",
-    "fields": {
-      "class_name": "TextBlock",
-      "block_name": "footer-about",
-      "block_id": "footer-about",
-      "position": 1
-    }
-  },
-  {
-    "pk": 9,
-    "model": "pages.textblock",
-    "fields": {
-      "data": "<h2>General</h2>\r\n\r\n<p>\r\n Nothing on this site comes with any guarantee, you use it as your own risk. I take no responsibility for how anything works or it being suitable for any use.\r\n</p>\r\n\r\n<h2>Extensions</h2>\r\n\r\n<p>\r\nThe remainder of this document applies to the following extensions:\r\n</p>\r\n<ul>\r\n <li><a href=\"/toolbar_button/\">Toolbar Buttons</a> and any <a href=\"/download/single_buttons/\">single</a> or <a href=\"/toolbar_button/toolbar_button_maker\">custom button</a> based on it</li>\r\n <li><a href=\"/toolbar_button/link-button-maker\">Custom Link Toolbar Buttons</a></li>\r\n <li><a href=\"/format_toolbar/\">The Text Formatting Toolbar</a></li>\r\n <li><a href=\"/minimizetotray/\">MinimizeToTray Plus &amp; MinimizeToTray Enhancer</a></li>\r\n <li><a href=\"/adsense/\">AdSense Earnings</a></li>\r\n <li><a href=\"/codefisher/\">Codefisher</a> (the text editor after which the site is named)</li>\r\n <li><a href=\"/projects/fright\">Fright</a></li>\r\n <li><a href=\"/projects/version_compare\">Version Compare</a></li>\r\n <li><a href=\"/projects/new_toolbar\">TB Custom Toolbar</a></li>\r\n <li><a href=\"/projects/send-page\">Send Page via Email</a></li>\r\n <li><a href=\"/projects/xrl.in\">Xrl.In Tiny Links</a></li>\r\n</ul>\r\n\r\n<p>\r\n The above list of extensions are released under the GNU General Public License, version 2.  Credit for the use of any of the original code written by me is requested.  It is also requested that you don't distribute any of these extensions as is and unmodified on another site, please provide a link to their home pages so the user may get the latest version.  If you do make modification to the extension please report the back to me so that any improvements maybe pushed out in the official versions for the benefit of the greatest amount of people.\r\n</p>\r\n\r\n<p>\r\n Any other bit of code on the site can safely be presumed to be also under the GNU General Public License, version 2 unless otherwise specified.\r\n</p>",
-      "format": "html"
-    }
-  },
-  {
-    "pk": 11,
-    "model": "pages.textblock",
-    "fields": {
-      "data": "        <h2><image src=\"/images/icons/toolbar-buttons.png\" width=\"32\" height=\"32\" alt=\"\"><a href=\"#\">Toolbar Buttons</a></h2>\r\n        <p>\r\n          <a href=\"#\">Toolbar Buttons</a> is a button set for several applications including Firefox, Thunerbird and Sunbird.  It boast over 100 buttons for Firefox alone.  This easily makes it the largest set available. It does everything from opening the Add-ons manager, bookmarking pages or translating them, to restarting the application or disabling JavaScript.  There have been over 1 million downloads to date.\r\n        </p>",
-      "format": "magic_html"
-    }
-  },
-  {
-    "pk": 12,
-    "model": "pages.textblock",
-    "fields": {
-      "data": "       <h2><image src=\"/images/icons/minimize.png\" width=\"32\" height=\"32\" alt=\"\"><a href=\"#\">MinimizeToTray Plus</a></h2>\r\n        <p>\r\n         <a href=\"#\">MinimizeToTray Plus</a> will minimise the current window to the system tray for Firefox, Thunerbird and Sunbird among others.  It also has a selection of options including ones to enable it to minimize the window instead of closing and open the application at system start-up.\r\n        </p>",
-      "format": "magic_html"
-    }
-  },
-  {
-    "pk": 13,
-    "model": "pages.textblock",
-    "fields": {
-      "data": "        <h2><image src=\"/images/icons/xrl.png\" width=\"32\" height=\"32\" alt=\"\"><a href=\"http://xrl.in/\">Xrl.in</a></h2>\r\n        <p>\r\n          <a href=\"http://xrl.in/\">Xrl.in</a> is a link shortening service run along side <a href=\"/\">Codefisher.org</a>.  It has a companion Firefox extension <a href=\"#\">Xrl.in Tiny Links</a> that is intended to be small, fast and intuitive.\r\n        </p>",
-      "format": "magic_html"
-    }
-  },
-  {
-    "pk": 14,
-    "model": "pages.textblock",
-    "fields": {
-      "data": "        <h2><image src=\"/images/icons/pastel-svg.png\" width=\"32\" height=\"32\" alt=\"\"><a href=\"#\">Pastel SVG Icons</a></h2>\r\n        <p>\r\n           Pastel SVG is an icon set based on the popular silk icons found as <a href=\"http://famfamfam.com/\">FamFamFam.com</a>. It uses the same style, so some of the icons are almost identical.  The goal of the project is to recreate the entire set in a full range of sizes while also adding many icons that we think the original set is missing.\r\n        </p>",
-      "format": "magic_html"
-    }
-  },
-  {
-    "pk": 15,
-    "model": "pages.textblock",
-    "fields": {
-      "data": "   <h3>About</h3>\r\n    <p>\r\n     <a href=\"/\">Codefisher.org</a> is the virtual portfolio and exhibition of the work of its owners, covering Mozilla extensions, programming, web design and graphic work.\r\n    </p>",
-      "format": "html"
-    }
-  },
-  {
-    "pk": 10,
-    "model": "pages.textblock",
-    "fields": {
-      "data": "{% load blog_tags %}\r\n   <div class=\"side-bar-item\">\r\n    <h3>Latest News</h3>\r\n    <div class=\"side-bar-content\">\r\n      {% show_blog_latest 4 22 %}\r\n    </div>\r\n   </div>",
-      "format": "template"
-    }
-  },
-  {
-    "pk": 1,
-    "model": "pages.page",
-    "fields": {
-      "status": "PB",
-      "edited": "2011-02-04 11:49:07",
-      "login_required": false,
-      "edited_by": 1,
-      "author": 1,
-      "parent": null,
-      "title": "Extension Licence",
-      "override_location": "",
-      "sites": [
-        1
-      ],
-      "visibility": "VI",
-      "meta_keywords": "",
-      "location": "/licence/",
-      "template": "pages/base.html",
-      "meta_page_title": "",
-      "blocks": [
-        9
-      ],
-      "meta_description": "Details about the Licences covering the extensions on Codefisher.org",
-      "slug": "licence",
-      "posted": "2011-02-02 22:33:14"
-    }
-  },
-  {
-    "pk": 2,
-    "model": "pages.page",
-    "fields": {
-      "status": "PB",
-      "edited": "2011-02-03 21:43:45",
-      "login_required": false,
-      "edited_by": 1,
-      "author": 1,
-      "parent": null,
-      "title": "Firefox Add-ons, Code Resources and More",
-      "override_location": "/",
-      "sites": [
-        1
-      ],
-      "visibility": "VI",
-      "meta_keywords": "",
-      "location": "/",
-      "template": "pages/home.html",
-      "meta_page_title": "",
-      "blocks": [
-        10,
-        11,
-        12,
-        13,
-        14
-      ],
-      "meta_description": "",
-      "slug": "home",
-      "posted": "2011-02-03 21:43:45"
-    }
+{
+  "pk": 9, 
+  "model": "pages.pageblock", 
+  "fields": {
+    "class_name": "TextBlock", 
+    "block_name": "content", 
+    "block_id": "", 
+    "position": 1
   }
+},
+{
+  "pk": 10, 
+  "model": "pages.pageblock", 
+  "fields": {
+    "class_name": "TextBlock", 
+    "block_name": "sidebar", 
+    "block_id": "site-news", 
+    "position": 1
+  }
+},
+{
+  "pk": 11, 
+  "model": "pages.pageblock", 
+  "fields": {
+    "class_name": "TextBlock", 
+    "block_name": "cell-one", 
+    "block_id": "", 
+    "position": 1
+  }
+},
+{
+  "pk": 12, 
+  "model": "pages.pageblock", 
+  "fields": {
+    "class_name": "TextBlock", 
+    "block_name": "cell-two", 
+    "block_id": "", 
+    "position": 1
+  }
+},
+{
+  "pk": 13, 
+  "model": "pages.pageblock", 
+  "fields": {
+    "class_name": "TextBlock", 
+    "block_name": "cell-three", 
+    "block_id": "", 
+    "position": 1
+  }
+},
+{
+  "pk": 14, 
+  "model": "pages.pageblock", 
+  "fields": {
+    "class_name": "TextBlock", 
+    "block_name": "cell-four", 
+    "block_id": "", 
+    "position": 1
+  }
+},
+{
+  "pk": 15, 
+  "model": "pages.pageblock", 
+  "fields": {
+    "class_name": "TextBlock", 
+    "block_name": "footer-about", 
+    "block_id": "footer-about", 
+    "position": 1
+  }
+},
+{
+  "pk": 16, 
+  "model": "pages.pageblock", 
+  "fields": {
+    "class_name": "FeedBlock", 
+    "block_name": "second_footer_box", 
+    "block_id": "forum-topics", 
+    "position": 1
+  }
+},
+{
+  "pk": 17, 
+  "model": "pages.pageblock", 
+  "fields": {
+    "class_name": "TextBlock", 
+    "block_name": "content", 
+    "block_id": "", 
+    "position": 1
+  }
+},
+{
+  "pk": 18, 
+  "model": "pages.pageblock", 
+  "fields": {
+    "class_name": "TextBlock", 
+    "block_name": "content", 
+    "block_id": "toolbar-buttons-release", 
+    "position": 1
+  }
+},
+{
+  "pk": 9, 
+  "model": "pages.textblock", 
+  "fields": {
+    "data": "<h2>General</h2>\r\n\r\n<p>\r\n Nothing on this site comes with any guarantee, you use it as your own risk. I take no responsibility for how anything works or it being suitable for any use.\r\n</p>\r\n\r\n<h2>Extensions</h2>\r\n\r\n<p>\r\nThe remainder of this document applies to the following extensions:\r\n</p>\r\n<ul>\r\n <li><a href=\"/toolbar_button/\">Toolbar Buttons</a> and any <a href=\"/download/single_buttons/\">single</a> or <a href=\"/toolbar_button/toolbar_button_maker\">custom button</a> based on it</li>\r\n <li><a href=\"/toolbar_button/link-button-maker\">Custom Link Toolbar Buttons</a></li>\r\n <li><a href=\"/format_toolbar/\">The Text Formatting Toolbar</a></li>\r\n <li><a href=\"/minimizetotray/\">MinimizeToTray Plus &amp; MinimizeToTray Enhancer</a></li>\r\n <li><a href=\"/adsense/\">AdSense Earnings</a></li>\r\n <li><a href=\"/codefisher/\">Codefisher</a> (the text editor after which the site is named)</li>\r\n <li><a href=\"/projects/fright\">Fright</a></li>\r\n <li><a href=\"/projects/version_compare\">Version Compare</a></li>\r\n <li><a href=\"/projects/new_toolbar\">TB Custom Toolbar</a></li>\r\n <li><a href=\"/projects/send-page\">Send Page via Email</a></li>\r\n <li><a href=\"/projects/xrl.in\">Xrl.In Tiny Links</a></li>\r\n</ul>\r\n\r\n<p>\r\n The above list of extensions are released under the GNU General Public License, version 2.  Credit for the use of any of the original code written by me is requested.  It is also requested that you don't distribute any of these extensions as is and unmodified on another site, please provide a link to their home pages so the user may get the latest version.  If you do make modification to the extension please report the back to me so that any improvements maybe pushed out in the official versions for the benefit of the greatest amount of people.\r\n</p>\r\n\r\n<p>\r\n Any other bit of code on the site can safely be presumed to be also under the GNU General Public License, version 2 unless otherwise specified.\r\n</p>", 
+    "format": "html"
+  }
+},
+{
+  "pk": 10, 
+  "model": "pages.textblock", 
+  "fields": {
+    "data": "{% load blog_tags %}\r\n   <div class=\"side-bar-item\">\r\n    <h3>Latest News</h3>\r\n    <div class=\"side-bar-content\">\r\n      {% show_blog_latest 4 22 %}\r\n    </div>\r\n   </div>", 
+    "format": "template"
+  }
+},
+{
+  "pk": 11, 
+  "model": "pages.textblock", 
+  "fields": {
+    "data": "        <h2><image src=\"/images/icons/toolbar-buttons.png\" width=\"32\" height=\"32\" alt=\"\"><a href=\"#\">Toolbar Buttons</a></h2>\r\n        <p>\r\n          <a href=\"#\">Toolbar Buttons</a> is a button set for several applications including Firefox, Thunerbird and Sunbird.  It boast over 100 buttons for Firefox alone.  This easily makes it the largest set available. It does everything from opening the Add-ons manager, bookmarking pages or translating them, to restarting the application or disabling JavaScript.  There have been over 1 million downloads to date.\r\n        </p>", 
+    "format": "magic_html"
+  }
+},
+{
+  "pk": 12, 
+  "model": "pages.textblock", 
+  "fields": {
+    "data": "       <h2><image src=\"/images/icons/color-wheel.png\" width=\"32\" height=\"32\" alt=\"\"><a href=\"#\">Colour Picker</a></h2>\r\n        <p>\r\n         <a href=\"http://colorpicker.net/\">Sharp Colour Picker</a> a tool that lets you pick colours using colour wheel, web safe colour pallet, and HSL Panel. \r\n        </p>", 
+    "format": "magic_html"
+  }
+},
+{
+  "pk": 13, 
+  "model": "pages.textblock", 
+  "fields": {
+    "data": "        <h2><image src=\"/images/icons/xrl.png\" width=\"32\" height=\"32\" alt=\"\"><a href=\"http://xrl.in/\">Xrl.in</a></h2>\r\n        <p>\r\n          <a href=\"http://xrl.in/\">Xrl.in</a> is a link shortening service run along side <a href=\"/\">Codefisher.org</a>.  It has a companion Firefox extension <a href=\"#\">Xrl.in Tiny Links</a> that is intended to be small, fast and intuitive.\r\n        </p>", 
+    "format": "magic_html"
+  }
+},
+{
+  "pk": 14, 
+  "model": "pages.textblock", 
+  "fields": {
+    "data": "        <h2><image src=\"/images/icons/pastel-svg.png\" width=\"32\" height=\"32\" alt=\"\"><a href=\"#\">Pastel SVG Icons</a></h2>\r\n        <p>\r\n           Pastel SVG is an icon set based on the popular silk icons found as <a href=\"http://famfamfam.com/\">FamFamFam.com</a>. It uses the same style, so some of the icons are almost identical.  The goal of the project is to recreate the entire set in a full range of sizes while also adding many icons that we think the original set is missing.\r\n        </p>", 
+    "format": "magic_html"
+  }
+},
+{
+  "pk": 15, 
+  "model": "pages.textblock", 
+  "fields": {
+    "data": "   <h3>About</h3>\r\n    <p>\r\n     <a href=\"/\">Codefisher.org</a> is the virtual portfolio and exhibition of the work of its owners, covering Mozilla extensions, programming, web design and graphic work.\r\n    </p>", 
+    "format": "html"
+  }
+},
+{
+  "pk": 17, 
+  "model": "pages.textblock", 
+  "fields": {
+    "data": "<h2>Toolbar Buttons <ext_version id=\"{03B08592-E5B4-45ff-A0BE-C1D975458688}\"></h2>\r\n\r\n<p>\r\n<strong>Toolbar Buttons</strong> is the single biggest button pack for Firefox, Thunderbird or Sunbird there is.  You will find buttons that enable hidden functionality or is too many clicks away, but some of the best buttons are those unique to the extension, a number that is ever increasing.  A full list of available buttons along with what they do is given on the <a href=\"/toolbar_button/button_list/\">Button List</a>\r\n</p>\r\n\r\n<p>\r\n<ext_location id=\"{03B08592-E5B4-45ff-A0BE-C1D975458688}\">Install (For Firefox)</a> &bull; <ext_location id=\"{03B08592-E5B4-45ff-A0BE-C1D975458688}\" download=\"true\">Download (For Thunderbird &amp; Sunbird)</a> \r\n</p>\r\n\r\n<a href=\"/tech/installing_addons\">Installation Help</a>\r\n\r\n<h3>Features</h3>\r\n<ul>\r\n <li>Over 100 <a href=\"button_list\">buttons</a> for Firefox</li>\r\n <li>Over 75 buttons for Thunderbird</li>\r\n <li>Over 25 buttons for Sunbird</li>\r\n <li>Options window and settings in about:config (for changing things like the target of the link buttons)</li>\r\n</ul>\r\n\r\n<p>\r\nCreating and maintaining this add-on takes time and effort. If you would consider <a href=\"/donate\">Donating</a> it would be very welcome. \r\n</p>\r\n\r\n<ul>\r\n<ext_info id=\"{03B08592-E5B4-45ff-A0BE-C1D975458688}\">\r\n<li>Buttons: <a href=\"/toolbar_button/button_list/\">Button List</a></li>\r\n<li><a href=\"/toolbar_button/faq/\">FAQ</a></li>\r\n</ul>\r\n\r\n<h2>Text Formatting Toolbar</h2>\r\n\r\n<p>\r\nText Formatting Toolbar contains buttons and other tools to help you format text on forums as BBcode or HTML along with the format used by Wikipedia. It's aim is to turn the task of formatting web posts into something  enjoyable. <a href=\"/format_toolbar/\">Download the Text Formatting Toolbar</a>.\r\n</p>\r\n\r\n<h2>Custom Button Maker</h2>\r\n\r\n<p>\r\nThe <a href=\"/toolbar_button/custom/\">Custom Toolbar Button Maker</a> is a tool provided to compliment the main Toolbar Buttons extension.  It allows you to select buttons from a list and have an extension made with just your selection.  It also gives the the opportunity for us to offer a few extra features that some users may want. The tool is used as a testing ground for new buttons, those that prove popular are added to the main extension.\r\n<!--\r\nI have had many requests for individual buttons, as many people don't like installing many buttons they will not use and no one can possibly use all of them.  So I have recently finished a <a href=\"/toolbar_button/toolbar_button_maker\">Custom Toolbar Button Maker</a>.  Just tick the boxes for the buttons you want, and it will generate a customized version for your own use.-->\r\n</p>\r\n\r\n</p>\r\nAdditionally is also a tool for making <a href=\"/toolbar_button/link-button-maker/\">Link Buttons</a> to any page on the web.\r\n</p>", 
+    "format": "magic_html"
+  }
+},
+{
+  "pk": 18, 
+  "model": "pages.textblock", 
+  "fields": {
+    "data": "<p>\r\n You have just installed Toolbar Buttons.  To get started using them open the customize toolbar window by either right clicking on the toolbar and selecting <strong>customize</strong> from the pop up menu or going <strong>View</strong> then <strong>Toolbars</strong> then <strong>Customize</strong> and from the window that opens up you can drag the buttons to your toolbar.\r\n</p>\r\n\r\n<iframe scrolling=\"no\" frameborder=\"0\" allowtransparency=\"true\" height=\"160\" width=\"728\" style=\"border:0;\" src=\"http://d.afdads.com/widget/render/hash/2c3c3213628b587e5456b77e322471c2\"></iframe>\r\n\r\n<p>\r\n If you want to know what each button does before you use it check the <a href=\"/toolbar_button/button_list?desc\"><strong>Button List</strong></a>.  If you find that the huge amount of buttons is too many for you can create <a href=\"/toolbar_button/toolbar_button_maker\"><strong>customized version</strong></a> with just the buttons you want. There is also the option of creating <a href=\"/toolbar_button/link-button-maker\">Link Buttons</a> to add to your toolbar.\r\n</p>\r\n\r\n<p>\r\n If you have questions please use the <a href=\"/forum/\"><strong>forum</strong></a> or check the <a href=\"/faq/toolbar_buttons\">FAQ<a/>.  If you notice anything that does not work as expected please post, bug reports are what improve the extension.  If you would like to contribute to the extension (translation or new buttons) see <a href=\"/toolbar_buttons/contributing\">Contributing</a>\r\n</p>", 
+    "format": "html"
+  }
+},
+{
+  "pk": 1, 
+  "model": "pages.page", 
+  "fields": {
+    "status": "PB", 
+    "edited": "2011-02-04T11:49:07", 
+    "login_required": false, 
+    "edited_by": 1, 
+    "author": 1, 
+    "parent": null, 
+    "title": "Extension Licence", 
+    "override_location": "", 
+    "sites": [
+      1
+    ], 
+    "visibility": "VI", 
+    "meta_keywords": "", 
+    "location": "/licence/", 
+    "template": "pages/base.html", 
+    "meta_page_title": "", 
+    "blocks": [
+      9
+    ], 
+    "meta_description": "Details about the Licences covering the extensions on Codefisher.org", 
+    "slug": "licence", 
+    "posted": "2011-02-02T22:33:14"
+  }
+},
+{
+  "pk": 2, 
+  "model": "pages.page", 
+  "fields": {
+    "status": "PB", 
+    "edited": "2011-02-03T21:43:45", 
+    "login_required": false, 
+    "edited_by": 1, 
+    "author": 1, 
+    "parent": null, 
+    "title": "Firefox Add-ons, Code Resources and More", 
+    "override_location": "/", 
+    "sites": [
+      1
+    ], 
+    "visibility": "VI", 
+    "meta_keywords": "", 
+    "location": "/", 
+    "template": "pages/home.html", 
+    "meta_page_title": "", 
+    "blocks": [
+      10, 
+      11, 
+      12, 
+      13, 
+      14
+    ], 
+    "meta_description": "", 
+    "slug": "home", 
+    "posted": "2011-02-03T21:43:45"
+  }
+},
+{
+  "pk": 3, 
+  "model": "pages.page", 
+  "fields": {
+    "status": "PB", 
+    "edited": "2011-03-19T18:19:11", 
+    "login_required": false, 
+    "edited_by": 1, 
+    "author": 1, 
+    "parent": null, 
+    "title": "Toolbar Buttons", 
+    "override_location": "", 
+    "sites": [
+      1
+    ], 
+    "visibility": "VI", 
+    "meta_keywords": "", 
+    "location": "/toolbar_button/", 
+    "template": "pages/base.html", 
+    "meta_page_title": "", 
+    "blocks": [
+      17
+    ], 
+    "meta_description": "", 
+    "slug": "toolbar_button", 
+    "posted": "2011-03-19T18:19:11"
+  }
+},
+{
+  "pk": 16, 
+  "model": "feed_block.feedblock", 
+  "fields": {
+    "template_name": "feed_block/list.html", 
+    "feed_type": "rss", 
+    "feed_url": "http://codefisher.org/forum/latesttopics.php"
+  }
+}
 ]

@@ -1,0 +1,2623 @@
+[
+{
+  "pk": 1, 
+  "model": "downloads.downloadgroup", 
+  "fields": {
+    "parent": null, 
+    "title": "Toolbar Buttons", 
+    "sites": [
+      1
+    ], 
+    "identifier": "{03B08592-E5B4-45ff-A0BE-C1D975458688}", 
+    "homepage": "http://codefisher.org/toolbar_button/", 
+    "slug": "toolbar_buttons", 
+    "latest": 41
+  }
+},
+{
+  "pk": 2, 
+  "model": "downloads.downloadgroup", 
+  "fields": {
+    "parent": null, 
+    "title": "MinimizeToTray Plus", 
+    "sites": [
+      1
+    ], 
+    "identifier": "{de1b245c-de57-11da-ba2d-0050c2490048}", 
+    "homepage": "http://codefisher.org/minimizetotray/", 
+    "slug": "minimizetotray", 
+    "latest": null
+  }
+},
+{
+  "pk": 1, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar_buttons-0.2.1.1.xpi", 
+    "release_date": "2006-04-25T20:34:26", 
+    "previous_release": null, 
+    "version": "0.2.1.1", 
+    "file": "downloads/toolbar_buttons-0.2.1.1_1.xpi", 
+    "file_size": 178256, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 2, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "button-0.2.5.1.xpi", 
+    "release_date": "2006-05-18T15:06:44", 
+    "previous_release": null, 
+    "version": "0.2.5.1", 
+    "file": "downloads/button-0.2.5.1_4.xpi", 
+    "file_size": 164458, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 3, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "button-0.2.5.3.xpi", 
+    "release_date": "2006-06-20T09:57:22", 
+    "previous_release": 2, 
+    "version": "0.2.5.3", 
+    "file": "downloads/button-0.2.5.3.xpi", 
+    "file_size": 149507, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 4, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "button-0.2.5.4.xpi", 
+    "release_date": "2006-07-25T13:03:16", 
+    "previous_release": 3, 
+    "version": "0.2.5.4", 
+    "file": "downloads/button-0.2.5.4.xpi", 
+    "file_size": 239398, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 5, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "button-0.2.5.6.xpi", 
+    "release_date": "2006-09-07T17:12:38", 
+    "previous_release": 4, 
+    "version": "0.2.5.6", 
+    "file": "downloads/button-0.2.5.6.xpi", 
+    "file_size": 240941, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 6, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "button-0.2.5.8.xpi", 
+    "release_date": "2006-09-09T11:02:04", 
+    "previous_release": 5, 
+    "version": "0.2.5.8", 
+    "file": "downloads/button-0.2.5.8.xpi", 
+    "file_size": 243105, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 7, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "button-0.2.5.9.xpi", 
+    "release_date": "2006-10-15T20:26:04", 
+    "previous_release": 6, 
+    "version": "0.2.5.9", 
+    "file": "downloads/button-0.2.5.9.xpi", 
+    "file_size": 243113, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 8, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar-buttons-0.3.0.5.xpi", 
+    "release_date": "2007-01-23T17:07:16", 
+    "previous_release": 7, 
+    "version": "0.3.0.5", 
+    "file": "downloads/toolbar-buttons-0.3.0.5.xpi", 
+    "file_size": 257564, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 9, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar-buttons-0.3.0.6.xpi", 
+    "release_date": "2007-02-02T15:42:12", 
+    "previous_release": 8, 
+    "version": "0.3.0.6", 
+    "file": "downloads/toolbar-buttons-0.3.0.6.xpi", 
+    "file_size": 260255, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 10, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar-buttons-0.3.0.7.xpi", 
+    "release_date": "2007-04-22T21:59:30", 
+    "previous_release": 9, 
+    "version": "0.3.0.7", 
+    "file": "downloads/toolbar-buttons-0.3.0.7.xpi", 
+    "file_size": 260249, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 11, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar_buttons-0.4b1.xpi", 
+    "release_date": "2007-05-05T15:03:16", 
+    "previous_release": 10, 
+    "version": "0.4b1", 
+    "file": "downloads/toolbar_buttons-0.4b1.xpi", 
+    "file_size": 248392, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 12, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar_buttons-0.4b2.xpi", 
+    "release_date": "2007-05-19T20:21:36", 
+    "previous_release": 11, 
+    "version": "0.4b2", 
+    "file": "downloads/toolbar_buttons-0.4b2.xpi", 
+    "file_size": 269823, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 13, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar_buttons-0.4b3.xpi", 
+    "release_date": "2007-05-21T16:15:40", 
+    "previous_release": 12, 
+    "version": "0.4b3", 
+    "file": "downloads/toolbar_buttons-0.4b3.xpi", 
+    "file_size": 275800, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 14, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar_buttons-0.4b4.xpi", 
+    "release_date": "2007-05-26T15:34:32", 
+    "previous_release": 13, 
+    "version": "0.4b4", 
+    "file": "downloads/toolbar_buttons-0.4b4.xpi", 
+    "file_size": 334057, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 15, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar_buttons-0.4.xpi", 
+    "release_date": "2007-06-15T13:06:58", 
+    "previous_release": 14, 
+    "version": "0.4", 
+    "file": "downloads/toolbar_buttons-0.4.xpi", 
+    "file_size": 303514, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 16, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar_buttons-0.4.1.1.xpi", 
+    "release_date": "2007-06-16T15:42:00", 
+    "previous_release": 15, 
+    "version": "0.4.1.1", 
+    "file": "downloads/toolbar_buttons-0.4.1.1.xpi", 
+    "file_size": 302975, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 17, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar_buttons-0.4.1.3.xpi", 
+    "release_date": "2007-06-21T09:32:40", 
+    "previous_release": 16, 
+    "version": "0.4.1.3", 
+    "file": "downloads/toolbar_buttons-0.4.1.3.xpi", 
+    "file_size": 309606, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 18, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar_buttons-0.4.1.4.xpi", 
+    "release_date": "2007-06-30T21:56:42", 
+    "previous_release": 17, 
+    "version": "0.4.1.4", 
+    "file": "downloads/toolbar_buttons-0.4.1.4.xpi", 
+    "file_size": 311132, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 19, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar_buttons-0.4.1.5.xpi", 
+    "release_date": "2007-07-30T22:33:50", 
+    "previous_release": 18, 
+    "version": "0.4.1.5", 
+    "file": "downloads/toolbar_buttons-0.4.1.5.xpi", 
+    "file_size": 322918, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 20, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar_buttons-0.4.1.6.xpi", 
+    "release_date": "2007-07-31T10:12:26", 
+    "previous_release": 19, 
+    "version": "0.4.1.6", 
+    "file": "downloads/toolbar_buttons-0.4.1.6.xpi", 
+    "file_size": 323114, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 21, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar_buttons-0.4.1.7.xpi", 
+    "release_date": "2007-08-22T14:13:50", 
+    "previous_release": 20, 
+    "version": "0.4.1.7", 
+    "file": "downloads/toolbar_buttons-0.4.1.7.xpi", 
+    "file_size": 324289, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 22, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others are totally new.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar_buttons-0.4.5b3.xpi", 
+    "release_date": "2007-10-04T20:24:22", 
+    "previous_release": 21, 
+    "version": "0.4.5b3", 
+    "file": "downloads/toolbar_buttons-0.4.5b3.xpi", 
+    "file_size": 390517, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 23, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others are totally new.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar_buttons-0.4.5.xpi", 
+    "release_date": "2007-11-16T17:11:48", 
+    "previous_release": 22, 
+    "version": "0.4.5", 
+    "file": "downloads/toolbar_buttons-0.4.5.xpi", 
+    "file_size": 352069, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 24, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others are totally new.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar_buttons-0.4.5.1.xpi", 
+    "release_date": "2007-11-19T10:53:46", 
+    "previous_release": 23, 
+    "version": "0.4.5.1", 
+    "file": "downloads/toolbar_buttons-0.4.5.1.xpi", 
+    "file_size": 368506, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 25, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others are totally new.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar_buttons-0.4.5.2.xpi", 
+    "release_date": "2007-12-26T18:35:44", 
+    "previous_release": 24, 
+    "version": "0.4.5.2", 
+    "file": "downloads/toolbar_buttons-0.4.5.2.xpi", 
+    "file_size": 403015, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 26, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others are totally new.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar-buttons-0.5.xpi", 
+    "release_date": "2008-03-03T20:57:12", 
+    "previous_release": 25, 
+    "version": "0.5", 
+    "file": "downloads/toolbar-buttons-0.5.xpi", 
+    "file_size": 438035, 
+    "release_notes": " <ul>\r\n\r\n  <li>Added the following new buttons\r\n\r\n   <ul>\r\n\t<li>All Applications\r\n\t<ul>\r\n\r\n     <li>Toggle Proxy</li>\r\n\r\n\t</ul>\r\n\t</li>\r\n\r\n\t<li>Firefox<ul>\r\n\r\n     <li>Minimum Font Size</li>\r\n\r\n     <li>Snap Back</li>\r\n\r\n     <li>Tiny Url</li>\r\n\r\n     <li>Toggle Page Colors</li>\r\n\r\n     <li>Toggle Page Fonts</li>\r\n\r\n     <li>Up Directory</li>\r\n\t</ul></li>\r\n\r\n\r\n\t<li>Thunderbird<ul>\r\n\r\n     <li>All Threads</li>\r\n\r\n     <li>Ignored Threads</li>\r\n\r\n     <li>Mail Toolbar</li>\r\n\r\n     <li>Threads With Unread</li>\r\n\r\n     <li>Toggle Read</li>\r\n\r\n     <li>Toggle Starred</li>\r\n\r\n     <li>Unread Threads</li>\r\n\r\n     <li>Watched Threads With Unread</li>\r\n\r\n\t</ul></li>\r\n\t<li>Sunbird<ul>\r\n\r\n     <li>Tasks In View</li>\r\n\t</ul></li>\r\n\r\n   </ul>\r\n\r\n  </li>\r\n\r\n  <li>Updated the all bookmark and the read news/mail buttons to work in Firefox 3</li>\r\n\r\n </ul>"
+  }
+},
+{
+  "pk": 27, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others are totally new.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar_buttons-0.5.0.1.xpi", 
+    "release_date": "2008-03-06T16:03:56", 
+    "previous_release": 26, 
+    "version": "0.5.0.1", 
+    "file": "downloads/toolbar_buttons-0.5.0.1.xpi", 
+    "file_size": 434272, 
+    "release_notes": " <ul>\r\n\r\n  <li>Fixed some of the Sunbird buttons that were not working in Sunbird 0.8</li>\r\n\r\n  <li>Fixed some of the locales.</li>\r\n\r\n </ul>"
+  }
+},
+{
+  "pk": 28, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others are totally new.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar-buttons-0.5.0.2.xpi", 
+    "release_date": "2008-03-17T19:36:32", 
+    "previous_release": 27, 
+    "version": "0.5.0.2", 
+    "file": "downloads/toolbar-buttons-0.5.0.2.xpi", 
+    "file_size": 434332, 
+    "release_notes": ""
+  }
+},
+{
+  "pk": 29, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others are totally new.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar-buttons-0.5.0.3.xpi", 
+    "release_date": "2008-03-26T13:42:08", 
+    "previous_release": 28, 
+    "version": "0.5.0.3", 
+    "file": "downloads/toolbar-buttons-0.5.0.3.xpi", 
+    "file_size": 457501, 
+    "release_notes": " <ul>\r\n\r\n  <li>Fixed the page zoom buttons for Firefox 3</li>\r\n\r\n  <li>Fixed a typo in the 'Toggle Read' buttons' tooltip</li>\r\n\r\n  <li>Fixed a bug in the Real Next/Previous button</li>\r\n\r\n  <li>Reverted the implementation of the Read Mail/News buttons to be more reliable in Firefox 2.  The Firefox 3 betas still use the less reliable implementation.</li>\r\n\r\n  <li>Fixed a few other minor errors that were thrown when some buttons were not in use.</li>\r\n\r\n </ul>"
+  }
+},
+{
+  "pk": 30, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others are totally new.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar-buttons-0.5.0.4.xpi", 
+    "release_date": "2008-04-19T18:57:02", 
+    "previous_release": 29, 
+    "version": "0.5.0.4", 
+    "file": "downloads/toolbar-buttons-0.5.0.4.xpi", 
+    "file_size": 381257, 
+    "release_notes": " <ul>\r\n\r\n  <li>Fixed the problem with the bookmark menu button where you had to click the arrow to make it do anything (Firefox 3beta only).</li>\r\n\r\n  <li>Fixed a bug that prevented the Change Home Page button working sometimes.</li>\r\n\r\n  <li>Renamed the \"Close Other\" button to \"Close Other Tabs\".</li>\r\n\r\n  <li>The Toggle Images and Toggle Java now reload the page.</li>\r\n\r\n  <li>Bumped compatibility up to the latest Firefox 3 beta</li>\r\n\r\n  <li>Renamed the \"Clear URL Bar\" to \"Hide URL\".  Will add a real \"Clear URL Bar\" to 0.5.5</li>\r\n\r\n  <li>Download almost 20% smaller.</li>\r\n\r\n</ul>"
+  }
+},
+{
+  "pk": 31, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others are totally new.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar-buttons-0.5.0.5.xpi", 
+    "release_date": "2008-06-13T23:25:54", 
+    "previous_release": 30, 
+    "version": "0.5.0.5", 
+    "file": "downloads/toolbar-buttons-0.5.0.5.xpi", 
+    "file_size": 381750, 
+    "release_notes": " <ul>\r\n\r\n  <li>Send and Receive button now gets new messages for all accounts.</li>\r\n  <li>The HTML mode button (changes between viewing the message as HTML, sanitized HTML and Plain text) now exists in both the main window and the read mail window.</li>\r\n  <li>Bumped the compatibility up to Firefox 3.0 (not just the betas)</li>\r\n  <li>The send link button was not working in Firefox 3.0</li>\r\n  <li>The top/button page buttons also where not working anymore</li>\r\n\r\n</ul>"
+  }
+},
+{
+  "pk": 32, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others are totally new.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar-buttons-0.6.xpi", 
+    "release_date": "2008-09-29T20:29:14", 
+    "previous_release": 31, 
+    "version": "0.6", 
+    "file": "downloads/toolbar-buttons-0.6.xpi", 
+    "file_size": 386840, 
+    "release_notes": "<h3>Version 0.6</h3>\r\n\r\n <ul>\r\n   <li>New Buttons\r\n   <ul>\r\n\t<li>All Applications\r\n\t<ul>\r\n    \t<li>File Menu</li>\r\n    \t<li>Toggle Menu Bar</li>\r\n    \t<li>Edit Menu</li>\r\n    \t<li>Tools Menu</li>\r\n    \t<li>View Menu</li>\r\n\t</ul></li>s\r\n\t<li>Firefox \r\n\t<ul>\r\n    \t<li>Clear URL</li>\r\n\t</ul></li>\r\n\t<li>Thunderbird\r\n\t<ul>\r\n    \t<li>Forward as Attachment</li>\r\n    \t<li>Forward as Inline</li>\r\n\t</ul></li>\r\n   </ul>\r\n  </li>\r\n\r\n  <li>The Link From Clipboard button now opens in a new tab if middle clicked (like the Fx home page buttons)</li>\r\n  <li>The Bookmark Menu buttons would reopen when a bookmark was clicked, this does not happen anymore.</li>\r\n  <li>Some of the menu buttons had the drop down arrow removed, since it was superfluous.</li>\r\n  <li>The get Thunderbird themes/add-ons buttons now exists in both Firefox and Thunderbird</li>\r\n  <li>Started changing the icons to my own - suggestions on improvements welcome.</li>\r\n  <li>Changed/Improved how the Up One Directory button works.</li>\r\n  <li>It is now configurable if the toggle buttons reload the page or not.</li>\r\n  <li>There is now an option for the path to your email client, should the Read Mail button not work.</li>\r\n  <li>The quick bookmark button was fixed (in rare cause it was still showing the window).</li>\r\n  <li>The Customize Toolbar Window now sorts the buttons alphabetically so they can be easily found. <strong>Removed in 0.6.0.3</strong></li>\r\n  <li>Reload Proxy button has some changes for Firefox 3</li>\r\n  <li>Stop all button should be working right now.</li>\r\n  <li>The extensions and themes buttons that previously only works in Firefox 1.5 and below now also works in Firefox 3.\r\n  <li>All toolbar toggling buttons now are kept in sync with their toolbar.  (If you notice any button that get out of sync with want it toggles please point it out on the <a href=\"/forum/\">Forums</a> and I will fix it quickly).</li>\r\n  <li>The toggle status of some of the buttons has been revered</li>\r\n  <li>Code tided up to some extent</li>\r\n </ul>"
+  }
+},
+{
+  "pk": 33, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others are totally new.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar-buttons-0.6.0.1.xpi", 
+    "release_date": "2008-09-29T22:22:46", 
+    "previous_release": 32, 
+    "version": "0.6.0.1", 
+    "file": "downloads/toolbar-buttons-0.6.0.1.xpi", 
+    "file_size": 386000, 
+    "release_notes": "<ul>\r\n <li>Small changes to some of the locales</li>\r\n <li>Fixed one small typo</li>\r\n</ul>"
+  }
+},
+{
+  "pk": 34, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others are totally new.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar-buttons-0.6.0.2.xpi", 
+    "release_date": "2008-09-29T22:54:40", 
+    "previous_release": 33, 
+    "version": "0.6.0.2", 
+    "file": "downloads/toolbar-buttons-0.6.0.2.xpi", 
+    "file_size": 386367, 
+    "release_notes": "<ul>\r\n <li>Small changes to some of the locales</li>\r\n <li>Fixed one small typo</li>\r\n</ul>"
+  }
+},
+{
+  "pk": 35, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others are totally new.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar-buttons-0.6.0.3.xpi", 
+    "release_date": "2008-09-30T16:48:20", 
+    "previous_release": 34, 
+    "version": "0.6.0.3", 
+    "file": "downloads/toolbar-buttons-0.6.0.3.xpi", 
+    "file_size": 386310, 
+    "release_notes": "<ul>\r\n <li>Fixed a problem to do with the customize toolbar window (by removing the attempt to sort them alphabetically).</li>\r\n <li>Fixed a few of the buttons in Sunbird.</li>\r\n <li>Updated some of the locales.</li>\r\n</ul>"
+  }
+},
+{
+  "pk": 36, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others are totally new.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar-buttons-0.6.0.4.xpi", 
+    "release_date": "2008-09-30T22:46:54", 
+    "previous_release": 35, 
+    "version": "0.6.0.4", 
+    "file": "downloads/toolbar-buttons-0.6.0.4.xpi", 
+    "file_size": 386308, 
+    "release_notes": "<ul>\r\n <li>Fixed a problem to do with the customize toolbar window (by removing the attempt to sort them alphabetically).</li>\r\n <li>Fixed a few of the buttons in Sunbird.</li>\r\n <li>Updated some of the locales.</li>\r\n</ul>"
+  }
+},
+{
+  "pk": 37, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others are totally new.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar-buttons-0.6.0.5.xpi", 
+    "release_date": "2009-03-29T20:24:28", 
+    "previous_release": 36, 
+    "version": "0.6.0.5", 
+    "file": "downloads/toolbar-buttons-0.6.0.5.xpi", 
+    "file_size": 439129, 
+    "release_notes": "<ul>\r\n <li>The rename tab buttons received some doctoring.</li>\r\n <li>Had another tinker with the up directory button.</li>\r\n <li>Fixed the toggle flash button in Firefox 3 (partly)</li>\r\n <li>Restart Tabbed should now work regardless of what your settings are.</li>\r\n <li>Open link from clipboard has been fixed (you can access its menu).</li>\r\n <li>Document Colors button was starting inverted.</li>\r\n <li>Favorite page button had a problem working.</li>\r\n <li>Some of the button labels where improved.</li>\r\n <li>Improvements the the code that displays this page.  Hopefully there will be no problems now.</li>\r\n</ul>\r\n"
+  }
+},
+{
+  "pk": 38, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others add new functionality.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar-buttons-0.6.0.6.xpi", 
+    "release_date": "2009-08-21T19:15:10", 
+    "previous_release": 37, 
+    "version": "0.6.0.6", 
+    "file": "downloads/toolbar-buttons-0.6.0.6.xpi", 
+    "file_size": 481248, 
+    "release_notes": "<ul>\r\n <li>Bug fixed in the undo and redo buttons in Thunderbird.</li>\r\n <li>Close all tabs does not close the window in Firefox 3.5</li>\r\n <li>Minimum and maximum application versions raised and some old compatibility code dropped.</li>\r\n <li>Bookmark menu buttons improved, drag and drop now works.</li>\r\n <li>Page zoom buttons now works in the Thunderbird 3 betas</li>\r\n <li>Empty Trash button now works in Thunderbird 3 betas</li>\r\n <li>Next/Previous tab buttons in Firefox now loop around</li>\r\n <li>Add-ons window can now be opened in a tab when middle clicked.</li>\r\n <li>Some locales updated, thanks to the babelzilla team.</li>\r\n</ul>"
+  }
+},
+{
+  "pk": 39, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others add new functionality.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar-buttons-0.6.0.7.xpi", 
+    "release_date": "2009-08-23T11:19:32", 
+    "previous_release": 38, 
+    "version": "0.6.0.7", 
+    "file": "downloads/toolbar-buttons-0.6.0.7.xpi", 
+    "file_size": 481438, 
+    "release_notes": "<ul>\r\n <li>Fixed regression in the Bookmark menu buttons.</li>\r\n</ul>"
+  }
+},
+{
+  "pk": 40, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others add new functionality.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar-buttons-0.6.0.8.xpi", 
+    "release_date": "2009-08-26T19:41:46", 
+    "previous_release": 39, 
+    "version": "0.6.0.8", 
+    "file": "downloads/toolbar-buttons-0.6.0.8.xpi", 
+    "file_size": 481523, 
+    "release_notes": "<ul>\r\n <li>Fixed regression in the Bookmark menu buttons.</li>\r\n</ul>"
+  }
+},
+{
+  "pk": 41, 
+  "model": "downloads.download", 
+  "fields": {
+    "group": 1, 
+    "description": "Adds toolbar buttons to the customize toolbar window in several programs including Firefox, Thunderbird and Sunbird.  Some of the buttons make commonly preformed actions quicker, others add new functionality.", 
+    "title": "Toolbar Buttons", 
+    "file_name": "toolbar-buttons-1.0.xpi", 
+    "release_date": "2011-02-01T22:32:26", 
+    "previous_release": 40, 
+    "version": "1.0", 
+    "file": "downloads/toolbar-buttons-1.0.xpi", 
+    "file_size": 355219, 
+    "release_notes": "<ul>\r\n\t<li>Full support for Firefox 4.0 and Thunderbird 3.1. Everything should work.</li>\r\n\t<li>Some button were removed:\r\n\t\t<dl>\r\n\t\t\t<dt>Restart Tabbed (Firefox)</dt><dd>The restart button now does that by default, so since Firefox 2 support is dropped it makes no sense to keep it</dd>\r\n\t\t\t<dt>Cut, Copy and Paste (Thunderbird)</dt><dd>now exist everywhere needed by default so I am dropping my buttons for that.</dd>\r\n\t\t\t<dt>Not Junk (Thunderbird)</dt><dd>Newer versions of Thunerbird now have this by default.</dd>\r\n\r\n\t\t</dl>\r\n\t</li>\r\n\t<li>Some button had their internal names changed.  This will cause them to disapear from the toolbar and return to the customize toolbar window.  This only applies to a small number of buttons.  Sorry to anyone effected by this.</li>\r\n\t<li>Some new buttons where added.  Mainly contributed by others.  For this I would like to thank az and Dennis Kadioglu.\r\n\t<ul>\r\n\t\t<li>Popup Blocker Button (Dennis Kadioglu).</li>\r\n\t\t<li>Clear Search bar (az).</li>\r\n\t\t<li>Resize Search bar (az) (3 buttons).</li>\r\n\r\n\t\t<li>Twitter (Facebook and youtube will be next).</li>\r\n\t</ul>\r\n\t</li>\r\n\t<li>The icon set was changed, it is now using my own.  Any feedback is welcome.  Though please note the larger icons (the 24x24 size) still need some editing to finish them off.  Currently they don't appear nice and sharp like the smaller icons do.</li>\r\n\t<li>In addition to the above there are lots of little extra features and improvements have been added to the buttons.</li>\r\n</ul>\r\n"
+  }
+},
+{
+  "pk": 1, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 1, 
+    "min_version": "1.0", 
+    "max_version": "1.6", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 2, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 1, 
+    "min_version": "1.0", 
+    "max_version": "1.6", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 3, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 2, 
+    "min_version": "1.0", 
+    "max_version": "1.6", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 4, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 2, 
+    "min_version": "1.0", 
+    "max_version": "1.6", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 5, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 2, 
+    "min_version": "0.4.0", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 6, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 3, 
+    "min_version": "1.0", 
+    "max_version": "1.6", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 7, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 3, 
+    "min_version": "1.0", 
+    "max_version": "1.6", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 8, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 3, 
+    "min_version": "0.4.0", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 9, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 4, 
+    "min_version": "1.0", 
+    "max_version": "1.5.0.*", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 10, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 4, 
+    "min_version": "1.0", 
+    "max_version": "1.5.0.*", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 11, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 4, 
+    "min_version": "0.4.0", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 12, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 4, 
+    "min_version": "1.0", 
+    "max_version": "1.0", 
+    "app_id": "{136c295a-4a5a-41cf-bf24-5cee526720d5}"
+  }
+},
+{
+  "pk": 13, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 4, 
+    "min_version": "0.2", 
+    "max_version": "0.3a1", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 14, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 4, 
+    "min_version": "1.7", 
+    "max_version": "1.8", 
+    "app_id": "{86c18b42-e466-45a9-ae7a-9b95ba6f5640}"
+  }
+},
+{
+  "pk": 15, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 4, 
+    "min_version": "1.0", 
+    "max_version": "1.0", 
+    "app_id": "{92650c4d-4b8e-4d2a-b7eb-24ecf4f6b63a}"
+  }
+},
+{
+  "pk": 16, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 5, 
+    "min_version": "1.0", 
+    "max_version": "1.5.0.*", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 17, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 5, 
+    "min_version": "1.0", 
+    "max_version": "1.5.0.*", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 18, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 5, 
+    "min_version": "0.4.0", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 19, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 5, 
+    "min_version": "1.0", 
+    "max_version": "1.0", 
+    "app_id": "{136c295a-4a5a-41cf-bf24-5cee526720d5}"
+  }
+},
+{
+  "pk": 20, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 5, 
+    "min_version": "0.2", 
+    "max_version": "0.3a1", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 21, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 6, 
+    "min_version": "1.0", 
+    "max_version": "1.5.0.*", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 22, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 6, 
+    "min_version": "1.0", 
+    "max_version": "1.5.0.*", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 23, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 6, 
+    "min_version": "0.4.0", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 24, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 6, 
+    "min_version": "1.0", 
+    "max_version": "1.0", 
+    "app_id": "{136c295a-4a5a-41cf-bf24-5cee526720d5}"
+  }
+},
+{
+  "pk": 25, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 6, 
+    "min_version": "0.2", 
+    "max_version": "0.3a1", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 26, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 7, 
+    "min_version": "1.5", 
+    "max_version": "2.0.0.*", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 27, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 7, 
+    "min_version": "1.5", 
+    "max_version": "2.0b1", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 28, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 7, 
+    "min_version": "0.4.0", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 29, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 7, 
+    "min_version": "1.0", 
+    "max_version": "1.0", 
+    "app_id": "{136c295a-4a5a-41cf-bf24-5cee526720d5}"
+  }
+},
+{
+  "pk": 30, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 7, 
+    "min_version": "0.2", 
+    "max_version": "0.3", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 31, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 8, 
+    "min_version": "2.0", 
+    "max_version": "2.0.0.*", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 32, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 8, 
+    "min_version": "2.0a1", 
+    "max_version": "2.0b1", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 33, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 8, 
+    "min_version": "0.4.0", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 34, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 8, 
+    "min_version": "1.0", 
+    "max_version": "1.0", 
+    "app_id": "{136c295a-4a5a-41cf-bf24-5cee526720d5}"
+  }
+},
+{
+  "pk": 35, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 8, 
+    "min_version": "0.2", 
+    "max_version": "0.3", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 36, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 9, 
+    "min_version": "2.0", 
+    "max_version": "2.0.0.*", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 37, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 9, 
+    "min_version": "2.0a1", 
+    "max_version": "2.0b1", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 38, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 9, 
+    "min_version": "0.4.0", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 39, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 9, 
+    "min_version": "1.0", 
+    "max_version": "1.0", 
+    "app_id": "{136c295a-4a5a-41cf-bf24-5cee526720d5}"
+  }
+},
+{
+  "pk": 40, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 9, 
+    "min_version": "0.2", 
+    "max_version": "0.3", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 41, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 10, 
+    "min_version": "2.0", 
+    "max_version": "2.0.0.*", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 42, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 10, 
+    "min_version": "2.0", 
+    "max_version": "2.0.0.*", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 43, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 10, 
+    "min_version": "0.4.0", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 44, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 10, 
+    "min_version": "1.0", 
+    "max_version": "1.0", 
+    "app_id": "{136c295a-4a5a-41cf-bf24-5cee526720d5}"
+  }
+},
+{
+  "pk": 45, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 10, 
+    "min_version": "0.2", 
+    "max_version": "0.3", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 46, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 11, 
+    "min_version": "1.5", 
+    "max_version": "2.0.0.*", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 47, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 11, 
+    "min_version": "1.5", 
+    "max_version": "2.0b2", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 48, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 11, 
+    "min_version": "0.4.0", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 49, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 11, 
+    "min_version": "0.1", 
+    "max_version": "0.4a1", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 50, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 12, 
+    "min_version": "1.5", 
+    "max_version": "2.0.0.*", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 51, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 12, 
+    "min_version": "1.5", 
+    "max_version": "2.0.0.*", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 52, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 12, 
+    "min_version": "0.4.0", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 53, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 12, 
+    "min_version": "0.1", 
+    "max_version": "0.4a1", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 54, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 13, 
+    "min_version": "1.5", 
+    "max_version": "2.0.0.*", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 55, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 13, 
+    "min_version": "1.5", 
+    "max_version": "2.0.0.*", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 56, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 13, 
+    "min_version": "0.4.0", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 57, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 13, 
+    "min_version": "0.1", 
+    "max_version": "0.4a1", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 58, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 14, 
+    "min_version": "1.5", 
+    "max_version": "2.0.0.*", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 59, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 14, 
+    "min_version": "1.5", 
+    "max_version": "2.0.0.*", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 60, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 14, 
+    "min_version": "0.4.0", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 61, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 14, 
+    "min_version": "0.1", 
+    "max_version": "0.4a1", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 62, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 15, 
+    "min_version": "1.5", 
+    "max_version": "2.0.0.*", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 63, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 15, 
+    "min_version": "1.5", 
+    "max_version": "2.0.0.*", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 64, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 15, 
+    "min_version": "0.4.0", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 65, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 15, 
+    "min_version": "0.1", 
+    "max_version": "0.4a1", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 66, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 16, 
+    "min_version": "1.5", 
+    "max_version": "2.0.0.*", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 67, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 16, 
+    "min_version": "1.5", 
+    "max_version": "2.0.0.*", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 68, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 16, 
+    "min_version": "0.4", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 69, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 16, 
+    "min_version": "0.2", 
+    "max_version": "0.4a1", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 70, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 17, 
+    "min_version": "1.5", 
+    "max_version": "3.0a6", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 71, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 17, 
+    "min_version": "1.5", 
+    "max_version": "3.0a1", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 72, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 17, 
+    "min_version": "0.4", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 73, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 17, 
+    "min_version": "0.2", 
+    "max_version": "0.6a1", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 74, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 17, 
+    "min_version": "9.0", 
+    "max_version": "9.0.*", 
+    "app_id": "{3db10fab-e461-4c80-8b97-957ad5f8ea47}"
+  }
+},
+{
+  "pk": 75, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 18, 
+    "min_version": "1.5", 
+    "max_version": "3.0a6", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 76, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 18, 
+    "min_version": "1.5", 
+    "max_version": "3.0a1", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 77, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 18, 
+    "min_version": "0.4", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 78, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 18, 
+    "min_version": "0.2", 
+    "max_version": "0.6a1", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 79, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 19, 
+    "min_version": "1.5", 
+    "max_version": "3.0a6", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 80, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 19, 
+    "min_version": "1.5", 
+    "max_version": "3.0a1", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 81, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 19, 
+    "min_version": "0.4", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 82, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 19, 
+    "min_version": "0.2", 
+    "max_version": "0.6a1", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 83, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 20, 
+    "min_version": "1.5", 
+    "max_version": "3.0a6", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 84, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 20, 
+    "min_version": "1.5", 
+    "max_version": "3.0a1", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 85, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 20, 
+    "min_version": "0.4", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 86, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 20, 
+    "min_version": "0.2", 
+    "max_version": "0.6a1", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 87, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 21, 
+    "min_version": "1.5", 
+    "max_version": "3.0a6", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 88, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 21, 
+    "min_version": "1.5", 
+    "max_version": "3.0a1", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 89, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 21, 
+    "min_version": "0.4", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 90, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 21, 
+    "min_version": "0.2", 
+    "max_version": "0.6a1", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 91, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 22, 
+    "min_version": "1.5", 
+    "max_version": "3.0a6", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 92, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 22, 
+    "min_version": "1.5", 
+    "max_version": "3.0a1", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 93, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 22, 
+    "min_version": "0.4", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 94, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 22, 
+    "min_version": "0.2", 
+    "max_version": "0.6a1", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 95, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 22, 
+    "min_version": "9.0b1", 
+    "max_version": "9.0", 
+    "app_id": "{3db10fab-e461-4c80-8b97-957ad5f8ea47}"
+  }
+},
+{
+  "pk": 96, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 23, 
+    "min_version": "1.5", 
+    "max_version": "3.0a9", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 97, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 23, 
+    "min_version": "1.5", 
+    "max_version": "3.0a1", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 98, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 23, 
+    "min_version": "0.4", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 99, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 23, 
+    "min_version": "0.2", 
+    "max_version": "0.8pre", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 100, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 23, 
+    "min_version": "9.0b1", 
+    "max_version": "9.1+", 
+    "app_id": "{3db10fab-e461-4c80-8b97-957ad5f8ea47}"
+  }
+},
+{
+  "pk": 101, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 24, 
+    "min_version": "1.5", 
+    "max_version": "3.0a9", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 102, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 24, 
+    "min_version": "1.5", 
+    "max_version": "3.0a1", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 103, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 24, 
+    "min_version": "0.4", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 104, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 24, 
+    "min_version": "0.2", 
+    "max_version": "0.8pre", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 105, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 25, 
+    "min_version": "1.5", 
+    "max_version": "3.0a9", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 106, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 25, 
+    "min_version": "1.5", 
+    "max_version": "3.0a1", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 107, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 25, 
+    "min_version": "0.4", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 108, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 25, 
+    "min_version": "0.2", 
+    "max_version": "0.8pre", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 109, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 26, 
+    "min_version": "1.5", 
+    "max_version": "3.0b3", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 110, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 26, 
+    "min_version": "1.5", 
+    "max_version": "3.0a1", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 111, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 26, 
+    "min_version": "0.4", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 112, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 26, 
+    "min_version": "0.2", 
+    "max_version": "0.8pre", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 113, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 27, 
+    "min_version": "1.5", 
+    "max_version": "3.0b5pre", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 114, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 27, 
+    "min_version": "1.5", 
+    "max_version": "3.0a1", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 115, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 27, 
+    "min_version": "0.4", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 116, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 27, 
+    "min_version": "0.2", 
+    "max_version": "0.8pre", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 117, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 28, 
+    "min_version": "1.5", 
+    "max_version": "3.0b5pre", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 118, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 28, 
+    "min_version": "1.5", 
+    "max_version": "3.0a1", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 119, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 28, 
+    "min_version": "0.4", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 120, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 28, 
+    "min_version": "0.2", 
+    "max_version": "0.8pre", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 121, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 29, 
+    "min_version": "1.5", 
+    "max_version": "3.0b5pre", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 122, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 29, 
+    "min_version": "1.5", 
+    "max_version": "3.0a1", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 123, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 29, 
+    "min_version": "0.4", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 124, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 29, 
+    "min_version": "0.2", 
+    "max_version": "0.8pre", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 125, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 30, 
+    "min_version": "1.5", 
+    "max_version": "3.0pre", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 126, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 30, 
+    "min_version": "1.5", 
+    "max_version": "3.0a1", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 127, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 30, 
+    "min_version": "0.4", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 128, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 30, 
+    "min_version": "0.2", 
+    "max_version": "0.8pre", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 129, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 31, 
+    "min_version": "1.5", 
+    "max_version": "3.0.*", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 130, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 31, 
+    "min_version": "1.5", 
+    "max_version": "3.0a1", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 131, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 31, 
+    "min_version": "0.4", 
+    "max_version": "1.5+", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 132, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 31, 
+    "min_version": "0.2", 
+    "max_version": "0.9pre", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 133, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 32, 
+    "min_version": "1.5", 
+    "max_version": "3.1b1pre", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 134, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 32, 
+    "min_version": "1.5", 
+    "max_version": "3.0a2pre", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 135, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 32, 
+    "min_version": "0.4", 
+    "max_version": "2.0b3pre", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 136, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 32, 
+    "min_version": "0.2", 
+    "max_version": "0.9+", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 137, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 33, 
+    "min_version": "1.5", 
+    "max_version": "3.1b1pre", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 138, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 33, 
+    "min_version": "1.5", 
+    "max_version": "3.0b1pre", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 139, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 33, 
+    "min_version": "0.4", 
+    "max_version": "2.1a1pre", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 140, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 33, 
+    "min_version": "0.2", 
+    "max_version": "0.9", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 141, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 34, 
+    "min_version": "1.5", 
+    "max_version": "3.1b1pre", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 142, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 34, 
+    "min_version": "1.5", 
+    "max_version": "3.0b1pre", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 143, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 34, 
+    "min_version": "0.4", 
+    "max_version": "2.1a1pre", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 144, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 34, 
+    "min_version": "0.2", 
+    "max_version": "0.9", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 145, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 35, 
+    "min_version": "1.5", 
+    "max_version": "3.1b1pre", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 146, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 35, 
+    "min_version": "1.5", 
+    "max_version": "3.0b1pre", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 147, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 35, 
+    "min_version": "0.4", 
+    "max_version": "2.1a1pre", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 148, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 35, 
+    "min_version": "0.2", 
+    "max_version": "0.9", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 149, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 36, 
+    "min_version": "1.5", 
+    "max_version": "3.1b1pre", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 150, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 36, 
+    "min_version": "1.5", 
+    "max_version": "3.0b1pre", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 151, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 36, 
+    "min_version": "0.4", 
+    "max_version": "2.1a1pre", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 152, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 36, 
+    "min_version": "0.2", 
+    "max_version": "0.9", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 153, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 37, 
+    "min_version": "1.5", 
+    "max_version": "3.1b1pre", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 154, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 37, 
+    "min_version": "1.5", 
+    "max_version": "3.0b1pre", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 155, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 37, 
+    "min_version": "0.4", 
+    "max_version": "2.1a1pre", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 156, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 37, 
+    "min_version": "0.2", 
+    "max_version": "0.9", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 157, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 38, 
+    "min_version": "3.0", 
+    "max_version": "3.7a1pre", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 158, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 38, 
+    "min_version": "2.0", 
+    "max_version": "3.1a1pre", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 159, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 38, 
+    "min_version": "1.0", 
+    "max_version": "2.5.2", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 160, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 38, 
+    "min_version": "0.7", 
+    "max_version": "1.0pre", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 161, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 39, 
+    "min_version": "3.0", 
+    "max_version": "3.7a1pre", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 162, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 39, 
+    "min_version": "2.0", 
+    "max_version": "3.1a1pre", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 163, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 39, 
+    "min_version": "1.0", 
+    "max_version": "2.5.2", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 164, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 39, 
+    "min_version": "0.7", 
+    "max_version": "1.0pre", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 165, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 40, 
+    "min_version": "3.0", 
+    "max_version": "3.7a1pre", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 166, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 40, 
+    "min_version": "2.0", 
+    "max_version": "3.1a1pre", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 167, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 40, 
+    "min_version": "1.0", 
+    "max_version": "2.5.2", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 168, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 40, 
+    "min_version": "0.7", 
+    "max_version": "1.0pre", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 169, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 41, 
+    "min_version": "1.0pre", 
+    "max_version": "1.0pre", 
+    "app_id": "{718e30fb-e89b-41dd-9da7-e25a45638b28}"
+  }
+},
+{
+  "pk": 170, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 41, 
+    "min_version": "3.0a1pre", 
+    "max_version": "3.3a2pre", 
+    "app_id": "{3550f703-e582-4d05-9a08-453d09bdfdc6}"
+  }
+},
+{
+  "pk": 171, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 41, 
+    "min_version": "1.0.0", 
+    "max_version": "2.0.*", 
+    "app_id": "postbox@postbox-inc.com"
+  }
+},
+{
+  "pk": 172, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 41, 
+    "min_version": "3.0", 
+    "max_version": "4.0.*", 
+    "app_id": "{ec8030f7-c20a-464f-9b0e-13a3a9e97384}"
+  }
+},
+{
+  "pk": 173, 
+  "model": "extension_downloads.compatibility", 
+  "fields": {
+    "download": 41, 
+    "min_version": "2.0", 
+    "max_version": "2.5.*", 
+    "app_id": "{a463f10c-3994-11da-9945-000d60ca027b}"
+  }
+},
+{
+  "pk": 1, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 2, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 3, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 4, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 5, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 6, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 7, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 8, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 9, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 10, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 11, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 12, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 13, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 14, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 15, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 16, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 17, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 18, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 19, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 20, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 21, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 22, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 23, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 24, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 25, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 26, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 27, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 28, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 29, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 30, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 31, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 32, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 33, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 34, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 35, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 36, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 37, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 38, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 39, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 40, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+},
+{
+  "pk": 41, 
+  "model": "extension_downloads.extensiondownload", 
+  "fields": {}
+}
+]

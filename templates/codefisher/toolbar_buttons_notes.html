@@ -1,0 +1,29 @@
+{% extends 'root.html' %}
+{% load djangopress_tags %}
+{% load pages_tags %}
+
+{% block head_tags %}
+    <link type="text/css" rel="stylesheet" href="{% media_url %}themes/default/download.css">
+{% endblock %}
+
+{% block root-content %}
+<div id="wrapper-content">
+	<div class="release_notes">
+	    <h2>{{ download.title }} {{ download.version }}</h2>
+	    <small>{{ download.description }}</small>
+
+	    {% placeholder "toolbar-buttons-release" identifier %}
+
+        {% if download.release_notes %}
+		    <h3>Version {{ download.version }}</h3>
+		    {{ download.release_notes|safe }}
+	    {% endif %}
+
+	    {% if download.previous_release %}
+	       <p>
+	        <a href="{{ download.previous_release.get_release_url }}">Previous Version &raquo; </a>
+	       </p>
+	    {% endif %}
+	</div>
+</div>
+{% endblock %}

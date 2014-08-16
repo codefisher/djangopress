@@ -1,47 +1,17 @@
 {% extends "root.html" %}
+{% load display_menu %}
 
 {% block root-content %}
 
 <div id="header">
  <div id="header-content">
   <div id="tag-line">
-   <span>The Code Guru at work...</span>
+   <span>The Code Monk at work...</span>
    <span>Innovative, Fun, Geeky</span>
   </div>
   <div id="header-bar"></div>
   <div class="fly-out-menu css-fly-out-menu" id="main-menu">
-   <ul class="horizontal">
-    <li id="extensions-menu"><a href="#">Extensions</a>
-     <ul>
-      <li><a href="#">Toolbar Buttons</a>
-       <ul>
-        <li><a href="#">Button List</a></li>
-        <li><a href="#">Custom Button Sets</a></li>
-        <li><a href="#">FAQ</a></li>
-        <li><a href="#">Firefox Buttons</a></li>
-        <li><a href="#">Download</a></li>
-       </ul>
-      </li>
-      <li><a href="#">MinimizeToTray Plus For Ever</a>
-       <ul>
-        <li><a href="#">Documentation</a></li>
-        <li><a href="#">FAQ</a></li>
-        <li><a href="#">Download</a>
-         <ul>
-          <li><a href="#">Toolbar Buttons</a></li>
-          <li><a href="#">MinimizeToTray Plus</a></li>
-         </ul>
-        </li>
-       </ul>
-      </li>
-      <li><a href="#">Xrl.in Tiny Links</a></li>
-     </ul>
-    </li>
-    <li class="sepetator-menu" id="images-menu"><a href="#">Images</a></li>
-    <li><a href="#">Something</a></li>
-    <li><a href="#">Unknown</a></li>
-    <li><a href="#">Something Else</a></li>
-   </ul>
+   {% display_menu site-menu %}
    <script type="text/javascript">
     new FlyOutMenu('main-menu');
    </script>

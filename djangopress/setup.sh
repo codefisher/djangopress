@@ -1,4 +1,4 @@
-./manage.py syncdb
-./manage.py reset --noinput blog links pages menus sites
-./manage.py loaddata ../fixtures/*.json
+python ../manage.py sqlclear blog links pages menus sites downloads forum auth donate ipn
+python ../manage.py syncdb
+python ../manage.py loaddata ../fixtures/*.json
 

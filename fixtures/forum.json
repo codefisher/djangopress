@@ -1,0 +1,59 @@
+[
+{
+  "pk": 1, 
+  "model": "forum.forums", 
+  "fields": {
+    "name": "Codefisher.org Forums", 
+    "format": "BBcode", 
+    "tagline": "", 
+    "sites": [
+      1
+    ], 
+    "slug": null, 
+    "properties": []
+  }
+},
+{
+  "pk": 1, 
+  "model": "forum.forumcategories", 
+  "fields": {
+    "position": 1, 
+    "forums": 1, 
+    "name": "Extensions"
+  }
+},
+{
+  "pk": 2, 
+  "model": "forum.forumcategories", 
+  "fields": {
+    "position": 2, 
+    "forums": 1, 
+    "name": "Icons"
+  }
+},
+{
+  "pk": 3, 
+  "model": "forum.forumcategories", 
+  "fields": {
+    "position": 3, 
+    "forums": 1, 
+    "name": "General"
+  }
+},
+{
+  "pk": 1, 
+  "model": "forum.forum", 
+  "fields": {
+    "category": 1, 
+    "name": "Toolbar Buttons", 
+    "parent_forum": null, 
+    "subscriptions": null, 
+    "topics": 0, 
+    "posts": 0, 
+    "position": 1, 
+    "password": "", 
+    "last_post": null, 
+    "description": "All questions related to the Toolbar Buttons extnesion and related software."
+  }
+}
+]

@@ -8,20 +8,23 @@ table {
     border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-table thead {
+table thead,
+table tfoot {
     font-variant:small-caps;
     background: rgba(0, 0, 0, 0.2);
     font-weight:bold;
 }
 
-table td {
+table td,
+table th {
     padding:2px 5px;
 }
-table td:nth-child(even) {
+table td:nth-child(even),
+table th:nth-child(even) {
     background: rgba(0, 0, 0, 0.1);
     padding:1px;
 }
 
 table tr:nth-child(even) {
-    background: url(images/shade.png);
+    background: rgba(0, 0, 0, 0.1);
 }

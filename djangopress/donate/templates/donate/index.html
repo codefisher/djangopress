@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Donating</h2>
+
+<p>
+ Donations support my continued efforts to create quality add-ons, icons and other content.  It covers in part the the costs and time spent working on my software.  I do what I do because of the pleasure and satisfaction I receive from it.  But receiveing something in return makes in even more worth while, so I ask you to donate and be generious to this university student.
+</p>
+
+
+<p>
+    To donate, just press the button below, or if you want to be added to the list of people who have donated, please fill in the forum first.
+</p>
+
+<p>{{ form.render }}</p>
+
+<form action="{% url 'donate-process' %}" method="post">
+    {% csrf_token %}
+    <table>{{ donate }}</table>
+    <input type="submit" value="Submit" />
+</form>
+
+
+<h2>Link to codefisher.org</h2>
+
+<p>
+ <a href="http://codefisher.org/affiliate">Linking to Codefisher.org</a> is another way of supporting the my efforts to take over the world :)  And it is free!
+</p>
+
+<h2>Past Donors</h2>
+
+<p>
+A list of people that I would really like to thank for donating.  If you have a site you can ask that your name be linked to it.  If you don't want to be listed here just mention it when you make the donation.
+</p>
+
+<table>
+    {% for donation in donations %}
+        <tr>
+            <td>{% if donation.link_url and donation.amount >= 15 %}<a href="{{ donation.link_url }}">{{ donation.link_text }}</a> {% else %}{{ donation.name }}{% endif %}</td>
+            <td>${{ donation.amount }}</td>
+            <td>{{ donation.date }}</td>
+        </tr>
+    {% endfor %}    
+</table>
+{% endblock %}

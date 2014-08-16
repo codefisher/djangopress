@@ -68,6 +68,8 @@ MEDIA_URL = '/media/'
 # Examples: "http://foo.com/media/", "/media/".
 ADMIN_MEDIA_PREFIX = '/admin-media/'
 
+STATIC_URL = '/static/'
+
 # Make this unique, and don't share it with anybody.
 SECRET_KEY = '7vb=x8)-d#7_m(1xk3jt6e)@rpa4$vh*elcahy3)bh&f(!8@nt'
 
@@ -109,6 +111,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     #'django.contrib.markup',
+    'django.contrib.staticfiles',
     'django.contrib.sitemaps',
     'django.contrib.redirects',
     # Uncomment the next line to enable the admin:
@@ -130,7 +133,12 @@ INSTALLED_APPS = (
     'djangopress.accounts',
     'djangopress.pages',
     'djangopress.forum',
+    'djangopress.donate',
+    'paypal.standard.ipn',
 )
+
+PAYPAL_RECEIVER_EMAIL = "paypal-foo@codefisher.org "
+PAYPAL_TEST = True
 
 try:
     try:

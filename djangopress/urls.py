@@ -33,6 +33,8 @@ urlpatterns = patterns('',
     (r'^pages/', include('djangopress.pages.urls')),
 
     (r'^download/', include('codefisher_apps.downloads.urls')),
+    (r'^paypal/', include('paypal.standard.ipn.urls')),
+    (r'^donate/', include('djangopress.donate.urls'))
 )
 """ needs to be updated for 1.6 
 urlpatterns += patterns('django.views.generic.simple',

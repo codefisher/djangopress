@@ -90,7 +90,8 @@ a {
 #wrapper.no-sidebar {
     padding:0;
 }
-#content {
+#content,
+#wrapper-content {
     float:left;
     position: relative;
     z-index:1;
@@ -106,7 +107,8 @@ a {
     /*font-style:oblique;*/
     color:#d2e8ac;
 }
-#general {
+#general,
+#wrapper-content {
     background:rgba(0, 0, 0, 0.2);
     -moz-border-radius:6px;
     border-radius:6px;
@@ -117,6 +119,13 @@ a {
     padding:1em;
     margin:1em;
     position:relative;
+}
+
+#wrapper-content {
+    float:none;
+    width:auto;
+    margin:0 1em 166px;
+    height:100%;
 }
 /* forms */
 
@@ -163,6 +172,10 @@ div.form-field {
     margin:0.5em;
 }
 
+input[disabled] {
+    opacity:0.75;
+}
+
 .input-error input {
     border:2px solid #600;
 }
@@ -188,4 +201,13 @@ div.form-field {
 	display:block;
 	font-size:0.8em;
 	padding-top:0.5em;
+}
+
+.left {
+    float:left;
+    text-align:left;
+}
+.right {
+    float:right;
+    text-align:right;
 }
