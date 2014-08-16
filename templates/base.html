@@ -17,6 +17,9 @@
 	</ul>
 	{% endif %}
    {% block general %}
+        {% if page_content %}
+            {{ page_content }}
+        {% else %}
 	    <div id="general">
 	        {% block content %}
 			    <h2>{{ page_header }}</h2>
@@ -25,6 +28,7 @@
 			    </p>
 	        {% endblock %}
 	    </div>
+	    {% endif %}
     {% endblock %}
  </div>
  <div id="sidebar">
