@@ -1,4 +1,4 @@
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render_to_response
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.forms import ModelForm
@@ -22,9 +22,9 @@ def index(request):
         "business": settings.PAYPAL_RECEIVER_EMAIL,
         "item_name": "Donations to Codefisher.org",
         "invoice": "simple-donation",
-        "notify_url": "http://%s" % request.get_host() + reverse('paypal-ipn'),
-        "return_url": "http://%s" % request.get_host() + reverse('donate-thanks'),
-        "cancel_return": "http://%s" % request.get_host() + reverse('donate-index'),
+        "notify_url": "https://%s" % request.get_host() + reverse('paypal-ipn'),
+        "return_url": "https://%s" % request.get_host() + reverse('donate-thanks'),
+        "cancel_return": "https://%s" % request.get_host() + reverse('donate-index'),
     }
     donate = DonateForm()
     # Create the instance.

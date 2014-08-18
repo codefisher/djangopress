@@ -16,7 +16,7 @@
 
 <form action="{% url 'donate-process' %}" method="post">
     {% csrf_token %}
-    <table>{{ donate }}</table>
+    <fieldset>{{ donate.as_p }}</fieldset>
     <input type="submit" value="Submit" />
 </form>
 

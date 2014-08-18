@@ -34,7 +34,8 @@ urlpatterns = patterns('',
 
     (r'^download/', include('codefisher_apps.downloads.urls')),
     (r'^paypal/', include('paypal.standard.ipn.urls')),
-    (r'^donate/', include('djangopress.donate.urls'))
+    (r'^donate/', include('djangopress.donate.urls')),
+    (r'^email/', include('djangopress.contact.urls')),
 )
 """ needs to be updated for 1.6 
 urlpatterns += patterns('django.views.generic.simple',
@@ -73,11 +74,9 @@ else:
 
 urlpatterns += sitemap_patterns
 
-try:
-    from local_urls import urlpatterns as locale_urls
-    urlpatterns += locale_urls
-except ImportError:
-    pass
+from local_urls import urlpatterns as locale_urls
+urlpatterns += locale_urls
+
 
 # if debug is enabled use the static server for media
 if settings.DEBUG:

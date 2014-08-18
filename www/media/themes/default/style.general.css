@@ -141,6 +141,14 @@ form fieldset legend {
     position:relative;
 }
 
+form fieldset label {
+    display:block;
+}
+
+form fieldset textarea {
+    width:95%;
+}
+
 fieldset.errors {
     background:#300;
 }

@@ -14,7 +14,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
-    # ('Your Name', 'your_email@domain.com'),
+    ('Michael Buckley', 'support@codefisher.org'),
 )
 
 MANAGERS = ADMINS
@@ -136,7 +136,7 @@ INSTALLED_APPS = (
     'djangopress.forum',
     'djangopress.donate',
     'paypal.standard.ipn',
-    'codefisher_apps.downloads',
+    'djangopress.contact',
 )
 
 PAYPAL_RECEIVER_EMAIL = "paypal-foo@codefisher.org "
@@ -167,7 +167,4 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
-try:
-    from local_settings import *
-except ImportError:
-    pass
+from local_settings import *
