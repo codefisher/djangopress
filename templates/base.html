@@ -18,7 +18,7 @@
 	{% endif %}
    {% block general %}
         {% if page_content %}
-            {{ page_content }}
+            <div id="general">{{ page_content|safe }}</div>
         {% else %}
 	    <div id="general">
 	        {% block content %}
