@@ -2,7 +2,7 @@
 
 from djangopress.forum.models import Forums, ForumCategories
 from django.template import RequestContext
-from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.conf import settings
 
 def resolve_forum(function):
@@ -18,8 +18,7 @@ def index(request, forums=None):
              "forums": forums,
              "categories": categories,
     }
-    return render_to_response('forum/index.html' , data,
-            context_instance=RequestContext(request))
+    return render(request, 'forum/index.html' , data)
     
 def view_thread(request):
     pass
@@ -27,8 +26,7 @@ def view_thread(request):
 def view_forum(request, forums, forum_id):
     data = {
     }
-    return render_to_response('forum/forum.html' , data,
-            context_instance=RequestContext(request))
+    return render(request, 'forum/forum.html' , data)
 
 def new_thead(request):
     pass

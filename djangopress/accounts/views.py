@@ -1,6 +1,5 @@
 
-from django.shortcuts import Http404, render_to_response, get_object_or_404, HttpResponseRedirect, HttpResponse
-from django.template import RequestContext
+from django.shortcuts import Http404, render, get_object_or_404, HttpResponseRedirect
 from djangopress.accounts.forms import UserForm
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -49,8 +48,7 @@ def register(request):
     data = {
         "form": form
     }
-    return render_to_response("accounts/register.html" , data,
-            context_instance=RequestContext(request))
+    return render(request, "accounts/register.html" , data)
 
 def activate(request, user, activate_key):
     user = get_object_or_404(User, username=user)
@@ -93,7 +91,7 @@ def user_list(request):
         "users": users,
         "page_title": "User List",
     }
-    return render_to_response("accounts/user-list.html" , data,
-            context_instance=RequestContext(request))
+    return render(request, "accounts/user-list.html" , data)
+    
 def user_profile(request, username, tab=None):
     pass

@@ -1,13 +1,11 @@
-from django.shortcuts import render_to_response
+from django.shortcuts import render
 from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.forms import ModelForm
 from djangopress.donate.models import Donations
 from django.views.decorators.csrf import csrf_exempt
 import time
-from django.template import RequestContext
 
-# Create your views here.
 from paypal.standard.forms import PayPalPaymentsForm
 
 class DonateForm(ModelForm):
@@ -17,7 +15,6 @@ class DonateForm(ModelForm):
 
 @csrf_exempt
 def index(request):
-    # What you want the button to do.
     paypal_dict = {
         "business": settings.PAYPAL_RECEIVER_EMAIL,
         "item_name": "Donations to Codefisher.org",
@@ -27,15 +24,14 @@ def index(request):
         "cancel_return": "https://%s" % request.get_host() + reverse('donate-index'),
     }
     donate = DonateForm()
-    # Create the instance.
     form = PayPalPaymentsForm(initial=paypal_dict, button_type='donate')
     donations = Donations.objects.filter(validated=True).order_by('-amount', '-date')
-    context = RequestContext(request, {"form": form, "donate": donate, "donations": donations})
-    return render_to_response("donate/index.html", context)
+    context = {"form": form, "donate": donate, "donations": donations}
+    return render(request, "donate/index.html", context)
 
 @csrf_exempt
 def thanks(request):
-    return render_to_response("donate/thanks.html")
+    return render(request, "donate/thanks.html")
 
 
 def process(request):
@@ -56,4 +52,4 @@ def process(request):
     # Create the instance.
     form = PayPalPaymentsForm(initial=paypal_dict, button_type='donate')
     context = {"form": form}
-    return render_to_response("donate/process.html", context)
+    return render(request, "donate/process.html", context)

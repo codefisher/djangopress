@@ -1,7 +1,6 @@
 # Create your views here.
 
-from django.shortcuts import render_to_response, get_object_or_404
-from django.template import RequestContext
+from django.shortcuts import render, get_object_or_404
 from djangopress.pages.models import Page, PageBlock
 from django.conf import settings
 from django.http import HttpResponseRedirect, Http404
@@ -21,8 +20,7 @@ def show_page(request, path):
         "show_toolbar": show_toolbar,
         "enable_page_edit": "edit_cms_page" in request.GET
     }
-    return render_to_response(page.template, data,
-                context_instance=RequestContext(request))
+    return render(request, page.template, data)
 
 def get_blocks(page, identifier, name):
     if identifier:
@@ -77,8 +75,7 @@ def page_edit(request, identifier=None, name=None, page=None,
         "new_block": new_block,
         "name": identifier if identifier else name,
     }
-    return render_to_response(template_name, data,
-                context_instance=RequestContext(request))
+    return render(request, template_name, data)
 
 def page_edit_ajax(request):
     action = request.GET.get("action")
@@ -104,12 +101,10 @@ def page_edit_details(request, page, template_name='pages/editor/details.html'):
         "page": page,
         "form": form,
     }
-    return render_to_response(template_name, data,
-            context_instance=RequestContext(request))
+    return render(request, template_name, data)
 
 def page_edit_js(request, template_name='pages/js/edit-page.js'):
-    return render_to_response(template_name, mimetype="text/javascript",
-            context_instance=RequestContext(request))
+    return render(request, template_name, mimetype="text/javascript")
 
 '''
             request = context.get('request')

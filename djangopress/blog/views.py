@@ -1,6 +1,6 @@
 import datetime
 
-from django.shortcuts import render_to_response, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404
 from django.template import RequestContext
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from djangopress.blog.models import Blog, Entry, Tag, Category
@@ -36,8 +36,7 @@ def blog_pageinator(request, entries_list, blog):
 def index(request, blog=None):
     entries_list = Entry.objects.get_entries(blog=blog)
     data = blog_pageinator(request, entries_list, blog)
-    return render_to_response('blog/index.html' , data,
-            context_instance=RequestContext(request))
+    return render(request, 'blog/index.html' , data)
 
 @resolve_blog
 def archive(request, year, month=None, blog=None):
@@ -52,8 +51,7 @@ def archive(request, year, month=None, blog=None):
         entries_list = entries_list.filter(posted__month=month)
     data["date"] = datetime.date(year=year, month=month, day=1)
     data.update(blog_pageinator(request, entries_list, blog))
-    return render_to_response('blog/date_archive.html' , data,
-            context_instance=RequestContext(request))
+    return render(request, 'blog/date_archive.html' , data)
 
 @resolve_blog
 def post(request, year, month, day, slug, blog=None):
@@ -80,8 +78,7 @@ def post(request, year, month, day, slug, blog=None):
         "previous": previous,
         "blog": blog,
     }
-    return render_to_response("blog/post.html", data,
-            context_instance=RequestContext(request))
+    return render(request, "blog/post.html", data)
 
 @resolve_blog
 def tag(request, slug, blog=None):
@@ -89,8 +86,7 @@ def tag(request, slug, blog=None):
     entries_list = Entry.objects.get_entries(blog=blog).filter(tags__slug=slug)
     data = blog_pageinator(request, entries_list, blog)
     data["blog_heading"] = _("Posts Tagged '%s'") % post_tag.name
-    return render_to_response('blog/index.html' , data,
-            context_instance=RequestContext(request))
+    return render(request, 'blog/index.html' , data)
 
 
 @resolve_blog
@@ -99,8 +95,7 @@ def category(request, slug, blog=None):
     entries_list = Entry.objects.get_entries(blog=blog).filter(categories__slug=slug)
     data = blog_pageinator(request, entries_list, blog)
     data["blog_heading"] = _("Archive for the '%s' Category") % post_category.name
-    return render_to_response('blog/index.html' , data,
-            context_instance=RequestContext(request))
+    return render(request, 'blog/index.html' , data)
 
 @resolve_blog
 def moved(request, post=None, blog=None):
