@@ -119,7 +119,7 @@
   "pk": 11, 
   "model": "pages.textblock", 
   "fields": {
-    "data": "        <h2><image src=\"/images/icons/toolbar-buttons.png\" width=\"32\" height=\"32\" alt=\"\"><a href=\"#\">Toolbar Buttons</a></h2>\r\n        <p>\r\n          <a href=\"#\">Toolbar Buttons</a> is a button set for several applications including Firefox, Thunerbird and Sunbird.  It boast over 100 buttons for Firefox alone.  This easily makes it the largest set available. It does everything from opening the Add-ons manager, bookmarking pages or translating them, to restarting the application or disabling JavaScript.  There have been over 1 million downloads to date.\r\n        </p>", 
+    "data": "        <h2><image src=\"/images/icons/toolbar-buttons.png\" width=\"32\" height=\"32\" alt=\"\" /><a href=\"#\">Toolbar Buttons</a></h2>\r\n        <p>\r\n          <a href=\"#\">Toolbar Buttons</a> is a button set for several applications including Firefox, Thunerbird and Sunbird.  It boast over 100 buttons for Firefox alone.  This easily makes it the largest set available. It does everything from opening the Add-ons manager, bookmarking pages or translating them, to restarting the application or disabling JavaScript.  There have been over 1 million downloads to date.\r\n        </p>", 
     "format": "magic_html"
   }
 },
@@ -127,7 +127,7 @@
   "pk": 12, 
   "model": "pages.textblock", 
   "fields": {
-    "data": "       <h2><image src=\"/images/icons/color-wheel.png\" width=\"32\" height=\"32\" alt=\"\"><a href=\"#\">Colour Picker</a></h2>\r\n        <p>\r\n         <a href=\"http://colorpicker.net/\">Sharp Colour Picker</a> a tool that lets you pick colours using colour wheel, web safe colour pallet, and HSL Panel. \r\n        </p>", 
+    "data": "       <h2><image src=\"/images/icons/color-wheel.png\" width=\"32\" height=\"32\" alt=\"\" /><a href=\"#\">Colour Picker</a></h2>\r\n        <p>\r\n         <a href=\"http://colorpicker.net/\">Sharp Colour Picker</a> a tool that lets you pick colours using colour wheel, web safe colour pallet, and HSL Panel. \r\n        </p>", 
     "format": "magic_html"
   }
 },
@@ -135,7 +135,7 @@
   "pk": 13, 
   "model": "pages.textblock", 
   "fields": {
-    "data": "        <h2><image src=\"/images/icons/xrl.png\" width=\"32\" height=\"32\" alt=\"\"><a href=\"http://xrl.in/\">Xrl.in</a></h2>\r\n        <p>\r\n          <a href=\"http://xrl.in/\">Xrl.in</a> is a link shortening service run along side <a href=\"/\">Codefisher.org</a>.  It has a companion Firefox extension <a href=\"#\">Xrl.in Tiny Links</a> that is intended to be small, fast and intuitive.\r\n        </p>", 
+    "data": "        <h2><image src=\"/images/icons/xrl.png\" width=\"32\" height=\"32\" alt=\"\" /><a href=\"http://xrl.in/\">Xrl.in</a></h2>\r\n        <p>\r\n          <a href=\"http://xrl.in/\">Xrl.in</a> is a link shortening service run along side <a href=\"/\">Codefisher.org</a>.  It has a companion Firefox extension <a href=\"#\">Xrl.in Tiny Links</a> that is intended to be small, fast and intuitive.\r\n        </p>", 
     "format": "magic_html"
   }
 },
@@ -143,7 +143,7 @@
   "pk": 14, 
   "model": "pages.textblock", 
   "fields": {
-    "data": "        <h2><image src=\"/images/icons/pastel-svg.png\" width=\"32\" height=\"32\" alt=\"\"><a href=\"#\">Pastel SVG Icons</a></h2>\r\n        <p>\r\n           Pastel SVG is an icon set based on the popular silk icons found as <a href=\"http://famfamfam.com/\">FamFamFam.com</a>. It uses the same style, so some of the icons are almost identical.  The goal of the project is to recreate the entire set in a full range of sizes while also adding many icons that we think the original set is missing.\r\n        </p>", 
+    "data": "        <h2><image src=\"/images/icons/pastel-svg.png\" width=\"32\" height=\"32\" alt=\"\" /><a href=\"#\">Pastel SVG Icons</a></h2>\r\n        <p>\r\n           Pastel SVG is an icon set based on the popular silk icons found as <a href=\"http://famfamfam.com/\">FamFamFam.com</a>. It uses the same style, so some of the icons are almost identical.  The goal of the project is to recreate the entire set in a full range of sizes while also adding many icons that we think the original set is missing.\r\n        </p>", 
     "format": "magic_html"
   }
 },
