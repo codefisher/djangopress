@@ -1,3 +1,13 @@
 .release_notes h2 {
     margin-bottom:0em;
 }
+
+li.directory-file {
+    list-style-image: url('/media/images/pastel-svg/16/page-white.png');
+}
+li.directory-up {
+    list-style-image: url('/media/images/pastel-svg/16/folder-export.png');
+}
+li.directory {
+    list-style-image: url('/media/images/pastel-svg/16/folder.png')
+}

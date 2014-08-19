@@ -13,8 +13,11 @@ def show_page(request, path):
                 visibility="VI", status="PB")
     except:
         raise Http404
-    user = request.user
-    show_toolbar = user.has_perm('pages.change_page') if user else False
+    if hasattr(request, 'user'):
+        user = request.user
+        show_toolbar = user.has_perm('pages.change_page') if user else False
+    else:
+        show_toolbar = False
     data = {
         "page": page,
         "show_toolbar": show_toolbar,

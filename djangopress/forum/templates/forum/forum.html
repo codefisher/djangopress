@@ -1,5 +1,33 @@
 {% extends "forum/base.html" %}
 
 {% block content %}
-
+<div id="bread-crumbs">
+    <a href="{{ forums.get_absolute_url }}">Index</a> &bull; {{ title }}
+    
+</div>
+<div>
+    {% if forums.slug %}
+        <a href="{% url 'forum-new-thread' forum_id=forum.pk forums=forums.slug %}">New Thread</a>
+    {% else %}
+        <a href="{% url 'forum-new-thread' forum_id=forum.pk %}">New Thread</a>
+    {% endif %}
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>Topic</th>
+            <th>Replies</th>
+            <th>Views</th>
+            <th>Last post</th>
+        </tr>
+    </thead>
+    {% for thread in threads %}
+        <tr>
+            <td>{{ thread.subject }}</td>
+            <td>{{ thread.num_posts }}</td>
+            <td>{{ thread.num_views }}</td>
+            <td>{{ thread.last_post.posted }}</td>
+        </tr>
+    {% endfor %}
+</table>
 {% endblock %}

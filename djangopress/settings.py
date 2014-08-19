@@ -78,6 +78,7 @@ TEMPLATE_LOADERS = (
 )
 
 MIDDLEWARE_CLASSES = (
+    #'django.middleware.cache.UpdateCacheMiddleware',
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'codefisher_apps.middleware.PagesMiddleware',
@@ -87,6 +88,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
+    #'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
 ROOT_URLCONF = 'djangopress.urls'
@@ -113,13 +115,13 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
-    'django.contrib.admindocs',
+    #'django.contrib.admindocs',
     # extra django apps
-    'django.contrib.comments',
+    #'django.contrib.comments',
     # 3rd party apps
 #    'south',
-#    'django_extensions',
-#    'debug_toolbar',
+    'django_extensions', # only use during testing
+    #'debug_toolbar',
     # djangopress
     'djangopress.core.links',
     'djangopress.core.format',
@@ -132,6 +134,7 @@ INSTALLED_APPS = (
     'djangopress.donate',
     'paypal.standard.ipn',
     'djangopress.contact',
+    'codefisher_apps.svn_xslt',
 )
 
 PAYPAL_RECEIVER_EMAIL = "paypal-foo@codefisher.org "

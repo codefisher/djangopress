@@ -3,6 +3,7 @@ from django.db import models
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
 from djangopress.core.models import Property
+from django.core.urlresolvers import reverse
 
 class Forums(models.Model):
     name = models.CharField(max_length=100, unique=True)
@@ -22,6 +23,11 @@ class Forums(models.Model):
         if self.slug == "":
             self.slug = None
         super(Forums, self).save()
+
+    def get_absolute_url(self):
+        if self.slug:
+            return reverse("forum-index", kwargs={"forums": self.slug})
+        return reverse("forum-index")
     
 
 class ForumCategories(models.Model):

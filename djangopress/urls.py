@@ -36,6 +36,7 @@ urlpatterns = patterns('',
     (r'^paypal/', include('paypal.standard.ipn.urls')),
     (r'^donate/', include('djangopress.donate.urls')),
     (r'^email/', include('djangopress.contact.urls')),
+    (r'^svn_xslt/', include('codefisher_apps.svn_xslt.urls')),
 )
 """ needs to be updated for 1.6 
 urlpatterns += patterns('django.views.generic.simple',

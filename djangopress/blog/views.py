@@ -16,7 +16,7 @@ def resolve_blog(function):
 def blog_pageinator(request, entries_list, blog):
     paginator = Paginator(entries_list, 10)
     try:
-        page = int(request.GET.get('page', '1'))
+        page = int(request.GET.get('page', '1')) # TODO: I don't like using the GET here, it make ugly urls
     except ValueError:
         page = 1
 
