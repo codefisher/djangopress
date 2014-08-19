@@ -120,7 +120,7 @@ INSTALLED_APPS = (
     #'django.contrib.comments',
     # 3rd party apps
 #    'south',
-    'django_extensions', # only use during testing
+    #'django_extensions', # only use during testing
     #'debug_toolbar',
     # djangopress
     'djangopress.core.links',
