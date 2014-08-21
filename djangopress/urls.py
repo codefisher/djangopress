@@ -7,6 +7,10 @@ from django.core.exceptions import ImproperlyConfigured
 #from django.contrib import databrowse
 #from django.contrib.auth.decorators import login_required
 
+# only during development for warnings of things that are going to be removed
+import warnings
+warnings.simplefilter('error', DeprecationWarning)
+
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
