@@ -5,7 +5,7 @@
 
 {% block simple-content %}
 <div id="wrapper">
- <div id="content">
+   <div id="content">
    {% comment %}
    <div id="construction">This site is under construction, for the live site see <a href="http://codefisher.org/">Codefisher.org</a></div>
    {% endcomment %}
@@ -17,18 +17,30 @@
 	</ul>
 	{% endif %}
    {% block general %}
+     <div id="general">
+        {% block content_adds %}
+             <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <!-- Codefisher Banner -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-0498950558756902"
+             data-ad-slot="3485897034"
+             data-ad-format="auto"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        {% endblock %}
         {% if page_content %}
-            <div id="general">{{ page_content|safe }}</div>
+            {{ page_content|safe }}
         {% else %}
-	    <div id="general">
 	        {% block content %}
 			    <h2>{{ page_header }}</h2>
 			    <p>
 			       {{ page_message }}
 			    </p>
 	        {% endblock %}
-	    </div>
 	    {% endif %}
+	   </div>
     {% endblock %}
  </div>
  <div id="sidebar">
