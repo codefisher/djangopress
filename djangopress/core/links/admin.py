@@ -4,6 +4,7 @@ from django import forms
 
 class StaticLinkForm(forms.ModelForm):
     class Meta:
+        fields = ('label_text', 'location')
         model = StaticLink
         widgets = {
             'location': forms.TextInput()

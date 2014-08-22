@@ -13,6 +13,12 @@ INTERNAL_IPS = (
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
+if DEBUG == True:
+    # only during development for warnings of things that are going to be removed
+    import warnings
+    warnings.simplefilter('error', DeprecationWarning)
+    warnings.simplefilter('error', PendingDeprecationWarning)
+
 ADMINS = (
     ('Michael Buckley', 'support@codefisher.org'),
 )
@@ -116,8 +122,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     #'django.contrib.admindocs',
-    # extra django apps
-    #'django.contrib.comments',
     # 3rd party apps
 #    'south',
     #'django_extensions', # only use during testing

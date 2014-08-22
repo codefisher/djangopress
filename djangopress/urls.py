@@ -7,10 +7,6 @@ from django.core.exceptions import ImproperlyConfigured
 #from django.contrib import databrowse
 #from django.contrib.auth.decorators import login_required
 
-# only during development for warnings of things that are going to be removed
-import warnings
-warnings.simplefilter('error', DeprecationWarning)
-
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -21,8 +17,6 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     (r'^admin/', include(admin.site.urls)),
-    # the django comment app
-    (r'^comments/', include('django.contrib.comments.urls')),
 
     # the blog system
     (r'^(?:(?P<blog>[\w\-]+)/)?news/', include('djangopress.blog.urls')),
