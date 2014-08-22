@@ -1,7 +1,6 @@
 import datetime
 
 from django.shortcuts import render, redirect, get_object_or_404
-from django.template import RequestContext
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from djangopress.blog.models import Blog, Entry, Tag, Category
 from django.utils.translation import ugettext as _

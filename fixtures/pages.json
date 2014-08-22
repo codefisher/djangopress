@@ -135,7 +135,7 @@
   "pk": 13, 
   "model": "pages.textblock", 
   "fields": {
-    "data": "        <h2><image src=\"/images/icons/xrl.png\" width=\"32\" height=\"32\" alt=\"\" /><a href=\"http://xrl.in/\">Xrl.in</a></h2>\r\n        <p>\r\n          <a href=\"http://xrl.in/\">Xrl.in</a> is a link shortening service run along side <a href=\"/\">Codefisher.org</a>.  It has a companion Firefox extension <a href=\"#\">Xrl.in Tiny Links</a> that is intended to be small, fast and intuitive.\r\n        </p>", 
+    "data": "<h2><img src=\"http://static.codefisher.org/images/icons/minimize.png\" width=\"32\" height=\"32\" alt=\"\"><a href=\"http://codefisher.org/minimizetotray/\">MinimizeToTray Plus</a></h2>\r\n        <p>\r\n         <a href=\"http://codefisher.org/minimizetotray/\">MinimizeToTray Plus</a> will minimise the current window to the system tray for Firefox, Thunerbird and Sunbird among others.  It also has a selection of options including ones to enable it to minimize the window instead of closing and open the application at system start-up.\r\n        </p>", 
     "format": "magic_html"
   }
 },

@@ -141,8 +141,13 @@ form fieldset legend {
     position:relative;
 }
 
+form fieldset input,
 form fieldset label {
     display:block;
+}
+
+form fieldset input[type="checkbox"] {
+    display:inline;
 }
 
 form fieldset textarea {

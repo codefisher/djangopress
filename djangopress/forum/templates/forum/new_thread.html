@@ -1,0 +1,9 @@
+{% extends "forum/base.html" %}
+
+{% block content %}
+    <form action="" method="post">
+        {% csrf_token %}
+        <fieldset>{{ thread_form.as_p }} {{ post_form.as_p }}</fieldset>
+            <input type="submit" value="Submit" />
+    </form>
+{% endblock %}

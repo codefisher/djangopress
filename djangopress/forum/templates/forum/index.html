@@ -14,7 +14,8 @@
         {% for forum in category.forum.all %}
             <tr><td><a href="{{ forum.get_absolute_url }}">{{ forum.name }}</a> 
                 <p>{{ forum.description }}</p>
-                </td><td>{{ forum.topics }} topics <br /> {{ forum.posts }} posts</td>
+                </td>
+                <td>{{ forum.topics }} topics </td><td> {{ forum.posts }} posts</td>
                 <td>{% if forum.last_post %}<a href="{{ forum.last_post.get_absolute_url }}">{{ forum.last_post.thread.subject }}</a> 
                      <br />{{ forum.last_post.posted }} {% endif %}</td></tr>
         {% endfor %}
@@ -29,9 +30,9 @@
        <h3>Forum Stats</h3>
        <ul>
            <li>Total Posts </li>
+           <li>Total Topics</li>
            <li>Total Memebers</li>
-           <li>Newest Member</li>
-           <li>Most Unline</li>
+           <li>Most Online</li>
        </ul>
        Curently Online: members, guests, anaonomous user
 {% endblock %}

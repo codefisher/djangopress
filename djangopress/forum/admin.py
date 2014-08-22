@@ -1,5 +1,5 @@
 from django.contrib import admin
-from djangopress.forum.models import Forum, ForumCategories, Forums, ForumUser, Attachment, Post, Rank, Reports, Thread
+from djangopress.forum.models import Forum, ForumCategory, ForumGroup, ForumUser, Attachment, Post, Rank, Report, Thread
 
 class ForumAdmin(admin.ModelAdmin):
     pass
@@ -7,11 +7,11 @@ admin.site.register(Forum, ForumAdmin)
 
 class ForumCategoriesAdmin(admin.ModelAdmin):
     list_display = ('name', 'position', 'forums')
-admin.site.register(ForumCategories, ForumCategoriesAdmin)
+admin.site.register(ForumCategory, ForumCategoriesAdmin)
 
 class ForumsAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug')
-admin.site.register(Forums, ForumsAdmin)
+admin.site.register(ForumGroup, ForumsAdmin)
 
 class ForumUserAdmin(admin.ModelAdmin):
     pass
@@ -31,7 +31,7 @@ admin.site.register(Rank, RankAdmin)
 
 class ReportsAdmin(admin.ModelAdmin):
     pass
-admin.site.register(Reports, ReportsAdmin)
+admin.site.register(Report, ReportsAdmin)
 
 class ThreadAdmin(admin.ModelAdmin):
     pass
