@@ -14,7 +14,7 @@ TAG_END = ']'
 
 class BBcodeText(TextNode):
     def render(self, context, nofollow=True, trim_url_limit=None, **kwargs):
-        return add_line_breaks(urlize(self.token.contents.strip(),
+        return add_line_breaks(urlize(self.token.contents,
                 nofollow=nofollow, trim_url_limit=trim_url_limit))
 
 class BBcodeParser(Parser):

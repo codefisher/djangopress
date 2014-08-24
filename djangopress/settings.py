@@ -2,9 +2,7 @@
 
 from django.core.exceptions import ImproperlyConfigured
 import os
-PROJECT_PATH = os.path.realpath(os.path.dirname(__file__))
-
-from pages.settings import PAGES_TEMPLATES
+BASE_DIR = os.path.realpath(os.path.dirname(__file__))
 
 INTERNAL_IPS = (
     '127.0.0.1',
@@ -28,7 +26,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(PROJECT_PATH, '..', 'sqlite.db'),                      # Or path to database file if using sqlite3.
+        'NAME': os.path.join(BASE_DIR, '..', 'sqlite.db'),                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -61,7 +59,7 @@ USE_L10N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = os.path.join(PROJECT_PATH, '..', 'www', 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'www', 'media')
 MEDIA_UPLOAD = os.path.join(MEDIA_ROOT, "uploads")
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
@@ -70,9 +68,6 @@ MEDIA_UPLOAD = os.path.join(MEDIA_ROOT, "uploads")
 MEDIA_URL = '/media/'
 
 STATIC_URL = '/static/'
-
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = '7vb=x8)-d#7_m(1xk3jt6e)@rpa4$vh*elcahy3)bh&f(!8@nt'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -94,6 +89,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     #'django.middleware.cache.FetchFromCacheMiddleware',
 )
 
@@ -103,7 +99,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(PROJECT_PATH, '..', 'templates'),
+    os.path.join(BASE_DIR, '..', 'templates'),
 )
 
 TITLE_FORMAT = "%s :: %s"
@@ -154,7 +150,7 @@ except ImportError:
 else:
     HAYSTACK_SITECONF = 'djangopress.search_sites'
     HAYSTACK_SEARCH_ENGINE = 'whoosh'
-    HAYSTACK_WHOOSH_PATH = os.path.join(PROJECT_PATH, '..', 'djangopress_index')
+    HAYSTACK_WHOOSH_PATH = os.path.join(BASE_DIR, '..', 'djangopress_index')
     INSTALLED_APPS += ('haystack', )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
@@ -168,5 +164,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 
 
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
+
+PAGES_TEMPLATES = (
+    ('pages/base.html', 'default'),
+    ('pages/home.html', 'home'),
+)
 
 from local_settings import *

@@ -102,6 +102,7 @@ class Entry(models.Model):
             choices=VISIBILITY_LEVEL, default="VI")
     tags = models.ManyToManyField(Tag, blank=True)
     categories = models.ManyToManyField(Category)
+    #comments_open = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = "entry"
@@ -134,3 +135,31 @@ class EntryLink(Link):
 
     def get_absolute_url(self):
         return self.entry.get_absolute_url()
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, blank=True, null=True, related_name="blog_comments")
+    user_name = models.CharField("user's name", max_length=50, blank=True)
+    user_email = models.EmailField("user's email address", blank=True)
+    user_url = models.URLField("user's URL", blank=True)
+    comment_text = models.TextField(max_length=5000)
+    entry = models.ForeignKey(Entry)
+    parent = models.ForeignKey("Comment", null=True, blank=True)
+    
+    # Metadata about the comment
+    submit_date = models.DateTimeField(auto_now_add=True)
+    ip_address = models.GenericIPAddressField('IP address', blank=True, null=True)
+    is_public = models.BooleanField('is public', default=True,
+        help_text='Uncheck this box to make the comment effectively ' \
+                'disappear from the site.')
+    is_removed = models.BooleanField('is removed', default=False,
+        help_text='Check this box if the comment is inappropriate. ' \
+                'A "This comment has been removed" message will ' \
+                'be displayed instead.')
+    is_spam = models.BooleanField('is spam', default=False,
+        help_text='Check this box to flag as spam.')
+
+class Flags(models.Model):
+    user = models.ForeignKey(User, related_name="comment_flags")
+    comment = models.ForeignKey(Comment, related_name="flags")
+    flag = models.CharField('flag', max_length=100)
+    flag_date = models.DateTimeField(auto_now_add=True)

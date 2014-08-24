@@ -146,12 +146,6 @@ class ForumUser(models.Model):
     User class for forum
     """
 
-    EMAIL_SETTINGS = (
-        ('HI', 'Hide Email'),
-        ('SW', 'Show Email'),
-        ('HB', 'Hide email but allow people to contact me though them forum')
-    )
-
     NOFITY = (
        ('AL', 'Always Notify'),
        ('NV', 'Never Notify'),
@@ -164,7 +158,6 @@ class ForumUser(models.Model):
     
     sig = models.TextField(default="")
 
-    email_settings = models.CharField(choices=EMAIL_SETTINGS, default='HI', max_length=2)
     notify = models.CharField(choices=NOFITY, default='AL', max_length=2)
 
     show_simlies = models.BooleanField(default=True)

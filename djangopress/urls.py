@@ -19,10 +19,12 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
 
     # the blog system
-    (r'^(?:(?P<blog>[\w\-]+)/)?news/', include('djangopress.blog.urls')),
+    (r'^(?P<blog>[\w\-]+)/blog/', include('djangopress.blog.urls')),
+    (r'^news/', include('djangopress.blog.urls'), {"blog": "news"}),
     
     # the forum system
-    (r'^(?:(?P<forums>[\w\-]+)/)?forum/', include('djangopress.forum.urls')),
+    (r'^forum/', include('djangopress.forum.urls'), {"forums": "codefisher"}),
+    (r'^(?P<forums>[\w\-]+)/forum/', include('djangopress.forum.urls')),
     
     # the user accounts system
     (r'^accounts/', include('djangopress.accounts.urls')),
