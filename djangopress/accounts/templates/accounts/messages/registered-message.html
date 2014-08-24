@@ -3,6 +3,6 @@
 {% block content %}
     <h2>Account Created</h2>
     <p>
-        Your account has been created, and an activation email sent to your email address.  Please check your email and follow the instructions given.
+        {{ user.username|capfirst }}, your account has been created, and an activation email sent to your email address.  Please check your email and follow the instructions given.
     </p>
 {% endblock %}

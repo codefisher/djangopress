@@ -1,0 +1,23 @@
+<table>
+    <tr>
+        <td>Username</td><td>{{ user.username }}</td>
+    </tr>
+    <tr>
+        <td>Date Joined</td><td>{{ user.date_joined }}</td>
+    </tr>
+    <tr>
+        <td>Last Login</td><td>{{ user.last_login }}</td>
+    </tr>
+    <tr>
+        <td>Real Name</td><td>{{ user.first_name }} {{ user.last_name }}</td>
+    </tr>
+    <tr>
+        <td>Website</td><td><a href="{{ user.profile.homepage }}">{{ user.profile.homepage }}</a></td>
+    </tr>
+</table>
+{% if user.profile.signature %}
+ <h3> Signature </h3>
+ <div class="content-box">
+     {{ user.profile.get_signature|safe }}
+ </div>
+{% endif %}

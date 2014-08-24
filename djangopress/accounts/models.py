@@ -9,11 +9,19 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.db.models.signals import post_save
 from djangopress.core.models import Property
+from djangopress.core.format import Library
 
 class UserProfile(models.Model):
     """
 
     """
+    
+    EMAIL_SETTINGS = (
+        ('HI', 'Hide Email'),
+        ('SW', 'Show Email'),
+        ('HB', 'Hide email but allow people to contact me though them forum')
+    )
+    
     title = models.CharField(max_length=100, default="New member")
     homepage = models.CharField(max_length=100, blank=True, null=True)
     #IM contact (jabber, icq, msn, aim, yahoo, gtalk, twitter, facebook)
@@ -30,8 +38,18 @@ class UserProfile(models.Model):
     activate_key_expirary = models.DateTimeField(blank=True, editable=False)
     banned = models.BooleanField(default=False)
     remember_between_visits = models.BooleanField(default=True)
-    user = models.OneToOneField(User)
-    properties = models.ManyToManyField(Property, null=True)
+    user = models.OneToOneField(User, related_name="profile")
+    properties = models.ManyToManyField(Property, null=True, blank=True)
+
+    email_settings = models.CharField(choices=EMAIL_SETTINGS, default='HI', max_length=2)
+
+    
+    def get_signature(self, *args, **kargs):
+        try:
+            bbcode = Library.get("bbcode").get("function")
+            return bbcode(self.signature, *args, **kargs)
+        except:
+            return ""
 
     def set_activate_key(self):
         salt = hashlib.sha1(str(random.random()) + str(random.random())).hexdigest()[:5]

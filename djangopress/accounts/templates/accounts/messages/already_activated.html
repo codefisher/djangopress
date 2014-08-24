@@ -3,6 +3,6 @@
 {% block content %}
     <h2>Account Already Validated</h2>
     <p>
-       The account is already validated, there is no need to validate it again.
+       {{ user.username|capfirst }}, your account is already validated, there is no need to validate it again.
     </p>
 {% endblock %}

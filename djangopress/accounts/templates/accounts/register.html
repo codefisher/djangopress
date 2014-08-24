@@ -2,5 +2,21 @@
 {% load field_form %}
 
 {% block content %}
-    {% field_form form %}
+    <form action="{% url 'accounts-register' %}" method="POST" class="field-form">
+    {% field_form form full=false%}
+    {% if recapatch %}
+    <fieldset>
+        <legend>Verification</legend>
+        {% if recapatcha_error %}
+            <p>{{ recapatcha_error }}</p>
+        {% endif %}
+        {{ recapatch|safe }}
+    </fieldset>
+    {% endif %}
+    <fieldset>
+        <legend>Submit</legend>
+        {% csrf_token %}
+        <input type="submit" value="Submit">
+    </fieldset>
+</form>
 {% endblock %}

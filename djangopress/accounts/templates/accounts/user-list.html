@@ -14,7 +14,7 @@
         <tbody>
 	    {% for user in users.object_list %}
             <tr>
-                <td>{{ user.username }}</td>
+                <td><a href="{% url 'accounts-profile' user=user.username %}">{{ user.username }}</a></td>
                 <td>{{ user.get_profile.title }}</td>
                 <td>{{ user.date_joined|date:"DATE_FORMAT" }}</td>
             </tr>

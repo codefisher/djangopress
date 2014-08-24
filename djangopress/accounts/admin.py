@@ -2,5 +2,5 @@ from django.contrib import admin
 from djangopress.accounts.models import UserProfile
 
 class UserProfileAdmin(admin.ModelAdmin):
-    pass
+    list_display = ["user"]
 admin.site.register(UserProfile, UserProfileAdmin)

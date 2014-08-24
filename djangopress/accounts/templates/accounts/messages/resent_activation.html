@@ -3,6 +3,6 @@
 {% block content %}
     <h2>Resent Activation</h2>
     <p>
-        An activation email has been sent to your email address.  Please check your email and follow the instructions given.
+        {{ user.username|capfirst }}, an activation email has been sent to your email address.  Please check your email and follow the instructions given.
     </p>
 {% endblock %}
