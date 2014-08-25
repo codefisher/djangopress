@@ -52,6 +52,7 @@ FlyOutMenu.prototype.setUpMenu = function(node, depth) {
         subMenu = this.firstChildByName(menuItem, 'ul');
         if(subMenu) {
             menuItem.subMenu = subMenu;
+            subMenu.style.display = "none";
             this.setClass(menuItem, 'has-submenu');
             this.setClass(subMenu, 'vertical');
             this.setUpMenu(subMenu, depth + 1);

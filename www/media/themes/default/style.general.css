@@ -108,9 +108,9 @@ a {
     color:#d2e8ac;
 }
 #general,
-#wrapper-content {
+#wrapper-content,
+.content-box {
     background:rgba(0, 0, 0, 0.2);
-    -moz-border-radius:6px;
     border-radius:6px;
     -moz-outline-radius:6px;
     outline-radius:6px;
@@ -141,15 +141,6 @@ form fieldset legend {
     position:relative;
 }
 
-form fieldset input,
-form fieldset label {
-    display:block;
-}
-
-form fieldset input[type="checkbox"] {
-    display:inline;
-}
-
 form fieldset textarea {
     width:95%;
 }
@@ -164,20 +155,18 @@ fieldset.errors dl ul {
     padding:0;
 }
 
-form.field-form .form-input label {
+form .form-input label {
     display:block;
 }
-form.field-form .form-field input,
-form.field-form .form-field select {
+form .form-field input,
+form .form-field select {
 	margin-left:2em;
 }
-form.field-form .form-field textarea {
+form .form-field textarea {
     width:100%;
 }
-form.field-form .form-input label:after {
-    content: ":"
-}
-form.field-form .form-field-help {
+
+form .form-field-help {
     margin-left:1em;
     margin-bottom:0.5em;
 }
