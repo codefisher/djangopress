@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load field_form %}
+
+{% block content %}
+    <form action="" method="POST" class="field-form">
+    {% for form in profile_forms %}
+        {% field_form form %}
+    {% endfor %}
+    <fieldset>
+        <legend>Submit</legend>
+        {% csrf_token %}
+        <input type="submit" value="Submit">
+    </fieldset>
+</form>
+{% endblock %}

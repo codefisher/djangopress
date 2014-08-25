@@ -156,14 +156,14 @@ class ForumUser(models.Model):
     num_topics = models.IntegerField(default=0)
     num_posts = models.IntegerField(default=0)
     
-    sig = models.TextField(default="")
+    #sig = models.TextField(default="")
 
     notify = models.CharField(choices=NOFITY, default='AL', max_length=2)
 
-    show_simlies = models.BooleanField(default=True)
-    show_img = models.BooleanField(default=True)
-    show_avatars = models.BooleanField(default=True)
-    show_sig = models.BooleanField(default=True)
+    show_simlies = models.BooleanField(default=True, help_text="Show smilies in forum posts.")
+    show_img = models.BooleanField(default=True, verbose_name="Show Images", help_text="Show images in forum posts.")
+    show_avatars = models.BooleanField(default=True, help_text="Show that avatar images of users.")
+    show_sig = models.BooleanField(default=True, verbose_name="Show Signature", help_text="Show user signature after their posts.")
 
 class Attachment(models.Model):
     post = models.ForeignKey('Post', related_name="attachments")

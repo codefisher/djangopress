@@ -1,23 +1,10 @@
 {% load field_form %}
-{% if full %}
-<form action="{{ action }}" method="POST" class="field-form">
-	{% if errors %}
-	    <fieldset class="errors">
-	        <legend>Errors</legend>
-	        <dl>
-			    {% for field in errors %}
-			        <dt>{{ field.label }}</dt><dd>{{ field.errors }}</dd>
-			    {% endfor %}
-		    </dl>
-	    </fieldset>
-	{% endif %}
-{% endif %}
 	{% for legend, fields in fieldsets %}
 	    <fieldset>
 	        <legend>{{ legend }}</legend>
 	        {% for field in fields %}
 	            <div class="form-field">
-                    {% if not full and field.errors %}
+                    {% if field.errors %}
                       <div class="form-field-error">{{ field.errors }}</div>
                     {% endif %}
 	                {% if field.field.widget|is_checkbox %}
@@ -39,11 +26,3 @@
         {% endfor %}
     </div>
     {% endif %}
-{% if full %}
-    {% csrf_token %}
-    <fieldset>
-        <legend>Submit</legend>
-        <input type="submit" value="Submit">
-    </fieldset>
-</form>
-{% endif %}

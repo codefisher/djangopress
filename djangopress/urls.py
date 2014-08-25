@@ -19,8 +19,8 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
 
     # the blog system
-    (r'^(?P<blog>[\w\-]+)/blog/', include('djangopress.blog.urls')),
-    (r'^news/', include('djangopress.blog.urls'), {"blog": "news"}),
+    (r'^(?P<blog_slug>[\w\-]+)/blog/', include('djangopress.blog.urls')),
+    (r'^news/', include('djangopress.blog.urls'), {"blog_slug": "news"}),
     
     # the forum system
     (r'^forum/', include('djangopress.forum.urls'), {"forums": "codefisher"}),
@@ -78,6 +78,8 @@ urlpatterns += sitemap_patterns
 from local_urls import urlpatterns as locale_urls
 urlpatterns += locale_urls
 
+from codefisher_apps.downloads.urls import urlpatterns as download_urls
+urlpatterns += download_urls
 
 # if debug is enabled use the static server for media
 if settings.DEBUG:

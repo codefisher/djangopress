@@ -2,6 +2,7 @@
 from django.shortcuts import Http404, render, get_object_or_404, HttpResponseRedirect
 from djangopress.accounts.forms import UserForm
 from django.contrib.auth.models import User
+from django.contrib.auth.views import redirect_to_login
 from django.core.urlresolvers import reverse
 from django.core.mail import send_mail, BadHeaderError
 from django.template.loader import render_to_string
@@ -9,6 +10,8 @@ from django.contrib.sites.models import Site
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from djangopress.accounts.profiles import register as profile_register
 from djangopress import settings
+from djangopress.core.util import get_client_ip
+
 try:
     from recaptcha.client import captcha
 except:
@@ -33,12 +36,6 @@ def recaptcha_is_valid(request):
         return False
     except:
         return True #they don't have the recapacha installed so let it be valid
-
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        return x_forwarded_for.split(',')[-1].strip()
-    return request.META.get('REMOTE_ADDR')
 
 def send_activate_email(request, user, resend=False):
     site = Site.objects.get_current()
@@ -93,7 +90,7 @@ def register(request):
             user.save()
             profile = user.get_profile()
             #profile.remember_between_visits = form.cleaned_data["remember_between_visits"]
-            #profile.timezone = form.cleaned_data["timezone"]
+            profile.timezone = form.cleaned_data["timezone"]
             client_address = get_client_ip(request)
             profile.registration_ip = client_address
             profile.last_ip_used = client_address
@@ -153,20 +150,30 @@ def user_list(request):
     return render(request, "accounts/user-list.html" , data)
     
 def user_profile(request, username=None, tab=None):
-    if username == None and request.user.is_authenticated():
-        user = request.user
+    if username == None:
+        if request.user.is_authenticated():
+            user = request.user
+        else:
+            return redirect_to_login(next=reverse("accounts-profile"))
     else:
         user = get_object_or_404(User, username=username)
     profiles = profile_register.get_profiles()
+    data = {
+        "user": user,
+        "title": "User Profile",
+    }
     if request.user == user:
         # user is viewing their own profile, let them edit
-        pass
+        profile_data = []
+        for _, cls in profiles.items():
+            info = cls(user).edit(request)
+            profile_data.append(info)
+        data["profile_forms"] = [item for sublist in 
+                [data.get("forms") for data in sorted(profile_data, key=lambda x: x.get("position", 0))] 
+                    for item in sublist]
+        return render(request, "accounts/edit-profile.html" , data)
     else:
         # some else's profile, show basic info
-        data = {
-            "user": user,
-            "title": "User Profile",
-        }
         profile_data = []
         for _, cls in profiles.items():
             info = cls(user).info()
@@ -174,3 +181,6 @@ def user_profile(request, username=None, tab=None):
             data.update(info.get("data", {}))
         data["profile_data"] = sorted(profile_data, key=lambda x: x.get("position", 0))
         return render(request, "accounts/view-profile.html" , data)
+    
+def user_admin(request, username):
+    pass

@@ -46,6 +46,12 @@ class TimeZoneField(forms.ChoiceField):
                         widget, label, initial, help_text, *args, **kwargs)
 
 class UserForm(forms.ModelForm):
+
+    class Meta:
+        model = User
+        fields = ('username', 'password1', 'password2', 'email', 'email2',
+                  'timezone', 'remember_between_visits')
+    
     password1 = forms.CharField(label=__("Password"),
             widget=forms.PasswordInput(render_value=False))
     password2 = forms.CharField(label=__("Confirm Password"),
@@ -63,13 +69,8 @@ class UserForm(forms.ModelForm):
         ("User Name & Password", ('username', 'password1', 'password2')),
         ("Email", ('email', 'email2')),
         ("Location", ('timezone',)),
-        ("Privacy", ('remember_between_visits',)),
+        #("Privacy", ('remember_between_visits',)),
     )
-
-    class Meta:
-        model = User
-        fields = ('username', 'password1', 'password2', 'email', 'email2',
-                  'timezone', 'remember_between_visits')
 
     def clean_username(self):
         try:

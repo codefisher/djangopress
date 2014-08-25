@@ -12,6 +12,8 @@ urlpatterns = patterns('djangopress.accounts.views',
     url(r'^profile/$', 'user_profile', name='accounts-profile'),
     url(r'^profile/(?P<username>.+)/$', 'user_profile', name='accounts-profile'),
     url(r'^profile/(?P<username>.+)/(?P<tab>\w+)/$', 'user_profile', name='accounts-profile'),
+    
+    url(r'^admin/(?P<username>.+)/$', 'user_admin', name='accounts-admin'),
 
     url(r'^registered/(?P<username>.+)/$', 'registered', name='accounts-registered'),
     url(r'^register/activated/(?P<username>.+)/$', 'activated', name='accounts-activated'),

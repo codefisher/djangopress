@@ -1,10 +1,13 @@
 {% extends "blog/base.html" %}
+{% load field_form %}
 
 {% block head_tags %}
     <link type="text/css" rel="stylesheet" href="/media/themes/default/blog.css">
 {% endblock %}
 
 {% block content %}
+    <h2><a href="{{ blog.get_absolute_url }}">{{ blog.name }}</a></h2>
+    
     {% include "blog/entry.html" %}
 
     {% if comment_count == 0 %}
@@ -12,11 +15,35 @@
     {% else %}
         <h3>This post has {{ comment_count }} comment{{ comment_count|pluralize }} so far.</h3>
 	    <div id="blog-comments">
-	        
+	        {% for comment in comments %}
+	           <div class="comment">
+	               <div class="comment-text">{{ comment.comment_text }}</div>
+	               <div class="comment-info">
+                       {% if comment.user %}
+                         {% if comment.user.profile.homepage %} 
+                         <a rel="nofollow" href="{{comment.user.profile.homepage }}">{{ comment.user.username }}</a>
+                         {% else %} {{ comment.user.username }}{% endif %} said this on {{ comment.submit_date }}
+                       {% else % }
+                         {% if comment.user_url %} 
+                         <a rel="nofollow" href="{{comment.user_url }}">{{ comment.user_name }}</a>
+                         {% else %} {{ comment.user_name }}{% endif %} said this on {{ comment.submit_date }}
+                       {% endif %}
+                   </div>
+	           </div>
+	        {% endfor %}
 	    </div>
     {% endif %}
+    {% if comment_message %}
+        <p>{{ comment_message }}</p>
+    {% endif %}
+    {% if entry.comments_open %}
     <div id="respond">
-        
+        <form action="" method="POST">
+        {% form comment_form %}
+         {% csrf_token %}
+        <div><input type="submit" value="Submit"></div>
+        </form>
     </div>
+    {% endif %}
 
 {% endblock %}

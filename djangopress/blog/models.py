@@ -21,7 +21,7 @@ class Tag(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("blog-tag", kwargs={"slug": self.slug})
+        return reverse("blog-tag", kwargs={"slug": self.slug, "blog_slug": self.blog.slug})
 
 class Category(models.Model):
     name = models.CharField(max_length=30)
@@ -40,7 +40,7 @@ class Category(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("blog-category", kwargs={"slug": self.slug})
+        return reverse("blog-category", kwargs={"slug": self.slug, "blog_slug": self.blog.slug})
 
 class Blog(models.Model):
     name = models.CharField(max_length=30, unique=True)
@@ -61,10 +61,7 @@ class Blog(models.Model):
         super(Blog, self).save()
 
     def get_absolute_url(self):
-        kwargs = {}
-        if self.slug:
-            kwargs["blog"] = self.slug
-        return reverse("blog-index", kwargs=kwargs)
+        return reverse("blog-index", kwargs={"blog_slug": self.slug})
 
 class Entry(models.Model):
     PUBLICATION_LEVEL = (
@@ -102,7 +99,7 @@ class Entry(models.Model):
             choices=VISIBILITY_LEVEL, default="VI")
     tags = models.ManyToManyField(Tag, blank=True)
     categories = models.ManyToManyField(Category)
-    #comments_open = models.BooleanField(default=True)
+    comments_open = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = "entry"
@@ -122,32 +119,25 @@ class Entry(models.Model):
             "month": "%02d" % self.posted.month,
             "day": "%02d" % self.posted.day,
             "slug": self.slug,
+            "blog_slug": self.blog.slug,
         }
-        if self.blog.slug:
-            kwargs["blog"] = self.blog.slug
         return reverse("blog-post", kwargs=kwargs)
-
-class EntryLink(Link):
-    entry = models.ForeignKey(Entry, null=False, blank=False, related_name="links")
-
-    def label(self):
-        return self.entry.title
-
-    def get_absolute_url(self):
-        return self.entry.get_absolute_url()
 
 class Comment(models.Model):
     user = models.ForeignKey(User, blank=True, null=True, related_name="blog_comments")
-    user_name = models.CharField("user's name", max_length=50, blank=True)
-    user_email = models.EmailField("user's email address", blank=True)
-    user_url = models.URLField("user's URL", blank=True)
+    user_name = models.CharField(verbose_name="Name", max_length=50, blank=True)
+    user_email = models.EmailField(verbose_name="Email address", blank=True)
+    user_url = models.URLField(verbose_name="Website", blank=True)
+   
     comment_text = models.TextField(max_length=5000)
     entry = models.ForeignKey(Entry)
     parent = models.ForeignKey("Comment", null=True, blank=True)
+    rank = models.IntegerField(default=0)
     
     # Metadata about the comment
     submit_date = models.DateTimeField(auto_now_add=True)
     ip_address = models.GenericIPAddressField('IP address', blank=True, null=True)
+    user_agent = models.TextField(blank=True)
     is_public = models.BooleanField('is public', default=True,
         help_text='Uncheck this box to make the comment effectively ' \
                 'disappear from the site.')
@@ -158,8 +148,8 @@ class Comment(models.Model):
     is_spam = models.BooleanField('is spam', default=False,
         help_text='Check this box to flag as spam.')
 
-class Flags(models.Model):
+class Flag(models.Model):
     user = models.ForeignKey(User, related_name="comment_flags")
-    comment = models.ForeignKey(Comment, related_name="flags")
+    comment = models.ForeignKey(Comment, related_name="flag")
     flag = models.CharField('flag', max_length=100)
     flag_date = models.DateTimeField(auto_now_add=True)

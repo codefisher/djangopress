@@ -5,6 +5,7 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django import forms
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
+from djangopress.core.util import get_client_ip
 
 
 def resolve_forum(function):
@@ -60,12 +61,6 @@ class PostEditForm(forms.ModelForm):
     class Meta(object):
         fields = ("message", "edit_reason", "show_similies")
         model = Post
-
-def get_client_ip(request):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        return x_forwarded_for.split(',')[-1].strip()
-    return request.META.get('REMOTE_ADDR')
 
 @resolve_forum
 def new_thead(request, forums, forum_id):

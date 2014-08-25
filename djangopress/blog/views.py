@@ -1,16 +1,21 @@
 import datetime
 
+from django import forms
 from django.shortcuts import render, redirect, get_object_or_404
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from djangopress.blog.models import Blog, Entry, Tag, Category
+from djangopress.blog.models import Blog, Entry, Tag, Category, Comment, Flag
 from django.utils.translation import ugettext as _
 from django.conf import settings
+from djangopress.core.util import get_client_ip
 
-def resolve_blog(function):
-    def _resolve_blog(*args, **kargs):
-        kargs["blog"] = get_object_or_404(Blog, slug=kargs.get("blog"), sites__id__exact=settings.SITE_ID)
-        return function(*args, **kargs)
-    return _resolve_blog
+try:
+    import akismet
+except:
+    pass
+
+
+def get_blog(blog_slug):
+    return get_object_or_404(Blog, slug=blog_slug, sites__id__exact=settings.SITE_ID)
 
 def blog_pageinator(request, entries_list, blog):
     paginator = Paginator(entries_list, 10)
@@ -31,14 +36,14 @@ def blog_pageinator(request, entries_list, blog):
         "respond": True,
     }
 
-@resolve_blog
-def index(request, blog=None):
+def index(request, blog_slug, page=1):
+    blog = get_blog(blog_slug)
     entries_list = Entry.objects.get_entries(blog=blog)
     data = blog_pageinator(request, entries_list, blog)
     return render(request, 'blog/index.html' , data)
 
-@resolve_blog
-def archive(request, year, month=None, blog=None):
+def archive(request, blog_slug, year, month=None):
+    blog = get_blog(blog_slug)
     data = {"format": "YEAR_MONTH_FORMAT"}
     year = int(year)
     entries_list = Entry.objects.get_entries(blog=blog).filter(posted__year=year)
@@ -52,8 +57,46 @@ def archive(request, year, month=None, blog=None):
     data.update(blog_pageinator(request, entries_list, blog))
     return render(request, 'blog/date_archive.html' , data)
 
-@resolve_blog
-def post(request, year, month, day, slug, blog=None):
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('user_name', 'user_email', 'user_url', 'comment_text')
+        
+    user_name = forms.CharField(required=True)
+    user_email = forms.CharField(required=True)
+        
+class CommentUserForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ('comment_text', )
+        
+def check_askmet_spam(request, entry, comment_form):
+    api = akismet.Akismet()
+    api.setAPIKey(settings.AKISMET_API_KEY)
+    if api.verify_key():
+        data = {
+                "user_ip": get_client_ip(request),
+                "user_agent": request.META.get("HTTP_USER_AGENT"),
+                "referrer": request.META.get("HTTP_REFERER"),
+                "permalink": entry.get_absolute_url(),
+        }
+        if request.user.is_authenticated():
+            data.update({
+                "comment_author": request.user.username,
+                "comment_author_email": request.user.email,
+                "comment_author_url": request.user.profile.homepage,
+            })
+        else:
+            data.update({
+                "comment_author": comment_form.cleaned_data["user_name"],
+                "comment_author_email": comment_form.cleaned_data["user_email"],
+                "comment_author_url": comment_form.cleaned_data["user_url"],
+            })
+        return api.comment_check(comment_form.cleaned_data["comment_text"], data)
+    return False
+
+def post(request, blog_slug, year, month, day, slug):
+    blog = get_blog(blog_slug)
     kargs = {
         'posted__year':year,
         'posted__month':month,
@@ -62,25 +105,56 @@ def post(request, year, month, day, slug, blog=None):
     }
     entry = get_object_or_404(Entry, **kargs)
     try:
-        previous = Entry.get_previous_by_posted(entry)
+        previous_post = Entry.get_previous_by_posted(entry)
     except Entry.DoesNotExist:
-        previous = None
+        previous_post = None
     try:
-        next = Entry.get_next_by_posted(entry)
+        next_post = Entry.get_next_by_posted(entry)
     except Entry.DoesNotExist:
-        next = None
+        next_post = None
+    comments = Comment.objects.filter(entry=entry, is_public=True, is_spam=False).order_by('submit_date')
+    comment_message = ""
+    if entry.comments_open and request.method == 'POST':
+        if request.user.is_authenticated():
+            comment_form = CommentUserForm(request.POST)
+        else:
+            comment_form = CommentForm(request.POST)
+        if comment_form.is_valid():
+            comment = comment_form.save(commit=False)
+            if request.user.is_authenticated():
+                comment.user = request.user
+            comment.ip_address = get_client_ip(request)
+            comment.entry = entry
+            comment.user_agent = request.META.get("HTTP_USER_AGENT")
+
+            try:
+                comment.is_spam = check_askmet_spam(request, entry, comment_form)
+            except:
+                pass # it is not installed, no problem
+            
+            comment.save()
+            comment_message = "Your comment has been saved."
+    else:
+        if request.user.is_authenticated():
+            comment_form = CommentUserForm()
+        else:
+            comment_form = CommentForm()
     data = {
         "title": settings.TITLE_FORMAT % (blog.name, entry.title),
         "entry": entry,
         "respond": False,
-        "next": next,
-        "previous": previous,
+        "next": next_post,
+        "previous": previous_post,
         "blog": blog,
+        "comments": comments,
+        "comment_count": comments.count(),
+        "comment_form": comment_form,
+        "comment_message": comment_message,
     }
     return render(request, "blog/post.html", data)
 
-@resolve_blog
-def tag(request, slug, blog=None):
+def tag(request, blog_slug, slug):
+    blog = get_blog(blog_slug)
     post_tag = get_object_or_404(Tag, slug=slug, blog=blog)
     entries_list = Entry.objects.get_entries(blog=blog).filter(tags__slug=slug)
     data = blog_pageinator(request, entries_list, blog)
@@ -88,15 +162,15 @@ def tag(request, slug, blog=None):
     return render(request, 'blog/index.html' , data)
 
 
-@resolve_blog
-def category(request, slug, blog=None):
+def category(request, blog_slug, slug):
+    blog = get_blog(blog_slug)
     post_category = get_object_or_404(Category, slug=slug, blog=blog)
     entries_list = Entry.objects.get_entries(blog=blog).filter(categories__slug=slug)
     data = blog_pageinator(request, entries_list, blog)
     data["blog_heading"] = _("Archive for the '%s' Category") % post_category.name
     return render(request, 'blog/index.html' , data)
 
-@resolve_blog
-def moved(request, post=None, blog=None):
+def moved(request, blog_slug, post):
+    blog = get_blog(blog_slug)
     entry = get_object_or_404(Entry, pk=post, blog=blog)
     return redirect(entry.get_absolute_url())

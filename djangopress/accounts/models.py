@@ -19,7 +19,7 @@ class UserProfile(models.Model):
     EMAIL_SETTINGS = (
         ('HI', 'Hide Email'),
         ('SW', 'Show Email'),
-        ('HB', 'Hide email but allow people to contact me though them forum')
+        ('HB', 'Use Web Form')
     )
     
     title = models.CharField(max_length=100, default="New member")
@@ -37,7 +37,7 @@ class UserProfile(models.Model):
     activate_key = models.CharField(max_length=127, blank=True, editable=False)
     activate_key_expirary = models.DateTimeField(blank=True, editable=False)
     banned = models.BooleanField(default=False)
-    remember_between_visits = models.BooleanField(default=True)
+    #remember_between_visits = models.BooleanField(default=True)
     user = models.OneToOneField(User, related_name="profile")
     properties = models.ManyToManyField(Property, null=True, blank=True)
 

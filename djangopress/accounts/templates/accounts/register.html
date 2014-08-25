@@ -3,7 +3,7 @@
 
 {% block content %}
     <form action="{% url 'accounts-register' %}" method="POST" class="field-form">
-    {% field_form form full=false%}
+    {% field_form form %}
     {% if recapatch %}
     <fieldset>
         <legend>Verification</legend>

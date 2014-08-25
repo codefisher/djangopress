@@ -6,10 +6,10 @@ class Profile(object):
     def info(self):
         pass
     
-    def admin(self):
+    def edit(self, request):
         pass
     
-    def edit(self):
+    def admin(self, request):
         pass
 
 class ProfileRegister(object):

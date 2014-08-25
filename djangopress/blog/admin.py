@@ -1,5 +1,5 @@
 from django.contrib import admin
-from djangopress.blog.models import Category, Entry, Tag, Blog, EntryLink
+from djangopress.blog.models import Category, Entry, Tag, Blog, Comment, Flag
 
 class BlogAdmin(admin.ModelAdmin):
     pass
@@ -10,14 +10,17 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 
 class EntryAdmin(admin.ModelAdmin):
-    pass
+    list_display = ['title', 'slug', 'author', 'posted']
 admin.site.register(Entry, EntryAdmin)
-
-class EntryLinkAdmin(admin.ModelAdmin):
-    pass
-admin.site.register(EntryLink, EntryLinkAdmin)
 
 class TagAdmin(admin.ModelAdmin):
     pass
 admin.site.register(Tag, TagAdmin)
 
+class CommentAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Comment, CommentAdmin)
+
+class FlagAdmin(admin.ModelAdmin):
+    pass
+admin.site.register(Flag, FlagAdmin)
