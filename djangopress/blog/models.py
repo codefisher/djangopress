@@ -38,7 +38,7 @@ class Category(models.Model):
         verbose_name_plural = "categories"
         unique_together = ("slug", "blog")
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
     def get_absolute_url(self):
@@ -54,7 +54,7 @@ class Blog(models.Model):
         verbose_name = "blog"
         verbose_name_plural = "blogs"
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
     
     def save(self):
@@ -111,7 +111,7 @@ class Entry(models.Model):
 
     objects = EntryMananger()
 
-    def __str__(self):
+    def __unicode__(self):
         return self.title
 
     def save(self):

@@ -18,7 +18,7 @@ class Menu(models.Model):
             self.parent_item.save()
         super(Menu, self).delete()
 
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
 class MenuItem(models.Model):
@@ -28,7 +28,7 @@ class MenuItem(models.Model):
     index = models.IntegerField()
     has_child = models.BooleanField(default=False, editable=False)
 
-    def __str__(self):
+    def __unicode__(self):
         return self.link.label()
 
     def __cmp__(self, other):

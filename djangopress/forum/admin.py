@@ -2,7 +2,7 @@ from django.contrib import admin
 from djangopress.forum.models import Forum, ForumCategory, ForumGroup, ForumUser, Attachment, Post, Rank, Report, Thread
 
 class ForumAdmin(admin.ModelAdmin):
-    pass
+    raw_id_fields = ("last_post", "subscriptions")
 admin.site.register(Forum, ForumAdmin)
 
 class ForumCategoriesAdmin(admin.ModelAdmin):
@@ -22,7 +22,9 @@ class AttachmentAdmin(admin.ModelAdmin):
 admin.site.register(Attachment, AttachmentAdmin)
 
 class PostAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('author_name', 'thread', 'posted', 'is_spam', 'is_public', 'is_removed')
+    list_filter = ('is_spam', 'is_public', 'is_removed')
+    search_fields = ('thread__subject', 'poster_name', 'author__username')
 admin.site.register(Post, PostAdmin)
 
 class RankAdmin(admin.ModelAdmin):

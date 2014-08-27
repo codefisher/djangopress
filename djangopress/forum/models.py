@@ -25,8 +25,8 @@ class ForumGroup(models.Model):
 
     properties = models.ManyToManyField(Property, blank=True, null=True)
     
-    def __str__(self):
-        return str(self.name)
+    def __unicode__(self):
+        return self.name
     
     def save(self):
         if self.slug == "":
@@ -44,8 +44,8 @@ class ForumCategory(models.Model):
     position = models.IntegerField(default=1)
     forums = models.ForeignKey(ForumGroup, related_name="category")
     
-    def __str__(self):
-        return str(self.name)
+    def __unicode__(self):
+        return self.name
 
 class Forum(models.Model):
     """
@@ -71,8 +71,8 @@ class Forum(models.Model):
 
     subscriptions = models.ManyToManyField(User, null=True, blank=True, related_name='forum_forum_subscriptions')
 
-    def __str__(self):
-        return str(self.name)
+    def __unicode__(self):
+        return self.name
     
     def get_absolute_url(self, page=None):
         if page is None or page == 1:
@@ -118,8 +118,8 @@ class Post(models.Model):
     is_spam = models.BooleanField('is spam', default=False,
         help_text='Check this box to flag as spam.')
     
-    def __str__(self):
-        return "%s %s" % (self.thread.subject, self.posted)
+    def __unicode__(self):
+        return u"%s %s" % (self.thread.subject, self.posted)
 
     def __init__(self, *args, **kwargs):
         super(Post, self).__init__(*args, **kwargs)
@@ -217,8 +217,8 @@ class Thread(models.Model):
     moved_to = models.ForeignKey('Thread', blank=True, null=True)
     forum = models.ForeignKey(Forum)
     
-    def __str__(self):
-        return str(self.subject)
+    def __unicode__(self):
+        return self.subject
     
     def save(self, *args, **kwargs):
         is_new = self.pk is None

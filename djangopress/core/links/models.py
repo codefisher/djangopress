@@ -10,5 +10,5 @@ class Link(models.Model):
     def get_absolute_url(self):
         return self.location
     
-    def __str__(self):
+    def __unicode__(self):
         return self.location

@@ -62,7 +62,7 @@ class Page(models.Model):
         verbose_name_plural = "pages"
         unique_together = ("slug", "parent")
 
-    def __str__(self):
+    def __unicode__(self):
         return self.title
 
     def get_absolute_url(self):

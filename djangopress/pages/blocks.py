@@ -25,7 +25,7 @@ class PageBlock(models.Model):
     class Meta:
         ordering = ['position']
 
-    def __str__(self):
+    def __unicode__(self):
         if self.name:
             return "%s %s %s %s" % (self.name, self.class_name, self.block_name, self.position)
         return "%s %s %s" % (self.class_name, self.block_name, self.position)
