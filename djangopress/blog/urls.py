@@ -10,8 +10,11 @@ urlpatterns = patterns('djangopress.blog.views',
     
     url(r'^(?P<year>\d{4})/(?P<month>\d{1,2})/(?P<day>\d{1,2})/(?P<slug>[\w\-]*)/',
         'post', name='blog-post'),
-    url(r'^tag/(?P<slug>[\w\-]+)/', 'tag', name='blog-tag'),
-    url(r'^category/(?P<slug>[\w\-]+)/', 'category', name='blog-category'),
+    url(r'^tag/(?P<slug>[\w\-]+)/$', 'tag', name='blog-tag'),
+    url(r'^tag/(?P<slug>[\w\-]+)/(?P<page>\d*)/$', 'tag', name='blog-tag'),
+    url(r'^category/(?P<slug>[\w\-]+)/$', 'category', name='blog-category'),
+    url(r'^category/(?P<slug>[\w\-]+)/(?P<page>\d*)/$', 'category', name='blog-category'),
+
     url(r'^feed/$', BlogAtomFeed(), name='blog-feed'),
     url(r'^feed/rss/$', BlogFeed(), name='blog-rss-feed'),
 

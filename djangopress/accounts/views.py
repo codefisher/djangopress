@@ -11,11 +11,34 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from djangopress.accounts.profiles import register as profile_register
 from djangopress import settings
 from djangopress.core.util import get_client_ip
+from django.contrib.auth.signals import user_logged_in
+
 
 try:
     from recaptcha.client import captcha
 except:
     pass
+
+"""
+def login(request, ...):
+    #...
+    if request.POST.get('remember_me', None):
+        request.session.set_expiry(settings.KEEP_LOGGED_DURATION)
+    # also set the last_ip_user value
+    #...
+"""
+
+
+
+def user_login(sender, user, request, **kwargs):
+    user.profile.last_ip_used = get_client_ip(request)
+    user.profile.save()
+    if request.POST.get('remember_me', None):
+        request.session.set_expiry(settings.KEEP_LOGGED_DURATION)
+    else:
+        request.session.set_expiry(0)
+
+user_logged_in.connect(user_login)
 
 def get_recaptcha_html():
     try:
@@ -141,6 +164,7 @@ def user_list(request):
     try:
         users = paginator.page(page)
     except (EmptyPage, InvalidPage):
+        #return HttpResponseRedirect(.get_absolute_url(paginator.num_pages))
         users = paginator.page(paginator.num_pages)
 
     data = {

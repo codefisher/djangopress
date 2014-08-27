@@ -1,20 +1,19 @@
 {% extends "forum/base.html" %}
+{% load show_pagination %}
 
 {% block content %}
-
-<div>
-    {% if forums.slug %}
-        <a href="{% url 'forum-new-thread' forum_id=forum.pk forums=forums.slug %}">New Thread</a>
-    {% else %}
-        <a href="{% url 'forum-new-thread' forum_id=forum.pk %}">New Thread</a>
-    {% endif %}
-</div>
 
 <div id="bread-crumbs">
     <a href="{{ forums.get_absolute_url }}">Index</a> &bull; {{ title }}
     
 </div>
-<table>
+<div class="pagination">
+    {% simple_pagination threads forum %}
+</div>
+<div class="new-thread">
+        <p><a href="{% url 'forum-new-thread' forum_id=forum.pk forums_slug=forums.slug %}">Post new Thread</a></p>
+</div>
+<table id="forum-index">
     <thead>
         <tr>
             <th>Topic</th>
@@ -23,13 +22,25 @@
             <th>Last post</th>
         </tr>
     </thead>
+    <tbody>
     {% for thread in threads %}
         <tr>
-            <td>{{ thread.subject }}</td>
+            <td>
+                {% if thread.sticky %}Sticky: {% endif %}
+                {% if thread.closed %}Closed: {% endif %}
+                <a href="{{ thread.get_absolute_url }}">{{ thread.subject }} by {{ thread.author_name }}</a>
+            </td>
             <td>{{ thread.num_posts }}</td>
             <td>{{ thread.num_views }}</td>
-            <td>{{ thread.last_post.posted }}</td>
+            <td>{{ thread.last_post.posted }} by {{ thread.last_post.author_name }}</td>
         </tr>
     {% endfor %}
+    </tbody>
 </table>
+<div class="pagination">
+    {% simple_pagination threads forum %}
+</div>
+<div class="new-thread">
+        <p><a href="{% url 'forum-new-thread' forum_id=forum.pk forums_slug=forums.slug %}">Post new Thread</a></p>
+</div>
 {% endblock %}

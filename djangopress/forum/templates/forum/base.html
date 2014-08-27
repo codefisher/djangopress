@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+{% load djangopress_tags %}
+
+{% block head_tags %}
+    <link type="text/css" rel="stylesheet" href="{% media_url %}themes/default/forum.css">
+{% endblock %}
 
 {% block page_title_prefix %}{{ forums.name }} :: {% endblock %}
 

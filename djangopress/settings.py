@@ -14,8 +14,8 @@ TEMPLATE_DEBUG = DEBUG
 if DEBUG == True:
     # only during development for warnings of things that are going to be removed
     import warnings
-    warnings.simplefilter('error', DeprecationWarning)
-    warnings.simplefilter('error', PendingDeprecationWarning)
+    #warnings.simplefilter('error', DeprecationWarning)
+    #warnings.simplefilter('error', PendingDeprecationWarning)
 
 ADMINS = (
     ('Michael Buckley', 'support@codefisher.org'),
@@ -80,17 +80,19 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     #'django.middleware.cache.UpdateCacheMiddleware',
-    #'debug_toolbar.middleware.DebugToolbarMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'codefisher_apps.middleware.PagesMiddleware',
     'djangopress.pages.middleware.PagesMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    #'online_status.middleware.OnlineStatusMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     #'django.middleware.cache.FetchFromCacheMiddleware',
+    #'codefisher_apps.pun.middle.ProfileMiddleware',
 )
 
 ROOT_URLCONF = 'djangopress.urls'
@@ -121,7 +123,8 @@ INSTALLED_APPS = (
     # 3rd party apps
 #    'south',
     #'django_extensions', # only use during testing
-    #'debug_toolbar',
+    #'online_status',
+    'debug_toolbar',
     # djangopress
     'djangopress.core.links',
     'djangopress.core.format',

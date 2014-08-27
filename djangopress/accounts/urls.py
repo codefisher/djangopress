@@ -8,10 +8,6 @@ urlpatterns = patterns('djangopress.accounts.views',
     url(r'^register/confirm/(?P<username>.+)/(?P<activate_key>.+)/', 'activate', name='accounts-confirm'),
     url(r'^register/reactivate/(?P<username>.+)/$', 'reactivate', name='accounts-reactivate'),
     url(r'^$', 'user_list', name='accounts-userlist'),
-
-    url(r'^profile/$', 'user_profile', name='accounts-profile'),
-    url(r'^profile/(?P<username>.+)/$', 'user_profile', name='accounts-profile'),
-    url(r'^profile/(?P<username>.+)/(?P<tab>\w+)/$', 'user_profile', name='accounts-profile'),
     
     url(r'^admin/(?P<username>.+)/$', 'user_admin', name='accounts-admin'),
 

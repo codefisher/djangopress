@@ -1,5 +1,5 @@
 from django import template
-from djangopress.blog.models import Entry, Blog
+from djangopress.blog.models import Entry, Blog, Category
 
 register = template.Library()
 
@@ -23,9 +23,10 @@ def list_blog_latest(number=5, blog=None):
         number = int(number)
     except ValueError:
         number = 5
-    entries_list = Entry.objects.filter(blog=blog)[0:number]
+    entries_list = Entry.objects.get_entries(blog=blog)[0:number]
     return {
         "entries": entries_list,
+        "blog": blog,
     }
 
 @register.inclusion_tag('blog/list_archive.html')
@@ -39,5 +40,5 @@ def list_blog_archive(blog):
 @register.inclusion_tag('blog/list_categories.html')
 def list_blog_categories(blog):
     return {
-        "categories": blog.categories.all().order_by('name'),
+        "categories": Category.objects.get_categories(blog=blog),
     }

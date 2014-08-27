@@ -14,7 +14,7 @@
         {{ entry.body|safe }}
     </div>
     <div class="blog-entry-footer">
-        {% with entry.tags.all as tags %}
+        {% with entry.get_tags as tags %}
 	        {% if tags %}
 	            <span class="blog-entry-tags">
 	                {% for tag in tags %}
@@ -24,7 +24,7 @@
 	        {% endif %}
         {% endwith %}
         <span class="blog-entry-links">
-            {% with entry.categories.all as categories %}
+            {% with entry.get_categories as categories %}
 	            {% if categories %}
 	                Posted in
 	                {% for category in categories %}

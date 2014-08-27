@@ -1,13 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-
+{% load field_form %}
 <h2>Donating</h2>
-
 <p>
  Donations support my continued efforts to create quality add-ons, icons and other content.  It covers in part the the costs and time spent working on my software.  I do what I do because of the pleasure and satisfaction I receive from it.  But receiveing something in return makes in even more worth while, so I ask you to donate and be generious to this university student.
 </p>
-
-
 <p>
     To donate, just press the button below, or if you want to be added to the list of people who have donated, please fill in the forum first.
 </p>
@@ -16,8 +13,9 @@
 
 <form action="{% url 'donate-process' %}" method="post">
     {% csrf_token %}
-    <fieldset>{{ donate.as_p }}</fieldset>
-    <input type="submit" value="Submit" />
+    <fieldset>{% form donate %}
+    <p><input type="submit" value="Submit" /></p>
+    </fieldset>
 </form>
 
 

@@ -107,7 +107,7 @@ def page_edit_details(request, page, template_name='pages/editor/details.html'):
     return render(request, template_name, data)
 
 def page_edit_js(request, template_name='pages/js/edit-page.js'):
-    return render(request, template_name, mimetype="text/javascript")
+    return render(request, template_name, content_type="text/javascript")
 
 '''
             request = context.get('request')

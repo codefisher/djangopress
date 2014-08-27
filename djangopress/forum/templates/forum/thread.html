@@ -1,5 +1,73 @@
 {% extends "forum/base.html" %}
+{% load show_pagination %}
 
 {% block content %}
 
+    <div id="bread-crumbs">
+        <a href="{{ forums.get_absolute_url }}">Index</a> 
+        &bull; <a href="{{ thread.forum.get_absolute_url }}">{{ thread.forum.name }}</a>
+        &bull; {{ thread.subject }}
+    </div>
+    <div class="pagination">
+        {% simple_pagination posts thread %}
+    </div>
+    <div class="new-post">
+            {% if not thread.closed %}
+            <p><a href="{% url 'forum-reply-thread' thread_id=thread.pk forums_slug=forums.slug %}">Post new Reply</a></p>
+            {% else %}
+            <p>Thread Closed</p>
+            {% endif %}
+    </div>
+    <table>
+    {% for post in posts %}
+        <tr class="post-title-row">
+            <td class="post-date">
+                    {% if post.get_page == posts.number %}
+                        <a href="#p{{ post.pk }}">{{ post.posted }}</a>
+                    {% else %}
+                        <a href="{{ post.get_absolute_url }}">{{ post.posted }}</a>
+                    {% endif %}
+                </td>
+            <td class="post-number"><a id="p{{ post.pk }}">#{{ forloop.counter|add:posts.start_index|add:-1 }}</a></td>
+        </tr>
+        <tr class="post-content-row">
+            <td class="post-author">
+                <ul>
+                {% if post.author %}                
+                    <li class="username"><a href="{{ post.author.get_absolute_url }}">{{ post.author.username }}</a></li>
+                    <li>{{ post.author.profile.title }}</li>
+                    <li>Registered: {{ post.author.date_joined }}</li>
+                    <li>Posts: {{ post.author.forum_profile.num_posts }}</li>
+                {% else %}
+                    <li class="username">{{ post.poster_name }}</li>
+                    <li>Guest</li>
+                {% endif %}
+                </ul>
+            </td>
+            <td>
+                {% if post.is_removed %}
+                    <div class="post-content"><p>This post has been removed.</p></div>
+                {% else %}
+                    <div class="post-content">{{ post.formatted|safe }}</div>
+                    {% if post.author.profile.signature %}
+                    <div class="signature"> <hr />
+                     {{ post.author.profile.get_signature|safe }}</div>
+                    {% endif %}
+                {% endif %}
+            </td>
+        </tr>
+    {% endfor %}
+    </table>
+    <div class="pagination">
+        {% simple_pagination posts thread %}
+    </div>
+    
+    <div class="new-post">
+            {% if not thread.closed %}
+            <p><a href="{% url 'forum-reply-thread' thread_id=thread.pk forums_slug=forums.slug %}">Post new Reply</a></p>
+            {% else %}
+            <p>Thread Closed</p>
+            {% endif %}
+    </div>
+    
 {% endblock %}

@@ -23,11 +23,14 @@ urlpatterns = patterns('',
     (r'^news/', include('djangopress.blog.urls'), {"blog_slug": "news"}),
     
     # the forum system
-    (r'^forum/', include('djangopress.forum.urls'), {"forums": "codefisher"}),
-    (r'^(?P<forums>[\w\-]+)/forum/', include('djangopress.forum.urls')),
+    (r'^(?P<forums_slug>[\w\-]+)/forum/', include('djangopress.forum.urls')),
+    (r'^forum/', include('djangopress.forum.urls'), {"forums_slug": "codefisher"}),
     
     # the user accounts system
     (r'^accounts/', include('djangopress.accounts.urls')),
+    
+    # the user accounts system
+    (r'^users/', include('djangopress.accounts.user_urls')),
 
     # the cms pages editing tools etc/
     (r'^pages/', include('djangopress.pages.urls')),
@@ -85,5 +88,4 @@ urlpatterns += download_urls
 if settings.DEBUG:
     urlpatterns += patterns('',
         (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
-            (r'^admin/admin/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/usr/share/pyshared/django/contrib/admin/static/admin/'}),
     )

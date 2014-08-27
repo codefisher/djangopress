@@ -12,10 +12,6 @@ from djangopress.core.models import Property
 from djangopress.core.format import Library
 
 class UserProfile(models.Model):
-    """
-
-    """
-    
     EMAIL_SETTINGS = (
         ('HI', 'Hide Email'),
         ('SW', 'Show Email'),

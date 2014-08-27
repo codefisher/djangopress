@@ -4,7 +4,7 @@ from django.core.urlresolvers import reverse
 from djangopress.core.links.models import Link
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
-from djangopress.blog.managers import EntryMananger
+from djangopress.blog.managers import EntryMananger, CategoryMananger
 
 class Tag(models.Model):
     name = models.CharField(max_length=30)
@@ -30,6 +30,8 @@ class Category(models.Model):
     parent_category = models.ForeignKey('self', null=True, blank=True,
             related_name="child_categories")
     blog = models.ForeignKey("Blog", related_name="categories")
+    
+    objects = CategoryMananger()
 
     class Meta:
         verbose_name = "category"
@@ -60,8 +62,10 @@ class Blog(models.Model):
             self.slug = None
         super(Blog, self).save()
 
-    def get_absolute_url(self):
-        return reverse("blog-index", kwargs={"blog_slug": self.slug})
+    def get_absolute_url(self, page=None):
+        if page is None:
+            return reverse("blog-index", kwargs={"blog_slug": self.slug})
+        return reverse("blog-index", kwargs={"blog_slug": self.slug, "page": page})
 
 class Entry(models.Model):
     PUBLICATION_LEVEL = (
@@ -112,6 +116,12 @@ class Entry(models.Model):
 
     def save(self):
         super(Entry, self).save()
+        
+    def get_tags(self):
+        return self.tags.all().select_related('blog')
+    
+    def get_categories(self):
+        return self.categories.all().select_related('blog')
 
     def get_absolute_url(self):
         kwargs = {

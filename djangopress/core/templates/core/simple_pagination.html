@@ -1,0 +1,17 @@
+{% load show_pagination %}
+
+{% if pages %}
+    <div class="pagination">
+            <span class="range-links">
+	            {% for i in range %}
+	                {% if i == pages.number %}
+	                    <span class="current-link">{{ i }}</span>
+	                {% elif i == None %}
+	                   ...
+	                {% else %}
+	                    <a href="{% _page_link instance i %}">{{ i }}</a>
+	                {% endif %}
+	            {% endfor %}
+            </span>
+    </div>
+{% endif %}

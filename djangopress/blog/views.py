@@ -7,6 +7,7 @@ from djangopress.blog.models import Blog, Entry, Tag, Category, Comment, Flag
 from django.utils.translation import ugettext as _
 from django.conf import settings
 from djangopress.core.util import get_client_ip
+from django.http import HttpResponseRedirect
 
 try:
     import akismet
@@ -17,19 +18,19 @@ except:
 def get_blog(blog_slug):
     return get_object_or_404(Blog, slug=blog_slug, sites__id__exact=settings.SITE_ID)
 
-def blog_pageinator(request, entries_list, blog):
+def blog_pageinator(request, entries_list, blog, page):
     paginator = Paginator(entries_list, 10)
     try:
-        page = int(request.GET.get('page', '1')) # TODO: I don't like using the GET here, it make ugly urls
+        page = int(page)
     except ValueError:
         page = 1
 
     try:
         entries = paginator.page(page)
     except (EmptyPage, InvalidPage):
-        entries = paginator.page(paginator.num_pages)
+        return True, HttpResponseRedirect(blog.get_absolute_url(paginator.num_pages))
 
-    return {
+    return False, {
         "blog": blog,
         "entries": entries,
         "title": blog.name,
@@ -39,7 +40,9 @@ def blog_pageinator(request, entries_list, blog):
 def index(request, blog_slug, page=1):
     blog = get_blog(blog_slug)
     entries_list = Entry.objects.get_entries(blog=blog)
-    data = blog_pageinator(request, entries_list, blog)
+    redirect, data = blog_pageinator(request, entries_list, blog, page)
+    if redirect:
+        return data
     return render(request, 'blog/index.html' , data)
 
 def archive(request, blog_slug, year, month=None):
@@ -54,7 +57,10 @@ def archive(request, blog_slug, year, month=None):
         month = int(month)
         entries_list = entries_list.filter(posted__month=month)
     data["date"] = datetime.date(year=year, month=month, day=1)
-    data.update(blog_pageinator(request, entries_list, blog))
+    redirect, new_data = blog_pageinator(request, entries_list, blog)
+    if redirect:
+        return new_data
+    data.update(new_data)
     return render(request, 'blog/date_archive.html' , data)
 
 class CommentForm(forms.ModelForm):
@@ -153,21 +159,27 @@ def post(request, blog_slug, year, month, day, slug):
     }
     return render(request, "blog/post.html", data)
 
-def tag(request, blog_slug, slug):
+def tag(request, blog_slug, slug, page=1):
     blog = get_blog(blog_slug)
     post_tag = get_object_or_404(Tag, slug=slug, blog=blog)
     entries_list = Entry.objects.get_entries(blog=blog).filter(tags__slug=slug)
-    data = blog_pageinator(request, entries_list, blog)
+    redirect, data = blog_pageinator(request, entries_list, blog, page)
+    if redirect:
+        return data
     data["blog_heading"] = _("Posts Tagged '%s'") % post_tag.name
+    data["blog"] = blog
     return render(request, 'blog/index.html' , data)
 
 
-def category(request, blog_slug, slug):
+def category(request, blog_slug, slug, page=1):
     blog = get_blog(blog_slug)
     post_category = get_object_or_404(Category, slug=slug, blog=blog)
     entries_list = Entry.objects.get_entries(blog=blog).filter(categories__slug=slug)
-    data = blog_pageinator(request, entries_list, blog)
+    redirect, data = blog_pageinator(request, entries_list, blog, page)
+    if redirect:
+        return data
     data["blog_heading"] = _("Archive for the '%s' Category") % post_category.name
+    data["blog"] = blog
     return render(request, 'blog/index.html' , data)
 
 def moved(request, blog_slug, post):

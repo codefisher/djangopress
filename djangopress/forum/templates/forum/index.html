@@ -1,23 +1,27 @@
 {% extends "forum/base.html" %}
+{% load online_status_tags %}
 
 {% block content %}
     <div>
-      <h2>{{ forums.name }}</h2>
+      <h1>{{ forums.name }}</h1>
       {% if forums.tagline %}<p>{{ forums.tagline}}</p>{% endif %}
     </div>
     <div id="bread-crumbs">{% block breadcrumbs %}{% endblock %}</div>
     <div>
         
        {% for category in categories %}
-        <div class="category">{{ category.name }}
+        <div class="category"><h2>{{ category.name }}</h2>
         <table>
+            <thead>
+                <tr><th>Forum</th><th>Topics</th><th>Posts</th><th>Last Post</th></tr>
+            </thead>
         {% for forum in category.forum.all %}
-            <tr><td><a href="{{ forum.get_absolute_url }}">{{ forum.name }}</a> 
+            <tr><td><h3><a href="{{ forum.get_absolute_url }}">{{ forum.name }}</a> </h3>
                 <p>{{ forum.description }}</p>
                 </td>
-                <td>{{ forum.topics }} topics </td><td> {{ forum.posts }} posts</td>
-                <td>{% if forum.last_post %}<a href="{{ forum.last_post.get_absolute_url }}">{{ forum.last_post.thread.subject }}</a> 
-                     <br />{{ forum.last_post.posted }} {% endif %}</td></tr>
+                <td>{{ forum.num_threads }} topics </td><td> {{ forum.num_posts }} posts</td>
+                <td>{% if forum.last_post %}<a href="{{ forum.last_post.get_absolute_url }}">{{ forum.last_post.posted }}</a><br /> by {{ forum.last_post.author_name }}
+                     <br />in {{ forum.last_post.thread.subject }}{% endif %}</td></tr>
         {% endfor %}
         </table>
         </div>
@@ -27,12 +31,11 @@
 {% endblock %}
 
 {% block second_footer_box %}
-       <h3>Forum Stats</h3>
+       <h3>Forum Statistics</h3>
        <ul>
-           <li>Total Posts </li>
-           <li>Total Topics</li>
-           <li>Total Memebers</li>
-           <li>Most Online</li>
+           <li>Total Posts: {{ total_posts }}</li>
+           <li>Total Topics: {{ total_topics }}</li>
+           <li>Total Memebers: {{ total_users }}</li>
        </ul>
-       Curently Online: members, guests, anaonomous user
+       Curently Online: 
 {% endblock %}
