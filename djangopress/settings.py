@@ -14,8 +14,8 @@ TEMPLATE_DEBUG = DEBUG
 if DEBUG == True:
     # only during development for warnings of things that are going to be removed
     import warnings
-    #warnings.simplefilter('error', DeprecationWarning)
-    #warnings.simplefilter('error', PendingDeprecationWarning)
+    warnings.simplefilter('error', DeprecationWarning)
+    warnings.simplefilter('error', PendingDeprecationWarning)
 
 ADMINS = (
     ('Michael Buckley', 'support@codefisher.org'),

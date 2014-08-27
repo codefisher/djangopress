@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, url
+from djangopress.contact import views
 
-urlpatterns = patterns('djangopress.contact.views',
-    url(r'^$', 'contact', name='contact-index'),
+urlpatterns = patterns('',
+    url(r'^$', views.contact, name='contact-index'),
 )
