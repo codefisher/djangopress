@@ -3,6 +3,17 @@ from django.conf import settings
 from djangopress.sitemap import sitemap_patterns
 from django.core.exceptions import ImproperlyConfigured
 
+from djangopress.forum import urls as forum_urls
+from djangopress.accounts import urls as accounts_urls
+from djangopress.accounts import user_urls
+from djangopress.blog import urls as blog_urls
+from djangopress.pages import urls as pages_urls
+from codefisher_apps.downloads import urls as download_urls
+from paypal.standard.ipn import urls as paypal_urls
+from djangopress.donate import urls as donate_urls
+from djangopress.contact import urls as contact_urls
+from codefisher_apps.svn_xslt import urls as svn_urls
+
 # django databrowse application
 #from django.contrib import databrowse
 #from django.contrib.auth.decorators import login_required
@@ -19,27 +30,27 @@ urlpatterns = patterns('',
     (r'^admin/', include(admin.site.urls)),
 
     # the blog system
-    (r'^(?P<blog_slug>[\w\-]+)/blog/', include('djangopress.blog.urls')),
-    (r'^news/', include('djangopress.blog.urls'), {"blog_slug": "news"}),
+    (r'^(?P<blog_slug>[\w\-]+)/blog/', include(blog_urls)),
+    (r'^news/', include(blog_urls), {"blog_slug": "news"}),
     
     # the forum system
-    (r'^(?P<forums_slug>[\w\-]+)/forum/', include('djangopress.forum.urls')),
-    (r'^forum/', include('djangopress.forum.urls'), {"forums_slug": "codefisher"}),
+    (r'^(?P<forums_slug>[\w\-]+)/forum/', include(forum_urls)),
+    (r'^forum/', include(forum_urls), {"forums_slug": "codefisher"}),
     
     # the user accounts system
-    (r'^accounts/', include('djangopress.accounts.urls')),
+    (r'^accounts/', include(accounts_urls)),
     
     # the user accounts system
-    (r'^users/', include('djangopress.accounts.user_urls')),
+    (r'^users/', include(user_urls)),
 
     # the cms pages editing tools etc/
-    (r'^pages/', include('djangopress.pages.urls')),
+    (r'^pages/', include(pages_urls)),
 
-    (r'^download/', include('codefisher_apps.downloads.urls')),
-    (r'^paypal/', include('paypal.standard.ipn.urls')),
-    (r'^donate/', include('djangopress.donate.urls')),
-    (r'^email/', include('djangopress.contact.urls')),
-    (r'^xslt_svn/', include('codefisher_apps.svn_xslt.urls')),
+    (r'^download/', include(download_urls)),
+    (r'^paypal/', include(paypal_urls)),
+    (r'^donate/', include(donate_urls)),
+    (r'^email/', include(contact_urls)),
+    (r'^xslt_svn/', include(svn_urls)),
 )
 """ needs to be updated for 1.6 
 urlpatterns += patterns('django.views.generic.simple',
@@ -86,6 +97,7 @@ urlpatterns += download_urls
 
 # if debug is enabled use the static server for media
 if settings.DEBUG:
+    from django.views.static import serve
     urlpatterns += patterns('',
-        (r'^media/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.MEDIA_ROOT}),
+        (r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
     )
