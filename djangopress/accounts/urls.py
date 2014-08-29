@@ -9,7 +9,8 @@ urlpatterns = patterns('',
     url(r'^register/$', views.register, name='accounts-register'),
     url(r'^register/confirm/(?P<username>.+)/(?P<activate_key>.+)/', views.activate, name='accounts-confirm'),
     url(r'^register/reactivate/(?P<username>.+)/$', views.reactivate, name='accounts-reactivate'),
-    url(r'^$', 'user_list', name='accounts-userlist'),
+    url(r'^$', views.user_list, name='accounts-userlist'),
+    url(r'^(?P<page>\d+)/$', views.user_list, name='accounts-userlist'),
     
     url(r'^admin/(?P<username>.+)/$', views.user_admin, name='accounts-admin'),
 

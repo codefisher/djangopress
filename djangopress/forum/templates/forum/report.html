@@ -1,0 +1,17 @@
+{% extends "forum/base.html" %}
+
+{% block content %}
+    <div id="bread-crumbs">
+        <a href="{{ forums.get_absolute_url }}">Index</a> 
+        &bull; <a href="{{ post.thread.forum.get_absolute_url }}">{{ post.thread.forum.name }}</a>
+        &bull; <a href="{{ post.thread.get_absolute_url }}">{{ post.thread.subject }}</a>
+    </div>
+    <h2>Report Post</h2>
+    <form action="" method="post">
+        {% csrf_token %}
+        <fieldset>
+            {{ report_form.as_p }}
+        </fieldset>
+        <p><input type="submit" value="Submit" /></p>
+    </form>
+{% endblock %}

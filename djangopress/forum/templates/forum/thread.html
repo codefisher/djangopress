@@ -1,5 +1,6 @@
 {% extends "forum/base.html" %}
 {% load show_pagination %}
+{% load forum_tags %}
 
 {% block content %}
 
@@ -18,7 +19,7 @@
             <p>Thread Closed</p>
             {% endif %}
     </div>
-    <table>
+    <table id="thread-table">
     {% for post in posts %}
         <tr class="post-title-row">
             <td class="post-date">
@@ -44,7 +45,7 @@
                 {% endif %}
                 </ul>
             </td>
-            <td>
+            <td class="thread-post">
                 {% if post.is_removed %}
                     <div class="post-content"><p>This post has been removed.</p></div>
                 {% else %}
@@ -53,8 +54,16 @@
                     <div class="signature"> <hr />
                      {{ post.author.profile.get_signature|safe }}</div>
                     {% endif %}
+                    {% if post.edited_by %}
+                        <div class="edit-message"> <hr />
+                            <p>Edited by {{ post.edited_by.username }} on {{ post.edited }}<br /> Reason: {{ post.edit_reason }}</p></div>
+                    {% endif %}
                 {% endif %}
             </td>
+        </tr>
+        <tr>
+            <td> </td>
+            <td class="post-actions">{% post_actions post request %}</td>
         </tr>
     {% endfor %}
     </table>

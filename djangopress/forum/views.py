@@ -1,12 +1,15 @@
-from djangopress.forum.models import ForumGroup, ForumCategory, Forum, Thread, Post, THREADS_PER_PAGE, POSTS_PER_PAGE
+from djangopress.forum.models import ForumGroup, ForumCategory, Forum, Thread, Post, Report, ForumUser, THREADS_PER_PAGE, POSTS_PER_PAGE
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django import forms
+from django.db import models
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from djangopress.core.util import get_client_ip
+from djangopress.core.util import get_client_ip, get_recaptcha_html, recaptcha_is_valid, has_permission
 from django.contrib.auth.models import User
+import datetime
+from django.template.loader import render_to_string
 
 try:
     import akismet
@@ -15,7 +18,6 @@ except:
 
 def get_forum(forums_slug):
     return get_object_or_404(ForumGroup, slug=forums_slug, sites__id__exact=settings.SITE_ID)
-
 
 def index(request, forums_slug):
     forums = get_forum(forums_slug)
@@ -33,13 +35,17 @@ def index(request, forums_slug):
     }
     return render(request, 'forum/index.html' , data)
 
+def moderator_forum(request):
+    #needs to be the same as view_forum, but can move, delete, open or close any topic in batch.
+    pass
+
 def view_forum(request, forums_slug, forum_id, page=1):
     forums = get_forum(forums_slug)
     forum = get_object_or_404(Forum.objects.select_related('category__forums'), pk=forum_id)
     
     paginator = Paginator(Thread.objects.filter(forum=forum).select_related(
                 'poster', 'last_post__author', 'forum__category__forums'
-            ).order_by('-sticky', '-last_post_date'), THREADS_PER_PAGE)
+            ).defer('last_post__message').order_by('-sticky', '-last_post_date'), THREADS_PER_PAGE)
     
     try:
         threads = paginator.page(page)
@@ -100,13 +106,22 @@ def check_askmet_spam(request, post, form):
 def new_thead(request, forums_slug, forum_id):
     forums = get_forum(forums_slug)
     forum = get_object_or_404(Forum, pk=forum_id)
+    if not has_permission(request, 'forum', 'can_post_threads'):
+        data = {
+                "forums": forums,
+                "forum": forum,
+                "anonymous": not request.user.is_authenticated(),
+        }
+        return render(request, 'forum/thread_new_denied.html' , data)
+    recaptcha_error = None
     if request.method == 'POST':
         thread_form = ThreadForm(request.POST)
         if request.user.is_authenticated():
             post_form = PostForm(request.POST)
         else:
             post_form = PostAnonymousForm(request.POST)
-        if thread_form.is_valid() and post_form.is_valid():
+        recapatcha = recaptcha_is_valid(request)
+        if thread_form.is_valid() and post_form.is_valid() and recapatcha:
             thread = thread_form.save(commit=False)
             if request.user.is_authenticated():
                 thread.poster = request.user
@@ -115,16 +130,9 @@ def new_thead(request, forums_slug, forum_id):
                 thread.poster_email = post_form.cleaned_data["poster_email"]
             thread.forum = forum
             thread.save()
-            if request.user.is_authenticated():
-                thread.subscriptions.add(request.user)
-            
-            post = post_form.save(commit=False)
-            post.is_spam = check_askmet_spam(post, post_form)
-            post.ip = get_client_ip(request)
-            post.thread = thread
-            post.format = forums.format
-            post.save()
-            return HttpResponseRedirect(reverse('forum-view-thread', kwargs={"forums_slug": forums.slug, "thread": thread.pk}))
+            return process_post(request, thread, post_form, forums)
+        if not recapatcha:
+            recaptcha_error = "The verification failed, please try again."
     else:
         thread_form = ThreadForm()
         if request.user.is_authenticated():
@@ -135,6 +143,8 @@ def new_thead(request, forums_slug, forum_id):
         "forums": forums,
         "forum": forum,
         "thread_form": thread_form,
+        "recaptcha": get_recaptcha_html(),
+        "recaptcha_error": recaptcha_error,
         "post_form": post_form,
     }
     return render(request, 'forum/new_thread.html' , data)
@@ -149,7 +159,7 @@ def view_thread(request, forums_slug, thread_id, page=1):
         posts = paginator.page(page)
     except (EmptyPage, InvalidPage):
         return HttpResponseRedirect(thread.get_absolute_url(paginator.num_pages))
-    thread.num_views += 1
+    thread.num_views = models.F('num_views') + 1
     thread.save()
     
     data = {
@@ -163,6 +173,198 @@ def view_post(request, forums_slug, post_id):
     post = get_object_or_404(Post, pk=post_id)
     return HttpResponseRedirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post_id))
 
+def last_post(request, forums_slug, thread_id):
+    thread = get_object_or_404(Thread, pk=thread_id)
+    post = Post.objects.filter(thread=thread, is_spam=False, is_public=True
+                    ).select_related('author', 'thread').order_by('posted')
+    return HttpResponseRedirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post.pk))
+
+def process_post(request, thread, post_form, forums):
+    post = post_form.save(commit=False)
+    if request.user.is_authenticated():
+        forum_profile = ForumUser.objects.get_or_create(user=request.user)
+        if forum_profile.notify == 'AL' and not thread.subscriptions.filter(request.user):
+            thread.subscriptions.add(request.user)
+        post.author = request.user    
+    post.is_spam = check_askmet_spam(request, post, post_form)
+    post.ip = get_client_ip(request)
+    post.thread = thread
+    post.format = forums.format
+    post.save()
+    for user in thread.subscriptions.exclude(request.user):
+        # should check here if the last post was after the user last visted
+        # in which cause we don't need to email them
+        message_data = {
+            "user": user,
+            "thread": thread,
+            "forums": forums,
+            "post": post,
+        }
+        message = render_to_string('forum/subscription_notifaction.txt', message_data)
+        user.email_user("Topic Subscription Notification for %s" % forums.name, message)
+    data = {
+            "post": post,
+            "thread": thread,
+            "forums": forums,
+    }
+    responce = render(request, 'forum/posted.html' , data)
+    if not post.is_spam and post.is_public:
+        responce["Refresh"] = "3;%s" % reverse('forum-view-post', kwargs={"forums_slug": forums.slug, "post_id": post.pk})
+    return responce
+
 def reply_thread(request, forums_slug, thread_id):
     forums = get_forum(forums_slug)
-    pass
+    thread = get_object_or_404(Thread, pk=thread_id)
+    if thread.closed:
+        data = {
+                "forums": forums,
+                "thread": thread,
+        }
+        return render(request, 'forum/closed.html' , data)
+    if not has_permission(request, 'forum', 'can_post_replies'):
+        data = {
+                "forums": forums,
+                "thread": thread,
+                "anonymous": not request.user.is_authenticated(),
+        }
+        return render(request, 'forum/thread_denied.html' , data)
+    recaptcha_error = None
+    if request.method == 'POST':
+        if request.user.is_authenticated():
+            post_form = PostForm(request.POST)
+        else:
+            post_form = PostAnonymousForm(request.POST)
+        recapatcha = recaptcha_is_valid(request)
+        if post_form.is_valid() and recapatcha:
+            return process_post(request, thread, post_form, forums)
+        if not recapatcha:
+            recaptcha_error = "The verification failed, please try again."
+    else:
+        if request.user.is_authenticated():
+            post_form = PostForm()
+        else:
+            post_form = PostAnonymousForm()
+    data = {
+        "forums": forums,
+        "thread": thread,
+        "recaptcha": get_recaptcha_html(),
+        "recaptcha_error": recaptcha_error,
+        "post_form": post_form,
+    }
+    return render(request, 'forum/reply.html' , data)
+
+class ReportForm(forms.ModelForm):
+    class Meta(object):
+        fields = ("message",)
+        model = Report
+
+def report_post(request, forums_slug, post_id):
+    forums = get_forum(forums_slug)
+    post = get_object_or_404(Post, pk=post_id)
+    if request.method == 'POST':
+        report_form = ReportForm(request.POST)
+        if report_form.is_valid():
+            report = report_form.save(commit=False)
+            report.post = post
+            if request.user.is_authenticated():
+                report.reported_by = request.user
+            report.save()
+        return HttpResponseRedirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post.pk))
+    else:
+        report_form = ReportForm()
+    data = {
+            "post": post,
+            "forums": forums,
+            "report_form": report_form
+    }
+    return render(request, 'forum/report.html' , data)
+
+def edit_post(request, forums_slug, post_id):
+    forums = get_forum(forums_slug)
+    post = get_object_or_404(Post, pk=post_id)
+    if not (has_permission(request, 'forum', 'can_edit_others_posts') 
+            or (post.author == request.user and has_permission(request, 'forum', 'can_edit_own_posts'))):
+        data = {
+                "forums": forums,
+                "post": post,
+        }
+        return render(request, 'forum/post_edit_denied.html' , data)
+    thread_form = None
+    if request.method == 'POST':
+        edit_form = PostEditForm(request.POST, instance=post)
+        valid = True
+        if post == post.thread.first_post:
+            thread_form = ThreadForm(request.POST, instance=post.thread)
+            if thread_form.is_valid():
+                thread_form.save()
+            else:
+                valid = False
+        if edit_form.is_valid() and valid:
+            post = edit_form.save(commit=False)
+            post.edited = datetime.datetime.now()
+            post.edited_by = request.user
+            post.save()
+            return HttpResponseRedirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post.pk))
+    else:
+        edit_form = PostEditForm(instance=post)
+        if post == post.thread.first_post:
+            thread_form = ThreadForm(instance=post.thread)
+    data = {
+            "forums": forums,
+            "post": post,
+            "edit_form": edit_form,
+            "thread_form": thread_form,
+    }
+    return render(request, 'forum/post_edit.html' , data)
+    
+def post_action(request, forums_slug, post_id, redirect_before, do_action, name, message):
+    forums = get_forum(forums_slug)
+    post = get_object_or_404(Post, pk=post_id)
+    if request.method == 'POST' and request.POST.get('post'):
+        if redirect_before:
+            redirect = HttpResponseRedirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post.pk))
+        do_action(post)
+        post.save()
+        if not redirect_before:
+            redirect = HttpResponseRedirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post.pk))
+        return redirect
+    data = {
+            "post": post,
+            "forums": forums,
+            "message": message,
+            "name": name,
+    }
+    return render(request, 'forum/post_action.html' , data)
+    
+def delete_post(request, forums_slug, post_id):
+    def do_action(post):
+        post.is_public = False
+    return post_action(request, forums_slug, post_id, True, do_action, "Delete Post", "delete the post")
+
+def restore_post(request, forums_slug, post_id):
+    def do_action(post):
+        post.is_public = True
+    return post_action(request, forums_slug, post_id, False, do_action, "Restore Post", "restore the post")
+    
+def spam_post(request, forums_slug, post_id):
+    def do_action(post):
+        post.is_spam = True
+        # we we could call upon akismet
+    return post_action(request, forums_slug, post_id, True, do_action, "Mark as Spam", "mark the post as spam")
+    
+def not_spam_post(request, forums_slug, post_id):
+    def do_action(post):
+        post.is_spam = False
+    return post_action(request, forums_slug, post_id, False, do_action, "Mark as Not Spam", "mark the post as not span")
+    
+def remove_post(request, forums_slug, post_id):
+    def do_action(post):
+        post.is_removed = True
+    return post_action(request, forums_slug, post_id, True, do_action, "Remove", "mark the post as removed")
+    
+    
+def recover_post(request, forums_slug, post_id):
+    def do_action(post):
+        post.is_removed = False
+    return post_action(request, forums_slug, post_id, True, do_action, "Restore", "mark the post as not removed")
+    

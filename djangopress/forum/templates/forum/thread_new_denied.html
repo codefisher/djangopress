@@ -1,0 +1,18 @@
+{% extends "forum/base.html" %}
+
+{% block content %}
+    <div id="bread-crumbs">
+        <a href="{{ forums.get_absolute_url }}">Index</a> 
+        &bull; <a href="{{ forum.get_absolute_url }}">{{ thread.forum.name }}</a>
+    </div>
+    <div class="content-box">
+        {% if anonymous %}
+            <p>We are sorry, but you don't have permissions to post a new thread.
+                Please <a href="{% url 'login' %}?next={{request.path}}">Login</a> and try again.</p>
+            <p><a href="{{ thread.get_absolute_url }}">Return to thread</a>.</p>
+        {% else %}
+            <p>We are sorry, but you don't have permissions to post a new thread.</p>
+            <p><a href="{{ thread.get_absolute_url }}">Return to thread</a>.</p>
+        {% endif %}
+    </div>
+{% endblock %}

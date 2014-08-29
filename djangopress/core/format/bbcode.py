@@ -30,7 +30,7 @@ class CodeNode(TagNode):
         self.nodelist = nodelist
 
     def render(self, context, **kwargs):
-        return "<pre><code>%s</code></pre>" % self.nodelist.contents()
+        return """<div class="code"><pre><code>%s</code></pre></div>""" % self.nodelist.contents()
 
 @BBcodeLibrary.tag()
 def code(parser, token):

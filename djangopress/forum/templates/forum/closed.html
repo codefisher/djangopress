@@ -1,0 +1,12 @@
+{% extends "forum/base.html" %}
+
+{% block content %}
+    <div id="bread-crumbs">
+        <a href="{{ forums.get_absolute_url }}">Index</a> 
+        &bull; <a href="{{ thread.forum.get_absolute_url }}">{{ thread.forum.name }}</a>
+        &bull; <a href="{{ thread.get_absolute_url }}">{{ thread.subject }}</a>
+    </div>
+    <div class="content-box"><p>
+        We are sorry, but this thread has been closed, and you can no longer reply to it.  <a href="{{ thread.get_absolute_url }}">Return to thread</a>.
+    </p></div>
+{% endblock %}

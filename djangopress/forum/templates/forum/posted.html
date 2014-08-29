@@ -1,0 +1,18 @@
+{% extends "forum/base.html" %}
+
+{% block content %}
+    <div id="bread-crumbs">
+        <a href="{{ forums.get_absolute_url }}">Index</a> 
+        &bull; <a href="{{ thread.forum.get_absolute_url }}">{{ thread.forum.name }}</a>
+        &bull; <a href="{{ thread.get_absolute_url }}">{{ thread.subject }}</a>
+    </div>
+    <div class="content-box"><p>
+    {% if post.is_spam %}
+        Your post was made, but was flaged as spam.  It will have to be reviwed by an admin before being made public. <a href="{% url 'forum-last-post' forums_slug=forums.slug thread_id=thread.pk %}">Return to Thread</a>
+    {% elif not post.is_public %}
+        Your post was made, but will not be public till it has been view by an administrator.  <a href="{% url 'forum-last-post' forums_slug=forums.slug thread_id=thread.pk %}">Return to Thread</a>
+    {% else %}
+        Thank you for posting at our forums! You will be directed back to your post in 3 seconds. <a href="{{ post.get_absolute_url }}">View Your Post</a>
+    {% endif %}
+     </p></div>
+{% endblock %}

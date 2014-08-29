@@ -41,6 +41,8 @@ class UserProfile(models.Model):
 
     
     def get_signature(self, *args, **kargs):
+        if not self.signature:
+            return ""
         try:
             bbcode = Library.get("bbcode").get("function")
             return bbcode(self.signature, *args, **kargs)

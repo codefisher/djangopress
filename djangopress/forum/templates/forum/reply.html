@@ -3,13 +3,13 @@
 {% block content %}
     <div id="bread-crumbs">
         <a href="{{ forums.get_absolute_url }}">Index</a> 
-        &bull; <a href="{{ forum.get_absolute_url }}">{{ forum.name }}</a>
+        &bull; <a href="{{ thread.forum.get_absolute_url }}">{{ thread.forum.name }}</a>
+        &bull; <a href="{{ thread.get_absolute_url }}">{{ thread.subject }}</a>
     </div>
     <form action="" method="post">
         {% csrf_token %}
         <fieldset>
-            <legend>Message</legend>
-            {{ thread_form.as_p }} {{ post_form.as_p }}
+            {{ post_form.as_p }}
         </fieldset>
         {% if recaptcha %}
         <fieldset>

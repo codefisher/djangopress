@@ -30,7 +30,7 @@
                 {% if thread.closed %}Closed: {% endif %}
                 <a href="{{ thread.get_absolute_url }}">{{ thread.subject }} by {{ thread.author_name }}</a>
             </td>
-            <td>{{ thread.num_posts }}</td>
+            <td>{{ thread.num_posts|add:-1 }}</td>
             <td>{{ thread.num_views }}</td>
             <td>{{ thread.last_post.posted }} by {{ thread.last_post.author_name }}</td>
         </tr>

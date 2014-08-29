@@ -12,7 +12,7 @@ class ForumGroup(models.Model):
     
     class Meta:
         permissions = (
-            ('can_read_forum_group', 'User is allowed to read forum'),
+            ('can_read_forum_group', 'User is allowed to read forum'), #not impl
         )
         
     name = models.CharField(max_length=100, unique=True)
@@ -54,8 +54,9 @@ class Forum(models.Model):
     class Meta:
         permissions = (
             ('can_post_threads', 'User is allowed to post new thread'),
-            ('can_close_threads', 'User is allowed to close a thread'),
-            ('can_sticky_threads', 'User is allowed to sticky a thread'),
+            ('can_close_threads', 'User is allowed to close a thread'), #not impl
+            ('can_sticky_threads', 'User is allowed to sticky a thread'), #not impl
+            ('can_moderate_forum', 'Has access to all the batch moderation options'), #not impl ? should we ?
         )
     
     name = models.CharField(max_length=100)
@@ -63,7 +64,7 @@ class Forum(models.Model):
     #redirect_url
     num_threads = models.IntegerField(default=0)
     num_posts = models.IntegerField(default=0)
-    last_post = models.ForeignKey('Post', null=True, blank=True)
+    last_post = models.ForeignKey('Post', on_delete=models.SET_NULL, null=True, blank=True)
     position = models.IntegerField(default=1)
     category = models.ForeignKey('ForumCategory', null=True, blank=True, related_name="forum")
     parent_forum = models.ForeignKey('self', null=True, blank=True, related_name="children")
@@ -83,8 +84,11 @@ class Post(models.Model):
     
     class Meta:
         permissions = (
-            ('can_edit_owns_posts', 'User is allowed to edit posts they have made'),
+            ('can_edit_own_posts', 'User is allowed to edit posts they have made'),
             ('can_edit_others_posts', 'User is allowed to edit posts others have made'),
+            ('can_mark_removed', 'Can mark the post as removed/not removed'),
+            ('can_mark_public', 'Can mark if a post is public or not'),
+            ('can_mark_spam', 'Can mark a post as span/not spam')
         )
         
     author = models.ForeignKey(User, related_name="forum_posts", blank=True,  null=True)
@@ -106,7 +110,7 @@ class Post(models.Model):
     posted = models.DateTimeField()#auto_now_add=True)
     edited_by = models.ForeignKey(User, related_name="forum_posts_edited", blank=True, null=True)
     edited = models.DateTimeField(null=True, blank=True)
-    edit_reason = models.TextField(null=True, blank=True)
+    edit_reason = models.CharField(null=True, blank=True, max_length=200)
     
     is_public = models.BooleanField('is public', default=True,
         help_text='Uncheck this box to make the post effectively ' \
@@ -132,9 +136,9 @@ class Post(models.Model):
     
     def __changed_status_visiable(self):
         return ((not self.__original_is_public and self.is_public and not self.is_spam)
-                or (self._original_is_spam and not self.is_span and self.is_public))
+                or (self.__original_is_spam and not self.is_spam and self.is_public))
     def __change_status_invisible(self):
-        return ((self.__original_is_public and not self.is_public) or (not self.__original_is_span and self.is_spam))
+        return ((self.__original_is_public and not self.is_public) or (not self.__original_is_spam and self.is_spam))
     
     def save(self, *args, **kwargs):
         is_new = self.pk is None
@@ -145,16 +149,16 @@ class Post(models.Model):
             if is_new:
                 self.thread.last_post = self
             else:
-                self.thread.last_post = Post.objects.filter(thread=self.thread, is_spam=False, is_public=True).order_by('posted')[-1]
-                self.thread.last_post_date = self.thread.last_post.posted
+                self.thread.last_post = Post.objects.filter(thread=self.thread, is_spam=False, is_public=True).order_by('-posted')[0]
+            self.thread.last_post_date = self.thread.last_post.posted
             self.thread.forum.last_post = self.thread.last_post
-            self.thread.num_posts += 1
+            self.thread.num_posts = models.F('num_posts') + 1
             self.thread.save()
-            self.thread.forum.num_posts += 1
+            self.thread.forum.num_posts = models.F('num_posts') + 1
             self.thread.forum.save()
             if self.author:
                 profile = ForumUser.objects.get_or_create(user=self.author)[0]
-                profile.num_posts += 1
+                profile.num_posts = models.F('num_posts') + 1
                 profile.save()
         elif (not is_new and self.__change_status_invisible()):
             self._decriment_posts()
@@ -162,22 +166,31 @@ class Post(models.Model):
         self.__original_is_spam = self.is_spam
         
     def delete(self, *args, **kwargs):
-        super(Post, self).delete(*args, **kwargs)
         self._decriment_posts()
+        super(Post, self).delete(*args, **kwargs)
             
     def _decriment_posts(self):
-        if self.thread.last_post.pk == self.pk:
-            self.thread.last_post = Post.objects.filter(thread=self.thread, is_spam=False, is_public=True).order_by('posted')[-1]
-            self.thread.last_post_date = self.thread.last_post.posted
-            self.thread.forum.last_post = self.thread.last_post
+        if self.thread.last_post is None or self.thread.last_post == self:
+            try:
+                self.thread.last_post = Post.objects.filter(thread=self.thread, is_spam=False, is_public=True).exclude(pk=self.pk).order_by('-posted')[0]
+                self.thread.last_post_date = self.thread.last_post.posted
+            except:
+                self.thread.last_post = None
+        if self.thread.forum.last_post is None or self.thread.forum.last_post == self:
+            self.thread.forum.last_post = Post.objects.filter(thread__forum=self.thread.forum, is_spam=False, is_public=True).exclude(pk=self.pk).order_by('-posted')[0]
             self.thread.forum.save()
-        self.thread.num_posts -= 1
+        if self.thread.first_post is None or self.thread.first_post == self:
+            try:
+                self.thread.first_post = Post.objects.filter(thread=self.thread, is_spam=False, is_public=True).exclude(pk=self.pk).order_by('posted')[0]
+            except:
+                self.thread.last_post = None
+        self.thread.num_posts = models.F('num_posts') - 1
         self.thread.save()
-        self.thread.forum.num_posts -= 1
+        self.thread.forum.num_posts = models.F('num_posts') - 1
         self.thread.forum.save()
         if self.author:
             profile = ForumUser.objects.get_or_create(user=self.author)[0]
-            profile.num_posts -= 1
+            profile.num_posts = models.F('num_posts') - 1
             profile.save()
             
     def author_name(self):
@@ -189,8 +202,9 @@ class Post(models.Model):
         return Post.objects.filter(thread=self.thread, posted__lt=self.posted).order_by('posted').count()/POSTS_PER_PAGE +1
     
     def get_absolute_url(self):
-        return reverse('forum-view-post', kwargs={"forums_slug": self.thread.forum.category.forums.slug, 'post_id': self.id})
+        return reverse('forum-view-post', kwargs={"forums_slug": self.thread.forum.category.forums.slug, 'post_id': self.pk})
     
+           
 class Thread(models.Model):
     class Meta:
         permissions = (
@@ -200,21 +214,21 @@ class Thread(models.Model):
     poster_name = models.CharField(blank=True, null=True, max_length=50)
     poster_email = models.EmailField(blank=True, null=True)
     
-    subscriptions = models.ManyToManyField(User, related_name='forum_subscriptions')
+    subscriptions = models.ManyToManyField(User, null=True, blank=True, related_name='forum_subscriptions')
 
     poster = models.ForeignKey(User, blank=True, null=True)
     subject = models.CharField(max_length=255)
     posted = models.DateTimeField()#auto_now_add=True)
     
-    first_post = models.ForeignKey(Post, blank=True, null=True, related_name='thread_first')
-    last_post = models.ForeignKey(Post, blank=True, null=True, related_name='thread_last')
+    first_post = models.ForeignKey(Post, on_delete=models.SET_NULL, blank=True, null=True, related_name='thread_first')
+    last_post = models.ForeignKey(Post, on_delete=models.SET_NULL, blank=True, null=True, related_name='thread_last')
     last_post_date = models.DateTimeField(null=True, blank=True)
     
     num_views = models.IntegerField(default=0)
     num_posts = models.IntegerField(default=0)
     closed = models.BooleanField(default=False)
     sticky = models.BooleanField(default=False)
-    moved_to = models.ForeignKey('Thread', blank=True, null=True)
+    moved_to = models.ForeignKey('Thread', blank=True, null=True) # not implimented
     forum = models.ForeignKey(Forum)
     
     def __unicode__(self):
@@ -223,21 +237,22 @@ class Thread(models.Model):
     def save(self, *args, **kwargs):
         is_new = self.pk is None
         super(Thread, self).save(*args, **kwargs)
+        print is_new, self.pk
         if is_new:
-            self.forum.num_threads += 1
+            self.forum.num_threads = models.F('num_threads') + 1
             self.forum.save()
             if self.poster:
                 profile = ForumUser.objects.get_or_create(user=self.poster)[0]
-                profile.num_threads += 1
+                profile.num_threads = models.F('num_threads') + 1
                 profile.save()
                 
     def delete(self, *args, **kwargs):
         super(Thread, self).delete(*args, **kwargs)
-        self.forum.num_threads -= 1
+        self.forum.num_threads = models.F('num_threads') - 1
         self.forum.save()
         if self.poster:
             profile = ForumUser.objects.get_or_create(user=self.poster)[0]
-            profile.num_threads -= 1
+            profile.num_threads = models.F('num_threads') - 1
             profile.save()
                 
     def get_absolute_url(self, page=None):
@@ -254,6 +269,8 @@ class Rank(models.Model):
     """
     The titles the user gets as they make more posts
     """
+    # we have not implement this, how it is to work with a site wide
+    # user system
     name = models.CharField(max_length=50)
     min_posts = models.IntegerField()
 
@@ -262,12 +279,14 @@ class Report(models.Model):
     The reported posts for spamming etc
     """
     post = models.ForeignKey(Post, related_name="reports")
-    reported_by = models.ForeignKey(User, related_name="forum_reports")
+    reported_by = models.ForeignKey(User, null=True, blank=True, related_name="forum_reports")
     created_date = models.DateTimeField(auto_now_add=True)
     message = models.TextField()
     moderated = models.BooleanField(default=False)
-    moderated_by = models.ForeignKey(User, related_name="forum_moderated_reports")
-
+    moderated_by = models.ForeignKey(User, blank=True, null=True, related_name="forum_moderated_reports")
+    
+    def __unicode__(self):
+        return u"Report for %s" % unicode(self.post)
 
 class ForumUser(models.Model):
     """
@@ -277,7 +296,7 @@ class ForumUser(models.Model):
     NOFITY = (
        ('AL', 'Always Notify'),
        ('NV', 'Never Notify'),
-       ('DN', 'Send daily digest')
+       #('DN', 'Send daily digest')
     )
 
     user = models.OneToOneField(User, related_name='forum_profile')
@@ -295,7 +314,7 @@ class ForumUser(models.Model):
 
 class Attachment(models.Model):
     post = models.ForeignKey('Post', related_name="attachments")
-    thread = models.ForeignKey('Thread', related_name="attachments")
+    #thread = models.ForeignKey('Thread', related_name="attachments")
 
     poster = models.ForeignKey(User, related_name="forum_attachments")
     download_count = models.IntegerField(default=0)

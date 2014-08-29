@@ -1,0 +1,4 @@
+{% for action in actions %}
+    {% if not forloop.first %} &bull; {% endif %}
+    <a href="{{ action.url }}">{{ action.name }}</a>
+{% endfor %}

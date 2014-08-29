@@ -1,12 +1,10 @@
 {% extends "forum/base.html" %}
-{% load online_status_tags %}
 
 {% block content %}
     <div>
       <h1>{{ forums.name }}</h1>
       {% if forums.tagline %}<p>{{ forums.tagline}}</p>{% endif %}
     </div>
-    <div id="bread-crumbs">{% block breadcrumbs %}{% endblock %}</div>
     <div>
         
        {% for category in categories %}
@@ -26,16 +24,33 @@
         </table>
         </div>
        {% endfor %}
+    </div>
 
+    <div class="content-box" id="forum-info">
+        <div id="user-info">
+            <ul>
+                <li>Newest registered user:</li>
+                <li>Registered users online:</li>
+                <li>Guests online: </li>
+                <li>Online: </li>
+            </ul>
+        </div>
+        <div id="forum-stats">
+           <ul>
+               <li>Total Posts: {{ total_posts }}</li>
+               <li>Total Topics: {{ total_topics }}</li>
+               <li>Total Memebers: {{ total_users }}</li>
+           </ul>
+        </div>
     </div>
 {% endblock %}
 
 {% block second_footer_box %}
-       <h3>Forum Statistics</h3>
-       <ul>
-           <li>Total Posts: {{ total_posts }}</li>
-           <li>Total Topics: {{ total_topics }}</li>
-           <li>Total Memebers: {{ total_users }}</li>
-       </ul>
-       Curently Online: 
+    <h3>Forum Links</h3>
+    <ul>
+        <li>Show recent posts</li>
+        <li>Show unanswered posts</li>
+        <li>Show your subscribed topics</li>
+        <li>Show your posts</li>
+    </ul>
 {% endblock %}

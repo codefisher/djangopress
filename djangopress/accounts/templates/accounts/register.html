@@ -4,13 +4,13 @@
 {% block content %}
     <form action="{% url 'accounts-register' %}" method="POST" class="field-form">
     {% field_form form %}
-    {% if recapatch %}
+    {% if recaptcha %}
     <fieldset>
         <legend>Verification</legend>
-        {% if recapatcha_error %}
-            <p>{{ recapatcha_error }}</p>
+        {% if recaptcha_error %}
+            <p>{{ recaptcha_error }}</p>
         {% endif %}
-        {{ recapatch|safe }}
+        {{ recaptcha|safe }}
     </fieldset>
     {% endif %}
     <fieldset>

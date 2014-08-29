@@ -10,24 +10,8 @@ from django.contrib.sites.models import Site
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from djangopress.accounts.profiles import register as profile_register
 from djangopress import settings
-from djangopress.core.util import get_client_ip
+from djangopress.core.util import get_client_ip, get_recaptcha_html, recaptcha_is_valid
 from django.contrib.auth.signals import user_logged_in
-
-
-try:
-    from recaptcha.client import captcha
-except:
-    pass
-
-"""
-def login(request, ...):
-    #...
-    if request.POST.get('remember_me', None):
-        request.session.set_expiry(settings.KEEP_LOGGED_DURATION)
-    # also set the last_ip_user value
-    #...
-"""
-
 
 
 def user_login(sender, user, request, **kwargs):
@@ -37,28 +21,7 @@ def user_login(sender, user, request, **kwargs):
         request.session.set_expiry(settings.KEEP_LOGGED_DURATION)
     else:
         request.session.set_expiry(0)
-
 user_logged_in.connect(user_login)
-
-def get_recaptcha_html():
-    try:
-        return captcha.displayhtml(settings.RECAPTCHA_PUBLIC_KEY)
-    except:
-        return ""
-    
-def recaptcha_is_valid(request):
-    try:
-        response = captcha.submit(
-                request.POST.get('recaptcha_challenge_field'),
-                request.POST.get('recaptcha_response_field'),
-                settings.RECAPTCHA_PRIVATE_KEY,
-                get_client_ip(request),
-            )
-        if response.is_valid:
-            return True
-        return False
-    except:
-        return True #they don't have the recapacha installed so let it be valid
 
 def send_activate_email(request, user, resend=False):
     site = Site.objects.get_current()
@@ -120,11 +83,11 @@ def register(request):
             profile.save()
             return send_activate_email(request, user)
         if not recapatcha:
-            data["recapatcha_error"] = "The verification failed, please try again."
+            data["recaptcha_error"] = "The verification failed, please try again."
     else:
         form = UserForm()
     data.update({
-        "recapatch": get_recaptcha_html(),
+        "recaptcha": get_recaptcha_html(),
         "form": form
     })
     return render(request, "accounts/register.html" , data)
@@ -152,24 +115,25 @@ def reactivate(request, username):
             return send_activate_email(request, user, resend=True)
     raise Http404("Invalid request")
 
-def user_list(request):
-    user_list = User.objects.all()
+class UserListPage(object):
+    def get_absolute_url(self, page=1):
+        return reverse('accounts-userlist', kwargs={"page": page})
 
+def user_list(request, page=1):
+    user_list = User.objects.filter(is_active=True)
     paginator = Paginator(user_list, 20)
-    try:
-        page = int(request.GET.get('page', '1'))
-    except ValueError:
-        page = 1
 
+    user_list_page = UserListPage()
+    
     try:
         users = paginator.page(page)
     except (EmptyPage, InvalidPage):
-        #return HttpResponseRedirect(.get_absolute_url(paginator.num_pages))
-        users = paginator.page(paginator.num_pages)
+        return HttpResponseRedirect(user_list_page.get_absolute_url(paginator.num_pages))
 
     data = {
         "users": users,
         "title": "User List",
+        "user_list_page": user_list_page,
     }
     return render(request, "accounts/user-list.html" , data)
     

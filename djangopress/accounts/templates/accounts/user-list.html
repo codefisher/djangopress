@@ -12,14 +12,14 @@
           </tr>
         </thead>
         <tbody>
-	    {% for user in users.object_list %}
+	    {% for user in users %}
             <tr>
-                <td><a href="{% url 'accounts-profile' user=user.username %}">{{ user.username }}</a></td>
+                <td><a href="{% url 'accounts-profile' username=user.username %}">{{ user.username }}</a></td>
                 <td>{{ user.get_profile.title }}</td>
                 <td>{{ user.date_joined|date:"DATE_FORMAT" }}</td>
             </tr>
 	    {% endfor %}
         </tbody>
     </table>
-    {% show_pagination users %}
+    {% show_pagination users user_list_page %}
 {% endblock %}}
