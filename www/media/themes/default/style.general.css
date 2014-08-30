@@ -103,6 +103,9 @@ a {
 #content a {
     color:#ffffff;
 }
+#content a:visited {
+    color:#d2e8ac;
+}
 #content a:hover {
     /*font-style:oblique;*/
     color:#d2e8ac;
@@ -212,4 +215,8 @@ input[disabled] {
 .right {
     float:right;
     text-align:right;
+}
+
+code {
+    white-space:pre;
 }

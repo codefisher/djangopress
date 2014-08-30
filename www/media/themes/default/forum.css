@@ -1,0 +1,136 @@
+.category h2,
+#bread-crumbs {
+    background:rgba(0, 0, 0, 0.2);
+    border-radius:6px;
+    -moz-outline-radius:6px;
+    outline-radius:6px;
+    outline: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.6);
+    padding:0.5em;
+    margin:0.5em 0;
+}
+
+.category h2 {
+    font-size:1.25em;
+}
+
+.category h3 {
+    font-size:1.1em;
+}
+
+.post-date {
+    min-width:15em;
+    width:15em;
+    padding:0.5em;
+    font-size:0.75em;
+}
+
+.post-number {
+    text-align:right;
+    font-weight:bold;
+}
+
+.post-content {
+    margin:0.5em;
+}
+
+.post-content-row {
+    vertical-align:text-top;
+}
+
+table {
+    word-wrap: break-word;
+    font-family: sans-serif;
+}
+
+#thread-table {
+    table-layout: fixed; /*this will stop posts with something wide in it breaking the layout */
+}
+
+#forum-index tbody {
+    font-size:0.8em;
+}
+
+#forum-index tbody a,
+.post-author a {
+    text-decoration: none;
+}
+
+.pagination {
+    float:left;
+}
+
+.new-thread, .new-post {
+    float:right;
+}
+.post-author ul {
+    padding:0;
+}
+.post-author li {
+    list-style-type: none;
+    padding:0;
+}
+
+.username {
+    font-weight:bold;
+}
+
+.signature {
+    font-size:0.75em;
+    padding:0.5em;
+}
+
+.edit-message {
+    font-size:0.75em;
+    padding:0.5em;
+}
+
+.signature hr,
+.edit-message hr {
+    border:0;
+    border-top: 1px solid rgba(0,0,0, 0.6);
+    border-bottom: 1px solid rgba(0,0,0, 0.3);
+    width:60%;
+    margin:0.5em 0;
+}
+
+.thread-post {
+    width: 100%;
+}
+
+.code {
+    max-width:100%;
+}
+
+.code pre {
+   overflow-x:scroll;
+   display:block;
+}
+
+#forum-info {
+    margin:0.5em 0;
+    overflow:auto;
+    font-size:0.75em;
+}
+
+#forum-info ul {
+    margin:0; padding:0;
+}
+
+#forum-info li {
+    list-style-type:none;
+}
+
+#user-info {
+    float:left;
+}
+
+#forum-stats {
+    float:right;
+    text-align:right;
+}
+
+.post-actions {
+    text-align:right;
+}
+}
