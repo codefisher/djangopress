@@ -1,8 +1,11 @@
 
 class Profile(object):
+    label = None
+    show_tab = True
+    
     def __init__(self, user):
         self._user = user
-    
+        
     def info(self):
         pass
     
@@ -11,17 +14,32 @@ class Profile(object):
     
     def admin(self, request):
         pass
+    
+class ProfileText(object):
+    def __init__(self, text):
+        self._text = text
+        
+    def is_text(self):
+        return True
+    
+    def __unicode__(self):
+        return self._text
 
 class ProfileRegister(object):
 
     def __init__(self):
         self._profile = {}
+        self._position  = {}
 
-    def __call__(self, name, cls):
+    def __call__(self, name, cls, position=0):
         self._profile[name] = cls
+        self._position[name] = position
 
     def get_profiles(self):
         return self._profile
+    
+    def get_positions(self):
+        return self._position
 
 register = ProfileRegister()
 

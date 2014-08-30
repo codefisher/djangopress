@@ -48,9 +48,11 @@
 {% block second_footer_box %}
     <h3>Forum Links</h3>
     <ul>
-        <li>Show recent posts</li>
-        <li>Show unanswered posts</li>
-        <li>Show your subscribed topics</li>
-        <li>Show your posts</li>
+        <li><a href="{% url 'forum-recent-posts' %}">Show recent posts</a></li>
+        <li><a href="{% url 'forum-unanswered-posts' %}">Show unanswered posts</a></li>
+        {% if request.user.is_authenticated %}
+            <li><a href="{% url 'accounts-profile' tab='forum_subscription' username=request.user.username %}">Show your subscribed topics</a></li>
+            <li><a href="{% url 'forum-user-posts' %}">Show your posts</a></li>
+        {% endif %}
     </ul>
 {% endblock %}

@@ -1,0 +1,17 @@
+
+{% if not subscriptions %}
+    <p>You do not have any subscriptions.</p>
+{% else %}
+    <p>
+        Here is a list of your subscriptions.  Check the boxes for those that you would like to unsubscribe from.
+    </p>
+    <table>
+    {% for thread in subscriptions %}
+    <tr>
+        <td><input type="checkbox" name="thread" value="{{ thread.id }}"></td>
+        <td><a href="{{ thread.get_absolute_url }}">{{ thread.subject }}</a></td>
+        <td>{{ thread.posted }}</td>
+    </tr>
+    {% endfor %}
+    </table>
+{% endif %}

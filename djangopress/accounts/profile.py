@@ -1,11 +1,12 @@
 
-from djangopress.accounts.profiles import register, Profile
+from djangopress.accounts.profiles import register, Profile, ProfileText
 from djangopress.accounts.models import UserProfile
 from django.contrib.auth.models import User
 from django import forms
 from djangopress.accounts.forms import TimeZoneField
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy as __
+from django.template.loader import render_to_string
 
 class UserForm(forms.ModelForm):
     
@@ -33,6 +34,8 @@ class UserProfileForm(forms.ModelForm):
     )
 
 class UserProfile(Profile):
+    label = "User Settings"
+    
     def info(self):
         return {
                 "position": -1,
@@ -56,12 +59,13 @@ class UserProfile(Profile):
                 profile_form.save(True)
         else:
             profile_form = UserProfileForm(instance=self._user.profile)
+        change_password = render_to_string("accounts/profile_password.html", {"user": self._user})
         return {
                 "position": -1,
-                "forms": [form, profile_form],
+                "forms": [form, ProfileText(change_password), profile_form],
         }
     
     def admin(self, request):
         pass
     
-register('user', UserProfile)
+register('user', UserProfile, position=-1)

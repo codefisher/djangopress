@@ -144,22 +144,18 @@ class Post(models.Model):
         is_new = self.pk is None
         super(Post, self).save(*args, **kwargs)
         if (is_new and self.is_public and not self.is_spam) or (not is_new and self.__changed_status_visiable()):
+            first_post = self.thread.first_post
             if is_new and self.thread.first_post is None:
-                self.thread.first_post = self
+                first_post = self
             if is_new:
-                self.thread.last_post = self
+                last_post = self
             else:
-                self.thread.last_post = Post.objects.filter(thread=self.thread, is_spam=False, is_public=True).order_by('-posted')[0]
-            self.thread.last_post_date = self.thread.last_post.posted
-            self.thread.forum.last_post = self.thread.last_post
-            self.thread.num_posts = models.F('num_posts') + 1
-            self.thread.save()
-            self.thread.forum.num_posts = models.F('num_posts') + 1
-            self.thread.forum.save()
+                last_post = Post.objects.filter(thread=self.thread, is_spam=False, is_public=True).order_by('-posted')[0]
+            Thread.objects.filter(pk=self.thread.pk).update(num_posts=models.F('num_posts') + 1, first_post=first_post, last_post_date=last_post.posted, last_post=last_post)
+            Forum.objects.filter(pk=self.thread.forum.pk).update(num_posts=models.F('num_posts') + 1, last_post=last_post)
             if self.author:
-                profile = ForumUser.objects.get_or_create(user=self.author)[0]
-                profile.num_posts = models.F('num_posts') + 1
-                profile.save()
+                ForumUser.objects.get_or_create(user=self.author)
+                ForumUser.objects.filter(user=self.author).update(num_posts=models.F('num_posts') + 1)
         elif (not is_new and self.__change_status_invisible()):
             self._decriment_posts()
         self.__original_is_public = self.is_public
@@ -170,28 +166,26 @@ class Post(models.Model):
         super(Post, self).delete(*args, **kwargs)
             
     def _decriment_posts(self):
+        last_post = self.thread.last_post
         if self.thread.last_post is None or self.thread.last_post == self:
             try:
-                self.thread.last_post = Post.objects.filter(thread=self.thread, is_spam=False, is_public=True).exclude(pk=self.pk).order_by('-posted')[0]
-                self.thread.last_post_date = self.thread.last_post.posted
+                last_post = Post.objects.filter(thread=self.thread, is_spam=False, is_public=True).exclude(pk=self.pk).order_by('-posted')[0]
             except:
                 self.thread.last_post = None
+        forum = Forum.objects.filter(pk=self.thread.forum.pk)
         if self.thread.forum.last_post is None or self.thread.forum.last_post == self:
-            self.thread.forum.last_post = Post.objects.filter(thread__forum=self.thread.forum, is_spam=False, is_public=True).exclude(pk=self.pk).order_by('-posted')[0]
-            self.thread.forum.save()
+            forum.update(last_post=Post.objects.filter(thread__forum=self.thread.forum, is_spam=False, is_public=True).exclude(pk=self.pk).order_by('-posted')[0])
+        first_post = self.thread.first_post
         if self.thread.first_post is None or self.thread.first_post == self:
             try:
-                self.thread.first_post = Post.objects.filter(thread=self.thread, is_spam=False, is_public=True).exclude(pk=self.pk).order_by('posted')[0]
+                first_post = Post.objects.filter(thread=self.thread, is_spam=False, is_public=True).exclude(pk=self.pk).order_by('posted')[0]
             except:
-                self.thread.last_post = None
-        self.thread.num_posts = models.F('num_posts') - 1
-        self.thread.save()
-        self.thread.forum.num_posts = models.F('num_posts') - 1
-        self.thread.forum.save()
+                first_post = None
+        Thread.objects.filter(pk=self.thread.pk).update(num_posts=models.F('num_posts') - 1, first_post=first_post, last_post_date=last_post.posted if last_post else None, last_post=last_post)
+        forum.update(num_posts=models.F('num_posts') - 1)
         if self.author:
-            profile = ForumUser.objects.get_or_create(user=self.author)[0]
-            profile.num_posts = models.F('num_posts') - 1
-            profile.save()
+            ForumUser.objects.filter(user=self.author).update(num_posts=models.F('num_posts') - 1)
+
             
     def author_name(self):
         if self.author is None:
@@ -237,23 +231,17 @@ class Thread(models.Model):
     def save(self, *args, **kwargs):
         is_new = self.pk is None
         super(Thread, self).save(*args, **kwargs)
-        print is_new, self.pk
         if is_new:
-            self.forum.num_threads = models.F('num_threads') + 1
-            self.forum.save()
+            Forum.objects.filter(pk=self.forum.pk).update(num_threads=models.F('num_threads') + 1)
             if self.poster:
-                profile = ForumUser.objects.get_or_create(user=self.poster)[0]
-                profile.num_threads = models.F('num_threads') + 1
-                profile.save()
+                ForumUser.objects.get_or_create(user=self.poster)
+                ForumUser.objects.filter(user=self.poster).update(num_threads=models.F('num_threads') + 1)
                 
     def delete(self, *args, **kwargs):
         super(Thread, self).delete(*args, **kwargs)
-        self.forum.num_threads = models.F('num_threads') - 1
-        self.forum.save()
+        Forum.objects.filter(pk=self.forum.pk).update(num_threads=models.F('num_threads') - 1)
         if self.poster:
-            profile = ForumUser.objects.get_or_create(user=self.poster)[0]
-            profile.num_threads = models.F('num_threads') - 1
-            profile.save()
+            ForumUser.objects.filter(user=self.poster).update(num_threads=models.F('num_threads') - 1)
                 
     def get_absolute_url(self, page=None):
         if page is None or page == 1:

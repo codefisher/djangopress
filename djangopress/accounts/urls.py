@@ -25,7 +25,7 @@ urlpatterns += patterns('',
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^logout/$', auth_views.logout, name='logout'),
     url(r'^password_change/$', auth_views.password_change, {
-            "post_change_redirect": "../profile/",
+            "post_change_redirect": "/user/",
             "template_name": "accounts/password_change_form.html"
          }, name='password_change'),
     #url(r'^password_change_done/$', 'password_change_done', name='password_change_done'),

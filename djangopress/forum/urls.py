@@ -3,11 +3,12 @@ from djangopress.forum import views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='forum-index'),
+    
     url(r'^thread/(?P<thread_id>\d+)/$', views.view_thread, name='forum-view-thread'),
     url(r'^thread/(?P<thread_id>\d+)/(?P<page>\d+)/$', views.view_thread, name='forum-view-thread'),
     url(r'^thread/(?P<thread_id>\d+)/last/$', views.last_post, name='forum-last-post'),
+    
     url(r'^post/(?P<post_id>\d+)/$', views.view_post, name='forum-view-post'),
-
     url(r'^post/report/(?P<post_id>\d+)/$', views.report_post, name='forum-report-post'),
     url(r'^post/edit/(?P<post_id>\d+)/$', views.edit_post, name='forum-edit-post'),
     url(r'^post/delete/(?P<post_id>\d+)/$', views.delete_post, name='forum-delete-post'),
@@ -22,4 +23,16 @@ urlpatterns = patterns('',
     url(r'^(?P<forum_id>\d+)/(?P<page>\d+)/$', views.view_forum, name='forum-view'),
     url(r'^new-thread/(?P<forum_id>\d+)/$', views.new_thead, name='forum-new-thread'),
     url(r'^reply-thread/(?P<thread_id>\d+)/$', views.reply_thread, name='forum-reply-thread'),
+    
+    url(r'^thread/(?P<thread_id>\d+)/subscribe/$', views.subscribe, name='forum-subscribe'),
+    url(r'^thread/(?P<thread_id>\d+)/unsubscribe/$', views.unsubscribe, name='forum-unsubscribe'),
+    
+    url(r'^post/recent/$', views.show_recent, name='forum-recent-posts'),
+    url(r'^post/unanswered/$', views.show_unanswered, name='forum-unanswered-posts'),
+    url(r'^post/user/$', views.show_user_posts, name='forum-user-posts'),
+    url(r'^post/user/(?P<user_id>\d+)/$', views.show_user_posts, name='forum-user-posts'),
+    url(r'^post/recent/(?P<page>\d+)/$', views.show_recent, name='forum-recent-posts'),
+    url(r'^post/unanswered/(?P<page>\d+)/$', views.show_unanswered, name='forum-unanswered-posts'),
+    url(r'^post/user/page/(?P<page>\d+)/$', views.show_user_posts, name='forum-user-posts'),
+    url(r'^post/user/(?P<user_id>\d+)/(?P<page>\d+)/$', views.show_user_posts, name='forum-user-posts'),
 )

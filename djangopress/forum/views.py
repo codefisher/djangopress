@@ -1,15 +1,16 @@
-from djangopress.forum.models import ForumGroup, ForumCategory, Forum, Thread, Post, Report, ForumUser, THREADS_PER_PAGE, POSTS_PER_PAGE
+import datetime
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
-from django import forms
 from django.db import models
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
-from djangopress.core.util import get_client_ip, get_recaptcha_html, recaptcha_is_valid, has_permission
 from django.contrib.auth.models import User
-import datetime
 from django.template.loader import render_to_string
+from django.http.response import Http404
+from djangopress.forum.models import ForumGroup, ForumCategory, Forum, Thread, Post, ForumUser, THREADS_PER_PAGE, POSTS_PER_PAGE
+from djangopress.core.util import get_client_ip, get_recaptcha_html, recaptcha_is_valid, has_permission
+from djangopress.forum.forms import PostAnonymousForm, PostEditForm, PostForm, ReportForm, ThreadForm
 
 try:
     import akismet
@@ -60,25 +61,6 @@ def view_forum(request, forums_slug, forum_id, page=1):
     }
     return render(request, 'forum/forum.html' , data)
 
-class ThreadForm(forms.ModelForm):
-    class Meta(object):
-        fields = ("subject",)
-        model = Thread
-
-class PostForm(forms.ModelForm):
-    class Meta(object):
-        fields = ("message","show_similies")
-        model = Post
-        
-class PostAnonymousForm(forms.ModelForm):
-    class Meta(object):
-        fields = ("poster_name", "poster_email", "message","show_similies")
-        model = Post
-        
-class PostEditForm(forms.ModelForm):
-    class Meta(object):
-        fields = ("message", "edit_reason", "show_similies")
-        model = Post
         
 def check_askmet_spam(request, post, form):
     api = akismet.Akismet()
@@ -253,11 +235,6 @@ def reply_thread(request, forums_slug, thread_id):
     }
     return render(request, 'forum/reply.html' , data)
 
-class ReportForm(forms.ModelForm):
-    class Meta(object):
-        fields = ("message",)
-        model = Report
-
 def report_post(request, forums_slug, post_id):
     forums = get_forum(forums_slug)
     post = get_object_or_404(Post, pk=post_id)
@@ -368,3 +345,73 @@ def recover_post(request, forums_slug, post_id):
         post.is_removed = False
     return post_action(request, forums_slug, post_id, True, do_action, "Restore", "mark the post as not removed")
     
+def subscribe(request, forums_slug, thread_id, subscribe=True):
+    forums = get_forum(forums_slug)
+    thread = get_object_or_404(Thread, pk=thread_id)
+    data = {
+            "forums": forums,
+            "thread": thread,
+    }
+    if not request.user.is_authenticated():
+        return render(request, 'forum/thread/access.html', data)
+    if subscribe:
+        request.user.forum_subscriptions.add(thread)
+        return render(request, 'forum/thread/subscribed.html' , data)
+    else:
+        request.user.forum_subscriptions.remove(thread)
+        return render(request, 'forum/thread/unsubscribed.html' , data)
+
+def unsubscribe(request, forums_slug, thread_id):
+    return subscribe(request, forums_slug, thread_id, subscribe=False)
+
+class ThreadListPage(object):
+    def __init__(self, name, args):
+        self._name = name
+        self._args = args if args else {}
+    
+    def get_absolute_url(self, page=1):
+        self._args["page"] = page
+        return reverse(self._name, kwargs=self._args)
+
+def show_unanswered(request, forums_slug, page=1):
+    forums = get_forum(forums_slug)
+    return show_post_list(request, forums, Thread.objects.filter(num_posts=1, forum__category__forums=forums), "Unanswered Posts", page, 'forum-unanswered-posts')
+
+def show_recent(request, forums_slug, page=1):
+    forums = get_forum(forums_slug)
+    recent = datetime.datetime.now() - datetime.timedelta(days=1)
+    return show_post_list(request, forums, Thread.objects.filter(last_post_date__gt=recent, forum__category__forums=forums), "Recent Posts", page, 'forum-recent-posts')
+
+def show_user_posts(request, forums_slug, user_id=None, page=1):
+    forums = get_forum(forums_slug)
+    if user_id:
+        user = get_object_or_404(User, pk=user_id)
+    elif request.user.is_authenticated():
+        user = request.user
+    else:
+        raise Http404
+    url_args = {"user_id": user_id} if user_id else None
+    posts = Post.objects.filter(author=user, thread__forum__category__forums=forums).values('thread')
+    return show_post_list(request, forums, Thread.objects.filter(pk__in=posts), 
+                "%s's Posts" % user.username, page, 'forum-user-posts', url_args)
+
+def show_post_list(request, forums, threads_query, title, page, url_name, url_args=None):
+    paginator = Paginator(threads_query.select_related(
+                'poster', 'last_post__author', 'forum__category__forums'
+            ).defer('last_post__message').order_by('-sticky', '-last_post_date'), THREADS_PER_PAGE)
+    
+    try:
+        threads = paginator.page(page)
+    except (EmptyPage, InvalidPage):
+        if not url_args:
+            url_args = {}
+        url_args["page"] = paginator.num_pages
+        return HttpResponseRedirect(reverse(url_name, kwargs=url_args))
+
+    data = {
+        "forums": forums,
+        "title": title,
+        "threads": threads,
+        "pages": ThreadListPage(url_name, url_args),
+    }
+    return render(request, 'forum/thread/list.html' , data)

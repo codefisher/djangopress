@@ -137,7 +137,7 @@ def user_list(request, page=1):
     }
     return render(request, "accounts/user-list.html" , data)
     
-def user_profile(request, username=None, tab=None):
+def user_profile(request, username=None, tab='user'):
     if username == None:
         if request.user.is_authenticated():
             user = request.user
@@ -146,25 +146,29 @@ def user_profile(request, username=None, tab=None):
     else:
         user = get_object_or_404(User, username=username)
     profiles = profile_register.get_profiles()
+    positions = profile_register.get_positions()
     data = {
         "user": user,
         "title": "User Profile",
+        "tab": tab,
     }
     if request.user == user:
         # user is viewing their own profile, let them edit
-        profile_data = []
-        for _, cls in profiles.items():
-            info = cls(user).edit(request)
-            profile_data.append(info)
-        data["profile_forms"] = [item for sublist in 
-                [data.get("forms") for data in sorted(profile_data, key=lambda x: x.get("position", 0))] 
-                    for item in sublist]
+        profile = profiles.get(tab)
+        if not profile:
+            raise Http404
+        data["profile_label"] = profile.label
+        data["profile_data"] = profile(user).edit(request)
+        data["profiles"] = sorted([(tab, prof(user)) for tab, prof in profiles.items() if prof.show_tab], key=lambda x: positions.get(x[0], 0))
         return render(request, "accounts/edit-profile.html" , data)
     else:
         # some else's profile, show basic info
         profile_data = []
-        for _, cls in profiles.items():
+        for name, cls in profiles.items():
+            if not cls.show_tab:
+                continue
             info = cls(user).info()
+            info["position"] = positions.get(name, 0)
             profile_data.append(info)
             data.update(info.get("data", {}))
         data["profile_data"] = sorted(profile_data, key=lambda x: x.get("position", 0))

@@ -52,11 +52,13 @@ urlpatterns = patterns('',
     (r'^email/', include(contact_urls)),
     (r'^xslt_svn/', include(svn_urls)),
 )
-""" needs to be updated for 1.6 
+
+""" needs to be updated for 1.6 - or just left alone
 urlpatterns += patterns('django.views.generic.simple',
     # we don't like the default location for the user page
     ('^user/(?P<username>.+)/$', 'redirect_to', {'url': '/accounts/users/%(username)s/'}),
 )
+"""
 """
 try:
     try:
@@ -86,6 +88,7 @@ else:
                 results_per_page=10,
             ), name='haystack_search'),
     )
+"""
 
 urlpatterns += sitemap_patterns
 

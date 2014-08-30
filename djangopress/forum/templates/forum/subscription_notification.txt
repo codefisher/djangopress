@@ -1,0 +1,19 @@
+{{ user.username }},
+
+{{ post.author_name }} has just posted a reply to a thread that you have subscribed to titled "{{ thread.subject }}".
+
+The post can be found here:
+{{ post.get_absolute_url }}
+
+There may be more replies to this thread, but only 1 email is sent per board visit for each subscribed thread. This is
+to limit the amount of mail that is sent to your inbox.
+
+Unsubscribing:
+--------------
+
+You can unsubscribe at any time by logging into your profile and clicking on the "View Subscriptions" link.
+
+Regards,
+
+The {{ forums.name }} team.
+{{ forums.get_absolute_url }}

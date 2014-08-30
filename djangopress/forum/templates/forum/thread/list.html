@@ -8,10 +8,7 @@
     
 </div>
 <div class="pagination">
-    {% simple_pagination threads forum %}
-</div>
-<div class="new-thread">
-        <p><a href="{% url 'forum-new-thread' forum_id=forum.pk forums_slug=forums.slug %}">Post new Thread</a></p>
+    {% simple_pagination threads pages %}
 </div>
 <table id="forum-index">
     <thead>
@@ -38,9 +35,6 @@
     </tbody>
 </table>
 <div class="pagination">
-    {% simple_pagination threads forum %}
-</div>
-<div class="new-thread">
-        <p><a href="{% url 'forum-new-thread' forum_id=forum.pk forums_slug=forums.slug %}">Post new Thread</a></p>
+    {% simple_pagination threads pages %}
 </div>
 {% endblock %}
