@@ -2,6 +2,8 @@
 {% load blog_tags %}
 {% load pages_tags %}
 {% load djangopress_tags %}
+{% load forum_tags %}
+
 {% block doctype %}<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">{% endblock %}
 <html>
 <head>
@@ -40,7 +42,10 @@
   <div class="footer-section" id="footer-center-left">
    <div class="footer-box">
    {% block second_footer_box %}
-	   
+      <h3>Latest Forum Posts</h3>
+	   <ul>
+	       {% show_latest_posts 'codefisher' %}
+	   </ul>
     {% endblock %}
    </div>
   </div>
