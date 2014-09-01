@@ -1,17 +1,35 @@
 from django import template
 register = template.Library()
 
+from django.template.defaultfilters import urlencode
+
 @register.simple_tag()
 def _page_link(instance, page):
     return instance.get_absolute_url(page=page)
 
 @register.inclusion_tag('core/pagination.html')
 def show_pagination(pages, instance, range_width=3):
-    return _show_pagination(pages, instance, range_width)
+    data = _show_pagination(pages, instance, range_width)
+    data["instance"] = instance
+    return data
     
 @register.inclusion_tag('core/simple_pagination.html')
 def simple_pagination(pages, instance, range_width=3):
-    return _show_pagination(pages, instance, range_width)
+    data = _show_pagination(pages, instance, range_width)
+    data["instance"] = instance
+    return data
+
+def url_args(args):
+    if args:
+        return "&".join("%s=%s" % (key, urlencode(value)) for key, value in args.items() if key != 'page') + "&"
+    return ""
+
+@register.inclusion_tag('core/pagination_query.html', takes_context=True)
+def query_pagination(context, pages, range_width=3, show_location=True):
+    data = _show_pagination(pages, None, range_width)
+    data["args"] = url_args(context.get("request").GET)
+    data["show_location"] = show_location
+    return data
 
 def _show_pagination(pages, instance, range_width=3):
     try:
@@ -36,6 +54,5 @@ def _show_pagination(pages, instance, range_width=3):
             page_range.append(i)
     return {
         "pages": pages,
-        "instance": instance,
         "range": page_range,
     }

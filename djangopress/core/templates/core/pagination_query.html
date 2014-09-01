@@ -1,0 +1,34 @@
+{% load show_pagination %}
+
+{% if pages %}
+    <div class="pagination">
+        <span class="step-links">
+            {% if pages.has_previous %}
+                <a class="previous-link" href="?{{ args }}page={{ pages.previous_page_number }}">&laquo; Previous</a>
+            {% else %}
+                <span class="previous-link">&laquo; Previous</span>
+            {% endif %}
+            <span class="range-links">
+	            {% for i in range %}
+	                {% if i == pages.number %}
+	                    <span class="current-link">{{ i }}</span>
+	                {% elif i == None %}
+	                   ...
+	                {% else %}
+	                    <a href="?{{ args }}page={{ i }}">{{ i }}</a>
+	                {% endif %}
+	            {% endfor %}
+            </span>
+            {% if pages.has_next %}
+                <a class="next-link" href="?{{ args }}page={{ pages.next_page_number }}">Next &raquo;</a>
+            {% else %}
+                <span class="next-link">Next &raquo;</span>
+            {% endif %}
+        </span>
+        {% if show_location %}
+        <span class="location">
+             Page {{ pages.number }} of {{ pages.paginator.num_pages }}
+        </span>
+        {% endif %}
+    </div>
+{% endif %}

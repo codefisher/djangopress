@@ -1,0 +1,4 @@
+{{ object.title }}
+{% for block in object.blocks.all %}
+    {{ block.content|striptags|safe }}
+{% endfor %}

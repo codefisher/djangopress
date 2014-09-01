@@ -43,7 +43,7 @@ class PageBlock(models.Model):
                 return cls.objects.get(pk=self.pk)
         return None
 
-    def content(self, context):
+    def content(self, context=None):
         block = self.get_child()
         if block:
             return block.content(context)
@@ -54,11 +54,13 @@ class TextBlock(PageBlock):
     name = "Text"
     data = models.TextField(blank=True, verbose_name="Content")
     format = models.CharField(max_length=30, choices=format.Library.choices(False))
+    
     def content(self, context):
         return format.Library.format(self.format, self.data, False, context=context)
 
 class TextForm(forms.ModelForm):
     template = None
+    
     class Meta:
         fields = ("format", "data")
         model = TextBlock

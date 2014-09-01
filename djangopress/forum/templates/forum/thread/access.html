@@ -8,6 +8,6 @@
     </div>
     <div class="content-box">
         <p>You need to login first.</p>
-        <p><a href="{% url 'login' %}?next={{request.path}}">Login</a>.</p>
+        <p><a href="{% url 'login' %}?next={{request.path}}">Login</a> or <a href="{% url 'accounts-register' %}">Register</a>.</p>
     </div>
 {% endblock %}

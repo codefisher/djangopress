@@ -12,7 +12,10 @@ def show_latest_posts(forums_slug, number=5):
         number = int(number)
     except ValueError:
         number = 5
-    forums = get_forum(forums_slug)
+    try:
+        forums = get_forum(forums_slug)
+    except:
+        return {} # the forum must not exist, so we fail quitely
     posts = Post.objects.filter(thread__forum__category__forums=forums, is_spam=False, is_public=True
                     ).select_related('thread').order_by('-posted')
     try:

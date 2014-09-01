@@ -8,7 +8,7 @@ INTERNAL_IPS = (
     '127.0.0.1',
 )
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 if DEBUG == True:
@@ -126,7 +126,6 @@ INSTALLED_APPS = (
     #'online_status',
     'debug_toolbar',
     # djangopress
-    'djangopress.core.links',
     'djangopress.core.format',
     'djangopress.blog',
     'djangopress.menus',
@@ -142,19 +141,6 @@ INSTALLED_APPS = (
 
 PAYPAL_RECEIVER_EMAIL = "paypal-foo@codefisher.org "
 PAYPAL_TEST = True
-
-try:
-    try:
-        import haystack
-    except ImproperlyConfigured:
-        pass
-except ImportError:
-    pass
-else:
-    HAYSTACK_SITECONF = 'djangopress.search_sites'
-    HAYSTACK_SEARCH_ENGINE = 'whoosh'
-    HAYSTACK_WHOOSH_PATH = os.path.join(BASE_DIR, '..', 'djangopress_index')
-    INSTALLED_APPS += ('haystack', )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",

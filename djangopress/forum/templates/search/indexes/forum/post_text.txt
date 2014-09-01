@@ -1,0 +1,4 @@
+{{ object.thread.subject }}
+
+{{ object.author_name }}
+{{ object.formatted|striptags|safe }}

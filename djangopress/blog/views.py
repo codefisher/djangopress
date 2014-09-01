@@ -8,6 +8,8 @@ from django.utils.translation import ugettext as _
 from django.conf import settings
 from djangopress.core.util import get_client_ip
 from django.http import HttpResponseRedirect
+from django.core.urlresolvers import reverse
+
 
 try:
     import akismet
@@ -18,6 +20,17 @@ except:
 def get_blog(blog_slug):
     return get_object_or_404(Blog, slug=blog_slug, sites__id__exact=settings.SITE_ID)
 
+def get_entries_for_page(paginator, page):
+    try:
+        page = int(page)
+    except ValueError:
+        page = 1
+    try:
+        return paginator.page(page)
+    except (EmptyPage, InvalidPage) as e:
+        raise e # this must be handeled
+
+"""
 def blog_pageinator(request, entries_list, blog, page):
     paginator = Paginator(entries_list, 10)
     try:
@@ -27,7 +40,7 @@ def blog_pageinator(request, entries_list, blog, page):
 
     try:
         entries = paginator.page(page)
-    except (EmptyPage, InvalidPage):
+    except (EmptyPage, InvalidPage) as e:
         return True, HttpResponseRedirect(blog.get_absolute_url(paginator.num_pages))
 
     return False, {
@@ -36,13 +49,22 @@ def blog_pageinator(request, entries_list, blog, page):
         "title": blog.name,
         "respond": True,
     }
+"""
 
 def index(request, blog_slug, page=1):
     blog = get_blog(blog_slug)
     entries_list = Entry.objects.get_entries(blog=blog)
-    redirect, data = blog_pageinator(request, entries_list, blog, page)
-    if redirect:
-        return data
+    paginator = Paginator(entries_list, 10)
+    try:
+        entries = get_entries_for_page(paginator, page)
+    except (EmptyPage, InvalidPage):
+        return HttpResponseRedirect(blog.get_absolute_url(paginator.num_pages))
+    data =  {
+        "blog": blog,
+        "entries": entries,
+        "title": blog.name,
+        "respond": True,
+    }
     return render(request, 'blog/index.html' , data)
 
 def archive(request, blog_slug, year, month=None):
@@ -57,10 +79,18 @@ def archive(request, blog_slug, year, month=None):
         month = int(month)
         entries_list = entries_list.filter(posted__month=month)
     data["date"] = datetime.date(year=year, month=month, day=1)
-    redirect, new_data = blog_pageinator(request, entries_list, blog)
-    if redirect:
-        return new_data
-    data.update(new_data)
+    paginator = Paginator(entries_list, 10)
+    try:
+        entries = get_entries_for_page(paginator, request.GET.get('page', 1))
+    except (EmptyPage, InvalidPage):
+        kwargs = {'blog_slug':blog_slug, 'year':year, 'month':month}
+        return HttpResponseRedirect("%s?page=%s" % (reverse('blog-archive', kwargs=kwargs), paginator.num_pages))
+    data.update({
+        "blog": blog,
+        "entries": entries,
+        "title": blog.name,
+        "respond": True,
+    })
     return render(request, 'blog/date_archive.html' , data)
 
 class CommentForm(forms.ModelForm):
@@ -163,24 +193,40 @@ def tag(request, blog_slug, slug, page=1):
     blog = get_blog(blog_slug)
     post_tag = get_object_or_404(Tag, slug=slug, blog=blog)
     entries_list = Entry.objects.get_entries(blog=blog).filter(tags__slug=slug)
-    redirect, data = blog_pageinator(request, entries_list, blog, page)
-    if redirect:
-        return data
-    data["blog_heading"] = _("Posts Tagged '%s'") % post_tag.name
-    data["blog"] = blog
-    return render(request, 'blog/index.html' , data)
-
+    paginator = Paginator(entries_list, 10)
+    try:
+        entries = get_entries_for_page(paginator, page)
+    except (EmptyPage, InvalidPage):
+        kwargs = {'blog_slug':blog_slug, 'page':page}
+        return HttpResponseRedirect(reverse('blog-tag', kwargs=kwargs))
+    data =  {
+        "blog": blog,
+        "entries": entries,
+        "title": blog.name,
+        "respond": True,
+        "blog_heading": _("Posts Tagged '%s'") % post_tag.name
+    }
+    
+    return render(request, 'blog/category.html' , data)
 
 def category(request, blog_slug, slug, page=1):
     blog = get_blog(blog_slug)
     post_category = get_object_or_404(Category, slug=slug, blog=blog)
     entries_list = Entry.objects.get_entries(blog=blog).filter(categories__slug=slug)
-    redirect, data = blog_pageinator(request, entries_list, blog, page)
-    if redirect:
-        return data
-    data["blog_heading"] = _("Archive for the '%s' Category") % post_category.name
-    data["blog"] = blog
-    return render(request, 'blog/index.html' , data)
+    paginator = Paginator(entries_list, 10)
+    try:
+        entries = get_entries_for_page(paginator, page)
+    except (EmptyPage, InvalidPage):
+        kwargs = {'blog_slug':blog_slug, 'page':page}
+        return HttpResponseRedirect(reverse('blog-category', kwargs=kwargs))
+    data =  {
+        "blog": blog,
+        "entries": entries,
+        "title": blog.name,
+        "respond": True,
+        "blog_heading": _("Archive for the '%s' Category") % post_category.name
+    }
+    return render(request, 'blog/category.html' , data)
 
 def moved(request, blog_slug, post):
     blog = get_blog(blog_slug)

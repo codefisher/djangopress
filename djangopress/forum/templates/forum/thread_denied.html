@@ -9,7 +9,8 @@
     <div class="content-box">
         {% if anonymous %}
             <p>We are sorry, but you don't have permissions to reply to this thread.  
-                Please <a href="{% url 'login' %}?next={{request.path}}">Login</a> and try again.</p>
+                Please <a href="{% url 'login' %}?next={{request.path}}">Login</a> 
+                or <a href="{% url 'accounts-register' %}">Register</a> and try again.</p>
             <p><a href="{{ thread.get_absolute_url }}">Return to thread</a>.</p>
         {% else %}
             <p>We are sorry, but you don't have permissions to reply to this thread.</p>

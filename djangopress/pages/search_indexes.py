@@ -1,20 +1,20 @@
 from haystack import indexes
-from djangopress.blog.models import Entry
+from djangopress.pages.models import Page
 
-class EntryIndex(indexes.SearchIndex, indexes.Indexable):
+class PagesIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(document=True, use_template=True)
     author = indexes.CharField(model_attr='author')
-    pub_date = indexes.DateTimeField(model_attr='posted')
+    pub_date = indexes.DateTimeField(model_attr='edited')
     title = indexes.CharField(model_attr='title', boost=1.5)
 
     def get_model(self):
-        return Entry
+        return Page
 
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated."""
-        return self.get_model().objects.get_entries(ordered=False)
+        return self.get_model().objects.filter(status="PB", visibility="VI")
     
     def prepare(self, obj):
-        data = super(EntryIndex, self).prepare(obj)
-        data['boost'] = 1
+        data = super(PagesIndex, self).prepare(obj)
+        data['boost'] = 2
         return data

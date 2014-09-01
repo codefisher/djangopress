@@ -1,7 +1,6 @@
 import datetime
 from django.db import models
 from django.core.urlresolvers import reverse
-from djangopress.core.links.models import Link
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
 from djangopress.blog.managers import EntryMananger, CategoryMananger

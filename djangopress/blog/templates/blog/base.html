@@ -1,5 +1,10 @@
 {% extends "base.html" %}
 {% load blog_tags %}
+{% load djangopress_tags %}
+
+{% block head_tags %}
+    <link type="text/css" rel="stylesheet" href="{% media_url %}themes/default/blog.css">
+{% endblock %}
 
 {% block sidebar %}
    <div class="side-bar-item">

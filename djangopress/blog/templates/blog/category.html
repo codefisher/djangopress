@@ -1,5 +1,6 @@
 {% extends "blog/base.html" %}
 {% load show_pagination %}
+{% load djangopress_tags %}
 
 {% block page_title %}
     {{ title }} {% if blog_heading %}::{{ blog_heading }}{% endif %}
@@ -13,5 +14,5 @@
         {% include "blog/entry.html" %}
     {% endfor %}
 
-    {% show_pagination entries blog %}
+    {% query_pagination entries %}
 {% endblock %}

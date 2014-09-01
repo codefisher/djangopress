@@ -186,7 +186,6 @@ class Post(models.Model):
         if self.author:
             ForumUser.objects.filter(user=self.author).update(num_posts=models.F('num_posts') - 1)
 
-            
     def author_name(self):
         if self.author is None:
             return self.poster_name

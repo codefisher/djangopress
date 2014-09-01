@@ -284,7 +284,7 @@ class LinkNode(AttrNode):
             link = "http://%s" % link
         try:
             url_validator(link)
-        except ValidationError:
+        except:
             return data["attrs"].get(self.link_arg)
         data["attrs"][self.link_arg] = link
         return data

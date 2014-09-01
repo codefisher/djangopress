@@ -6,8 +6,8 @@ from django.utils.feedgenerator import Atom1Feed
 
 class BlogFeed(Feed):
 
-    def get_object(self, request, blog=None):
-        return get_object_or_404(Blog, slug=blog)
+    def get_object(self, request, blog_slug=None):
+        return get_object_or_404(Blog, slug=blog_slug)
 
     def title(self, obj):
         return obj.name
@@ -15,7 +15,7 @@ class BlogFeed(Feed):
     def link(self, obj):
         kwargs = {}
         if obj.slug:
-            kwargs["blog"] = obj.slug
+            kwargs["blog_slug"] = obj.slug
         return reverse("blog-index", kwargs=kwargs)
 
     def description(self, obj):
