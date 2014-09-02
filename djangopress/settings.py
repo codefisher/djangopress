@@ -1,6 +1,5 @@
 # Django settings for codefisher project.
 
-from django.core.exceptions import ImproperlyConfigured
 import os
 BASE_DIR = os.path.realpath(os.path.dirname(__file__))
 
@@ -8,7 +7,7 @@ INTERNAL_IPS = (
     '127.0.0.1',
 )
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 if DEBUG == True:
@@ -20,7 +19,6 @@ if DEBUG == True:
 ADMINS = (
     ('Michael Buckley', 'support@codefisher.org'),
 )
-
 MANAGERS = ADMINS
 
 DATABASES = {
@@ -66,8 +64,7 @@ MEDIA_UPLOAD = os.path.join(MEDIA_ROOT, "uploads")
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = '/media/'
-
-STATIC_URL = '/static/'
+STATIC_URL = '/media/'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -140,7 +137,7 @@ INSTALLED_APPS = (
 )
 
 PAYPAL_RECEIVER_EMAIL = "paypal-foo@codefisher.org "
-PAYPAL_TEST = True
+PAYPAL_TEST = False
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",

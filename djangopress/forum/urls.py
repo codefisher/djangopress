@@ -35,4 +35,8 @@ urlpatterns = patterns('',
     url(r'^post/unanswered/(?P<page>\d+)/$', views.show_unanswered, name='forum-unanswered-posts'),
     url(r'^post/user/page/(?P<page>\d+)/$', views.show_user_posts, name='forum-user-posts'),
     url(r'^post/user/(?P<user_id>\d+)/(?P<page>\d+)/$', views.show_user_posts, name='forum-user-posts'),
+    
+    # examples of supporting a legacy forum
+    url(r'^viewforum.php', views.moved_forum, name='forum-moved'),
+    url(r'^viewtopic.php', views.moved_thread, name='forum-thread-moved'),
 )

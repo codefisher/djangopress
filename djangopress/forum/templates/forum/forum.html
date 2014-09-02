@@ -11,7 +11,7 @@
     {% simple_pagination threads forum %}
 </div>
 <div class="new-thread">
-        <p><a href="{% url 'forum-new-thread' forum_id=forum.pk forums_slug=forums.slug %}">Post new Thread</a></p>
+        <p><a rel="nofollow" href="{% url 'forum-new-thread' forum_id=forum.pk forums_slug=forums.slug %}">Post new Thread</a></p>
 </div>
 <table id="forum-index">
     <thead>
@@ -41,6 +41,6 @@
     {% simple_pagination threads forum %}
 </div>
 <div class="new-thread">
-        <p><a href="{% url 'forum-new-thread' forum_id=forum.pk forums_slug=forums.slug %}">Post new Thread</a></p>
+        <p><a rel="nofollow" href="{% url 'forum-new-thread' forum_id=forum.pk forums_slug=forums.slug %}">Post new Thread</a></p>
 </div>
 {% endblock %}

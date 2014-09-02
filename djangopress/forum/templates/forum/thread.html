@@ -14,7 +14,7 @@
     </div>
     <div class="new-post">
             {% if not thread.closed %}
-            <p><a href="{% url 'forum-reply-thread' thread_id=thread.pk forums_slug=forums.slug %}">Post new Reply</a></p>
+            <p><a rel="nofollow" href="{% url 'forum-reply-thread' thread_id=thread.pk forums_slug=forums.slug %}">Post new Reply</a></p>
             {% else %}
             <p>Thread Closed</p>
             {% endif %}
@@ -73,7 +73,7 @@
     
     <div class="new-post">
             {% if not thread.closed %}
-            <p><a href="{% url 'forum-reply-thread' thread_id=thread.pk forums_slug=forums.slug %}">Post new Reply</a></p>
+            <p><a rel="nofollow" href="{% url 'forum-reply-thread' thread_id=thread.pk forums_slug=forums.slug %}">Post new Reply</a></p>
             {% else %}
             <p>Thread Closed</p>
             {% endif %}

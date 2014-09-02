@@ -107,7 +107,7 @@ class Post(models.Model):
 
     show_similies = models.BooleanField(default=True, help_text="Show icons as smilies for this post.")
 
-    posted = models.DateTimeField()#auto_now_add=True)
+    posted = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(User, related_name="forum_posts_edited", blank=True, null=True)
     edited = models.DateTimeField(null=True, blank=True)
     edit_reason = models.CharField(null=True, blank=True, max_length=200)
@@ -211,7 +211,7 @@ class Thread(models.Model):
 
     poster = models.ForeignKey(User, blank=True, null=True)
     subject = models.CharField(max_length=255)
-    posted = models.DateTimeField()#auto_now_add=True)
+    posted = models.DateTimeField(auto_now_add=True)
     
     first_post = models.ForeignKey(Post, on_delete=models.SET_NULL, blank=True, null=True, related_name='thread_first')
     last_post = models.ForeignKey(Post, on_delete=models.SET_NULL, blank=True, null=True, related_name='thread_last')

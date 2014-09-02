@@ -6,6 +6,7 @@ from django.db import models
 from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.contrib.sites.models import Site
 from django.template.loader import render_to_string
 from django.http.response import Http404
 from djangopress.forum.models import ForumGroup, ForumCategory, Forum, Thread, Post, ForumUser, THREADS_PER_PAGE, POSTS_PER_PAGE
@@ -92,6 +93,7 @@ def new_thead(request, forums_slug, forum_id):
         data = {
                 "forums": forums,
                 "forum": forum,
+                "title": "Permission denied to post thread",
                 "anonymous": not request.user.is_authenticated(),
         }
         return render(request, 'forum/thread_new_denied.html' , data)
@@ -112,6 +114,21 @@ def new_thead(request, forums_slug, forum_id):
                 thread.poster_email = post_form.cleaned_data["poster_email"]
             thread.forum = forum
             thread.save()
+            site = Site.objects.get_current()
+            for user in forum.subscriptions.all():
+                if user == request.user:
+                    continue
+                # should check here if the last post was after the user last visted
+                # in which cause we don't need to email them
+                message_data = {
+                    "site": site,
+                    "user": user,
+                    "thread": thread,
+                    "forums": forums,
+                    "scheme": "https" if request.is_secure() else "http",
+                }
+                message = render_to_string('forum/forum_subscription_notification.txt', message_data)
+                user.email_user("Forum Subscription Notification for %s" % forums.name, message)
             return process_post(request, thread, post_form, forums)
         if not recapatcha:
             recaptcha_error = "The verification failed, please try again."
@@ -124,6 +141,7 @@ def new_thead(request, forums_slug, forum_id):
     data = {
         "forums": forums,
         "forum": forum,
+        "title": "%s :: New Thread" % forum.name,
         "thread_form": thread_form,
         "recaptcha": get_recaptcha_html(),
         "recaptcha_error": recaptcha_error,
@@ -147,6 +165,7 @@ def view_thread(request, forums_slug, thread_id, page=1):
     data = {
         "forums": forums,
         "thread": thread,
+        "title": thread.subject,
         "posts": posts,
     }
     return render(request, 'forum/thread.html' , data)
@@ -164,8 +183,8 @@ def last_post(request, forums_slug, thread_id):
 def process_post(request, thread, post_form, forums):
     post = post_form.save(commit=False)
     if request.user.is_authenticated():
-        forum_profile = ForumUser.objects.get_or_create(user=request.user)
-        if forum_profile.notify == 'AL' and not thread.subscriptions.filter(request.user):
+        forum_profile, created = ForumUser.objects.get_or_create(user=request.user)
+        if forum_profile.notify == 'AL' and not request.user.forum_forum_subscriptions.exists():
             thread.subscriptions.add(request.user)
         post.author = request.user    
     post.is_spam = check_askmet_spam(request, post, post_form)
@@ -173,19 +192,25 @@ def process_post(request, thread, post_form, forums):
     post.thread = thread
     post.format = forums.format
     post.save()
-    for user in thread.subscriptions.exclude(request.user):
+    site = Site.objects.get_current()
+    for user in thread.subscriptions.all():
+        if user == request.user:
+            continue
         # should check here if the last post was after the user last visted
         # in which cause we don't need to email them
         message_data = {
+            "site": site,
             "user": user,
             "thread": thread,
             "forums": forums,
             "post": post,
+            "scheme": "https" if request.is_secure() else "http",
         }
-        message = render_to_string('forum/subscription_notifaction.txt', message_data)
+        message = render_to_string('forum/subscription_notification.txt', message_data)
         user.email_user("Topic Subscription Notification for %s" % forums.name, message)
     data = {
             "post": post,
+            "title": "Post Submitted",
             "thread": thread,
             "forums": forums,
     }
@@ -200,12 +225,14 @@ def reply_thread(request, forums_slug, thread_id):
     if thread.closed:
         data = {
                 "forums": forums,
+                "title": "Thread Closed",
                 "thread": thread,
         }
         return render(request, 'forum/closed.html' , data)
     if not has_permission(request, 'forum', 'can_post_replies'):
         data = {
                 "forums": forums,
+                "title": "Permission Denied",
                 "thread": thread,
                 "anonymous": not request.user.is_authenticated(),
         }
@@ -229,6 +256,7 @@ def reply_thread(request, forums_slug, thread_id):
     data = {
         "forums": forums,
         "thread": thread,
+        "title": "%s :: Post Reply" % thread.subject,
         "recaptcha": get_recaptcha_html(),
         "recaptcha_error": recaptcha_error,
         "post_form": post_form,
@@ -251,6 +279,7 @@ def report_post(request, forums_slug, post_id):
         report_form = ReportForm()
     data = {
             "post": post,
+            "title": "Report Post",
             "forums": forums,
             "report_form": report_form
     }
@@ -263,6 +292,7 @@ def edit_post(request, forums_slug, post_id):
             or (post.author == request.user and has_permission(request, 'forum', 'can_edit_own_posts'))):
         data = {
                 "forums": forums,
+                "title": "Permission Denied",
                 "post": post,
         }
         return render(request, 'forum/post_edit_denied.html' , data)
@@ -289,6 +319,7 @@ def edit_post(request, forums_slug, post_id):
     data = {
             "forums": forums,
             "post": post,
+            "title": "Edit: %s" % post.thread.subject,
             "edit_form": edit_form,
             "thread_form": thread_form,
     }
@@ -307,6 +338,7 @@ def post_action(request, forums_slug, post_id, redirect_before, do_action, name,
         return redirect
     data = {
             "post": post,
+            "title": name,
             "forums": forums,
             "message": message,
             "name": name,
@@ -350,6 +382,7 @@ def subscribe(request, forums_slug, thread_id, subscribe=True):
     thread = get_object_or_404(Thread, pk=thread_id)
     data = {
             "forums": forums,
+            "title": "Subscriptions",
             "thread": thread,
     }
     if not request.user.is_authenticated():
@@ -415,3 +448,11 @@ def show_post_list(request, forums, threads_query, title, page, url_name, url_ar
         "pages": ThreadListPage(url_name, url_args),
     }
     return render(request, 'forum/thread/list.html' , data)
+
+def moved_forum(request, forums_slug):
+    return HttpResponseRedirect(reverse('forum-view', kwargs={'forum_id': request.GET.get('id')}))
+
+def moved_thread(request, forums_slug):
+    if request.GET.get('pid'):
+            return HttpResponseRedirect(reverse('forum-view-post', kwargs={'post_id': request.GET.get('pid')}))
+    return HttpResponseRedirect(reverse('forum-view-thread', kwargs={'thread_id': request.GET.get('id')}))
