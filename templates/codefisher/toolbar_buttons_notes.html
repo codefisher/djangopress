@@ -1,10 +1,12 @@
 {% extends 'root.html' %}
-{% load djangopress_tags %}
+
 {% load pages_tags %}
 
 {% block head_tags %}
-    <link type="text/css" rel="stylesheet" href="{% media_url %}themes/default/download.css">
+    <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}themes/default/download.css">
 {% endblock %}
+
+
 
 {% block root-content %}
 <div id="wrapper-content">
@@ -19,7 +21,7 @@
 		    {{ download.release_notes|safe }}
 	    {% endif %}
 
-	    {% if download.previous_release %}
+	    {% if download.previous_release and download.previous_release.release_notes %}
 	       <p>
 	        <a href="{{ download.previous_release.get_release_url }}">Previous Version &raquo; </a>
 	       </p>
