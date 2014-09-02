@@ -76,5 +76,6 @@ urlpatterns += download_urls
 if settings.DEBUG:
     from django.views.static import serve
     urlpatterns += patterns('',
+        #(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
         (r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
     )

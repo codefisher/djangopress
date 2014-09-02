@@ -141,7 +141,7 @@ def new_thead(request, forums_slug, forum_id):
     data = {
         "forums": forums,
         "forum": forum,
-        "title": "%s :: New Thread" % forum.name,
+        "title": settings.TITLE_FORMAT % (forum.name, "New Thread"),
         "thread_form": thread_form,
         "recaptcha": get_recaptcha_html(),
         "recaptcha_error": recaptcha_error,
@@ -256,7 +256,7 @@ def reply_thread(request, forums_slug, thread_id):
     data = {
         "forums": forums,
         "thread": thread,
-        "title": "%s :: Post Reply" % thread.subject,
+        "title": settings.TITLE_FORMAT % (thread.subject, "Post Reply"),
         "recaptcha": get_recaptcha_html(),
         "recaptcha_error": recaptcha_error,
         "post_form": post_form,

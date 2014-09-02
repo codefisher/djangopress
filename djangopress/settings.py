@@ -58,13 +58,14 @@ USE_L10N = True
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'www', 'media')
-MEDIA_UPLOAD = os.path.join(MEDIA_ROOT, "uploads")
+STATIC_ROOT = os.path.join(BASE_DIR, '..', 'www', 'static_files')
+MEDIA_UPLOAD = MEDIA_ROOT
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
 # Examples: "http://media.lawrence.com", "http://example.com/media/"
 MEDIA_URL = '/media/'
-STATIC_URL = '/media/'
+STATIC_URL = '/static/'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -139,18 +140,9 @@ INSTALLED_APPS = (
 PAYPAL_RECEIVER_EMAIL = "paypal-foo@codefisher.org "
 PAYPAL_TEST = False
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.request",
-    "django.contrib.messages.context_processors.messages"
-)
-
-
 AUTH_PROFILE_MODULE = 'accounts.UserProfile'
 
+# make a table for this, and get rid it 
 PAGES_TEMPLATES = (
     ('pages/base.html', 'default'),
     ('pages/home.html', 'home'),

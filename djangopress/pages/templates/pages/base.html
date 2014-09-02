@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% load pages_tags %}
-{% load djangopress_tags %}
+
 
 {% block head_tags %}
     {{ block.super }}
@@ -11,7 +11,7 @@
         <meta name="description" content="{{ page.meta_description }}" >
     {% endif %}
     {% if show_toolbar %}
-        <link type="text/css" rel="stylesheet" href="{% media_url %}themes/default/style.page-edit.css">
+        <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}themes/default/style.page-edit.css">
         <script type="text/javascript" src="{% url 'page-edit-js' %}"></script>
     {% endif %}
 {% endblock %}

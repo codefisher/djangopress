@@ -24,7 +24,7 @@ class MagicHtmlParser(Parser):
 
 def image_tag(parser, token):
     kargs = nodes.tag_arguments(token.contents)[2]
-    kargs["src"] = "%s/%s" % (settings.MEDIA_URL.rstrip('/'),
+    kargs["src"] = "%s/%s" % (settings.STATIC_URL.rstrip('/'),
             kargs.get("src").lstrip('/'))
     return nodes.AttrNode(token, node_name="img", kargs=kargs, closes=False,
                     attrs=('src', 'width', 'height', 'title', 'alt'))
