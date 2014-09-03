@@ -1,5 +1,8 @@
 from django.conf import settings
-from importlib import import_module
+try:
+    from importlib import import_module
+except:
+    from django.utils.importlib import import_module
 from django.utils.module_loading import module_has_submodule
 import nodes
 
