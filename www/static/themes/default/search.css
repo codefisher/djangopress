@@ -1,5 +1,24 @@
 /* try and keep this matching the style of the blog entries */
 
+#search-fields input[type="search"]{
+    width:50%;
+}
+
+#search-form h3 {
+    float:left;
+}
+
+#search-form .pagination {
+    float:right;
+    text-align:right;
+    padding:1.25em 0;
+}
+
+#search-results {
+    clear:both;
+    list-style-type:none;
+}
+
 #search-results h3 {
     padding:0;
     margin:1em 0 0;
@@ -9,6 +28,8 @@
 #search-results small {
     font-size:0.675em;
     color:#98bc55;
+    text-align:right;
+    display:block;
 }
 
 
