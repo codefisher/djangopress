@@ -1,3 +1,5 @@
+{% load online_status_tags %}
+
 <table>
     <tr>
         <td>Username</td><td>{{ user.username }}</td>
@@ -13,6 +15,9 @@
     </tr>
     <tr>
         <td>Website</td><td>{% if user.profile.homepage %}<a href="{{ user.profile.homepage }}">{{ user.profile.homepage }}</a>{% endif %}</td>
+    </tr>
+    <tr>
+        <td>Status</td><td>{% user_status user %}</td>
     </tr>
 </table>
 {% if user.profile.signature %}

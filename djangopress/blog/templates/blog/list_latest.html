@@ -1,3 +1,1 @@
-{% for entry in entries %}
-    <li><a href="{{ entry.get_absolute_url }}">{{ entry.title|truncatechars:30 }}</a></li>
-{% endfor %}
+{% for entry in entries %}<li><a href="{{ entry.get_absolute_url }}">{{ entry.title|truncatechars:30 }}</a></li>{% endfor %}

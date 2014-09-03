@@ -43,23 +43,23 @@ def send_activate_email(request, user, resend=False):
 
 def registered(request, username):
     user = get_object_or_404(User, username=username)
-    return render(request, "accounts/messages/registered-message.html" , {"user": user})
+    return render(request, "accounts/messages/registered-message.html" , {"user": user, "title": "Registered"})
 
 def activated(request, username):
     user = get_object_or_404(User, username=username)
-    return render(request, "accounts/messages/account_activated.html" , {"user": user})
+    return render(request, "accounts/messages/account_activated.html" , {"user": user, "title": "Activated"})
 
 def already_activated(request, username):
     user = get_object_or_404(User, username=username)
-    return render(request, "accounts/messages/already_activated.html" , {"user": user})
+    return render(request, "accounts/messages/already_activated.html" , {"user": user, "title": "Already Activated"})
 
 def invalid_activation(request, username):
     user = get_object_or_404(User, username=username)
-    return render(request, "accounts/messages/invalid_activation.html" , {"user": user})
+    return render(request, "accounts/messages/invalid_activation.html" , {"user": user, "title": "Invalid Activation"})
 
 def resent_activation(request, username):
     user = get_object_or_404(User, username=username)
-    return render(request, "accounts/messages/resent_activation.html" , {"user": user})
+    return render(request, "accounts/messages/resent_activation.html" , {"user": user, "title": "Resent Activation"})
 
 def register(request):
     if request.user.is_authenticated():
@@ -88,7 +88,8 @@ def register(request):
         form = UserForm()
     data.update({
         "recaptcha": get_recaptcha_html(),
-        "form": form
+        "form": form, 
+        "title": "Register"
     })
     return render(request, "accounts/register.html" , data)
 

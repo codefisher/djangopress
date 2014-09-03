@@ -27,6 +27,10 @@ def index(request, forums_slug):
     total_posts = Post.objects.filter().count()
     total_topics = Thread.objects.filter().count()
     total_users = User.objects.filter(is_active=True).count()
+    if total_users > 0:
+        newest_user = User.objects.filter(is_active=True).order_by('-date_joined')[0]
+    else:
+        newest_user = None
     data  = {
              "forums": forums,
              "categories": categories,
@@ -34,6 +38,7 @@ def index(request, forums_slug):
              "total_posts": total_posts,
              "total_topics": total_topics,
              "total_users": total_users,
+             "newest_user": newest_user,
     }
     return render(request, 'forum/index.html' , data)
 

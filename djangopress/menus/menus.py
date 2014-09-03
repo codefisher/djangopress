@@ -8,9 +8,8 @@ class ListRender(object):
         <ul{% if menu.class_tag%} class="{{ menu.class_tag }}"{% endif %}{% if menu.name %} id="{{ menu.name }}"{% endif %}>
             {% for item, sub_menu in tree %}
                 {% display_menu_item item sub_menu %}
-            {% endfor %} 
-        </ul>
-        """)
+            {% endfor %}
+        </ul>""")
         self._item = Template("""
             {% load display_menu %}
             <li {% if item.id_tag %} id="{{ item.id_tag }}" {% endif %}{% if item.class_tag %} class="{{ item.class_tag }}"{% endif %}>
@@ -18,8 +17,7 @@ class ListRender(object):
                 {% if sub_menu %}
                     {% display_submenu item sub_menu %}
                 {% endif %}
-                </li>
-        """)
+            </li>""")
         
     def _tag_active_item(self, context, tree):
         path = context.get("request").path

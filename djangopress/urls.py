@@ -1,7 +1,4 @@
 from django.conf.urls import patterns, url, include
-from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
-
 from djangopress.forum import urls as forum_urls
 from djangopress.accounts import urls as accounts_urls
 from djangopress.accounts import user_urls
@@ -62,7 +59,6 @@ try:
 except ImportError:
     pass
 
-
 from djangopress.sitemap import sitemap_patterns
 urlpatterns += sitemap_patterns
 
@@ -71,11 +67,3 @@ urlpatterns += locale_urls
 
 from codefisher_apps.downloads.urls import urlpatterns as download_urls
 urlpatterns += download_urls
-
-# if debug is enabled use the static server for media
-if settings.DEBUG:
-    from django.views.static import serve
-    urlpatterns += patterns('',
-        #(r'^static/(?P<path>.*)$', serve, {'document_root': settings.STATIC_ROOT}),
-        (r'^media/(?P<path>.*)$', serve, {'document_root': settings.MEDIA_ROOT}),
-    )

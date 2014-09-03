@@ -26,12 +26,12 @@ def index(request):
     donate = DonateForm()
     form = PayPalPaymentsForm(initial=paypal_dict, button_type='donate')
     donations = Donations.objects.filter(validated=True).order_by('-amount', '-date')
-    context = {"form": form, "donate": donate, "donations": donations}
+    context = {"form": form, "donate": donate, "donations": donations, "title": "Donate"}
     return render(request, "donate/index.html", context)
 
 @csrf_exempt
 def thanks(request):
-    return render(request, "donate/thanks.html")
+    return render(request, "donate/thanks.html", {"title": "Donate"})
 
 
 def process(request):
@@ -51,5 +51,5 @@ def process(request):
     }
     # Create the instance.
     form = PayPalPaymentsForm(initial=paypal_dict, button_type='donate')
-    context = {"form": form}
+    context = {"form": form, "title": "Donate"}
     return render(request, "donate/process.html", context)

@@ -1,3 +1,1 @@
-{% for post in posts %}
-    <li><a href="{{ post.get_absolute_url }}">{{ post.thread.subject|truncatechars:30 }}</a></li>
-{% endfor %}
+{% for post in posts %}<li><a href="{{ post.get_absolute_url }}">{{ post.thread.subject|truncatechars:30 }}</a></li>{% endfor %}

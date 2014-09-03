@@ -4,8 +4,6 @@ from djangopress.core.sitemap import register
 from django.conf import settings
 
 class PageSitemap(Sitemap):
-    changefreq = "monthly"
-    priority = 0.75
 
     def items(self):
         return Page.objects.filter(sites__id__exact=settings.SITE_ID,

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from djangopress.pages.models import Page
+from djangopress.pages.models import Page, PageTemplate
 from djangopress.pages.blocks import TextBlock
 
 class PageAdmin(admin.ModelAdmin):
@@ -39,6 +39,10 @@ class PageAdmin(admin.ModelAdmin):
 class TextBlockAdmin(admin.ModelAdmin):
 
     list_display = ('block_name', 'position', 'block_id')
-
+    
+class PageTemplateAdmin(admin.ModelAdmin):
+    list_display = ('name', 'template')
+    
+admin.site.register(PageTemplate, PageTemplateAdmin)
 admin.site.register(Page, PageAdmin)
 admin.site.register(TextBlock, TextBlockAdmin)

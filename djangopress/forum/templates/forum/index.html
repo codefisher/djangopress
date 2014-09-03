@@ -1,4 +1,5 @@
 {% extends "forum/base.html" %}
+{% load online_status_tags %}
 
 {% block content %}
     <div>
@@ -29,10 +30,9 @@
     <div class="content-box" id="forum-info">
         <div id="user-info">
             <ul>
-                <li>Newest registered user:</li>
-                <li>Registered users online:</li>
-                <li>Guests online: </li>
-                <li>Online: </li>
+                <li>Newest registered user: <a href="{{ newest_user.get_absolute_url }}">{{ newest_user.username }}</a></li>
+                {% online_user_count %}
+                <li>Online: {% online_users 30 %}</li>
             </ul>
         </div>
         <div id="forum-stats">

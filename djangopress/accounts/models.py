@@ -6,7 +6,7 @@ import hashlib
 
 from django.db import models
 from django.conf import settings
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from djangopress.core.models import Property
 from djangopress.core.format import Library
@@ -67,6 +67,12 @@ def create_profile(sender, **kargs):
         profile.set_activate_key()
         profile.save()
 post_save.connect(create_profile, User, dispatch_uid="djangopress.accounts.create_profile")
+
+def add_to_group(sender, **kargs):
+    if kargs.get("created", False):
+        user = kargs.get("instance")
+        user.groups.add(Group.objects.get(name=settings.DEFAULT_USER_GROUP))
+post_save.connect(add_to_group, User, dispatch_uid="djangopress.accounts.add_to_group")
 
 class UsersOnline(models.Model):
     user = models.OneToOneField(User)

@@ -1,10 +1,17 @@
 import datetime
 
 from django.db import models
-from django.conf import settings
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
 from djangopress.pages.blocks import PageBlock
+
+class PageTemplate(models.Model):
+    name = models.CharField(blank=False, max_length=200)
+    template = models.CharField(blank=False, max_length=200,
+            help_text="The path to any template file accessible to the template loader")
+    
+    def __unicode__(self):
+        return self.name
 
 class Page(models.Model):
     PUBLICATION_LEVEL = (
@@ -26,8 +33,7 @@ class Page(models.Model):
     title = models.CharField(blank=False, max_length=200,
             verbose_name="Page Title")
     sites = models.ManyToManyField(Site)
-    template = models.CharField(blank=False, max_length=200,
-            choices=settings.PAGES_TEMPLATES)
+    template = models.ForeignKey(PageTemplate, blank=False)
     blocks = models.ManyToManyField(PageBlock, related_name="pages", blank=True, null=True)
 
     parent = models.ForeignKey("Page", related_name="sub_pages", blank=True, null=True)

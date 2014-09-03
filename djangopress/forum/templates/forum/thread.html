@@ -1,6 +1,8 @@
 {% extends "forum/base.html" %}
 {% load show_pagination %}
 {% load forum_tags %}
+{% load online_status_tags %}
+
 
 {% block content %}
 
@@ -39,6 +41,7 @@
                     <li>{{ post.author.profile.title }}</li>
                     <li>Registered: {{ post.author.date_joined }}</li>
                     <li>Posts: {{ post.author.forum_profile.num_posts }}</li>
+                    <li>{% user_status post.author %}</li>
                 {% else %}
                     <li class="username">{{ post.poster_name }}</li>
                     <li>Guest</li>

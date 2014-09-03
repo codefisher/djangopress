@@ -1,6 +1,13 @@
 {% extends "base.html" %}
 {% load pages_tags %}
 
+{% block page_title %}
+    {% if page.meta_page_title %}
+        {{ page.meta_page_title }}
+    {% else %}
+        {{ page.title }}
+    {% endif %}
+{% endblock %}
 
 {% block head_tags %}
     {{ block.super }}
@@ -30,6 +37,7 @@
 {% endblock %}
 
 {% block content %}
+    <h1>{{ page.title }}</h1>
     {% placeholder "content" primary %}
 {% endblock %}
 
@@ -42,12 +50,4 @@
 {% block copyright_box %}
     {{ block.super }}
     <div>Edited {{ page.edited|date:"DATE_FORMAT" }} by {{ page.edited_by.username }}</div>
-{% endblock %}
-
-{% block page_title %}
-    {% if page.meta_page_title %}
-        {{ page.meta_page_title }}
-    {% else %}
-        {{ page.title }}
-    {% endif %}
 {% endblock %}

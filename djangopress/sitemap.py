@@ -5,5 +5,6 @@ from django.contrib.sitemaps import views
 autodiscover()
 
 sitemap_patterns = patterns('',
-    url(r'sitemap\.xml', views.sitemap, {'sitemaps': register.get_sitemaps()}, name="sitemap")
+    url(r'sitemap\.xml', views.sitemap, {'sitemaps': register.get_sitemaps()}, 
+        name='django.contrib.sitemaps.views.sitemap')
 )
