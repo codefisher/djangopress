@@ -1,5 +1,5 @@
 from django import template
-from djangopress.donate.models import Donations
+from djangopress.donate.models import Donation
 
 register = template.Library()
 
@@ -9,7 +9,7 @@ def show_latest_donations(number=5):
         number = int(number)
     except ValueError:
         number = 5
-    donations = Donations.objects.filter(validated=True).order_by('-date', '-amount')[0:number]
+    donations = Donation.objects.filter(validated=True).order_by('-date', '-amount')[0:number]
     return {
         "donations": donations,
     }
@@ -20,7 +20,7 @@ def show_best_donations(number=5):
         number = int(number)
     except ValueError:
         number = 5
-    donations = Donations.objects.filter(validated=True).order_by('-amount', '-date')[0:number]
+    donations = Donation.objects.filter(validated=True).order_by('-amount', '-date')[0:number]
     return {
         "donations": donations,
     }

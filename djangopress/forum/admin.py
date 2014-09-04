@@ -97,8 +97,12 @@ class RankAdmin(admin.ModelAdmin):
 admin.site.register(Rank, RankAdmin)
 
 class ReportsAdmin(admin.ModelAdmin):
-    list_display = ('post', 'reported_by', 'created_date', 'moderated')
+    list_display = ('post', 'reported_by', 'created_date', 'moderated', 'post_link')
     raw_id_fields = ('post', 'reported_by', 'moderated_by')
+    
+    def post_link(self, obj):
+        return '<a href="%s">View Post</a>' % obj.post.get_absolute_url()
+    post_link.allow_tags = True
     
 admin.site.register(Report, ReportsAdmin)
 

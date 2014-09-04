@@ -105,7 +105,7 @@ class Post(models.Model):
     # old posts will still render in the format they are written in
     format = models.CharField(max_length=20)
 
-    show_similies = models.BooleanField(default=True, help_text="Show icons as smilies for this post.")
+    show_similies = models.BooleanField(default=True, help_text="Show smilies as icons for this post.")
 
     posted = models.DateTimeField(auto_now_add=True)
     edited_by = models.ForeignKey(User, related_name="forum_posts_edited", blank=True, null=True)
@@ -132,7 +132,7 @@ class Post(models.Model):
     
     def formatted(self):
         formating = Library.get(self.format).get("function")
-        return formating(self.message)
+        return formating(self.message, smilies=self.show_similies)
     
     def __changed_status_visiable(self):
         return ((not self.__original_is_public and self.is_public and not self.is_spam)

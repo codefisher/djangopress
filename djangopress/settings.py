@@ -38,7 +38,7 @@ USE_L10N = False
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
 MEDIA_ROOT = os.path.join(BASE_DIR, '..', 'www', 'media')
-STATIC_ROOT = os.path.join(BASE_DIR, '..', 'www', 'static')
+STATIC_ROOT = os.path.join(BASE_DIR, '..', 'www', 'static_files')
 MEDIA_UPLOAD = MEDIA_ROOT
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a

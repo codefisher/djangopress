@@ -5,7 +5,7 @@ import datetime
 
 # Create your models here.
 
-class Donations(models.Model):
+class Donation(models.Model):
     name = models.CharField(max_length=50)
     date = models.DateField(default=datetime.datetime.today)
     amount = models.FloatField(blank=True, default=0)
@@ -19,7 +19,7 @@ def update_donation(sender, **kwargs):
     ipn_obj = sender
     if ipn_obj.payment_status == "Completed":
         # Undertake some action depending upon `ipn_obj`.
-        donation = Donations.objects.get(invoice_id=ipn_obj.invoice)
+        donation = Donation.objects.get(invoice_id=ipn_obj.invoice)
         if donation:
             donation.validated = True
             donation.amount = ipn_obj.auth_amount

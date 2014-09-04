@@ -90,7 +90,7 @@ class Entry(models.Model):
     body = models.TextField(blank=False, verbose_name="Post Contents")
     # change to user profile
     author = models.ForeignKey(User, related_name="blog_entries")
-    edited_by = models.ForeignKey(User, editable=False, related_name="blog_edited_entries")
+    edited_by = models.ForeignKey(User, editable=False, blank=True, null=True, related_name="blog_edited_entries")
     edited = models.DateTimeField(blank=True,
             auto_now=True, verbose_name="Last Edited", editable=False)
     posted = models.DateTimeField(blank=True, default=datetime.datetime.now,
