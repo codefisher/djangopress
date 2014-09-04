@@ -1,4 +1,4 @@
-from djangopress.menus import register
+from djangopress.menus.menu import register
 from django.template import Template, RequestContext
 
 class ListRender(object):

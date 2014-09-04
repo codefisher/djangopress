@@ -7,6 +7,8 @@ from djangopress.pages import urls as pages_urls
 from paypal.standard.ipn import urls as paypal_urls
 from djangopress.donate import urls as donate_urls
 from djangopress.contact import urls as contact_urls
+from djangopress.menus import urls as menu_urls
+
 
 # django databrowse application
 #from django.contrib import databrowse
