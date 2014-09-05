@@ -14,6 +14,7 @@ class ContactForm(forms.Form):
     message = forms.CharField(widget=forms.Textarea)
     
 def contact(request):
+    error = None
     if request.method == 'POST':
         form = ContactForm(request.POST)
         if form.is_valid():
@@ -24,10 +25,10 @@ def contact(request):
                           [email for name, email in ADMINS], fail_silently=False)
                 return HttpResponseRedirect(reverse(thanks))
             except:
-                pass
+                error = "A server error cause the sending of mail to fail, please try again later."
     else:
         form = ContactForm()
-    return render(request, "contact/index.html", {"form": form, "title": "Contact"})
+    return render(request, "contact/index.html", {"form": form, "title": "Contact", error: error})
 
 def thanks(request):
     return render(request, "base.html", 
