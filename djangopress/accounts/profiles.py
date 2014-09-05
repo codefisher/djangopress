@@ -47,10 +47,7 @@ def autodiscover():
     "based on the admin site autodiscover see that for more info"
     import copy
     from django.conf import settings
-    try:
-        from importlib import import_module
-    except:
-        from django.utils.importlib import import_module
+    from importlib import import_module
     from django.utils.module_loading import module_has_submodule
 
     for app in settings.INSTALLED_APPS:
