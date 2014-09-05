@@ -31,5 +31,5 @@ def contact(request):
 
 def thanks(request):
     return render(request, "base.html", 
-                  {"title": "Contact", "page_header": "Thanks You", 
-                   "message": "Thank you for taking the time to send me an email"})
+                  {"title": "Contact", "page_header": "Thank You", 
+                   "page_message": "Thank you for taking the time to send me an email, I will try and get back to you as soon as possible."})
