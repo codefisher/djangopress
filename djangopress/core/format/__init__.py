@@ -49,9 +49,10 @@ def format_plaintext(text, nofollow=True, trim_url_limit=None, smilies=True, *ar
                 encoding='utf-8'))
 
 def format_html(text, nofollow=True, trim_url_limit=None, smilies=True, *args, **kargs):
-    return mark_safe(force_unicode(fix_ampersands(add_smilies(urlize(text,
-            nofollow=nofollow, trim_url_limit=trim_url_limit), smilies=smilies)),
-            encoding='utf-8'))
+    return mark_safe(force_unicode(text, encoding='utf-8'))
+    #return mark_safe(force_unicode(fix_ampersands(add_smilies(urlize(text,
+    #        nofollow=nofollow, trim_url_limit=trim_url_limit), smilies=smilies)),
+    #        encoding='utf-8'))
 
 def format_template(text, context=None, *args, **kargs):
     t = Template(text)

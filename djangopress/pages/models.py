@@ -62,6 +62,8 @@ class Page(models.Model):
             blank=True, null=True)
     meta_description = models.TextField(verbose_name="Description meta tag",
             blank=True, null=True)
+    head_tags = models.TextField(verbose_name="Extra tags to be added to the page header",
+            blank=True, null=True)
 
     class Meta:
         verbose_name = "page"

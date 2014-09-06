@@ -16,7 +16,7 @@ class PageAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('slug', 'title', 'template', 'sites')
+            'fields': ('slug', 'title', 'template', 'sites', 'parent')
         }),
         ('Display Settings', {
             'fields': ('status', 'visibility', 'login_required')
@@ -28,7 +28,8 @@ class PageAdmin(admin.ModelAdmin):
             'fields': ('author', 'posted', 'edited_by', 'edited')
         }),
         ('Advanced Options', {
-            'fields': ('override_location', 'parent')
+            'classes': ('collapse',),
+            'fields': ('override_location', 'head_tags')
         }),
         ('SEO options', {
             'classes': ('collapse',),
