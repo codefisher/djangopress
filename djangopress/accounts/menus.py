@@ -19,6 +19,8 @@ class LoginRender(object):
         if context.get("user").is_authenticated():
             return self._members.render(RequestContext(context.get("request"), {"user": context.get("user")}))
         else:
-            return """<li><a href="%s">Login</a></li>""" % reverse('login')
+            if context.get("request").path == reverse('logout'):
+                return Template("""<li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>""").render(context)
+            return Template("""<li><a href="{% url 'login' %}">Login</a></li>""").render(context)
         
 register('member', LoginRender())

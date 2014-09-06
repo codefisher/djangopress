@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load login_next from accounts %}
 
 {% block content %}
 
@@ -21,7 +22,7 @@
         </table>
         <p><label><input type="checkbox" name="remember_me"> Remember me on this Computer.</label></p>
         <p><input type="submit" value="login" /></p>
-        <input type="hidden" name="next" value="{{ next }}" />
+        <input type="hidden" name="next" value="{% login_next next %}" />
     </fieldset>
 </form>
 <p>

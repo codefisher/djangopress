@@ -19,11 +19,18 @@ urlpatterns = patterns('',
     url(r'^register/already-activated/(?P<username>.+)/$', views.already_activated, name='accounts-already-activated'),
     url(r'^register/invalid-activation/(?P<username>.+)/$', views.invalid_activation, name='accounts-activation-invalid'),
     url(r'^register/resent-activation/(?P<username>.+)/$', views.resent_activation, name='accounts-activation-resent'),
+    
+    # the default location after someone has logged in
+    url(r'^profile/$', views.user_profile, name='accounts-profile-alt'),
 )
 
 urlpatterns += patterns('',
-    url(r'^login/$', auth_views.login, name='login'),
-    url(r'^logout/$', auth_views.logout, name='logout'),
+    url(r'^login/$', auth_views.login, {
+            "template_name": "accounts/login.html"
+        }, name='login'),
+    url(r'^logout/$', auth_views.logout, {
+            "template_name": "accounts/logged_out.html"
+        },  name='logout'),
     url(r'^password_change/$', auth_views.password_change, {
             "post_change_redirect": "/user/",
             "template_name": "accounts/password_change_form.html"
