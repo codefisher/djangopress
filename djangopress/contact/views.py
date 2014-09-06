@@ -17,18 +17,21 @@ def contact(request):
     error = None
     if request.method == 'POST':
         form = ContactForm(request.POST)
-        if form.is_valid():
+	if form.is_valid():
             try:
-                send_mail(form.cleaned_data['subject'], 
+                result = send_mail(form.cleaned_data['subject'], 
                           form.cleaned_data['message'], 
                           "%s <%s>" % (form.cleaned_data['name'], form.cleaned_data['email']),
                           [email for name, email in ADMINS], fail_silently=False)
-                return HttpResponseRedirect(reverse(thanks))
+                if result:
+                    return HttpResponseRedirect(reverse(thanks))
+                else:
+                    error = "A mail server error caused the sending of mail to fail, please try again later."
             except:
-                error = "A server error cause the sending of mail to fail, please try again later."
+                error = "A server error caused the sending of mail to fail, please try again later."
     else:
         form = ContactForm()
-    return render(request, "contact/index.html", {"form": form, "title": "Contact", error: error})
+    return render(request, "contact/index.html", {"form": form, "title": "Contact", "error": error})
 
 def thanks(request):
     return render(request, "base.html", 
