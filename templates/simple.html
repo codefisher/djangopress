@@ -2,22 +2,21 @@
 {% load display_menu %}
 
 {% block root-content %}
-
-<div id="header">
- <div id="header-content">
-  <div id="tag-line">
-   <span>The Code Monk at work...</span>
-   <span>Innovative, Fun, Geeky</span>
-  </div>
-  <div id="header-bar"></div>
-  <div class="fly-out-menu css-fly-out-menu" id="main-menu">
-   {% display_menu 'site-menu' %}
-   <script type="text/javascript">new FlyOutMenu('main-menu');</script>
- </div>
- <div class="clear"></div>
- </div>
-</div>
-
-    {% block simple-content %}{% endblock %}
-
+{% spaceless %}
+    <div id="header">
+     <div id="header-content">
+      <div id="tag-line">
+       <span>The Code Monk at work...</span>
+       <span>Innovative, Fun, Geeky</span>
+      </div>
+      <div id="header-bar"></div>
+      <div class="fly-out-menu css-fly-out-menu" id="main-menu">
+       {% display_menu 'site-menu' %}
+       <script type="text/javascript">new FlyOutMenu('main-menu');</script>
+     </div>
+     <div class="clear"></div>
+     </div>
+    </div>
+{% endspaceless %}
+{% block simple-content %}{% endblock %}
 {% endblock %}
