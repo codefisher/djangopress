@@ -69,3 +69,6 @@ urlpatterns += locale_urls
 
 from codefisher_apps.downloads.urls import urlpatterns as download_urls
 urlpatterns += download_urls
+
+from djangopress.core.format.models import autodiscover as format_autodiscover
+format_autodiscover()

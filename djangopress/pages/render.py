@@ -21,5 +21,8 @@ class RenderRegister(object):
 
 register = RenderRegister()
 
+def make_render(name):
+    return lambda block, data, context: format.Library.format(name, data, False, context=context)
+
 for name, verbose_name in format.Library.choices(False):
-    register(name, lambda block, data, context: format.Library.format(name, data, False, context=context), verbose_name)
+    register(name, make_render(name), verbose_name)

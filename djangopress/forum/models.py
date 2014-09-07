@@ -88,7 +88,7 @@ class Post(models.Model):
             ('can_edit_others_posts', 'User is allowed to edit posts others have made'),
             ('can_mark_removed', 'Can mark the post as removed/not removed'),
             ('can_mark_public', 'Can mark if a post is public or not'),
-            ('can_mark_spam', 'Can mark a post as span/not spam')
+            ('can_mark_spam', 'Can mark a post as spam/not spam')
         )
         
     author = models.ForeignKey(User, related_name="forum_posts", blank=True,  null=True)
