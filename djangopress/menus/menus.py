@@ -20,6 +20,8 @@ class ListRender(object):
             </li>""")
         
     def _tag_active_item(self, context, tree):
+        if not context.get("request"):
+            return # happes on 500 pages, maybe others
         path = context.get("request").path
         active =  sorted([(item[0].link == path, item[0].link.startswith(path), -len(item[0].link), i) for i, item in enumerate(tree)], reverse=True)[0][3]
         active_item = tree[active][0]
