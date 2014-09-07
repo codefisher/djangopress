@@ -1,9 +1,10 @@
 {% extends "base.html" %}
+{% load static %}
 {% load blog_tags %}
 
 
 {% block head_tags %}
-    <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}themes/default/blog.css">
+    <link type="text/css" rel="stylesheet" href="{% get_static_prefix %}themes/default/blog.css">
 {% endblock %}
 
 {% block sidebar %}

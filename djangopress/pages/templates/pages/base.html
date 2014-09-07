@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load pages_tags %}
+{% load static %}
 
 {% block page_title %}
     {% if page.meta_page_title %}
@@ -18,7 +19,7 @@
         <meta name="description" content="{{ page.meta_description }}" >
     {% endif %}
     {% if show_toolbar %}
-        <link type="text/css" rel="stylesheet" href="{{ STATIC_URL }}themes/default/style.page-edit.css">
+        <link type="text/css" rel="stylesheet" href="{% get_static_prefix %}themes/default/style.page-edit.css">
         <script type="text/javascript" src="{% url 'page-edit-js' %}"></script>
     {% endif %}
     {% if page.head_tags %} {{ page.head_tags|safe }} {% endif %}

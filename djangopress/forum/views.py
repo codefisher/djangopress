@@ -12,6 +12,7 @@ from django.http.response import Http404
 from djangopress.forum.models import ForumGroup, ForumCategory, Forum, Thread, Post, ForumUser, THREADS_PER_PAGE, POSTS_PER_PAGE
 from djangopress.core.util import get_client_ip, get_recaptcha_html, recaptcha_is_valid, has_permission
 from djangopress.forum.forms import PostAnonymousForm, PostEditForm, PostForm, ReportForm, ThreadForm
+from django.utils.encoding import smart_str
 
 try:
     import akismet
@@ -88,7 +89,7 @@ def check_askmet_spam(request, post, form):
                 "comment_author": form.cleaned_data["poster_name"],
                 "comment_author_email": form.cleaned_data["poster_email"],
             })
-        return api.comment_check(form.cleaned_data["message"], data)
+        return api.comment_check(smart_str(form.cleaned_data["message"]), data)
     return False
 
 def new_thead(request, forums_slug, forum_id):
@@ -191,8 +192,11 @@ def process_post(request, thread, post_form, forums):
         forum_profile, created = ForumUser.objects.get_or_create(user=request.user)
         if forum_profile.notify == 'AL' and not request.user.forum_forum_subscriptions.exists():
             thread.subscriptions.add(request.user)
-        post.author = request.user    
-    post.is_spam = check_askmet_spam(request, post, post_form)
+        post.author = request.user
+    try:
+        post.is_spam = check_askmet_spam(request, post, post_form)
+    except:
+        post.is_spam = False
     post.ip = get_client_ip(request)
     post.thread = thread
     post.format = forums.format

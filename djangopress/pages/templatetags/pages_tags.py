@@ -1,6 +1,6 @@
 from django import template
 from django.template.loader import render_to_string
-from djangopress.pages.blocks import PageBlock
+from djangopress.pages.models import PageBlock
 register = template.Library()
 
 def do_placeholder(parser, token):

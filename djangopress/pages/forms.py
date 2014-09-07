@@ -1,12 +1,17 @@
 from django import forms
-from djangopress.pages.models import Page
-from djangopress.pages.blocks import PageBlock
+from djangopress.pages.models import Page, PageBlock
 
-def new_block_form(*args, **kargs):
-    choices = [('', ' -- ')] + [(name, cls.name) for name, cls in PageBlock.sub_classes.items()]
-    class NewBlockForm(forms.Form):
-        content_type = forms.ChoiceField(choices=choices, required=False, initial='')
-    return NewBlockForm(*args, **kargs)
+
+class NewBlockForm(forms.ModelForm):
+    class Meta:
+        model = PageBlock
+        fields = ('render',)
+        
+class TextForm(forms.ModelForm):
+    
+    class Meta:
+        fields = ("render", "data")
+        model = PageBlock
 
 class PageForm(forms.ModelForm):
     fieldsets = (

@@ -5,6 +5,9 @@ class MenusRegister(object):
 
     def __call__(self, name, cls, position=0):
         self._renderer[name] = cls
+        
+    def list_all(self):
+        return self._renderer
 
     def get_renderer(self, name):
         return self._renderer.get(name)

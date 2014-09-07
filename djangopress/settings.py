@@ -70,6 +70,8 @@ TEMPLATE_DIRS = (
     os.path.join(BASE_DIR, '..', 'templates'),
 )
 
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+
 TITLE_FORMAT = "%s :: %s"
 
 INSTALLED_APPS = (

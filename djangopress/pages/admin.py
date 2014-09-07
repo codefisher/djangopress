@@ -1,6 +1,5 @@
 from django.contrib import admin
-from djangopress.pages.models import Page, PageTemplate
-from djangopress.pages.blocks import TextBlock
+from djangopress.pages.models import Page, PageTemplate, PageBlock
 
 class PageAdmin(admin.ModelAdmin):
 
@@ -21,9 +20,9 @@ class PageAdmin(admin.ModelAdmin):
         ('Display Settings', {
             'fields': ('status', 'visibility', 'login_required')
         }),
-        ('Content', {
-            'fields': ('blocks',)
-        }),
+        #('Content', {
+        #    'fields': ('blocks',)
+        #}),
         ('Authors', {
             'fields': ('author', 'posted', 'edited_by', 'edited')
         }),
@@ -37,13 +36,19 @@ class PageAdmin(admin.ModelAdmin):
         }),
     )
 
-class TextBlockAdmin(admin.ModelAdmin):
+class PageBlockAdmin(admin.ModelAdmin):
 
-    list_display = ('block_name', 'position', 'block_id')
+    list_display = ('block_name', 'position', 'block_id', 'render', 'page', 'page_url')
+    
+    def page_url(self, obj):
+        try:
+            return obj.page.get_absolute_url()
+        except:
+            return ''
     
 class PageTemplateAdmin(admin.ModelAdmin):
     list_display = ('name', 'template')
     
 admin.site.register(PageTemplate, PageTemplateAdmin)
 admin.site.register(Page, PageAdmin)
-admin.site.register(TextBlock, TextBlockAdmin)
+admin.site.register(PageBlock, PageBlockAdmin)

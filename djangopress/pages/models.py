@@ -3,7 +3,7 @@ import datetime
 from django.db import models
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
-from djangopress.pages.blocks import PageBlock
+from djangopress.pages.render import register as render_register
 
 class PageTemplate(models.Model):
     name = models.CharField(blank=False, max_length=200)
@@ -34,7 +34,6 @@ class Page(models.Model):
             verbose_name="Page Title")
     sites = models.ManyToManyField(Site)
     template = models.ForeignKey(PageTemplate, blank=False)
-    blocks = models.ManyToManyField(PageBlock, related_name="pages", blank=True, null=True)
 
     parent = models.ForeignKey("Page", related_name="sub_pages", blank=True, null=True)
     location = models.CharField(max_length=200, db_index=True,
@@ -83,3 +82,28 @@ class Page(models.Model):
             parent = self.parent.get_absolute_url() if self.parent else "/"
             self.location = "%s%s/" % (parent, self.slug)
         super(Page, self).save()
+        
+class PageBlock(models.Model):
+    block_name = models.CharField(max_length=50, db_index=True, editable=False)
+    position = models.IntegerField(blank=True, null=True)
+    block_id = models.CharField(blank=True, null=True, max_length=50, db_index=True, editable=True,
+            help_text="Name used to refer to the block in templates", verbose_name="Id")
+    data = models.TextField(blank=True, verbose_name="Content")
+    render = models.CharField(max_length=30, choices=render_register.choices())
+    page = models.ForeignKey(Page, null=True, blank=True, related_name="blocks")
+
+    class Meta:
+        ordering = ['position']
+
+    def __unicode__(self):
+        if self.page:
+            return "%s %s %s" % (self.block_name, self.position, self.page.get_absolute_url())
+        return "%s %s" % (self.block_name, self.position)
+
+    def save(self):
+        if not hasattr(self, "position") or not self.position:
+            self.position = 1
+        super(PageBlock, self).save()
+
+    def content(self, context=None):
+        return render_register.render(self, self.render, self.data, context)
