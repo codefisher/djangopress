@@ -8,6 +8,7 @@ from django.db import router
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 from django.contrib.admin.actions import delete_selected as delete_selected_
+from django.contrib.admin import SimpleListFilter
 
 class ForumAdmin(admin.ModelAdmin):
     raw_id_fields = ("last_post", "subscriptions")
@@ -138,11 +139,29 @@ def thread_delete_selected(modeladmin, request, queryset):
             }, messages.SUCCESS)
         # Return None to display the change list page again.
         return None
+    
+
+class HasPostsListFilter(SimpleListFilter):
+    title = 'has posts'
+    parameter_name = 'post'
+    
+    def lookups(self, request, model_admin):
+        return (
+            ('yes', 'Yes'),
+            ('no', 'No'),
+        )
+        
+    def queryset(self, request, queryset):
+        if self.value() == 'yes':
+            return queryset.exclude(first_post=None, last_post=None)
+        if self.value() == 'no':
+            return queryset.filter(first_post=None, last_post=None)
+
 
 class ThreadAdmin(admin.ModelAdmin):
     list_display = ('subject', 'num_posts', 'author_name', 'closed', 'sticky')
     raw_id_fields = ("last_post", 'first_post', 'poster', "subscriptions", 'moved_to')
-    list_filter = ('closed', 'sticky')
+    list_filter = ('closed', 'sticky', HasPostsListFilter)
 
     actions=['open_threads', 'close_threads', 'sticky_threads', 'unsticky_threads']
     

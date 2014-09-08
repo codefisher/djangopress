@@ -194,7 +194,12 @@ def process_post(request, thread, post_form, forums):
             thread.subscriptions.add(request.user)
         post.author = request.user
     try:
-        post.is_spam = check_askmet_spam(request, post, post_form)
+        spam = check_askmet_spam(request, post, post_form)
+        post.is_spam = spam
+        if spam:
+            profile = request.user.profile
+            profile.banned = True
+            profile.save()
     except:
         post.is_spam = False
     post.ip = get_client_ip(request)

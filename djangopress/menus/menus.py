@@ -23,9 +23,11 @@ class ListRender(object):
         if not context.get("request"):
             return # happes on 500 pages, maybe others
         path = context.get("request").path
-        active =  sorted([(item[0].link == path, item[0].link.startswith(path), -len(item[0].link), i) for i, item in enumerate(tree)], reverse=True)[0][3]
-        active_item = tree[active][0]
-        active_item.class_tag = "active" if not active_item.class_tag else active_item.class_tag + " active"
+        try:
+            active_item = max([item for item in tree if path.startswith(item[0].link)], key=lambda x: len(x[0].link))[0]
+            active_item.class_tag = "active" if not active_item.class_tag else active_item.class_tag + " active"
+        except:
+            pass
         
     def render_menu(self, context, tree, menu=None):
         tree = sorted(((item, sub_menu) for item, sub_menu in tree.items()), key=lambda x: x[0].index)

@@ -1,10 +1,16 @@
 from django.contrib import admin
 from djangopress.pages.models import Page, PageTemplate, PageBlock
 
+class BlockInline(admin.StackedInline):
+    model = PageBlock
+    extra = 0
+    min_num = 1
+
 class PageAdmin(admin.ModelAdmin):
 
+    inlines = [BlockInline]
     list_display = ('title', 'location', 'posted', 'status', 'visibility')
-    list_filter = ('location', 'status', 'visibility')
+    list_filter = ('status', 'visibility')
     readonly_fields = ('author', 'posted', 'edited_by', 'edited')
 
     def save_model(self, request, obj, form, change):

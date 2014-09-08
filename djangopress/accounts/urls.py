@@ -22,6 +22,9 @@ urlpatterns = patterns('',
     
     # the default location after someone has logged in
     url(r'^profile/$', views.user_profile, name='accounts-profile-alt'),
+    
+    url(r'^banned/(?P<username>.+)/$', views.you_are_banned, name='accounts-banned'),
+
 )
 
 urlpatterns += patterns('',

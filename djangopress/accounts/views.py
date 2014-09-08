@@ -39,7 +39,7 @@ def send_activate_email(request, user, resend=False):
         return Http404('Invalid header found.')
     if resend:
         return HttpResponseRedirect(reverse('accounts-activation-resent', kwargs={"user": user.username}))
-    return HttpResponseRedirect(reverse('accounts-registered', kwargs={"user": user.username}))
+    return HttpResponseRedirect(reverse('accounts-registered', kwargs={"username": user.username}))
 
 def registered(request, username):
     user = get_object_or_404(User, username=username)
@@ -96,25 +96,38 @@ def register(request):
 def activate(request, username, activate_key):
     user = get_object_or_404(User, username=username)
     profile = user.get_profile()
+    if user.get_profile().banned:
+        return HttpResponseRedirect(reverse('accounts-banned', kwargs={"username": username.username}))
     if user.is_active:
-        return HttpResponseRedirect(reverse('accounts-already-activated', kwargs={"user": user.username}))
+        return HttpResponseRedirect(reverse('accounts-already-activated', kwargs={"username": user.username}))
     if profile.check_activate_key(activate_key):
         user.is_active = True
         user.save()
-        return HttpResponseRedirect(reverse('accounts-activated', kwargs={'user': user.username}))
+        return HttpResponseRedirect(reverse('accounts-activated', kwargs={'username': user.username}))
     else:
-        return HttpResponseRedirect(reverse('accounts-activation-invalid', kwargs={'user': user.username}))
+        return HttpResponseRedirect(reverse('accounts-activation-invalid', kwargs={'username': user.username}))
 
 def reactivate(request, username):
     """Resend the users activation email"""
     if request.method == 'POST':
         user = get_object_or_404(User, username=username)
         if not user.is_active:
-            profile = user.get_profile()
-            profile.set_activate_key()
-            profile.save()
-            return send_activate_email(request, user, resend=True)
+            if user.get_profile().banned:
+                return HttpResponseRedirect(reverse('accounts-banned', kwargs={"username": username.username}))
+            else:
+                profile = user.get_profile()
+                profile.set_activate_key()
+                profile.save()
+                return send_activate_email(request, user, resend=True)
     raise Http404("Invalid request")
+
+def you_are_banned(request, username):
+    user = get_object_or_404(User, username=username)
+    if user.get_profile().banned:
+        return render(request, "accounts/user-list.html" , {"user": user})
+    else:
+        raise Http404
+    
 
 class UserListPage(object):
     def get_absolute_url(self, page=1):

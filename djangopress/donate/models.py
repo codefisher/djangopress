@@ -8,7 +8,7 @@ import datetime
 class Donation(models.Model):
     name = models.CharField(max_length=50)
     date = models.DateField(default=datetime.datetime.today)
-    amount = models.FloatField(blank=True, default=0)
+    amount = models.DecimalField(blank=True, default=0, max_digits=6, decimal_places=2)
     link_url = models.URLField(blank=True, null=True)
     link_text = models.CharField(max_length=50, blank=True, null=True)
     validated = models.BooleanField(default=False)
@@ -22,7 +22,7 @@ def update_donation(sender, **kwargs):
         donation = Donation.objects.get(invoice_id=ipn_obj.invoice)
         if donation:
             donation.validated = True
-            donation.amount = ipn_obj.auth_amount
+            donation.amount = ipn_obj.mc_gross
             donation.payment = ipn_obj
             donation.save()
     else:

@@ -166,7 +166,10 @@ class Post(models.Model):
         super(Post, self).delete(*args, **kwargs)
             
     def _decriment_posts(self):
-        last_post = self.thread.last_post
+        if self.thread and self.thread.last_post != None:
+            last_post = self.thread.last_post
+        else:
+            last_post = None
         if self.thread.last_post is None or self.thread.last_post == self:
             try:
                 last_post = Post.objects.filter(thread=self.thread, is_spam=False, is_public=True).exclude(pk=self.pk).order_by('-posted')[0]
@@ -175,7 +178,10 @@ class Post(models.Model):
         forum = Forum.objects.filter(pk=self.thread.forum.pk)
         if self.thread.forum.last_post is None or self.thread.forum.last_post == self:
             forum.update(last_post=Post.objects.filter(thread__forum=self.thread.forum, is_spam=False, is_public=True).exclude(pk=self.pk).order_by('-posted')[0])
-        first_post = self.thread.first_post
+        if self.thread and self.thread.first_post != None:
+            first_post = self.thread.first_post
+        else:
+            first_post = None
         if self.thread.first_post is None or self.thread.first_post == self:
             try:
                 first_post = Post.objects.filter(thread=self.thread, is_spam=False, is_public=True).exclude(pk=self.pk).order_by('posted')[0]

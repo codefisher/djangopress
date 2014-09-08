@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h2>Banned</h2>
+    <p>
+        {{ user.username|capfirst }}, sorry but you have been banned and can not do this action.
+    </p>
+{% endblock %}

@@ -39,6 +39,17 @@ class UserProfile(models.Model):
 
     email_settings = models.CharField(choices=EMAIL_SETTINGS, default='HI', max_length=2)
 
+    def __init__(self, *args, **kwargs):
+        super(UserProfile, self).__init__(*args, **kwargs)
+        self._banned = self.banned
+
+    def save(self, force_insert=False, force_update=False):
+        if self._banned == False and self.banned == True:
+            # if we banned them, they can't then login
+            self.user.is_active = False
+            self.user.save()
+        super(UserProfile, self).save(force_insert, force_update)
+        self._banned = self.banned
     
     def get_signature(self, *args, **kargs):
         if not self.signature:
@@ -73,22 +84,3 @@ def add_to_group(sender, **kargs):
         user = kargs.get("instance")
         user.groups.add(Group.objects.get(name=settings.DEFAULT_USER_GROUP))
 post_save.connect(add_to_group, User, dispatch_uid="djangopress.accounts.add_to_group")
-
-class UsersOnline(models.Model):
-    user = models.OneToOneField(User)
-    ip = models.IPAddressField()
-    logged_date =  models.DateTimeField()
-    idle = models.BooleanField(default=False)
-
-
-class UserBan(models.Model):
-    ban_user = models.ForeignKey(User, related_name='banned_users')
-    ban_ip = models.IPAddressField()
-    ban_email = models.CharField(max_length=100)
-    ban_name = models.CharField(max_length=100)
-
-    start = models.DateTimeField(auto_now=True)
-    end = models.DateTimeField(null=True, blank=True)
-    reason = models.TextField(blank=True)
-    given_reason =models.TextField(blank=True)
-
