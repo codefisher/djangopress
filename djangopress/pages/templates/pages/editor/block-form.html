@@ -69,7 +69,7 @@
                     (function($) {
 	                    $(document).ready(function() {
  		                    $('#{{ field.id_for_label }}').wysiwyg({
-                                css: '/media/css/style.content.css',
+                                css: '{% get_static_prefix %}css/style.content.css',
                                 controls: controls,
                                 initialContent: null,
                             });

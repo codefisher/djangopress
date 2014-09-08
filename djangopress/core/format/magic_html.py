@@ -39,7 +39,7 @@ def magic_html(text, context=None, *args, **kargs):
 if __name__ == "__main__":
     print magic_html("""
         <script>alert('hit'); </script>
-        <h2 onclick="alert('hit')"><image src="/media/images/icons/toolbar-buttons.png" width="32" height="32" alt=""><a href="#">Toolbar Buttons</a></h2>
+        <h2 onclick="alert('hit')"><image src="/static/images/icons/toolbar-buttons.png" width="32" height="32" alt=""><a href="#">Toolbar Buttons</a></h2>
         <p>
           <a href="#">Toolbar Buttons</a> is a <b>button</b> set for several applications including Firefox, Thunerbird and Sunbird.  It boast over 100 buttons for Firefox alone.  This easily makes it the largest set available. It does everything from opening the Add-ons manager, bookmarking pages or translating them, to restarting the application or disabling JavaScript.  There have been over 1 million downloads to date.
         </p>
