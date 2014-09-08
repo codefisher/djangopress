@@ -2,10 +2,11 @@
 {% load show_pagination %}
 {% load highlight %}
 {% load timezone %}
+{% load static %}
 
 {% block page_title %}Search results for &#8220;{{ query|escape }}&#8221;{% endblock %}
 {% block head_tags %}
-    <link type="text/css" rel="stylesheet" href="/media/themes/default/search.css">
+    <link type="text/css" rel="stylesheet" href="{% get_static_prefix %}themes/default/search.css">
 {% endblock %}
 
 {% block content %}
