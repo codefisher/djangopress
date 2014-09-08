@@ -10,10 +10,10 @@
 <head>
  <title>{% block page_title_prefix %}Codefisher.org :: {% endblock %}{% block page_title %}{{ title|default:"Firefox Add-ons, Code Resources and More" }}{% endblock %}</title>
  {% if debug %}
- <link type="text/css" rel="stylesheet" href="{% get_static_prefix %}themes/default/style.min.css" />
+ <link type="text/css" rel="stylesheet" href="{% get_static_prefix %}themes/default/style.css" />
  <script type="text/javascript" src="{% get_static_prefix %}js/jquery-1.11.1.js"></script>
  {% else %}
- <link type="text/css" rel="stylesheet" href="{% get_static_prefix %}themes/default/style.css" />
+ <link type="text/css" rel="stylesheet" href="{% get_static_prefix %}themes/default/style.min.css" />
  <script type="text/javascript" src="{% get_static_prefix %}js/jquery-1.11.1.min.js"></script>
  {% endif %}
   <script type="text/javascript" src="{% get_static_prefix %}js/menu.action.js"></script>
