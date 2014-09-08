@@ -84,7 +84,7 @@ class Page(models.Model):
         super(Page, self).save()
         
 class PageBlock(models.Model):
-    block_name = models.CharField(max_length=50, db_index=True, editable=False)
+    block_name = models.CharField(max_length=50, db_index=True, editable=True)
     position = models.IntegerField(blank=True, null=True)
     block_id = models.CharField(blank=True, null=True, max_length=50, db_index=True, editable=True,
             help_text="Name used to refer to the block in templates", verbose_name="Id")

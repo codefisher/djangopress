@@ -9,9 +9,14 @@ class BlockInline(admin.StackedInline):
 class PageAdmin(admin.ModelAdmin):
 
     inlines = [BlockInline]
-    list_display = ('title', 'location', 'posted', 'status', 'visibility')
+    list_display = ('title', 'page_location', 'posted', 'status', 'visibility')
     list_filter = ('status', 'visibility')
     readonly_fields = ('author', 'posted', 'edited_by', 'edited')
+    
+    def page_location(self, obj):
+        link = obj.get_absolute_url()
+        return '<a href="%s">%s</a>' % (link, link)
+    page_location.allow_tags = True
 
     def save_model(self, request, obj, form, change):
         obj.edited_by = request.user
