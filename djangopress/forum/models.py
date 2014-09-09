@@ -162,7 +162,8 @@ class Post(models.Model):
         self.__original_is_spam = self.is_spam
         
     def delete(self, *args, **kwargs):
-        self._decriment_posts()
+        if self.is_public and not self.is_spam:
+            self._decriment_posts()
         super(Post, self).delete(*args, **kwargs)
             
     def _decriment_posts(self):
