@@ -12,7 +12,7 @@ from django.http.response import Http404
 from djangopress.forum.models import ForumGroup, ForumCategory, Forum, Thread, Post, ForumUser, THREADS_PER_PAGE, POSTS_PER_PAGE
 from djangopress.core.util import get_client_ip, get_recaptcha_html, recaptcha_is_valid, has_permission
 from djangopress.forum.forms import PostAnonymousForm, PostEditForm, PostForm, ReportForm, ThreadForm
-from django.utils.encoding import smart_str
+from django.utils.encoding import force_str
 
 try:
     import akismet
@@ -89,7 +89,7 @@ def check_askmet_spam(request, post, form):
                 "comment_author": form.cleaned_data["poster_name"],
                 "comment_author_email": form.cleaned_data["poster_email"],
             })
-        return api.comment_check(smart_str(form.cleaned_data["message"]), data)
+        return api.comment_check(force_str(form.cleaned_data["message"]), data)
     return False
 
 def new_thead(request, forums_slug, forum_id):
