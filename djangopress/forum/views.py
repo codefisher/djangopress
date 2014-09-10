@@ -197,7 +197,7 @@ def process_post(request, thread, post_form, forums):
     try:
         spam = check_askmet_spam(request, post, post_form)
         post.is_spam = spam
-        if spam:
+        if spam and request.user.is_authenticated():
             profile = request.user.profile
             profile.banned = True
             profile.save()

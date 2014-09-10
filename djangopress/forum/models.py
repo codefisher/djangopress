@@ -145,7 +145,7 @@ class Post(models.Model):
         super(Post, self).save(*args, **kwargs)
         if (is_new and self.is_public and not self.is_spam) or (not is_new and self.__changed_status_visiable()):
             first_post = self.thread.first_post
-            if is_new and self.thread.first_post == None:
+            if is_new and self.thread.first_post_id == None:
                 first_post = self
             if is_new:
                 last_post = self
@@ -165,25 +165,29 @@ class Post(models.Model):
         if self.is_public and not self.is_spam:
             self._decriment_posts()
         super(Post, self).delete(*args, **kwargs)
+        posts = Post.objects.filter(thread=self.thread).exclude(pk=self.pk)
+        if not posts:
+            # there are no posts left at all
+            self.thread.delete()
             
     def _decriment_posts(self):
-        if self.thread and self.thread.last_post != None:
+        if self.thread and self.thread.last_post_id != None:
             last_post = self.thread.last_post
         else:
             last_post = None
-        if self.thread.last_post is None or self.thread.last_post == self:
+        if self.thread.last_post_id is None or self.thread.last_post == self:
             try:
                 last_post = Post.objects.filter(thread=self.thread, is_spam=False, is_public=True).exclude(pk=self.pk).order_by('-posted')[0]
             except:
                 self.thread.last_post = None
         forum = Forum.objects.filter(pk=self.thread.forum.pk)
-        if self.thread.forum.last_post == None or self.thread.forum.last_post == self:
+        if self.thread.forum.last_post_id == None or self.thread.forum.last_post == self:
             forum.update(last_post=Post.objects.filter(thread__forum=self.thread.forum, is_spam=False, is_public=True).exclude(pk=self.pk).order_by('-posted')[0])
         if self.thread and self.thread.first_post != None:
             first_post = self.thread.first_post
         else:
             first_post = None
-        if self.thread.first_post == None or self.thread.first_post == self:
+        if self.thread.first_post_id == None or self.thread.first_post == self:
             try:
                 first_post = Post.objects.filter(thread=self.thread, is_spam=False, is_public=True).exclude(pk=self.pk).order_by('posted')[0]
             except:
