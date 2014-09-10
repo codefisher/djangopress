@@ -17,7 +17,7 @@ import re
 
 try:
     import akismet
-except:
+except ImportError:
     pass
 
 def get_forum(forums_slug):
@@ -201,7 +201,7 @@ def process_post(request, thread, post_form, forums):
             profile = request.user.profile
             profile.banned = True
             profile.save()
-    except:
+    except NameError:
         post.is_spam = False
     post.ip = get_client_ip(request)
     post.thread = thread
