@@ -13,6 +13,7 @@ from djangopress.forum.models import ForumGroup, ForumCategory, Forum, Thread, P
 from djangopress.core.util import get_client_ip, get_recaptcha_html, recaptcha_is_valid, has_permission
 from djangopress.forum.forms import PostAnonymousForm, PostEditForm, PostForm, ReportForm, ThreadForm
 from django.utils.encoding import force_str
+import re
 
 try:
     import akismet
@@ -464,9 +465,18 @@ def show_post_list(request, forums, threads_query, title, page, url_name, url_ar
     return render(request, 'forum/thread/list.html' , data)
 
 def moved_forum(request, forums_slug):
-    return HttpResponseRedirect(reverse('forum-view', kwargs={'forum_id': request.GET.get('id')}))
+    fid = request.GET.get('id')
+    if not re.match(r'\d+', fid):
+        raise Http404
+    return HttpResponseRedirect(reverse('forum-view', kwargs={'forum_id': fid}))
 
 def moved_thread(request, forums_slug):
     if request.GET.get('pid'):
-            return HttpResponseRedirect(reverse('forum-view-post', kwargs={'post_id': request.GET.get('pid')}))
-    return HttpResponseRedirect(reverse('forum-view-thread', kwargs={'thread_id': request.GET.get('id')}))
+        pid = request.GET.get('pid')
+        if not re.match(r'\d+', pid):
+            raise Http404
+        return HttpResponseRedirect(reverse('forum-view-post', kwargs={'post_id': pid}))
+    tid = request.GET.get('id')
+    if not re.match(r'\d+', tid):
+        raise Http404
+    return HttpResponseRedirect(reverse('forum-view-thread', kwargs={'thread_id': tid}))

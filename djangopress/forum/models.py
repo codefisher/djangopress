@@ -145,7 +145,7 @@ class Post(models.Model):
         super(Post, self).save(*args, **kwargs)
         if (is_new and self.is_public and not self.is_spam) or (not is_new and self.__changed_status_visiable()):
             first_post = self.thread.first_post
-            if is_new and self.thread.first_post is None:
+            if is_new and self.thread.first_post == None:
                 first_post = self
             if is_new:
                 last_post = self
@@ -177,13 +177,13 @@ class Post(models.Model):
             except:
                 self.thread.last_post = None
         forum = Forum.objects.filter(pk=self.thread.forum.pk)
-        if self.thread.forum.last_post is None or self.thread.forum.last_post == self:
+        if self.thread.forum.last_post == None or self.thread.forum.last_post == self:
             forum.update(last_post=Post.objects.filter(thread__forum=self.thread.forum, is_spam=False, is_public=True).exclude(pk=self.pk).order_by('-posted')[0])
         if self.thread and self.thread.first_post != None:
             first_post = self.thread.first_post
         else:
             first_post = None
-        if self.thread.first_post is None or self.thread.first_post == self:
+        if self.thread.first_post == None or self.thread.first_post == self:
             try:
                 first_post = Post.objects.filter(thread=self.thread, is_spam=False, is_public=True).exclude(pk=self.pk).order_by('posted')[0]
             except:

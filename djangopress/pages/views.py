@@ -3,7 +3,7 @@
 from django.shortcuts import render, get_object_or_404
 from djangopress.pages.models import Page, PageBlock
 from django.conf import settings
-from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden
+from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden, HttpResponsePermanentRedirect
 from djangopress.pages.forms import PageForm, NewBlockForm, TextForm
 
 
@@ -12,7 +12,13 @@ def show_page(request, path):
         page = Page.objects.get(location=path, sites__id__exact=settings.SITE_ID,
                 visibility="VI", status="PB")
     except:
-        raise Http404
+        try:
+            Page.objects.get(location=path+'/', sites__id__exact=settings.SITE_ID,
+                visibility="VI", status="PB")
+            #did not throw an exception, so lets redirect
+            return HttpResponsePermanentRedirect(path+'/')
+        except:
+            raise Http404
     if hasattr(request, 'user'):
         user = request.user
         show_toolbar = user.has_perm('pages.change_page') if user else False
