@@ -1,1 +1,2 @@
-{% for entry in entries %}<li><a href="{{ entry.get_absolute_url }}">{{ entry.title|truncatechars:30 }}</a></li>{% endfor %}
+{% load smart_truncate_chars %}
+{% for entry in entries %}<li><a href="{{ entry.get_absolute_url }}">{{ entry.title|smarttruncatechars:30 }}</a></li>{% endfor %}

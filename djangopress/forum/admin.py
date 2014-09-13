@@ -9,6 +9,8 @@ from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _
 from django.contrib.admin.actions import delete_selected as delete_selected_
 from django.contrib.admin import SimpleListFilter
+from django.template.defaultfilters import truncatechars
+
 
 class ForumAdmin(admin.ModelAdmin):
     raw_id_fields = ("last_post", "subscriptions")
@@ -63,11 +65,14 @@ def post_delete_selected(modeladmin, request, queryset):
         return None
 
 class PostAdmin(admin.ModelAdmin):
-    list_display = ('author_name', 'thread', 'posted', 'is_spam', 'is_public', 'is_removed')
+    list_display = ('author_name', 'thread_subject', 'posted', 'is_spam', 'is_public', 'is_removed')
     list_filter = ('is_spam', 'is_public', 'is_removed')
     search_fields = ('thread__subject', 'poster_name', 'author__username')
     
     actions=['mark_as_spam']
+    
+    def thread_subject(self, obj):
+        return truncatechars(obj.thread.subject, 60)
     
     def get_actions(self, request):
         actions = super(PostAdmin, self).get_actions(request)

@@ -26,7 +26,7 @@ for tag, node in [('b', 'strong'), ('i', 'em'), ('strike', 'del'), ('s', 'del'),
 
 #these tags are kept along with select attributes
 for tag, attrs in [('abbr', ('title',)), ('acronym', ('title',)), ('bdo', ('dir',))]:
-    SanitizedLibrary.attr_tag("abbr", attrs=attrs)
+    SanitizedLibrary.attr_tag(tag, attrs=attrs)
 
 # these tags and their content are striped out
 for tag in ['applet', 'button', 'fieldset', 'form', 'frame', 'frameset',

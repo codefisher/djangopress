@@ -31,133 +31,6 @@ def tag_arguments(contents):
         kargs[name] = strip_quotes(value)
     return tag, arg, kargs
 
-class Library(object):
-
-    tags = {}
-
-    @classmethod
-    def get(cls, name):
-        tag = cls.tags.get(name)
-        if tag:
-            return tag
-        elif cls != Library:
-            return Library.get(name)
-        raise KeyError
-
-    @classmethod
-    def tag(self, name=None, compile_func=None):
-        if compile_func:
-            self.tags[name] = compile_func
-        else:
-            def _tag(compile_func):
-                if name:
-                    self.tags[name] = compile_func
-                else:
-                    self.tags[compile_func.__name__] = compile_func
-            return _tag
-
-    @classmethod
-    def simple_tag(self, tag_name, node_name=None, can_contain_self=False, stop_at=None):
-        """
-        tag_name - name of the code tag
-        node_name - name of the html code tag
-        """
-        if stop_at == None:
-            stop_at = ()
-        def func(parser, token):
-            if can_contain_self:
-                nodelist = parser.parse(('/%s' % tag_name,) + stop_at)
-            else:
-                nodelist = parser.parse(('/%s' % tag_name, tag_name) + stop_at)
-            name = tag_arguments(parser.tokens[0].contents)[0]
-            if name == '/%s' % tag_name:
-                parser.delete_first_token()
-            return SimpleTagNode(token, node_name if node_name else tag_name, nodelist)
-        self.tag(tag_name, func)
-
-    @classmethod
-    def unclosed_tag(self, tag_name, node_name=None):
-        def func(parser, token):
-            return UnclosedTagNode(token, node_name if node_name else tag_name)
-        self.tag(tag_name, func)
-
-    @classmethod
-    def comment_tag(self, tag_name):
-        def func(parser, token):
-            nodelist = parser.parse(('/%s' % tag_name,))
-            parser.delete_first_token()
-            return CommentNode(token, tag_name, nodelist)
-        self.tag(tag_name, func)
-
-    @classmethod
-    def argumented_tag(self, tag_name, string, can_contain_self=False, stop_at=None):
-        if stop_at == None:
-            stop_at = ()
-        def func(parser, token):
-            _, arg, kargs = tag_arguments(token.contents)
-            if can_contain_self:
-                nodelist = parser.parse(('/%s' % tag_name,))
-            else:
-                nodelist = parser.parse(('/%s' % tag_name, tag_name))
-            name = tag_arguments(parser.tokens[0].contents)[0]
-            if name == '/%s' % tag_name:
-                parser.delete_first_token()
-            return ArgumentedNode(token, string, arg, kargs, nodelist)
-        self.tag(tag_name, func)
-
-    @classmethod
-    def attr_tag(self, tag_name, node_name=None, arg_name=None, attrs=None, closes=True, can_contain_self=False, stop_at=None):
-        if stop_at == None:
-            stop_at = ()
-        def func(parser, token):
-            _, arg, kargs = tag_arguments(token.contents)
-            if closes:
-                if can_contain_self:
-                    nodelist = parser.parse(('/%s' % tag_name,) + stop_at)
-                else:
-                    nodelist = parser.parse(('/%s' % tag_name, tag_name) + stop_at)
-                name = tag_arguments(parser.tokens[0].contents)[0]
-                if name == '/%s' % tag_name:
-                    parser.delete_first_token()
-            else:
-                nodelist = NodeList()
-            return AttrNode(token, node_name if node_name else tag_name,
-                    nodelist, arg_name, arg, attrs, kargs, closes)
-        self.tag(tag_name, func)
-
-    @classmethod
-    def link_tag(self, tag_name, link_arg, node_name=None, arg_name=None,
-                 attrs=None, closes=True, content_attr=None):
-        """
-        tag_name - the name of the tag to look for
-        link_arg - the attribute that conatins the link
-        node_name - the name of the html element, defaults to tag_name
-        arg_name - the name to give the anonymous attribute
-        attrs - the name of all the allowed attributes
-        closes - does the tag have a closing tag?
-        content_attr - the attribute to assign the elements content to.
-                closes must be false for this to be acitivated
-        """
-        def func(parser, token):
-            _, arg, kargs = tag_arguments(token.contents)
-            if closes:
-                if not arg and not kargs.get(link_arg):
-                    nodelist = parser.parse(('/%s' % tag_name, tag_name), collect=True)
-                else:
-                    nodelist = parser.parse(('/%s' % tag_name, tag_name))
-                parser.delete_first_token()
-            else:
-                if content_attr:
-                    from djangopress.core.format.parser import CHECK_NEXT
-                    nodelist = parser.parse(('/%s' % tag_name, tag_name), check_first=CHECK_NEXT)
-                    if nodelist:
-                        parser.delete_first_token()
-                        kargs[content_attr] = nodelist.contents()
-                else:
-                    nodelist = NodeList()
-            return LinkNode(token, link_arg, node_name if node_name else tag_name,
-                    nodelist, arg_name, arg, attrs, kargs, closes)
-        self.tag(tag_name, func)
 
 class Node(object):
 
@@ -340,6 +213,135 @@ class DefListNode(TagNode):
                             for tag, item in self.items),
         }
         return '<%(tag)s>%(items)s</%(tag)s>' % data
+
+class Library(object):
+
+    tags = {}
+
+    @classmethod
+    def get(cls, name):
+        tag = cls.tags.get(name)
+        if tag:
+            return tag
+        elif cls != Library:
+            return Library.get(name)
+        raise KeyError
+
+    @classmethod
+    def tag(self, name=None, compile_func=None):
+        if compile_func:
+            self.tags[name] = compile_func
+        else:
+            def _tag(compile_func):
+                if name:
+                    self.tags[name] = compile_func
+                else:
+                    self.tags[compile_func.__name__] = compile_func
+            return _tag
+
+    @classmethod
+    def simple_tag(self, tag_name, node_name=None, can_contain_self=False, stop_at=None, cls=SimpleTagNode):
+        """
+        tag_name - name of the code tag
+        node_name - name of the html code tag
+        """
+        if stop_at == None:
+            stop_at = ()
+        def func(parser, token):
+            if can_contain_self:
+                nodelist = parser.parse(('/%s' % tag_name,) + stop_at)
+            else:
+                nodelist = parser.parse(('/%s' % tag_name, tag_name) + stop_at)
+            name = tag_arguments(parser.tokens[0].contents)[0]
+            if name == '/%s' % tag_name:
+                parser.delete_first_token()
+            return cls(token, node_name if node_name else tag_name, nodelist)
+        self.tag(tag_name, func)
+
+    @classmethod
+    def unclosed_tag(self, tag_name, node_name=None):
+        def func(parser, token):
+            return UnclosedTagNode(token, node_name if node_name else tag_name)
+        self.tag(tag_name, func)
+
+    @classmethod
+    def comment_tag(self, tag_name):
+        def func(parser, token):
+            nodelist = parser.parse(('/%s' % tag_name,))
+            parser.delete_first_token()
+            return CommentNode(token, tag_name, nodelist)
+        self.tag(tag_name, func)
+
+    @classmethod
+    def argumented_tag(self, tag_name, string, can_contain_self=False, stop_at=None):
+        if stop_at == None:
+            stop_at = ()
+        def func(parser, token):
+            _, arg, kargs = tag_arguments(token.contents)
+            if can_contain_self:
+                nodelist = parser.parse(('/%s' % tag_name,))
+            else:
+                nodelist = parser.parse(('/%s' % tag_name, tag_name))
+            name = tag_arguments(parser.tokens[0].contents)[0]
+            if name == '/%s' % tag_name:
+                parser.delete_first_token()
+            return ArgumentedNode(token, string, arg, kargs, nodelist)
+        self.tag(tag_name, func)
+
+    @classmethod
+    def attr_tag(self, tag_name, node_name=None, arg_name=None, attrs=None, closes=True, can_contain_self=False, stop_at=None, cls=AttrNode):
+        if stop_at == None:
+            stop_at = ()
+        def func(parser, token):
+            _, arg, kargs = tag_arguments(token.contents)
+            if closes:
+                if can_contain_self:
+                    nodelist = parser.parse(('/%s' % tag_name,) + stop_at)
+                else:
+                    nodelist = parser.parse(('/%s' % tag_name, tag_name) + stop_at)
+                name = tag_arguments(parser.tokens[0].contents)[0]
+                if name == '/%s' % tag_name:
+                    parser.delete_first_token()
+            else:
+                nodelist = NodeList()
+            return cls(token, node_name if node_name else tag_name,
+                    nodelist, arg_name, arg, attrs, kargs, closes)
+        self.tag(tag_name, func)
+
+    @classmethod
+    def link_tag(self, tag_name, link_arg, node_name=None, arg_name=None,
+                 attrs=None, closes=True, content_attr=None):
+        """
+        tag_name - the name of the tag to look for
+        link_arg - the attribute that conatins the link
+        node_name - the name of the html element, defaults to tag_name
+        arg_name - the name to give the anonymous attribute
+        attrs - the name of all the allowed attributes
+        closes - does the tag have a closing tag?
+        content_attr - the attribute to assign the elements content to.
+                closes must be false for this to be acitivated
+        """
+        def func(parser, token):
+            _, arg, kargs = tag_arguments(token.contents)
+            if closes:
+                if not arg and not kargs.get(link_arg):
+                    nodelist = parser.parse(('/%s' % tag_name, tag_name), collect=True)
+                else:
+                    nodelist = parser.parse(('/%s' % tag_name, tag_name))
+                parser.delete_first_token()
+            else:
+                if content_attr:
+                    from djangopress.core.format.parser import CHECK_NEXT
+                    nodelist = parser.parse(('/%s' % tag_name, tag_name), check_first=CHECK_NEXT)
+                    if nodelist:
+                        parser.delete_first_token()
+                        kargs[content_attr] = nodelist.contents()
+                else:
+                    nodelist = NodeList()
+            return LinkNode(token, link_arg, node_name if node_name else tag_name,
+                    nodelist, arg_name, arg, attrs, kargs, closes)
+        self.tag(tag_name, func)
+
 
 def def_list_func(parser, token):
     tag, arg, _ = tag_arguments(token.contents)

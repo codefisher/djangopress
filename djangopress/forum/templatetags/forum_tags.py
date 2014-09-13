@@ -28,16 +28,6 @@ def show_latest_posts(forums_slug, number=5):
         "posts": posts,
     }
 
-    url(r'^post/report/(?P<post_id>\d+)/$', views.report_post, name='forum-report-post'),
-    url(r'^post/edit/(?P<post_id>\d+)/$', views.edit_post, name='forum-edit-post'),
-    url(r'^post/delete/(?P<post_id>\d+)/$', views.delete_post, name='forum-delete-post'),
-    url(r'^post/restore/(?P<post_id>\d+)/$', views.restore_post, name='forum-restore-post'),
-    url(r'^post/spam/(?P<post_id>\d+)/$', views.spam_post, name='forum-spam-post'),
-    url(r'^post/not/spam/(?P<post_id>\d+)/$', views.not_spam_post, name='forum-notspam-post'),
-    url(r'^post/remove/(?P<post_id>\d+)/$', views.remove_post, name='forum-remove-post'),
-    url(r'^post/recover/(?P<post_id>\d+)/$', views.recover_post, name='forum-recover-post'),
-
-
 @register.inclusion_tag('forum/post_actions.html')
 def post_actions(post, request):
     forum_slug = post.thread.forum.category.forums.slug
