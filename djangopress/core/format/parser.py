@@ -24,7 +24,7 @@ class Lexer(object):
 
     TAG_START = '['
     TAG_END = ']'
-    tag_re = re.compile('(%s.*?%s)' % (re.escape(TAG_START), re.escape(TAG_END)))
+    tag_re = re.compile('(%s.*?%s)' % (re.escape(TAG_START), re.escape(TAG_END)), re.DOTALL)
 
     def __init__(self, template_string):
         self.template_string = template_string

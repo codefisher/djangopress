@@ -77,7 +77,7 @@ SanitizedLibrary.tag('ol', list_func)
 class HtmlLexer(Lexer):
     TAG_START = TAG_START
     TAG_END = TAG_END
-    tag_re = re.compile('(%s.*?%s)' % (re.escape(TAG_START), re.escape(TAG_END)))
+    tag_re = re.compile('(%s.*?%s)' % (re.escape(TAG_START), re.escape(TAG_END)), re.DOTALL)
 
 def sanitized_html(text, context=None, *args, **kargs):
     text = encode_html(text)

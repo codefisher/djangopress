@@ -50,7 +50,7 @@ class TagLessAttrNode(AttrNode):
     
 # it is worth noting that if a tag is not know, it is simply dropped, and does not appear in the output
 for tag in ['title', 'address', 'big', 'cite', 'code', 'del', 'dfn', 'span', 'b', 'i', 'strike', 's'
-            'em', 'ins', 'kbd', 'p', 'pre', 'q', 'samp', 'small', 'strong', 'sub', 'sup', 'tt', 'var']:
+            'em', 'ins', 'kbd', 'p', 'pre', 'q', 'samp', 'small', 'strong', 'sub', 'sup', 'tt', 'var', 'ins']:
     StrippedLibrary.tagless(tag)
     
 for tag in ['fieldset', 'form', 'legend', 'div', 'blockquote', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
@@ -70,7 +70,7 @@ for tag in ['applet', 'button', 'frame', 'frameset',
 class HtmlLexer(Lexer):
     TAG_START = TAG_START
     TAG_END = TAG_END
-    tag_re = re.compile('(%s.*?%s)' % (re.escape(TAG_START), re.escape(TAG_END)))
+    tag_re = re.compile('(%s.*?%s)' % (re.escape(TAG_START), re.escape(TAG_END)), re.DOTALL)
 
 def stripped_html(text, context=None, *args, **kargs):
     text = encode_html(re.sub(r'&#?\w+;', '', text))
