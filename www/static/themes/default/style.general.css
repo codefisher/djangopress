@@ -211,10 +211,12 @@ input[disabled] {
 .left {
     float:left;
     text-align:left;
+    margin:0.5em;
 }
 .right {
     float:right;
     text-align:right;
+    margin:0.5em;
 }
 
 code {
