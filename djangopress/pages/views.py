@@ -11,13 +11,16 @@ def show_page(request, path):
     try:
         page = Page.objects.get(location=path, sites__id__exact=settings.SITE_ID,
                 visibility="VI", status="PB")
-    except:
+    except Page.DoesNotExist:
         try:
-            Page.objects.get(location=path+'/', sites__id__exact=settings.SITE_ID,
-                visibility="VI", status="PB")
-            #did not throw an exception, so lets redirect
-            return HttpResponsePermanentRedirect(path+'/')
-        except:
+            if path[-1] != '/':
+                Page.objects.get(location=path+'/', sites__id__exact=settings.SITE_ID,
+                    visibility="VI", status="PB")
+                #did not throw an exception, so lets redirect
+                return HttpResponsePermanentRedirect(path+'/')
+            else:
+                raise Http404
+        except Page.DoesNotExist:
             raise Http404
     if hasattr(request, 'user'):
         user = request.user

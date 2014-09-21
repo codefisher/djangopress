@@ -10,7 +10,7 @@ from django.contrib.sites.models import Site
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from djangopress.accounts.profiles import register as profile_register
 from djangopress import settings
-from djangopress.core.util import get_client_ip, get_recaptcha_html, recaptcha_is_valid
+from djangopress.core.util import get_client_ip
 from django.contrib.auth.signals import user_logged_in
 
 
@@ -27,7 +27,7 @@ def send_activate_email(request, user, resend=False):
     site = Site.objects.get_current()
     message_data = {
         "user": user,
-        "profile": user.get_profile(),
+        "profile": user.profile,
         "site": site,
         "scheme": "https" if request.is_secure() else "http"
     }
@@ -38,7 +38,7 @@ def send_activate_email(request, user, resend=False):
     except BadHeaderError:
         return Http404('Invalid header found.')
     if resend:
-        return HttpResponseRedirect(reverse('accounts-activation-resent', kwargs={"user": user.username}))
+        return HttpResponseRedirect(reverse('accounts-activation-resent', kwargs={"username": user.username}))
     return HttpResponseRedirect(reverse('accounts-registered', kwargs={"username": user.username}))
 
 def registered(request, username):
@@ -68,13 +68,12 @@ def register(request):
     data = {}
     if request.method == 'POST':
         form = UserForm(request.POST)
-        recapatcha = recaptcha_is_valid(request)
-        if form.is_valid() and recapatcha:
+        if form.is_valid():
             user = form.save(True)
             user.is_active = False # set to true once they confirm email
             user.set_password(form.cleaned_data["password1"])
             user.save()
-            profile = user.get_profile()
+            profile = user.profile
             #profile.remember_between_visits = form.cleaned_data["remember_between_visits"]
             profile.timezone = form.cleaned_data["timezone"]
             client_address = get_client_ip(request)
@@ -82,12 +81,9 @@ def register(request):
             profile.last_ip_used = client_address
             profile.save()
             return send_activate_email(request, user)
-        if not recapatcha:
-            data["recaptcha_error"] = "The verification failed, please try again."
     else:
         form = UserForm()
     data.update({
-        "recaptcha": get_recaptcha_html(),
         "form": form, 
         "title": "Register"
     })
@@ -95,8 +91,8 @@ def register(request):
 
 def activate(request, username, activate_key):
     user = get_object_or_404(User, username=username)
-    profile = user.get_profile()
-    if user.get_profile().banned:
+    profile = user.profile
+    if user.profile.banned:
         return HttpResponseRedirect(reverse('accounts-banned', kwargs={"username": username.username}))
     if user.is_active:
         return HttpResponseRedirect(reverse('accounts-already-activated', kwargs={"username": user.username}))
@@ -112,10 +108,10 @@ def reactivate(request, username):
     if request.method == 'POST':
         user = get_object_or_404(User, username=username)
         if not user.is_active:
-            if user.get_profile().banned:
+            if user.profile.banned:
                 return HttpResponseRedirect(reverse('accounts-banned', kwargs={"username": username.username}))
             else:
-                profile = user.get_profile()
+                profile = user.profile
                 profile.set_activate_key()
                 profile.save()
                 return send_activate_email(request, user, resend=True)
@@ -123,7 +119,7 @@ def reactivate(request, username):
 
 def you_are_banned(request, username):
     user = get_object_or_404(User, username=username)
-    if user.get_profile().banned:
+    if user.profile.banned:
         return render(request, "accounts/user-list.html" , {"user": user})
     else:
         raise Http404

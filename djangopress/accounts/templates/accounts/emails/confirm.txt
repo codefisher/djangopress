@@ -1,7 +1,7 @@
 Dear {{ user.username }},
 
 Thanks for registering at {{ site.name }}.  To complete your registration please visit the following link:
-{{ scheme }}://{{ site.domain }}{% url 'accounts-confirm' user=user.username activate_key=profile.activate_key %}
+{{ scheme }}://{{ site.domain }}{% url 'accounts-confirm' username=user.username activate_key=profile.activate_key %}
 
 If you did no register please ignore this email, and take no action.
 

@@ -4,15 +4,6 @@
 {% block content %}
     <form action="{% url 'accounts-register' %}" method="POST" class="field-form">
     {% field_form form %}
-    {% if recaptcha %}
-    <fieldset>
-        <legend>Verification</legend>
-        {% if recaptcha_error %}
-            <p>{{ recaptcha_error }}</p>
-        {% endif %}
-        {{ recaptcha|safe }}
-    </fieldset>
-    {% endif %}
     <fieldset>
         <legend>Submit</legend>
         {% csrf_token %}

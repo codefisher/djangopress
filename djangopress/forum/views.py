@@ -10,7 +10,7 @@ from django.contrib.sites.models import Site
 from django.template.loader import render_to_string
 from django.http.response import Http404
 from djangopress.forum.models import ForumGroup, ForumCategory, Forum, Thread, Post, ForumUser, THREADS_PER_PAGE, POSTS_PER_PAGE
-from djangopress.core.util import get_client_ip, get_recaptcha_html, recaptcha_is_valid, has_permission
+from djangopress.core.util import get_client_ip, has_permission
 from djangopress.forum.forms import PostAnonymousForm, PostEditForm, PostForm, ReportForm, ThreadForm
 from django.utils.encoding import force_str
 import re
@@ -104,15 +104,13 @@ def new_thead(request, forums_slug, forum_id):
                 "anonymous": not request.user.is_authenticated(),
         }
         return render(request, 'forum/thread_new_denied.html' , data)
-    recaptcha_error = None
     if request.method == 'POST':
         thread_form = ThreadForm(request.POST)
         if request.user.is_authenticated():
             post_form = PostForm(request.POST)
         else:
             post_form = PostAnonymousForm(request.POST)
-        recapatcha = recaptcha_is_valid(request)
-        if thread_form.is_valid() and post_form.is_valid() and recapatcha:
+        if thread_form.is_valid() and post_form.is_valid():
             thread = thread_form.save(commit=False)
             if request.user.is_authenticated():
                 thread.poster = request.user
@@ -137,8 +135,6 @@ def new_thead(request, forums_slug, forum_id):
                 message = render_to_string('forum/forum_subscription_notification.txt', message_data)
                 user.email_user("Forum Subscription Notification for %s" % forums.name, message)
             return process_post(request, thread, post_form, forums)
-        if not recapatcha:
-            recaptcha_error = "The verification failed, please try again."
     else:
         thread_form = ThreadForm()
         if request.user.is_authenticated():
@@ -150,8 +146,6 @@ def new_thead(request, forums_slug, forum_id):
         "forum": forum,
         "title": settings.TITLE_FORMAT % (forum.name, "New Thread"),
         "thread_form": thread_form,
-        "recaptcha": get_recaptcha_html(),
-        "recaptcha_error": recaptcha_error,
         "post_form": post_form,
     }
     return render(request, 'forum/new_thread.html' , data)
@@ -252,17 +246,13 @@ def reply_thread(request, forums_slug, thread_id):
                 "anonymous": not request.user.is_authenticated(),
         }
         return render(request, 'forum/thread_denied.html' , data)
-    recaptcha_error = None
     if request.method == 'POST':
         if request.user.is_authenticated():
             post_form = PostForm(request.POST)
         else:
             post_form = PostAnonymousForm(request.POST)
-        recapatcha = recaptcha_is_valid(request)
-        if post_form.is_valid() and recapatcha:
+        if post_form.is_valid():
             return process_post(request, thread, post_form, forums)
-        if not recapatcha:
-            recaptcha_error = "The verification failed, please try again."
     else:
         if request.user.is_authenticated():
             post_form = PostForm()
@@ -272,8 +262,6 @@ def reply_thread(request, forums_slug, thread_id):
         "forums": forums,
         "thread": thread,
         "title": settings.TITLE_FORMAT % (thread.subject, "Post Reply"),
-        "recaptcha": get_recaptcha_html(),
-        "recaptcha_error": recaptcha_error,
         "post_form": post_form,
     }
     return render(request, 'forum/reply.html' , data)
@@ -466,17 +454,17 @@ def show_post_list(request, forums, threads_query, title, page, url_name, url_ar
 
 def moved_forum(request, forums_slug):
     fid = request.GET.get('id')
-    if not re.match(r'\d+', fid):
+    if not re.match(r'^\d+$', fid):
         raise Http404
     return HttpResponseRedirect(reverse('forum-view', kwargs={'forum_id': fid}))
 
 def moved_thread(request, forums_slug):
     if request.GET.get('pid'):
         pid = request.GET.get('pid')
-        if not re.match(r'\d+', pid):
+        if not re.match(r'^\d+$', pid):
             raise Http404
         return HttpResponseRedirect(reverse('forum-view-post', kwargs={'post_id': pid}))
     tid = request.GET.get('id')
-    if not re.match(r'\d+', tid):
+    if not re.match(r'^\d+$', tid):
         raise Http404
     return HttpResponseRedirect(reverse('forum-view-thread', kwargs={'thread_id': tid}))

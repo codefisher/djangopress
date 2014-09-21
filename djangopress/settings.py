@@ -110,6 +110,4 @@ TEMPLATE_CONTEXT_PROCESSORS = (
 PAYPAL_RECEIVER_EMAIL = "paypal@codefisher.org"
 PAYPAL_TEST = False
 
-AUTH_PROFILE_MODULE = 'accounts.UserProfile'
-
 from local_settings import *

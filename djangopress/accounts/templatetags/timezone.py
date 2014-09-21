@@ -10,8 +10,7 @@ except ImportError:
 @register.filter(name='user_timezone')
 def user_timezone(value, arg):
     try:
-        profile = arg.get_profile()
-        zone = profile.timezone
+        zone = arg.profile.timezone
         if not zone:
             zone = "Etc/GMT"
     except:

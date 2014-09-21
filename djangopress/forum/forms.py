@@ -1,5 +1,6 @@
 from django import forms
 from djangopress.forum.models import Thread, Post, Report
+from captcha.fields import ReCaptchaField
 
 
 class ThreadForm(forms.ModelForm):
@@ -13,8 +14,10 @@ class PostForm(forms.ModelForm):
         model = Post
         
 class PostAnonymousForm(forms.ModelForm):
+    captcha = ReCaptchaField()
+
     class Meta(object):
-        fields = ("poster_name", "poster_email", "message","show_similies")
+        fields = ("poster_name", "poster_email", "message", "show_similies", "captcha")
         model = Post
         
 class PostEditForm(forms.ModelForm):

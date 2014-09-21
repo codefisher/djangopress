@@ -11,15 +11,6 @@
         <fieldset>
             {{ post_form.as_p }}
         </fieldset>
-        {% if recaptcha %}
-        <fieldset>
-            <legend>Verification</legend>
-            {% if recaptcha_error %}
-                <p>{{ recaptcha_error }}</p>
-            {% endif %}
-            {{ recaptcha|safe }}
-        </fieldset>
-        {% endif %}
         <p><input type="submit" value="Submit" /></p>
     </form>
 {% endblock %}
