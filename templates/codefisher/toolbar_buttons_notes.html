@@ -1,4 +1,4 @@
-{% extends 'root.html' %}
+{% extends 'base.html' %}
 {% load static %}
 {% load pages_tags %}
 
@@ -8,8 +8,7 @@
 
 
 
-{% block root-content %}
-<div id="wrapper-content">
+{% block content %}
 	<div class="release_notes">
 	    <h2>{{ download.title }} {{ download.version }}</h2>
 	    <small>{{ download.description }}</small>
@@ -27,5 +26,4 @@
 	       </p>
 	    {% endif %}
 	</div>
-</div>
 {% endblock %}
