@@ -1,0 +1,17 @@
+{% extends "forum/base.html" %}
+
+{% block content %}
+    <div id="bread-crumbs">
+        <a href="{{ forums.get_absolute_url }}">Index</a> 
+        &bull; <a href="{{ post.thread.forum.get_absolute_url }}">{{ post.thread.forum.name }}</a>
+        &bull; <a href="{{ post.thread.get_absolute_url }}">{{ post.thread.subject }}</a>
+    </div>
+    <form action="{% url 'forum-edit-post' forums_slug=forums.slug post_id=post.pk %}" method="post">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Message</legend>
+            {{ thread_form.as_p }} {{ edit_form.as_p }}
+        </fieldset>
+        <p><input type="submit" value="Submit" /></p>
+    </form>
+{% endblock %}

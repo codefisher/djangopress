@@ -6,7 +6,7 @@ from django.core.urlresolvers import reverse
 
 register = template.Library()
 
-@register.inclusion_tag('forum/latest-posts.html')
+@register.inclusion_tag('forum/post/latest.html')
 def show_latest_posts(forums_slug, number=5):
     try:
         number = int(number)
@@ -28,7 +28,7 @@ def show_latest_posts(forums_slug, number=5):
         "posts": posts,
     }
 
-@register.inclusion_tag('forum/post_actions.html')
+@register.inclusion_tag('forum/post/actions.html')
 def post_actions(post, request):
     forum_slug = post.thread.forum.category.forums.slug
     kwargs = {"forums_slug": forum_slug, 'post_id': post.id}

@@ -103,7 +103,7 @@ def new_thead(request, forums_slug, forum_id):
                 "title": "Permission denied to post thread",
                 "anonymous": not request.user.is_authenticated(),
         }
-        return render(request, 'forum/thread_new_denied.html' , data)
+        return render(request, 'forum/thread/new_denied.html' , data)
     if request.method == 'POST':
         thread_form = ThreadForm(request.POST)
         if request.user.is_authenticated():
@@ -132,7 +132,7 @@ def new_thead(request, forums_slug, forum_id):
                     "forums": forums,
                     "scheme": "https" if request.is_secure() else "http",
                 }
-                message = render_to_string('forum/forum_subscription_notification.txt', message_data)
+                message = render_to_string('forum/email/forum_subscription_notification.txt', message_data)
                 user.email_user("Forum Subscription Notification for %s" % forums.name, message)
             return process_post(request, thread, post_form, forums)
     else:
@@ -148,7 +148,7 @@ def new_thead(request, forums_slug, forum_id):
         "thread_form": thread_form,
         "post_form": post_form,
     }
-    return render(request, 'forum/new_thread.html' , data)
+    return render(request, 'forum/thread/new.html' , data)
 
 def view_thread(request, forums_slug, thread_id, page=1):
     forums = get_forum(forums_slug)
@@ -169,7 +169,7 @@ def view_thread(request, forums_slug, thread_id, page=1):
         "title": thread.subject,
         "posts": posts,
     }
-    return render(request, 'forum/thread.html' , data)
+    return render(request, 'forum/thread/index.html' , data)
 
 def view_post(request, forums_slug, post_id):
     post = get_object_or_404(Post, pk=post_id)
@@ -215,7 +215,7 @@ def process_post(request, thread, post_form, forums):
             "post": post,
             "scheme": "https" if request.is_secure() else "http",
         }
-        message = render_to_string('forum/subscription_notification.txt', message_data)
+        message = render_to_string('forum/email/subscription_notification.txt', message_data)
         user.email_user("Topic Subscription Notification for %s" % forums.name, message)
     data = {
             "post": post,
@@ -223,7 +223,7 @@ def process_post(request, thread, post_form, forums):
             "thread": thread,
             "forums": forums,
     }
-    responce = render(request, 'forum/posted.html' , data)
+    responce = render(request, 'forum/post/posted.html' , data)
     if not post.is_spam and post.is_public:
         responce["Refresh"] = "3;%s" % reverse('forum-view-post', kwargs={"forums_slug": forums.slug, "post_id": post.pk})
     return responce
@@ -237,7 +237,7 @@ def reply_thread(request, forums_slug, thread_id):
                 "title": "Thread Closed",
                 "thread": thread,
         }
-        return render(request, 'forum/closed.html' , data)
+        return render(request, 'forum/thread/closed.html' , data)
     if not has_permission(request, 'forum', 'can_post_replies'):
         data = {
                 "forums": forums,
@@ -245,7 +245,7 @@ def reply_thread(request, forums_slug, thread_id):
                 "thread": thread,
                 "anonymous": not request.user.is_authenticated(),
         }
-        return render(request, 'forum/thread_denied.html' , data)
+        return render(request, 'forum/thread/denied.html' , data)
     if request.method == 'POST':
         if request.user.is_authenticated():
             post_form = PostForm(request.POST)
@@ -264,7 +264,7 @@ def reply_thread(request, forums_slug, thread_id):
         "title": settings.TITLE_FORMAT % (thread.subject, "Post Reply"),
         "post_form": post_form,
     }
-    return render(request, 'forum/reply.html' , data)
+    return render(request, 'forum/thread/reply.html' , data)
 
 def report_post(request, forums_slug, post_id):
     forums = get_forum(forums_slug)
@@ -286,7 +286,7 @@ def report_post(request, forums_slug, post_id):
             "forums": forums,
             "report_form": report_form
     }
-    return render(request, 'forum/report.html' , data)
+    return render(request, 'forum/post/report.html' , data)
 
 def edit_post(request, forums_slug, post_id):
     forums = get_forum(forums_slug)
@@ -298,7 +298,7 @@ def edit_post(request, forums_slug, post_id):
                 "title": "Permission Denied",
                 "post": post,
         }
-        return render(request, 'forum/post_edit_denied.html' , data)
+        return render(request, 'forum/post/edit_denied.html' , data)
     thread_form = None
     if request.method == 'POST':
         edit_form = PostEditForm(request.POST, instance=post)
@@ -326,7 +326,7 @@ def edit_post(request, forums_slug, post_id):
             "edit_form": edit_form,
             "thread_form": thread_form,
     }
-    return render(request, 'forum/post_edit.html' , data)
+    return render(request, 'forum/post/edit.html' , data)
     
 def post_action(request, forums_slug, post_id, redirect_before, do_action, name, message):
     forums = get_forum(forums_slug)
@@ -346,7 +346,7 @@ def post_action(request, forums_slug, post_id, redirect_before, do_action, name,
             "message": message,
             "name": name,
     }
-    return render(request, 'forum/post_action.html' , data)
+    return render(request, 'forum/post/action.html' , data)
     
 def delete_post(request, forums_slug, post_id):
     def do_action(post):

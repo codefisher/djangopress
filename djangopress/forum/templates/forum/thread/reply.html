@@ -6,7 +6,7 @@
         &bull; <a href="{{ thread.forum.get_absolute_url }}">{{ thread.forum.name }}</a>
         &bull; <a href="{{ thread.get_absolute_url }}">{{ thread.subject }}</a>
     </div>
-    <form action="" method="post">
+    <form action="{% url 'forum-reply-thread' forums_slug=forums.slug thread_id=thread.pk %}" method="post">
         {% csrf_token %}
         <fieldset>
             {{ post_form.as_p }}

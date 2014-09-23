@@ -1,6 +1,6 @@
 {{ user.username }},
 
-{{ thread.author_name }} has just posted a new thread title "{{ thread.subject }}" in a forum you are subscribed to.
+{{ thread.author_name }} has just posted a new thread title "{{ thread.subject }}" in the forum "{{ thread.forum.name }}" that you are subscribed to.
 
 The thread can be found here:
 {{ scheme }}://{{ site.domain }}{{ thread.get_absolute_url }}

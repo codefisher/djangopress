@@ -6,10 +6,12 @@
         &bull; <a href="{{ post.thread.forum.get_absolute_url }}">{{ post.thread.forum.name }}</a>
         &bull; <a href="{{ post.thread.get_absolute_url }}">{{ post.thread.subject }}</a>
     </div>
-    <h2>{{ name }}</h2>
-    <form action="" method="post">
-        <p>Are you sure you want to {{ message }}.</p>
+    <h2>Report Post</h2>
+    <form action="{% url 'forum-report-post' forums_slug=forums.slug post_id=post.pk %}" method="post">
         {% csrf_token %}
-        <p><input type="submit" value="{{ name }}" name="post" /></p>
+        <fieldset>
+            {{ report_form.as_p }}
+        </fieldset>
+        <p><input type="submit" value="Submit" /></p>
     </form>
 {% endblock %}
