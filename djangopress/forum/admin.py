@@ -13,6 +13,7 @@ from django.template.defaultfilters import truncatechars
 
 
 class ForumAdmin(admin.ModelAdmin):
+    list_display = ('name', 'num_threads', 'num_posts', 'category' , 'parent_forum')
     raw_id_fields = ("last_post", "subscriptions")
 admin.site.register(Forum, ForumAdmin)
 
@@ -20,9 +21,9 @@ class ForumCategoriesAdmin(admin.ModelAdmin):
     list_display = ('name', 'position', 'forums')
 admin.site.register(ForumCategory, ForumCategoriesAdmin)
 
-class ForumsAdmin(admin.ModelAdmin):
+class ForumGroupAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug')
-admin.site.register(ForumGroup, ForumsAdmin)
+admin.site.register(ForumGroup, ForumGroupAdmin)
 
 class ForumUserAdmin(admin.ModelAdmin):
     list_display = ('user', )

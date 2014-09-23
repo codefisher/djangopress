@@ -8,6 +8,7 @@
 {% block doctype %}<!DOCTYPE html>{% endblock %}
 <html>
 <head>
+ <meta charset="utf-8"/>
  <title>{% block page_title_prefix %}Codefisher.org :: {% endblock %}{% block page_title %}{{ title|default:"Firefox Add-ons, Code Resources and More" }}{% endblock %}</title>
  {% if debug %}
  <link type="text/css" rel="stylesheet" href="{% get_static_prefix %}themes/default/style.css" />

@@ -11,7 +11,7 @@
 
 <p>{{ form.render }}</p>
 
-<form action="{% url 'donate-process' %}" method="post">
+<form action="{% url 'donate-index' %}" method="post">
     {% csrf_token %}
     <fieldset>{% form donate %}
     <p><input type="submit" value="Submit" /></p>
@@ -34,7 +34,7 @@ A list of people that I would really like to thank for donating.  If you have a 
 <table>
     {% for donation in donations %}
         <tr>
-            <td>{% if donation.link_url and donation.amount >= 15 %}<a href="{{ donation.link_url }}">{{ donation.link_text }}</a> {% else %}{{ donation.name }}{% endif %}</td>
+            <td>{% if donation.link_url and donation.amount >= 10 %}<a href="{{ donation.link_url }}">{{ donation.link_text }}</a> {% else %}{{ donation.name }}{% endif %}</td>
             <td>${{ donation.amount }}</td>
             <td>{{ donation.date }}</td>
         </tr>

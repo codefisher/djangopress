@@ -62,8 +62,8 @@ class Forum(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
     #redirect_url
-    num_threads = models.IntegerField(default=0)
-    num_posts = models.IntegerField(default=0)
+    num_threads = models.IntegerField(default=0, verbose_name='Number of Threads')
+    num_posts = models.IntegerField(default=0, verbose_name='Number of Posts')
     last_post = models.ForeignKey('Post', on_delete=models.SET_NULL, null=True, blank=True)
     position = models.IntegerField(default=1)
     category = models.ForeignKey('ForumCategory', null=True, blank=True, related_name="forum")

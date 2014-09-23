@@ -34,7 +34,7 @@
     {% endif %}
     {% if entry.comments_open %}
     <div id="respond">
-        <form action="" method="POST">
+        <form action="{{ entry.get_absolute_url }}" method="POST">
         {% form comment_form %}
          {% csrf_token %}
         <div><input type="submit" value="Submit"></div>

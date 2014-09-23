@@ -3,13 +3,13 @@
 
 {% block content %}
     <div class="content-box">
-        {% for tab, profile in profiles %}
+        {% for tab_name, profile in profiles %}
             {% if not forloop.first %} &bull; {% endif %}
-            <a href="{% url 'accounts-profile' tab=tab username=user.username %}">{{ profile.label }}</a>
+            <a href="{% url 'accounts-profile' tab=tab_name username=user.username %}">{{ profile.label }}</a>
         {% endfor %}
     </div>
     <h2>{{ profile_label }}</h2>
-    <form action="" method="POST" class="field-form">
+    <form action="{% url 'accounts-profile' tab=tab username=user.username %}" method="POST" class="field-form">
         {% for form in profile_data.forms %}
             {% if form.is_text %}
                 {{ form|safe }}
