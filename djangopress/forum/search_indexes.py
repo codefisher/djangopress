@@ -1,5 +1,7 @@
 from haystack import indexes
 from djangopress.forum.models import Post
+from djangopress.core.format.stripped_html import stripped_html
+
 
 class PostIndex(indexes.SearchIndex, indexes.Indexable):
     text = indexes.CharField(model_attr='message', document=True, use_template=True)
@@ -15,9 +17,10 @@ class PostIndex(indexes.SearchIndex, indexes.Indexable):
 
     def prepare(self, obj):
         data = super(PostIndex, self).prepare(obj)
-        #if obj.thread.sticky and obj == obj.thread.first_post:
-        #    data['boost'] = 1.25
-        #else:
-        #    data['boost'] = 0.75
+        data['text'] = stripped_html(data['text'])
+        if obj.thread.sticky and obj == obj.thread.first_post:
+            data['boost'] = 1.5
+        else:
+            data['boost'] = 0.75
         return data
         

@@ -8,11 +8,11 @@ from djangopress.core.format import Library
 register = template.Library()
 
 @register.simple_tag
-def format_post(post, user):
+def format_post(post, user=None):
     formating = Library.get(post.format).get("function")
     smilies = post.show_similies
     show_images = True
-    if user.is_authenticated() and user.forum_profile.pk:
+    if user and user.is_authenticated() and user.forum_profile.pk:
         smilies = user.forum_profile.show_simlies if not user.forum_profile.show_simlies else smilies
         show_images = user.forum_profile.show_img
     return formating(post.message, smilies=smilies, show_images=show_images)
