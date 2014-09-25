@@ -32,7 +32,7 @@ def list_blog_latest(number=5, blog=None):
 @register.inclusion_tag('blog/list_archive.html')
 def list_blog_archive(blog):
     entries_list = Entry.objects.get_entries(blog=blog)
-    dates = entries_list.dates('posted', 'month', order='DESC')
+    dates = entries_list.datetimes('posted', 'month', order='DESC')
     return {
         "dates": dates,
     }
