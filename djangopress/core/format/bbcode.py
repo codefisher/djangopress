@@ -1,5 +1,5 @@
 
-from djangopress.core.format.nodes import TagNode, Library, tag_arguments, TextNode
+from djangopress.core.format.nodes import TagNode, Library, tag_arguments, TextNode, LinkNode
 from djangopress.core.format.parser import Parser, Lexer, encode_html
 from django.utils.html import urlize
 from djangopress.core.format.smilies import add_smilies
@@ -12,9 +12,19 @@ TAG_START = '['
 TAG_END = ']'
 #tag_re = re.compile('(%s.*?%s)' % (re.escape(TAG_START), re.escape(TAG_END)))
 
+class BBcodeImg(LinkNode):
+    def render(self, context, show_images=True, **kwargs):
+        if not show_images:
+            return ""
+        return super(BBcodeImg, self).render(context, **kwargs)
+
 class BBcodeText(TextNode):
-    def render(self, context, nofollow=True, trim_url_limit=None, **kwargs):
-        return add_line_breaks(urlize(self.token.contents,
+    def render(self, context, nofollow=True, trim_url_limit=None, smilies=True, **kwargs):
+        if smilies:
+            text = add_smilies(self.token.contents)
+        else:
+            text = self.token.contents
+        return add_line_breaks(urlize(text,
                 nofollow=nofollow, trim_url_limit=trim_url_limit))
 
 class BBcodeParser(Parser):
@@ -43,7 +53,7 @@ for tag in ["url", "link"]:
         arg_name='href', attrs=('title', ))
 for tag in ["img", "image"]:
     BBcodeLibrary.link_tag(tag, link_arg='src', node_name='img', arg_name="src",
-            attrs=("width", "height", "alt", "title"), closes=False, content_attr="alt")
+            attrs=("width", "height", "alt", "title"), closes=False, content_attr="alt", cls=BBcodeImg)
 
 class ListNode(TagNode):
     def __init__(self, token, arg, items):
@@ -93,12 +103,12 @@ BBcodeLibrary.unclosed_tag("hr")
 
 #to be added: email, quote, table
 
-def bbcode(text, context=None, nofollow=True, trim_url_limit=None, smilies=True, *args, **kargs):
+def bbcode(text, context=None, nofollow=True, trim_url_limit=None, smilies=True, **kargs):
     text = encode_html(text)
     lex = Lexer(text.strip())
     parse = BBcodeParser(lex.tokenize())
     parse.tags = BBcodeLibrary
-    return add_smilies(parse.parse().render(context, nofollow=nofollow, trim_url_limit=trim_url_limit), smilies=smilies)
+    return parse.parse().render(context, nofollow=nofollow, trim_url_limit=trim_url_limit, smilies=smilies, **kargs)
 
 if __name__ == "__main__":
     text = bbcode("""

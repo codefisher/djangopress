@@ -16,5 +16,5 @@ class PagesIndex(indexes.SearchIndex, indexes.Indexable):
     
     def prepare(self, obj):
         data = super(PagesIndex, self).prepare(obj)
-        data['boost'] = 2
+        data['boost'] = 1.5
         return data

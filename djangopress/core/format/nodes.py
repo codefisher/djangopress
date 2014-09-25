@@ -310,7 +310,7 @@ class Library(object):
 
     @classmethod
     def link_tag(self, tag_name, link_arg, node_name=None, arg_name=None,
-                 attrs=None, closes=True, content_attr=None):
+                 attrs=None, closes=True, content_attr=None, cls=LinkNode):
         """
         tag_name - the name of the tag to look for
         link_arg - the attribute that conatins the link
@@ -338,7 +338,7 @@ class Library(object):
                         kargs[content_attr] = nodelist.contents()
                 else:
                     nodelist = NodeList()
-            return LinkNode(token, link_arg, node_name if node_name else tag_name,
+            return cls(token, link_arg, node_name if node_name else tag_name,
                     nodelist, arg_name, arg, attrs, kargs, closes)
         self.tag(tag_name, func)
 

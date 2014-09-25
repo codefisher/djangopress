@@ -7,6 +7,39 @@
 
 {% block page_title_prefix %}{{ forums.name }} :: {% endblock %}
 
+{% block search_form %}
+	 <form action="{% url 'haystack-forum-search' %}" method="get" id="search">
+	  <div class="search-inner">
+	   <label for="search-box">Search:</label>
+	   <div id="search-controls"><input type="text" size="14" id="search-box" name="q" /><input type="submit" id="search-go" value="" /></div>
+	  </div>
+	 </form>
+{% endblock %}
+     
+{% block sidebar %}
+   <div class="side-bar-item">
+   <h3>Forum Menu</h3>
+    <div class="side-bar-content">
+    <ul>
+    	<li><a href="{{ forums.get_absolute_url }}">{{ forums.name }} Index</a></li>
+    	<li><a href="{% url 'haystack-forum-search' %}">Search</a></li>
+    	<li><a href="{% url 'accounts-userlist' %}">User list</a></li>
+	{% if request.user.is_authenticated %}
+			<li><a href="{{ request.user.profile.get_absolute_url }}">Profile</a></li>
+			<li><a href="{% url 'logout' %}">Logout</a></li>
+			<li><a href="{% url 'forum-since-last-visit-posts' %}">Show new posts since last visit</a></li>
+			<!--<li><a href="">Mark all topics as read</a></li>-->
+	{% else %}
+			<li><a href="{% url 'accounts-register' %}">Register</a></li>
+			<li><a href="{% url 'login' %}">Login</a></li>
+	{% endif %}
+	</ul>
+	</div>
+	</div>
+	{{ block.super }}
+{% endblock %}
+	
+
 {% comment %}
  Need to replace the side menu, so for annon users we have something like
  
@@ -22,7 +55,6 @@ Index
 User list
 Search
 Profile
-Administration
 Logout
 Show new posts since last visit
 Mark all topics as read

@@ -1,5 +1,4 @@
 {% load markup %}
-{% load timezone %}
 
 <ul id="comments">
   {% for comment in comment_list %}
@@ -9,7 +8,7 @@
          {% else %}
             {{ comment.name }}
          {% endif %}</h4>
-        <small>{{ comment.submit_date|user_timezone:user|date:"DATETIME_FORMAT" }}</small>
+        <small>{{ comment.submit_date|date:"DATETIME_FORMAT" }}</small>
 
         <p>{{ comment.comment|markdown:"safe" }}</p>
     </li>

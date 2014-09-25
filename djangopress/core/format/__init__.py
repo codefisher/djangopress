@@ -21,6 +21,7 @@ class Library(object):
             "safe": safe,
             "name": verbose_name
         }
+        
 
     @classmethod
     def choices(cls, safe=True):

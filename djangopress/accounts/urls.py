@@ -25,6 +25,9 @@ urlpatterns = patterns('',
     
     url(r'^banned/(?P<username>.+)/$', views.you_are_banned, name='accounts-banned'),
 
+    url(r'^user/$', views.user_profile, name='accounts-profile'),
+    url(r'^user/(?P<username>.+?)/(?P<tab>.+?)/$', views.user_profile, name='accounts-profile'),
+    url(r'^user/(?P<username>.+?)/$', views.user_profile, name='accounts-profile'),
 )
 
 urlpatterns += patterns('',

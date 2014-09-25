@@ -28,6 +28,7 @@ urlpatterns = patterns('',
     url(r'^thread/(?P<thread_id>\d+)/unsubscribe/$', views.unsubscribe, name='forum-unsubscribe'),
     
     url(r'^post/recent/$', views.show_recent, name='forum-recent-posts'),
+    url(r'^post/new/$', views.show_new, name='forum-since-last-visit-posts'),
     url(r'^post/unanswered/$', views.show_unanswered, name='forum-unanswered-posts'),
     url(r'^post/user/$', views.show_user_posts, name='forum-user-posts'),
     url(r'^post/user/(?P<user_id>\d+)/$', views.show_user_posts, name='forum-user-posts'),
@@ -40,3 +41,19 @@ urlpatterns = patterns('',
     url(r'^viewforum.php', views.moved_forum, name='forum-moved'),
     url(r'^viewtopic.php', views.moved_thread, name='forum-thread-moved'),
 )
+
+try:
+    from djangopress.core.search import ModelSetSearchForm, ModelSetSearchView, search_view_factory
+
+    urlpatterns += patterns('',
+        # the haystack search
+        url(r'^search/', search_view_factory(
+                view_class=ModelSetSearchView,
+                form_class=ModelSetSearchForm,
+                results_per_page=10,
+                template='forum/search.html',
+                models=["forum.post"],
+            ), name='haystack-forum-search'),
+    )
+except ImportError:
+    pass

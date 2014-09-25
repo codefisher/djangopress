@@ -1,7 +1,6 @@
 from django.conf.urls import patterns, url, include
 from djangopress.forum import urls as forum_urls
 from djangopress.accounts import urls as accounts_urls
-from djangopress.accounts import user_urls
 from djangopress.blog import urls as blog_urls
 from djangopress.pages import urls as pages_urls
 from paypal.standard.ipn import urls as paypal_urls
@@ -35,9 +34,6 @@ urlpatterns = patterns('',
     
     # the user accounts system
     (r'^accounts/', include(accounts_urls)),
-    
-    # the user accounts system
-    (r'^users/', include(user_urls)),
 
     # the cms pages editing tools etc/
     (r'^pages/', include(pages_urls)),
@@ -48,15 +44,16 @@ urlpatterns = patterns('',
 )
 
 try:
-    from haystack.views import search_view_factory
-    from haystack.forms import SearchForm
+    from djangopress.core.search import ModelSetSearchForm, ModelSetSearchView, search_view_factory
 
     urlpatterns += patterns('',
         # the haystack search
         url(r'^search/', search_view_factory(
-                form_class=SearchForm,
+                view_class=ModelSetSearchView,
+                form_class=ModelSetSearchForm,
                 results_per_page=10,
-            ), name='haystack_search'),
+                models=["pages.page", "blog.entry"],
+            ), name='haystack-search'),
     )
 except ImportError:
     pass

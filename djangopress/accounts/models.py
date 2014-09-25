@@ -6,6 +6,7 @@ import hashlib
 
 from django.db import models
 from django.conf import settings
+from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from djangopress.core.models import Property
@@ -38,6 +39,9 @@ class UserProfile(models.Model):
     properties = models.ManyToManyField(Property, null=True, blank=True)
 
     email_settings = models.CharField(choices=EMAIL_SETTINGS, default='HI', max_length=2)
+    
+    def get_absolute_url(self):
+        return reverse('accounts-profile', kwargs={"username": self.user.username}) 
 
     def __init__(self, *args, **kwargs):
         super(UserProfile, self).__init__(*args, **kwargs)

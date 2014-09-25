@@ -2,10 +2,10 @@ from haystack import indexes
 from djangopress.forum.models import Post
 
 class PostIndex(indexes.SearchIndex, indexes.Indexable):
-    text = indexes.CharField(model_attr='message', document=True, use_template=True, boost=0.25)
+    text = indexes.CharField(model_attr='message', document=True, use_template=True)
     author = indexes.CharField(model_attr='author_name')
     pub_date = indexes.DateTimeField(model_attr='posted')
-    title = indexes.CharField(model_attr='thread__subject', boost=1)
+    title = indexes.CharField(model_attr='thread__subject', boost=1.5)
 
     def get_model(self):
         return Post
@@ -15,6 +15,9 @@ class PostIndex(indexes.SearchIndex, indexes.Indexable):
 
     def prepare(self, obj):
         data = super(PostIndex, self).prepare(obj)
-        data['boost'] = 0.0
+        #if obj.thread.sticky and obj == obj.thread.first_post:
+        #    data['boost'] = 1.25
+        #else:
+        #    data['boost'] = 0.75
         return data
         

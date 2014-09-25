@@ -12,6 +12,7 @@ from django.http.response import Http404
 from djangopress.forum.models import ForumGroup, ForumCategory, Forum, Thread, Post, ForumUser, THREADS_PER_PAGE, POSTS_PER_PAGE
 from djangopress.core.util import get_client_ip, has_permission
 from djangopress.forum.forms import PostAnonymousForm, PostEditForm, PostForm, ReportForm, ThreadForm
+from djangopress.accounts.middleware import get_last_seen
 from django.utils.encoding import force_str
 import re
 
@@ -417,6 +418,12 @@ def show_recent(request, forums_slug, page=1):
     forums = get_forum(forums_slug)
     recent = datetime.datetime.now() - datetime.timedelta(days=1)
     return show_post_list(request, forums, Thread.objects.filter(last_post_date__gt=recent, forum__category__forums=forums), "Recent Posts", page, 'forum-recent-posts')
+
+def show_new(request, forums_slug, page=1):
+    forums = get_forum(forums_slug)
+    recent = get_last_seen(request)
+    return show_post_list(request, forums, Thread.objects.filter(last_post_date__gt=recent, forum__category__forums=forums), "Posts Since Last Visit", page, 'forum-since-last-visit-posts')
+
 
 def show_user_posts(request, forums_slug, user_id=None, page=1):
     forums = get_forum(forums_slug)

@@ -11,6 +11,9 @@
         <fieldset>
             <legend>Message</legend>
             {{ thread_form.as_p }} {{ edit_form.as_p }}
+            <p>
+            	Format: {{ post.get_format.name }}. Images: . Smilies .
+            </p>
         </fieldset>
         <p><input type="submit" value="Submit" /></p>
     </form>

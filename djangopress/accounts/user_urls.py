@@ -1,8 +1,0 @@
-from django.conf.urls import patterns, url
-from djangopress.accounts import views
-
-urlpatterns = patterns('',
-    url(r'^$', views.user_profile, name='accounts-profile'),
-    url(r'^(?P<username>.+?)/(?P<tab>.+?)/$', views.user_profile, name='accounts-profile'),
-    url(r'^(?P<username>.+?)/$', views.user_profile, name='accounts-profile'),
-)

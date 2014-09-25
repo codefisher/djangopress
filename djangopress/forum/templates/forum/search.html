@@ -1,16 +1,17 @@
-{% extends 'base.html' %}
+{% extends 'forum/base.html' %}
 {% load show_pagination %}
 {% load highlight %}
 {% load static %}
 
 {% block page_title %}Search results for &#8220;{{ query|escape }}&#8221;{% endblock %}
 {% block head_tags %}
+	{{ block.super }}
     <link type="text/css" rel="stylesheet" href="{% get_static_prefix %}themes/default/search.css">
 {% endblock %}
 
 {% block content %}
     
-    <form id="search-form" method="get" action="{% url 'haystack-search' %}">
+    <form id="search-form" method="get" action="{% url 'haystack-forum-search' %}">
         <div id="search-fields">
           {% for field in form %}
             {% if field.is_hidden %}
@@ -21,7 +22,7 @@
            {% endfor %}
             <input type="submit" value="Search">
         </div>
-     </form>
+	</form>
         {% if query %}
         	<div id="search-header">
             <h3>Search results for &#8220;{{ query|escape }}&#8221;</h3>
@@ -57,4 +58,5 @@
             </p>
             {# Show some example queries to run, maybe query syntax, something else? #}
         {% endif %}
+    
 {% endblock %}

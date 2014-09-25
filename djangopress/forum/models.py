@@ -122,6 +122,9 @@ class Post(models.Model):
     is_spam = models.BooleanField('is spam', default=False,
         help_text='Check this box to flag as spam.')
     
+    def get_format(self):
+        return Library.get(self.format)
+    
     def __unicode__(self):
         return u"%s %s" % (self.thread.subject, self.posted)
 
@@ -129,11 +132,7 @@ class Post(models.Model):
         super(Post, self).__init__(*args, **kwargs)
         self.__original_is_public = self.is_public
         self.__original_is_spam = self.is_spam
-    
-    def formatted(self):
-        formating = Library.get(self.format).get("function")
-        return formating(self.message, smilies=self.show_similies)
-    
+   
     def __changed_status_visiable(self):
         return ((not self.__original_is_public and self.is_public and not self.is_spam)
                 or (self.__original_is_spam and not self.is_spam and self.is_public))

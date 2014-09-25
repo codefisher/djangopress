@@ -4,11 +4,11 @@
     width:50%;
 }
 
-#search-form h3 {
+#search-header h3 {
     float:left;
 }
 
-#search-form .pagination {
+#search-header .pagination {
     float:right;
     text-align:right;
     padding:1.25em 0;

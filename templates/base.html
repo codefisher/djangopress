@@ -49,12 +49,14 @@
  </div>
  <div id="sidebar">
   <div id="search-sidebar">
-     <form action="/search/" method="get" id="search">
+  	{% block search_form %}
+     <form action="{% url 'haystack-search' %}" method="get" id="search">
       <div class="search-inner">
        <label for="search-box">Search:</label>
        <div id="search-controls"><input type="text" size="14" id="search-box" name="q" /><input type="submit" id="search-go" value="" /></div>
       </div>
      </form>
+     {% endblock %}
   </div>
   {% block sidebar %}
   {% comment %}
