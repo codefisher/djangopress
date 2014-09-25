@@ -24,7 +24,7 @@ class LastSeenMiddleware(object):
         # last_seen is always the last time they visited a page
         # last_seen_session is when this session started.  A new session starts when last_seen is created then LASTSEEN_SESSION_TIMEOUT
         if not hasattr(request, 'session'):
-            return
+            return response
         if request.session.get("last_seen"):
             if (self.now_seconds() - request.session.get("last_seen")) > DEFAULT_LASTSEEN_SESSION_TIMEOUT:
                 request.session["last_seen_session"] = request.session.get("last_seen")
