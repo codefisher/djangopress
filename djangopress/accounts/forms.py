@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy as __
 
+"""
 zone_names = {
     "Etc/GMT-8": "PST",
     "Etc/GMT-7": "MST",
@@ -27,24 +28,20 @@ for i in range(-12,13):
             short_zones.append(("Etc/GMT%+d" % i, "GMT %+03d (%s)" % (i, name)))
         else:
             short_zones.append(("Etc/GMT%+d" % i, "GMT %+03d" % i))
+"""
 
 zones = collections.defaultdict(list)
 for zone in pytz.common_timezones:
     region, sep, city = zone.partition("/")
-    if region != "GMT":
-        zones[region].append((zone, zone.replace("_", " ").replace("/", " - ")))
+    zones[region].append((zone, zone.replace("_", " ").partition("/")[2].replace('/', ' ')))
 long_zones = sorted([(region, list(sorted(items)))
                         for region, items in zones.items()
-                    ] + [("GMT", short_zones)])
+                    ])
 
 class TimeZoneField(forms.ChoiceField):
-    def __init__(self, simple_zones=True, required=True, widget=None, label=None,
+    def __init__(self, required=True, widget=None, label=None,
                  initial=None, help_text=None, *args, **kwargs):
-        if simple_zones:
-            super(TimeZoneField, self).__init__(short_zones, required,
-                        widget, label, initial, help_text, *args, **kwargs)
-        else:
-            super(TimeZoneField, self).__init__(long_zones, required,
+        super(TimeZoneField, self).__init__(long_zones, required,
                         widget, label, initial, help_text, *args, **kwargs)
 
 class UserForm(forms.ModelForm):
@@ -62,11 +59,11 @@ class UserForm(forms.ModelForm):
     email = forms.CharField(label=__("Email"))
     email2 = forms.CharField(label=__("Confirm Email"))
 
-    timezone = TimeZoneField(label=_("Time Zone"), initial="Etc/GMT-8",
+    timezone = TimeZoneField(label=_("Time Zone"),
             help_text=__("For times to be displayed correctly you must select your locale timezone"))
 
     #remember_between_visits = forms.BooleanField(initial=True)
-    captcha = ReCaptchaField()
+    captcha = ReCaptchaField(label='')
 
     fieldsets = (
         ("User Name & Password", ('username', 'password1', 'password2')),

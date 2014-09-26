@@ -9,8 +9,11 @@ LASTSEEN_SESSION_TIMEOUT = getattr(settings, "LASTSEEN_SESSION_TIMEOUT", DEFAULT
 class TimezoneMiddleware(object):
     def process_request(self, request):
         if request.user.is_authenticated():
-            tzname = request.user.profile.timezone
-            timezone.activate(pytz.timezone(tzname))
+            try:
+                tzname = request.user.profile.timezone
+                timezone.activate(pytz.timezone(tzname))
+            except:
+                pass
         else:
             timezone.deactivate()
             

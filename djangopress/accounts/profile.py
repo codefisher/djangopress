@@ -24,7 +24,7 @@ class UserProfileForm(forms.ModelForm):
         model = UserProfile
         fields = ('homepage', 'avatar', 'signature', 'timezone', 'location', 'email_settings')
 
-    timezone = TimeZoneField(label=_("Time Zone"), initial="Etc/GMT-8",
+    timezone = TimeZoneField(label=_("Time Zone"),
             help_text=__("For times to be displayed correctly you must select your locale timezone"))
     
     fieldsets = (

@@ -14,11 +14,16 @@ class PostForm(forms.ModelForm):
         model = Post
         
 class PostAnonymousForm(forms.ModelForm):
-    captcha = ReCaptchaField()
+    captcha = ReCaptchaField(label='')
 
     class Meta(object):
         fields = ("poster_name", "poster_email", "message", "show_similies", "captcha")
         model = Post
+        
+    def __init__(self, *args, **kwargs):
+        super(PostAnonymousForm, self).__init__(*args, **kwargs)
+        self.fields['poster_name'].required = True
+        self.fields['poster_email'].required = True
         
 class PostEditForm(forms.ModelForm):
     class Meta(object):

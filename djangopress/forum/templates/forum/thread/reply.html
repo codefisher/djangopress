@@ -13,4 +13,10 @@
         </fieldset>
         <p><input type="submit" value="Submit" /></p>
     </form>
+    <h3>Recient Posts</h3>
+    <table id="thread-table" style="font-size:0.8em;">
+    {% for post in posts %}
+		{% include "forum/thread/post.html" %}
+    {% endfor %}
+    </table>
 {% endblock %}

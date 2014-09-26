@@ -1,0 +1,43 @@
+{% load forum_tags %}
+{% load online_status_tags %}
+<tr class="post-title-row">
+    <td class="post-date"><a rel="nofollow" href="{{ post.get_absolute_url }}">{{ post.posted }}</a></td>
+    <td class="post-number">{% if posts.start_index %}<a id="p{{ post.pk }}">#{{ forloop.counter|add:posts.start_index|add:-1 }}{% endif %}</a></td>
+</tr>
+<tr class="post-content-row">
+    <td class="post-author">
+        <ul>
+        {% if post.author %}                
+            <li class="username"><a href="{{ post.author.profile.get_absolute_url }}">{{ post.author.username }}</a></li>
+            <li>{{ post.author.profile.title }}</li>
+            <li>Registered: {{ post.author.date_joined|date }}</li>
+            <li>Posts: {{ post.author.forum_profile.num_posts }}</li>
+            <li>{% user_status post.author %}</li>
+        {% else %}
+            <li class="username">{{ post.poster_name }}</li>
+            <li>Guest</li>
+        {% endif %}
+        </ul>
+    </td>
+    <td class="thread-post">
+        {% if post.is_removed %}
+            <div class="post-content"><p>This post has been removed.</p></div>
+        {% else %}
+            <div class="post-content">{% format_post post user %}</div>
+            {% if post.author.profile.signature and user.forum_profile.show_sig %}
+            <div class="signature"> <hr />
+             {{ post.author.profile.get_signature|safe }}</div>
+            {% endif %}
+            {% if post.edited_by %}
+                <div class="edit-message"> <hr />
+                    <p>Edited by {{ post.edited_by.username }} on {{ post.edited }}{% if post.edit_reason %}<br /> Reason: {{ post.edit_reason }} {% endif %}</p></div>
+            {% endif %}
+        {% endif %}
+    </td>
+</tr>
+{% if use_controls %}
+<tr>
+    <td> </td>
+    <td class="post-actions">{% post_actions post request %}</td>
+</tr>
+{% endif %}

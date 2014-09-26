@@ -180,7 +180,9 @@ def last_post(request, forums_slug, thread_id):
     thread = get_object_or_404(Thread, pk=thread_id)
     post = Post.objects.filter(thread=thread, is_spam=False, is_public=True
                     ).select_related('author', 'thread').order_by('posted')
-    return HttpResponseRedirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post.pk))
+    if not post:
+        raise Http404
+    return HttpResponseRedirect("%s#p%s" % (thread.get_absolute_url(post.get_page()), post.pk))
 
 def process_post(request, thread, post_form, forums):
     post = post_form.save(commit=False)
@@ -259,8 +261,11 @@ def reply_thread(request, forums_slug, thread_id):
             post_form = PostForm()
         else:
             post_form = PostAnonymousForm()
+    posts = Post.objects.filter(thread=thread, is_spam=False, is_public=True
+                    ).select_related('author', 'thread').order_by('-posted')[:5]
     data = {
         "forums": forums,
+        "posts": posts,
         "thread": thread,
         "title": settings.TITLE_FORMAT % (thread.subject, "Post Reply"),
         "post_form": post_form,
