@@ -2,7 +2,7 @@
 {% load online_status_tags %}
 <tr class="post-title-row">
     <td class="post-date"><a rel="nofollow" href="{{ post.get_absolute_url }}">{{ post.posted }}</a></td>
-    <td class="post-number">{% if posts.start_index %}<a id="p{{ post.pk }}">#{{ forloop.counter|add:posts.start_index|add:-1 }}{% endif %}</a></td>
+    <td class="post-number">{% if posts.start_index %}<a id="p{{ post.pk }}">#{{ forloop.counter|add:posts.start_index|add:-1 }}</a>{% endif %}</td>
 </tr>
 <tr class="post-content-row">
     <td class="post-author">
