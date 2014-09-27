@@ -1,6 +1,5 @@
 body {
 	background:#1d2419;
-    min-width:832px; /* +15 will give the width before the side scrool displays */
 }
 
 body:before {

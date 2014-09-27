@@ -29,6 +29,9 @@
 	position: relative;
 	/*background:url(images/bracket.png) no-repeat;*/
 }
+body {
+    min-width:832px; /* +15 will give the width before the side scrool displays */
+}
 
 #tag-line:before,
 #tag-line:after { 
