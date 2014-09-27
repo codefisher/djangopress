@@ -1,40 +1,3 @@
-body {
-	background:#1d2419;
-    min-width:832px; /* +15 will give the width before the side scrool displays */
-}
-
-body:before {
-	width:100%;
-	background:#4c7117;
-	height:3px;
-	content: ""; position: absolute;
-	z-index:-1;
-	border: rgba(0,0,0,0.8) solid;
-	border-width:0 0 1px 0;
-	box-shadow:0px 0px 1px rgba(255, 255, 255, 0.5);
-}
-
-body, html {
-    margin:0;
-    padding:0;
-    min-height:100%;
-}
-
-html {
-    position:relative;
-}
-
-.clear {
-    clear:both;
-    padding:5px;
-}
-img {
-	border:0;
-}
-
-a {
-    color:#fff;
-}
 #construction {
 	font-weight:bold;
 	color:red;
@@ -63,18 +26,51 @@ a {
 	float:left;
 	height:50px;
 	line-height:25px;
-	background:url(images/bracket.png) no-repeat;
+	position: relative;
+	/*background:url(images/bracket.png) no-repeat;*/
 }
+
+#tag-line:before,
+#tag-line:after { 
+	content:"";
+   position:absolute;
+   left:0px;
+   top:-3px;
+   width:9px;
+   height:60px;
+   border: 1px solid rgba(0,0,0,0.3);
+   border-right:0;
+}
+#tag-line:after {
+   left:-1px;
+   top:-4px;
+   padding:1px 0 1px 1px;
+   border: 1px solid rgba(255,255,255,0.3);
+   border-right:0;
+}
+
 #tag-line span {
 	display:block;
 }
-#header-bar {
+
+
+#header-content:before,
+#header-content:after {
+	content:"";
    position:absolute;
    top:0;
-   left:20em;
-   height:100%;
-   width:2em;
-   background: url(images/bar.png) center center no-repeat;
+   left:21em;
+   height:186px;
+   width:1px;
+}
+
+#header-content:before {
+   background: linear-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,1) 45%, rgba(255,255,255,1) 55%, rgba(255,255,255,0) 100%);
+}
+#header-content:after {
+	margin-left:1px;
+	width:1.5px;
+	background: linear-gradient(rgba(0,0,0,0) 5%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 95%);
 }
 
 #header-box {
@@ -99,19 +95,16 @@ a {
     height:100%;
     padding-bottom:150px;
 }
+#wrapper:after {
+	content:"";
+	clear: both;
+	display: block;
+	height:1em;	
+}
 #wrapper.no-sidebar {
     padding:0;
 }
-#content,
-#wrapper-content {
-    float:left;
-    position: relative;
-    z-index:1;
-    width:100%;
-    font-size:0.9em;
-    color:#e8f1d7;
-    margin:0 auto;
-}
+
 #content a {
     color:#ffffff;
 }
@@ -122,8 +115,7 @@ a {
     /*font-style:oblique;*/
     color:#d2e8ac;
 }
-#general,
-#wrapper-content,
+#content,
 .content-box {
     background:rgba(0, 0, 0, 0.2);
     border-radius:6px;
@@ -132,6 +124,18 @@ a {
     padding:1em;
     margin:1em;
     position:relative;
+
+}
+
+#content {
+    float:left;
+    position: relative;
+    z-index:1;
+    width:96%;
+    font-size:0.9em;
+    color:#e8f1d7;
+    margin:1em 2%;
+    box-sizing: border-box;
 }
 
 #wrapper-content {

@@ -10,11 +10,16 @@
 <head>
  <meta charset="utf-8"/>
  <title>{% block page_title_prefix %}Codefisher.org :: {% endblock %}{% block page_title %}{{ title|default:"Firefox Add-ons, Code Resources and More" }}{% endblock %}</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
  {% if debug %}
- <link type="text/css" rel="stylesheet" href="{% get_static_prefix %}themes/default/style.css" />
+ <link type="text/css" rel="stylesheet" media="not handheld" href="{% get_static_prefix %}themes/default/style.css" />
+ <link type="text/css" rel="stylesheet" media="handheld" href="{% get_static_prefix %}themes/default/handheld.css" />
+
+ <link rel="stylesheet" type="text/css" media="print" href="{% get_static_prefix %}themes/default/print.css" />
  <script type="text/javascript" src="{% get_static_prefix %}js/jquery-1.11.1.js"></script>
  {% else %}
- <link type="text/css" rel="stylesheet" href="{% get_static_prefix %}themes/default/style.min.css" />
+ <link type="text/css" rel="stylesheet" media="not handheld" href="{% get_static_prefix %}themes/default/style.min.css" />
+ <link rel="stylesheet" type="text/css" media="print" href="{% get_static_prefix %}themes/default/print.min.css"/>
  <script type="text/javascript" src="{% get_static_prefix %}js/jquery-1.11.1.min.js"></script>
  {% endif %}
   <script type="text/javascript" src="{% get_static_prefix %}js/menu.action.js"></script>
@@ -24,47 +29,37 @@
 <body>
 {% block page_top %}{% endblock %}
 <div id="top-menu">
- <div id="logo">
-  <a href="/"><img width="175" height="90" src="{% get_static_prefix %}themes/default/images/logo-text.png" alt="Codefisher" /></a>
- </div>
+  <a id="logo" href="/"><img width="175" height="90" src="{% get_static_prefix %}themes/default/images/logo-text.png" alt="Codefisher" /></a>
  {% display_menu 'util-menu' %}
 </div>
 {% endspaceless %}
 {% block root-content %}
 {% endblock %}
 {% spaceless %}
-<div id="footer-top"></div>
  <div id="footer">
  <div id="footer-content">
-  <div class="footer-section" id="footer-left">
-   <div class="footer-box">
+  <div class="footer-section" id="footer-blog">
    {% block first_footer_box %}
    <h3>Latest Posts</h3>
     <ul>
      {% list_blog_latest blog='news' %}
     {% endblock %}
     </ul>
-   </div>
   </div>
-  <div class="footer-section" id="footer-center-left">
-   <div class="footer-box">
+  <div class="footer-section" id="footer-forum">
    {% block second_footer_box %}
       <h3>Latest Forum Posts</h3>
 	   <ul>
 	       {% show_latest_posts 'codefisher' %}
 	   </ul>
     {% endblock %}
-   </div>
   </div>
-  <div class="footer-section" id="footer-center-right">
-   <div class="footer-box">
+  <div class="footer-section" id="footer-about">
    {% block third_footer_box %}
        {% placeholder "footer-about" identifier %}
     {% endblock %}
-   </div>
   </div>
-  <div class="footer-section" id="footer-right">
-   <div class="footer-box">
+  <div class="footer-section" id="footer-copyright">
    {% block copyright_box %}
     <div id="copyright" class="footer-detail">Design and content <br /> &#169; <strong><a href="/about/">Michael Buckley</a></strong> <br /> 2006 - {% now "Y" %}</div>
     <div class="footer-detail">
@@ -72,7 +67,6 @@
       <a href="/about/">About</a>
    </div>
    {% endblock %}
-   </div>
   </div>
   </div>
  </div>

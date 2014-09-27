@@ -1,0 +1,37 @@
+body {
+	background:#1d2419;
+    min-width:832px; /* +15 will give the width before the side scrool displays */
+}
+
+body:before {
+	width:100%;
+	background:#4c7117;
+	height:3px;
+	content: ""; position: absolute;
+	z-index:-1;
+	border: rgba(0,0,0,0.8) solid;
+	border-width:0 0 1px 0;
+	box-shadow:0px 0px 1px rgba(255, 255, 255, 0.5);
+}
+
+body, html {
+    margin:0;
+    padding:0;
+    min-height:100%;
+}
+
+html {
+    position:relative;
+}
+
+.clear {
+    clear:both;
+    padding:5px;
+}
+img {
+	border:0;
+}
+
+a {
+    color:#fff;
+}

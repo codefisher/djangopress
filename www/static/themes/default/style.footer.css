@@ -1,5 +1,6 @@
 
-#footer-top {
+#footer:before {
+	content:"";
     padding-top:90px;
     background:url(images/footer.png) top center no-repeat;
     position: absolute;
@@ -30,6 +31,9 @@
 	float:left;
 	margin-left:-1px;
 	height:150px;
+	padding:1em 1em 0 1em;
+	box-sizing: border-box;
+	position: relative;
 }
 
 .footer-section h3 {
@@ -40,17 +44,13 @@
 	text-shadow: #000000 1px 1px 1px;
 }
 
-.footer-box {
-	padding:1em 1em 0 1em;
-}
-
-.footer-box ul {
+.footer-section ul {
 	margin:0 0 0 1em;
 	padding:0;
 	/*color:#98bc55;*/
 }
 
-#footer-right .footer-box {
+#footer-copyright {
 	text-align:center;
 	padding:1em;
 }
@@ -64,25 +64,21 @@
 	color:#2a4305;
 }
 
-.footer-section {
-	position: relative;
-	border-width:0 1px 0 0;
-	border-style: solid;
-	border-image:linear-gradient(rgba(255,255,255,0) 5%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 95%) 1;
-}
-.footer-section:before {
+.footer-section:before,
+.footer-section:after {
 	width: 1px;
 	height:150px;
  	content: ""; position: absolute;
  	top:0;
- 	right:-2px;
-	border-width:0 1px 0 0;
-	border-style: solid;
-	border-image:linear-gradient(rgba(0,0,0,0) 5%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 95%) 1;
+ 	right:-1px;
+	background:linear-gradient(rgba(255,255,255,0) 5%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 95%);
+}
+.footer-section:after {
+	right:-2px;
+	background:linear-gradient(rgba(0,0,0,0) 5%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 95%);
 }
 
-.footer-section:last-child,
+.footer-section:last-child:after,
 .footer-section:last-child:before {
-	border:0;
-	right:0;
+	display:none;
 }

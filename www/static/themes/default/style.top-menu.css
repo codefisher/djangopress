@@ -6,6 +6,7 @@
 #logo {
 	margin:0 20px;
 	float:left;
+	display:block;
 }
 #util-menu {
 	float:right;

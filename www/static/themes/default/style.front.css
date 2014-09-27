@@ -1,6 +1,6 @@
 .front-page {
     width:100%;
-    /* table-layout:fixed; */ /*makes google chrome go crazy */
+    table-layout:fixed;
     display:table;
     border-collapse:separate;
     border-spacing:1em;
@@ -10,9 +10,10 @@
     height:100%;
 }
 .front-page-cell {
-    padding:2.5%;
+    padding:1em;
     display:table-cell;
-    height:90%;
+    height:100%;
+    box-sizing: border-box;
     vertical-align:middle;
     border: 1px solid rgba(0, 0, 0, 1);
     border-radius:6px;
@@ -25,16 +26,18 @@
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 1);
 }
 .front-page-cell-content {
-    padding:3% 5%;
+    padding:1em;
     color:#ffffff;
-    min-height:90%;
+    min-height:100%;
+    height:100%;
+    box-sizing: border-box;
     font-size:0.8em;
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgb(255, 255, 255);
     border: 1px solid rgba(255, 255, 255, 0.3);
     border-radius:6px;
     box-shadow: 0px 0px 5px #000;
-    /*text-shadow: #000000 0.5px 0.5px 0.5px;*/
+    text-shadow: #000000 0.5px 0.5px 0.5px;
 }
 .front-page-cell-content:hover {
     background: rgba(255, 255, 255, 0.075);
