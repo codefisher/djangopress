@@ -26,8 +26,7 @@
 }
 .fly-out-menu ul li ul {
     opacity:0;
-    -webkit-transition: opacity 0.25s linear;
-    -moz-transition: opacity 0.25s linear;
+    transition: opacity 0.25s linear;
     position:absolute;
 }
 

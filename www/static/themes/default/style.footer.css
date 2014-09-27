@@ -28,6 +28,7 @@
 .footer-section {
 	width:25%;
 	float:left;
+	margin-left:-1px;
 	height:150px;
 }
 
@@ -63,8 +64,25 @@
 	color:#2a4305;
 }
 
-#footer-left,
-#footer-center-left,
-#footer-center-right {
-	background:url(images/bar-small.png) right center no-repeat;
+.footer-section {
+	position: relative;
+	border-width:0 1px 0 0;
+	border-style: solid;
+	border-image:linear-gradient(rgba(255,255,255,0) 5%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 95%) 1;
+}
+.footer-section:before {
+	width: 1px;
+	height:150px;
+ 	content: ""; position: absolute;
+ 	top:0;
+ 	right:-2px;
+	border-width:0 1px 0 0;
+	border-style: solid;
+	border-image:linear-gradient(rgba(0,0,0,0) 5%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 95%) 1;
+}
+
+.footer-section:last-child,
+.footer-section:last-child:before {
+	border:0;
+	right:0;
 }

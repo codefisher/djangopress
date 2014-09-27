@@ -1,8 +1,5 @@
 #button-list,
 #application-list {
-	-moz-column-count: 2;
-	-moz-column-gap: 5%;
-	-moz-column-width: 47.5%;
 	column-count: 2;
     column-gap: 5%;
     column-width: 47.5%;
@@ -22,7 +19,6 @@
     float:left;
     margin:0 5px;
     padding:2px;
-    -moz-border-radius:2px;
     border-radius:2px;
     border:1px solid #000 !important;
     background:#fff;
@@ -40,7 +36,6 @@
     border:2px solid #000;
     background:#000;
     background:rgba(0,0,0, 0.8);
-    -moz-border-radius:6px;
     border-radius:6px;
     color:#fff;
     padding:1em;
@@ -84,7 +79,6 @@
     float:left;
     margin:0 5px;
     padding:2px;
-    -moz-border-radius:2px;
     border-radius:2px;
     border:1px solid #000;
     background:#fff;

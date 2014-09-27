@@ -97,7 +97,7 @@ class Post(models.Model):
     poster_name = models.CharField(blank=True, null=True, max_length=50)
     poster_email = models.EmailField(blank=True, null=True)
 
-    ip = models.IPAddressField()
+    ip = models.GenericIPAddressField()
     message = models.TextField()
     thread = models.ForeignKey('Thread', related_name="posts")
     

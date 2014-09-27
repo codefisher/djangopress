@@ -4,11 +4,8 @@
 	margin:1em;
 	display:block;
 	background:#000;
-	-moz-border-radius:6px;
     border-radius:6px;
-    -moz-outline-radius:6px;
-    outline-radius:6px;
-    outline: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 0px 1px rgba(255, 255, 255, 0.5);
     border: 1px solid rgba(0, 0, 0, 0.6);
 }
 
@@ -24,11 +21,8 @@
     min-height:5em;
     padding:1em;
     background:rgba(0, 0, 0, 0.9);
-    -moz-border-radius:6px;
     border-radius:6px;
-    -moz-outline-radius:6px;
-    outline-radius:6px;
-    outline: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 0px 1px rgba(255, 255, 255, 0.5);
     border: 1px solid rgba(0, 0, 0, 0.6);
 }
 
@@ -39,7 +33,6 @@
 #page-edit-pane {
     border:1px solid #000;
     background:rgba(0,0,0, 0.8);
-    -moz-border-radius:6px;
     border-radius:6px;
     color:#fff;
 
@@ -53,6 +46,5 @@
 
 #page-edit-pane fieldset {
     border:1px solid #fff;
-    -moz-border-radius:6px;
     border-radius:6px;
 }

@@ -1,6 +1,17 @@
 body {
-	background:#1d2419 url(images/top.png) repeat-x;
+	background:#1d2419;
     min-width:832px; /* +15 will give the width before the side scrool displays */
+}
+
+body:before {
+	width:100%;
+	background:#4c7117;
+	height:3px;
+	content: ""; position: absolute;
+	z-index:-1;
+	border: rgba(0,0,0,0.8) solid;
+	border-width:0 0 1px 0;
+	box-shadow:0px 0px 1px rgba(255, 255, 255, 0.5);
 }
 
 body, html {
@@ -65,6 +76,7 @@ a {
    width:2em;
    background: url(images/bar.png) center center no-repeat;
 }
+
 #header-box {
     position:absolute;
     width:100%;
@@ -115,9 +127,7 @@ a {
 .content-box {
     background:rgba(0, 0, 0, 0.2);
     border-radius:6px;
-    -moz-outline-radius:6px;
-    outline-radius:6px;
-    outline: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0px 0px 1px rgba(255, 255, 255, 0.5);
     border: 1px solid rgba(0, 0, 0, 0.6);
     padding:1em;
     margin:1em;
@@ -135,7 +145,6 @@ a {
 form fieldset {
     margin:1em;
     position:relative;
-    -moz-border-radius:6px;
     border-radius:6px;
     border: 1px solid rgba(0, 0, 0, 0.2);
 }
