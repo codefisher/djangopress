@@ -27,7 +27,7 @@ def show_latest_posts(forums_slug, number=5):
         forums = get_forum(forums_slug)
     except:
         return {} # the forum must not exist, so we fail quitely
-    threads = Thread.objects.filter(forum__category__forums=forums).order_by('-last_post_date').select_related('last_post')[0:number]
+    threads = Thread.objects.filter(forum__category__forums=forums).exclude(last_post=None).order_by('-last_post_date').select_related('last_post')[0:number]
     return {
         "threads": threads,
     }
