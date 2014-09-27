@@ -1,2 +1,2 @@
 {% load smart_truncate_chars %}
-{% for post in posts %}<li><a href="{{ post.get_absolute_url }}">{{ post.thread.subject|smarttruncatechars:30 }}</a></li>{% endfor %}
+{% for thread in threads %}<li><a href="{{ thread.last_post.get_absolute_url }}">{{ thread.subject|smarttruncatechars:30 }}</a></li>{% endfor %}

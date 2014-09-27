@@ -1,6 +1,6 @@
 from django import template
 from djangopress.forum.views import get_forum
-from djangopress.forum.models import Post
+from djangopress.forum.models import Thread
 from djangopress.core.util import has_permission
 from django.core.urlresolvers import reverse
 from djangopress.core.format import Library
@@ -27,16 +27,9 @@ def show_latest_posts(forums_slug, number=5):
         forums = get_forum(forums_slug)
     except:
         return {} # the forum must not exist, so we fail quitely
-    posts = Post.objects.filter(thread__forum__category__forums=forums, is_spam=False, is_public=True
-                    ).select_related('thread')
-    try:
-        # we force to a list to see if the NotImplementedError error happens
-        # only works in PostgreSQL
-        posts = list(posts.order_by('thread__subject', '-posted').distinct('thread__subject').order_by('-posted')[0:number])
-    except NotImplementedError:
-        posts = posts.order_by('-posted')[0:number]
+    threads = Thread.objects.filter(forum__category__forums=forums).order_by('-last_post_date').select_related('last_post')[0:number]
     return {
-        "posts": posts,
+        "threads": threads,
     }
 
 @register.inclusion_tag('forum/post/actions.html')
