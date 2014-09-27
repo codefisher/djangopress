@@ -32,7 +32,7 @@ def show_latest_posts(forums_slug, number=5):
     try:
         # we force to a list to see if the NotImplementedError error happens
         # only works in PostgreSQL
-        posts = list(posts.order_by('thread__subject', '-posted').distinct('thread__subject'))
+        posts = list(posts.order_by('thread__subject', '-posted').distinct('thread__subject')[0:number])
     except NotImplementedError:
         posts = posts.order_by('-posted')[0:number]
     return {
