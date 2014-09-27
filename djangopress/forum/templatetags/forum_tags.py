@@ -28,13 +28,13 @@ def show_latest_posts(forums_slug, number=5):
     except:
         return {} # the forum must not exist, so we fail quitely
     posts = Post.objects.filter(thread__forum__category__forums=forums, is_spam=False, is_public=True
-                    ).select_related('thread').order_by('-posted')
+                    ).select_related('thread')
     try:
         # we force to a list to see if the NotImplementedError error happens
         # only works in PostgreSQL
-        posts = list(posts.distinct('thread__subject'))
+        posts = list(posts.order_by('thread__subject', '-posted').distinct('thread__subject'))
     except NotImplementedError:
-        posts = posts[0:number]
+        posts = posts.order_by('-posted')[0:number]
     return {
         "posts": posts,
     }
