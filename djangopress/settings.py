@@ -96,6 +96,7 @@ INSTALLED_APPS = (
     'djangopress.pages',
     'djangopress.forum',
     'djangopress.donate',
+    'djangopress.iptools',
     'paypal.standard.ipn',
     'djangopress.contact',
 )

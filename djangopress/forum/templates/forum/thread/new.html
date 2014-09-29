@@ -9,8 +9,45 @@
         {% csrf_token %}
         <fieldset>
             <legend>Message</legend>
-            {{ thread_form.as_p }} {{ post_form.as_p }}
+            {{ thread_form.as_p }}
+            {{ edit_form.non_field_errors }}
+            {% if post_form.poster_name %}
+            <div class="form-field">
+	          {% if post_form.poster_name.errors %}
+	            <div class="form-field-error">{{ post_form.poster_name.errors }}</div>
+	          {% endif %}
+	          <span class="form-input{% if post_form.poster_name.errors %} input-error{% endif %}">{{ post_form.poster_name.label_tag }} {{ post_form.poster_name }}</span>
+			</div>
+			{% endif %}
+            {% if post_form.poster_email %}
+            <div class="form-field">
+	          {% if post_form.poster_email.errors %}
+	            <div class="form-field-error">{{ post_form.poster_email.errors }}</div>
+	          {% endif %}
+	          <span class="form-input{% if post_form.poster_email.errors %} input-error{% endif %}">{{ post_form.poster_email.label_tag }} {{ post_form.poster_email }}</span>
+			</div>
+			{% endif %}
+            <div class="form-field">
+	          {% if post_form.message.errors %}
+	            <div class="form-field-error">{{ post_form.message.errors }}</div>
+	          {% endif %}
+	          <span class="form-input{% if post_form.message.errors %} input-error{% endif %}">{{ post_form.message.label_tag }} {{ post_form.message }}</span>
+			</div>
+            <div>
+            	<small>Format: {{ forums.get_format.name }}. Images: {{ forums.display_images|yesno }}. Smilies {{ forums.show_smilies|yesno }}.</small>
+            </div>
+			<div class="form-field">
+				<span class="form-checkbox">{{ post_form.show_similies }} {{ post_form.show_similies.help_text }}</span>
+			</div>
+            {% if post_form.captcha %}
+            <div class="form-field">
+	          {% if post_form.captcha.errors %}
+	            <div class="form-field-error">{{ post_form.captcha.errors }}</div>
+	          {% endif %}
+	          {{ post_form.captcha }}
+			</div>
+			{% endif %}
+			<p><input type="submit" value="Post new Thread" /></p>
         </fieldset>
-        <p><input type="submit" value="Submit" /></p>
     </form>
 {% endblock %}

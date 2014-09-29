@@ -21,7 +21,7 @@ urlpatterns = patterns('',
 
     url(r'^(?P<forum_id>\d+)/$', views.view_forum, name='forum-view'),
     url(r'^(?P<forum_id>\d+)/(?P<page>\d+)/$', views.view_forum, name='forum-view'),
-    url(r'^new-thread/(?P<forum_id>\d+)/$', views.new_thead, name='forum-new-thread'),
+    url(r'^new-thread/(?P<forum_id>\d+)/$', views.new_thread, name='forum-new-thread'),
     url(r'^reply-thread/(?P<thread_id>\d+)/$', views.reply_thread, name='forum-reply-thread'),
     
     url(r'^thread/(?P<thread_id>\d+)/subscribe/$', views.subscribe, name='forum-subscribe'),
@@ -43,12 +43,13 @@ urlpatterns = patterns('',
 )
 
 try:
-    from djangopress.core.search import ModelSetSearchForm, ModelSetSearchView, search_view_factory
+    from djangopress.core.search import ModelSetSearchForm, search_view_factory
+    from djangopress.forum.search import ForumSearchView
 
     urlpatterns += patterns('',
         # the haystack search
         url(r'^search/', search_view_factory(
-                view_class=ModelSetSearchView,
+                view_class=ForumSearchView,
                 form_class=ModelSetSearchForm,
                 results_per_page=10,
                 template='forum/search.html',

@@ -10,11 +10,27 @@
         {% csrf_token %}
         <fieldset>
             <legend>Message</legend>
-            {{ thread_form.as_p }} {{ edit_form.as_p }}
-            <p>
-            	Format: {{ post.get_format.name }}. Images: . Smilies .
-            </p>
+            {{ thread_form.as_p }} 
+            {{ edit_form.non_field_errors }}
+            <div class="form-field">
+	          {% if edit_form.message.errors %}
+	            <div class="form-field-error">{{ edit_form.message.errors }}</div>
+	          {% endif %}
+	          <span class="form-input{% if edit_form.message.errors %} input-error{% endif %}">{{ edit_form.message.label_tag }} {{ edit_form.message }}</span>
+			</div>
+            <div>
+            	<small>Format: {{ post.get_format.name }}. Images: {{ forums.display_images|yesno }}. Smilies {{ forums.show_smilies|yesno }}.</small>
+            </div>
+            <div class="form-field">
+	          {% if edit_form.edit_reason.errors %}
+	            <div class="form-field-error">{{ edit_form.edit_reason.errors }}</div>
+	          {% endif %}
+	          <span class="form-input{% if edit_form.edit_reason.errors %} input-error{% endif %}">{{ edit_form.edit_reason.label_tag }} {{ edit_form.edit_reason }}</span>
+			</div>
+			<div class="form-field">
+				<span class="form-checkbox">{{ edit_form.show_similies }} {{ edit_form.show_similies.help_text }}</span>
+			</div>
+			<p><input type="submit" value="Submit Edit" /></p>
         </fieldset>
-        <p><input type="submit" value="Submit" /></p>
     </form>
 {% endblock %}

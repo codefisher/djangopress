@@ -15,17 +15,18 @@ TAG_END = ']'
 class BBcodeImg(LinkNode):
     def render(self, context, show_images=True, **kwargs):
         if not show_images:
-            return ""
+            return self.kargs.get("alt", "")
         return super(BBcodeImg, self).render(context, **kwargs)
 
 class BBcodeText(TextNode):
-    def render(self, context, nofollow=True, trim_url_limit=None, smilies=True, **kwargs):
+    def render(self, context, nofollow=True, trim_url_limit=None, smilies=True, should_urlize=True, **kwargs):
         if smilies:
             text = add_smilies(self.token.contents)
         else:
             text = self.token.contents
-        return add_line_breaks(urlize(text,
-                nofollow=nofollow, trim_url_limit=trim_url_limit))
+        if should_urlize:
+            text = urlize(text, nofollow=nofollow, trim_url_limit=trim_url_limit)
+        return add_line_breaks(text)
 
 class BBcodeParser(Parser):
     def create_text(self, nodelist, token):
@@ -103,12 +104,13 @@ BBcodeLibrary.unclosed_tag("hr")
 
 #to be added: email, quote, table
 
-def bbcode(text, context=None, nofollow=True, trim_url_limit=None, smilies=True, **kargs):
+def bbcode(text, context=None, nofollow=True, trim_url_limit=None, smilies=True, should_urlize=True, **kargs):
     text = encode_html(text)
     lex = Lexer(text.strip())
     parse = BBcodeParser(lex.tokenize())
     parse.tags = BBcodeLibrary
-    return parse.parse().render(context, nofollow=nofollow, trim_url_limit=trim_url_limit, smilies=smilies, **kargs)
+    return parse.parse().render(context, nofollow=nofollow, trim_url_limit=trim_url_limit, 
+                                smilies=smilies, should_urlize=should_urlize, **kargs)
 
 if __name__ == "__main__":
     text = bbcode("""

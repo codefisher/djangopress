@@ -82,7 +82,12 @@ def register(request):
             profile.save()
             return send_activate_email(request, user)
     else:
-        form = UserForm()
+        if 'djangopress.iptools' in settings.INSTALLED_APPS:
+            from djangopress.iptools.views import get_request_time_zone
+            tzname = get_request_time_zone(request)
+            form = UserForm({'timezone': tzname})
+        else:
+            form = UserForm()
     data.update({
         "form": form, 
         "title": "Register"

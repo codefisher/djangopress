@@ -1,6 +1,5 @@
 from django.contrib import admin
-from djangopress.forum.models import Forum, ForumCategory, ForumGroup, ForumUser, Attachment, Post, Rank, Report, Thread
-
+from djangopress.forum.models import Forum, ForumCategory, ForumGroup, ForumUser, Attachment, Post, Rank, Report, Thread, ForumProperty
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
 from django.contrib.admin.util import get_deleted_objects, model_ngettext
@@ -10,7 +9,8 @@ from django.utils.translation import ugettext as _
 from django.contrib.admin.actions import delete_selected as delete_selected_
 from django.contrib.admin import SimpleListFilter
 from django.template.defaultfilters import truncatechars
-
+from django.forms import Textarea
+from django.db import models
 
 class ForumAdmin(admin.ModelAdmin):
     list_display = ('name', 'num_threads', 'num_posts', 'category' , 'parent_forum')
@@ -21,8 +21,26 @@ class ForumCategoriesAdmin(admin.ModelAdmin):
     list_display = ('name', 'position', 'forums')
 admin.site.register(ForumCategory, ForumCategoriesAdmin)
 
+class PropertiesInline(admin.TabularInline):
+    model = ForumProperty
+    formfield_overrides = {
+        models.TextField: {'widget': Textarea(attrs={'rows':3})},
+    }
+    
 class ForumGroupAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug')
+    inlines = [PropertiesInline]
+    list_display = ('name', 'slug', 'tagline')
+    fieldsets = (
+        (None, {
+            'fields': ('name', 'slug', 'tagline', 'sites')
+        }),
+        ('Settings', {
+            'classes': ('collapse',),
+            'fields': ('format', 'show_announcement', 'announcement', 'number_of_threads',
+                       'number_of_posts', 'show_smilies', 'display_images', 'make_links', 
+                       'show_avatars', 'show_signature', 'show_quick_post')
+        }),    
+    )
 admin.site.register(ForumGroup, ForumGroupAdmin)
 
 class ForumUserAdmin(admin.ModelAdmin):

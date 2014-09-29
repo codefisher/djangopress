@@ -15,7 +15,10 @@ def format_post(post, user=None):
     if user and user.is_authenticated() and user.forum_profile.pk:
         smilies = user.forum_profile.show_simlies if not user.forum_profile.show_simlies else smilies
         show_images = user.forum_profile.show_img
-    return formating(post.message, smilies=smilies, show_images=show_images)
+    forms = post.thread.forum.category.forums
+    show_images = show_images and forms.display_images
+    smilies = smilies and forms.show_smilies
+    return formating(post.message, smilies=smilies, show_images=show_images, should_urlize=forms.make_links)
 
 @register.inclusion_tag('forum/post/latest.html')
 def show_latest_posts(forums_slug, number=5):
@@ -60,3 +63,17 @@ def post_actions(post, request):
     return {
             "actions": actions
     }
+    
+@register.inclusion_tag('forum/thread/actions.html')
+def thread_actions(thread, request):
+    forum_slug = thread.forum.category.forums.slug
+    kwargs = {"forums_slug": forum_slug, "thread_id": thread.pk}
+    actions = []
+    if request.user.is_authenticated():
+        if request.user.forum_subscriptions.exists():
+            actions.append({"name": "Unsubscribe", "url": reverse("forum-unsubscribe", kwargs=kwargs)})
+        else:
+            actions.append({"name": "Subscribe", "url": reverse("forum-subscribe", kwargs=kwargs)})
+    return {
+            "actions": actions
+    }  

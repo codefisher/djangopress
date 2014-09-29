@@ -7,7 +7,7 @@
     <a href="{{ forums.get_absolute_url }}">Index</a> &bull; {{ title }}
     
 </div>
-<div class="pagination">
+<div class="forum-pagination">
     {% simple_pagination threads forum %}
 </div>
 <div class="new-thread">
@@ -37,7 +37,7 @@
     {% endfor %}
     </tbody>
 </table>
-<div class="pagination">
+<div class="forum-pagination">
     {% simple_pagination threads forum %}
 </div>
 <div class="new-thread">

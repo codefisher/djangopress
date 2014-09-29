@@ -43,10 +43,13 @@ class Library(object):
             return format["function"](text, *args, **kargs)
         raise ValueError("format %s not supported" % name)
 
-def format_plaintext(text, nofollow=True, trim_url_limit=None, smilies=True, *args, **kargs):
+def format_plaintext(text, nofollow=True, trim_url_limit=None, smilies=True, should_urlize=True, *args, **kargs):
+    if should_urlize:
+        urlize(escape(text), nofollow=nofollow, trim_url_limit=trim_url_limit)
+    else:
+        text = escape(text)
     return mark_safe(force_unicode('''<pre class="plain_text">%s</pre>'''
-            % add_smilies(urlize(escape(text), nofollow=nofollow,
-                trim_url_limit=trim_url_limit)), smilies=smilies,
+            % add_smilies(text, smilies=smilies),
                 encoding='utf-8'))
 
 def format_html(text, nofollow=True, trim_url_limit=None, smilies=True, *args, **kargs):

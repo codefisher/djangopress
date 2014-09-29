@@ -1,5 +1,7 @@
 {% load forum_tags %}
 {% load online_status_tags %}
+{% load iptools_tags %}
+
 <tr class="post-title-row">
     <td class="post-date"><a rel="nofollow" href="{{ post.get_absolute_url }}">{{ post.posted }}</a></td>
     <td class="post-number">{% if posts.start_index %}<a id="p{{ post.pk }}">#{{ forloop.counter|add:posts.start_index|add:-1 }}</a>{% endif %}</td>
@@ -8,7 +10,9 @@
     <td class="post-author">
         <ul>
         {% if post.author %}                
-            <li class="username"><a href="{{ post.author.profile.get_absolute_url }}">{{ post.author.username }}</a></li>
+            <li class="username"><a href="{{ post.author.profile.get_absolute_url }}">{{ post.author.username }}</a>
+            	{% ip_country_flag post.author.profile.get_ip %}
+            </li>
             <li>{{ post.author.profile.title }}</li>
             <li>Registered: {{ post.author.date_joined|date }}</li>
             <li>Posts: {{ post.author.forum_profile.num_posts }}</li>
@@ -24,7 +28,7 @@
             <div class="post-content"><p>This post has been removed.</p></div>
         {% else %}
             <div class="post-content">{% format_post post user %}</div>
-            {% if post.author.profile.signature and user.forum_profile.show_sig %}
+            {% if post.author.profile.signature and forums.show_signature and user.forum_profile.show_sig %}
             <div class="signature"> <hr />
              {{ post.author.profile.get_signature|safe }}</div>
             {% endif %}

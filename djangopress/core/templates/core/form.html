@@ -1,5 +1,5 @@
 {% load field_form %}
-
+  {{ form.non_field_errors }}
   {% for field in form %}
     {% if field.is_hidden %}
         {{ field }}

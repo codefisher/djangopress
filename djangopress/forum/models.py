@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from djangopress.core.models import Property
 from django.core.urlresolvers import reverse
 from djangopress.core.format import Library
+from djangopress.core import format
 
 THREADS_PER_PAGE = 40
 POSTS_PER_PAGE = 10
@@ -21,12 +22,23 @@ class ForumGroup(models.Model):
     sites = models.ManyToManyField(Site, related_name="forums")
 
     #options
-    format = models.CharField(max_length=20)
-
-    properties = models.ManyToManyField(Property, blank=True, null=True)
+    format = models.CharField(max_length=20, choices=format.Library.choices(False))
+    show_announcement = models.BooleanField(default=False)
+    announcement = models.TextField(blank=True, null=True)
+    number_of_threads = models.IntegerField(default=40)
+    number_of_posts = models.IntegerField(default=20)
+    show_smilies = models.BooleanField(default=True)
+    display_images = models.BooleanField(default=True)
+    make_links = models.BooleanField(default=True)
+    show_avatars = models.BooleanField(default=True)
+    show_signature = models.BooleanField(default=True) 
+    show_quick_post = models.BooleanField(default=True)
     
     def __unicode__(self):
         return self.name
+
+    def get_format(self):
+        return Library.get(self.format)
     
     def save(self):
         if self.slug == "":
@@ -34,7 +46,10 @@ class ForumGroup(models.Model):
         super(ForumGroup, self).save()
 
     def get_absolute_url(self):
-        return reverse("forum-index", kwargs={"forums_slug": self.slug})  
+        return reverse("forum-index", kwargs={"forums_slug": self.slug})
+    
+class ForumProperty(Property):
+    forums = models.ForeignKey(ForumGroup, related_name="properties")
 
 class ForumCategory(models.Model):
     """

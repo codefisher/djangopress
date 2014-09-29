@@ -1,4 +1,5 @@
 {% load field_form %}
+	{{ form.non_field_errors }}
 	{% for legend, fields in fieldsets %}
 	    <fieldset>
 	        <legend>{{ legend }}</legend>
@@ -20,9 +21,7 @@
 	    </fieldset>
 	{% endfor %}
 	{% if form.hidden_fields %}
-    <div>
         {% for field in form.hidden_fields %}
             {{ field }}
         {% endfor %}
-    </div>
     {% endif %}

@@ -2,6 +2,7 @@ import pytz
 import datetime, time
 from django.utils import timezone
 from django.conf import settings
+import os
 
 DEFAULT_LASTSEEN_SESSION_TIMEOUT = 30*60 
 LASTSEEN_SESSION_TIMEOUT = getattr(settings, "LASTSEEN_SESSION_TIMEOUT", DEFAULT_LASTSEEN_SESSION_TIMEOUT)
@@ -13,9 +14,17 @@ class TimezoneMiddleware(object):
                 tzname = request.user.profile.timezone
                 timezone.activate(pytz.timezone(tzname))
             except:
-                pass
+                timezone.deactivate()
         else:
-            timezone.deactivate()
+            if 'djangopress.iptools' in settings.INSTALLED_APPS:
+                from djangopress.iptools.views import get_request_time_zone
+                try:
+                    tzname = get_request_time_zone(request)
+                    timezone.activate(pytz.timezone(tzname))
+                except:
+                    timezone.deactivate()
+            else:
+                timezone.deactivate()
             
 
 class LastSeenMiddleware(object):

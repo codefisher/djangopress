@@ -125,9 +125,9 @@ body {
     box-shadow: 0px 0px 1px rgba(255, 255, 255, 0.5);
     border: 1px solid rgba(0, 0, 0, 0.6);
     padding:1em;
-    margin:1em;
+    margin:1em 0;
     position:relative;
-
+    clear:both;
 }
 
 #content {
@@ -150,7 +150,6 @@ body {
 /* forms */
 
 form fieldset {
-    margin:1em;
     position:relative;
     border-radius:6px;
     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -161,7 +160,8 @@ form fieldset legend {
 }
 
 form fieldset textarea {
-    width:95%;
+    width:100%;
+    box-sizing: border-box;
 }
 
 fieldset.errors {
@@ -181,6 +181,11 @@ form .form-field input,
 form .form-field select {
 	margin-left:2em;
 }
+
+form .form-field .form-checkbox input {
+	margin-left:0;
+}
+
 form .form-field textarea {
     width:100%;
 }

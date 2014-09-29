@@ -36,9 +36,15 @@ class UserProfile(models.Model):
     banned = models.BooleanField(default=False)
     #remember_between_visits = models.BooleanField(default=True)
     user = models.OneToOneField(User, related_name="profile")
-    properties = models.ManyToManyField(Property, null=True, blank=True)
-
     email_settings = models.CharField(choices=EMAIL_SETTINGS, default='HI', max_length=2)
+    gender = models.CharField(max_length=1, blank=True, null=True, default=None, choices=(('', 'Private'), ('M', 'Male'), ('F', 'Female')))
+    date_of_birth = models.DateTimeField(blank=True, null=True)
+    
+    def get_ip(self):
+        if self.last_ip_used:
+            return self.last_ip_used
+        return self.registration_ip
+            
     
     def get_absolute_url(self):
         return reverse('accounts-profile', kwargs={"username": self.user.username}) 
@@ -76,6 +82,9 @@ class UserProfile(models.Model):
         return (hsh == self.activate_key
                 and datetime.datetime.now() <= self.activate_key_expirary)
 
+class UserProperty(Property):
+    user_profile = models.ForeignKey(User, related_name="properties")
+    
 def create_profile(sender, **kargs):
     if kargs.get("created", False):
         profile = UserProfile(user=kargs.get("instance"))

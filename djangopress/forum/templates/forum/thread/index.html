@@ -1,5 +1,7 @@
 {% extends "forum/base.html" %}
 {% load show_pagination %}
+{% load forum_tags %}
+
 {% block content %}
 
     <div id="bread-crumbs">
@@ -7,7 +9,7 @@
         &bull; <a href="{{ thread.forum.get_absolute_url }}">{{ thread.forum.name }}</a>
         &bull; {{ thread.subject }}
     </div>
-    <div class="pagination">
+    <div class="forum-pagination">
         {% simple_pagination posts thread %}
     </div>
     <div class="new-post">
@@ -24,7 +26,7 @@
 		{% endwith %}
     {% endfor %}
     </table>
-    <div class="pagination">
+    <div class="forum-pagination">
         {% simple_pagination posts thread %}
     </div>
     
@@ -35,5 +37,14 @@
             <p>Thread Closed</p>
             {% endif %}
     </div>
-    
+    {% if request.user.is_authenticated %}
+    	{% if forums.show_quick_post %}
+	    <form class="content-box" action="{% url 'forum-reply-thread' forums_slug=forums.slug thread_id=thread.pk %}" method="post">
+	        {% csrf_token %}
+	        <fieldset>{{ form.as_p }}
+	        <p><input type="submit" value="Submit" /></p></fieldset>
+	    </form>
+    	{% endif %}
+    {% endif %}
+    {% thread_actions thread request %}
 {% endblock %}

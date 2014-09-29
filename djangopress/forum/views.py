@@ -1,4 +1,7 @@
 import datetime
+from itertools import chain
+import re
+
 from django.shortcuts import render, get_object_or_404
 from django.conf import settings
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
@@ -11,10 +14,10 @@ from django.template.loader import render_to_string
 from django.http.response import Http404
 from djangopress.forum.models import ForumGroup, ForumCategory, Forum, Thread, Post, ForumUser, THREADS_PER_PAGE, POSTS_PER_PAGE
 from djangopress.core.util import get_client_ip, has_permission
-from djangopress.forum.forms import PostAnonymousForm, PostEditForm, PostForm, ReportForm, ThreadForm
+from djangopress.forum.forms import PostAnonymousForm, PostEditForm, PostForm, ReportForm, ThreadForm, QuickPostForm
 from djangopress.accounts.middleware import get_last_seen
 from django.utils.encoding import force_str
-import re
+
 
 try:
     import akismet
@@ -55,7 +58,7 @@ def view_forum(request, forums_slug, forum_id, page=1):
     
     paginator = Paginator(Thread.objects.filter(forum=forum).select_related(
                 'poster', 'last_post__author', 'forum__category__forums'
-            ).defer('last_post__message').order_by('-sticky', '-last_post_date'), THREADS_PER_PAGE)
+            ).exclude(first_post=None).defer('last_post__message').order_by('-sticky', '-last_post_date'), THREADS_PER_PAGE)
     
     try:
         threads = paginator.page(page)
@@ -94,7 +97,7 @@ def check_askmet_spam(request, post, form):
         return api.comment_check(force_str(form.cleaned_data["message"]), data)
     return False
 
-def new_thead(request, forums_slug, forum_id):
+def new_thread(request, forums_slug, forum_id):
     forums = get_forum(forums_slug)
     forum = get_object_or_404(Forum, pk=forum_id)
     if not has_permission(request, 'forum', 'can_post_threads'):
@@ -120,6 +123,9 @@ def new_thead(request, forums_slug, forum_id):
                 thread.poster_email = post_form.cleaned_data["poster_email"]
             thread.forum = forum
             thread.save()
+            responce = process_post(request, thread, post_form, forums)
+            if thread.first_post.is_spam or not thread.first_post.is_public:
+                return responce
             site = Site.objects.get_current()
             for user in forum.subscriptions.all():
                 if user == request.user:
@@ -135,7 +141,7 @@ def new_thead(request, forums_slug, forum_id):
                 }
                 message = render_to_string('forum/email/forum_subscription_notification.txt', message_data)
                 user.email_user("Forum Subscription Notification for %s" % forums.name, message)
-            return process_post(request, thread, post_form, forums)
+            return responce
     else:
         thread_form = ThreadForm()
         if request.user.is_authenticated():
@@ -166,6 +172,7 @@ def view_thread(request, forums_slug, thread_id, page=1):
     
     data = {
         "forums": forums,
+        "form": QuickPostForm(),
         "thread": thread,
         "title": thread.subject,
         "posts": posts,
@@ -205,7 +212,7 @@ def process_post(request, thread, post_form, forums):
     post.format = forums.format
     post.save()
     site = Site.objects.get_current()
-    for user in thread.subscriptions.all():
+    for user in chain(thread.subscriptions.all(), thread.forum.subscriptions.all()):
         if user == request.user:
             continue
         # should check here if the last post was after the user last visted
@@ -334,9 +341,11 @@ def edit_post(request, forums_slug, post_id):
     }
     return render(request, 'forum/post/edit.html' , data)
     
-def post_action(request, forums_slug, post_id, redirect_before, do_action, name, message):
+def post_action(request, forums_slug, post_id, redirect_before, do_action, name, message, permission):
     forums = get_forum(forums_slug)
     post = get_object_or_404(Post, pk=post_id)
+    if not has_permission(request, 'forum', permission):
+        return HttpResponseRedirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post.pk))
     if request.method == 'POST' and request.POST.get('post'):
         if redirect_before:
             redirect = HttpResponseRedirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post.pk))
@@ -357,34 +366,34 @@ def post_action(request, forums_slug, post_id, redirect_before, do_action, name,
 def delete_post(request, forums_slug, post_id):
     def do_action(post):
         post.is_public = False
-    return post_action(request, forums_slug, post_id, True, do_action, "Delete Post", "delete the post")
+    return post_action(request, forums_slug, post_id, True, do_action, "Delete Post", "delete the post", "can_mark_public")
 
 def restore_post(request, forums_slug, post_id):
     def do_action(post):
         post.is_public = True
-    return post_action(request, forums_slug, post_id, False, do_action, "Restore Post", "restore the post")
+    return post_action(request, forums_slug, post_id, False, do_action, "Restore Post", "restore the post", "can_mark_public")
     
 def spam_post(request, forums_slug, post_id):
     def do_action(post):
         post.is_spam = True
         # we we could call upon akismet
-    return post_action(request, forums_slug, post_id, True, do_action, "Mark as Spam", "mark the post as spam")
+    return post_action(request, forums_slug, post_id, True, do_action, "Mark as Spam", "mark the post as spam", "can_mark_spam")
     
 def not_spam_post(request, forums_slug, post_id):
     def do_action(post):
         post.is_spam = False
-    return post_action(request, forums_slug, post_id, False, do_action, "Mark as Not Spam", "mark the post as not span")
+    return post_action(request, forums_slug, post_id, False, do_action, "Mark as Not Spam", "mark the post as not span", "can_mark_spam")
     
 def remove_post(request, forums_slug, post_id):
     def do_action(post):
         post.is_removed = True
-    return post_action(request, forums_slug, post_id, True, do_action, "Remove", "mark the post as removed")
+    return post_action(request, forums_slug, post_id, True, do_action, "Remove", "mark the post as removed", "can_mark_removed")
     
     
 def recover_post(request, forums_slug, post_id):
     def do_action(post):
         post.is_removed = False
-    return post_action(request, forums_slug, post_id, True, do_action, "Restore", "mark the post as not removed")
+    return post_action(request, forums_slug, post_id, True, do_action, "Restore", "mark the post as not removed", "can_mark_removed")
     
 def subscribe(request, forums_slug, thread_id, subscribe=True):
     forums = get_forum(forums_slug)
