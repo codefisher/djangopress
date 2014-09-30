@@ -12,14 +12,14 @@
  <title>{% block page_title_prefix %}Codefisher.org :: {% endblock %}{% block page_title %}{{ title|default:"Firefox Add-ons, Code Resources and More" }}{% endblock %}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
  {% if debug %}
- <link type="text/css" rel="stylesheet" media="not handheld" href="{% get_static_prefix %}themes/default/style.css" />
- <link type="text/css" rel="stylesheet" media="handheld" href="{% get_static_prefix %}themes/default/handheld.css" />
+ <link type="text/css" rel="stylesheet" media="screen and (min-width: 600px)" href="{% get_static_prefix %}themes/default/style.css" />
+ <link type="text/css" rel="stylesheet" media="handheld, screen and (max-width: 599px)" href="{% get_static_prefix %}themes/default/handheld.css" />
  <link rel="stylesheet" type="text/css" media="print" href="{% get_static_prefix %}themes/default/print.css" />
  <script type="text/javascript" src="{% get_static_prefix %}js/jquery-1.11.1.js"></script>
   <script type="text/javascript" src="{% get_static_prefix %}js/menu.action.js"></script>
  {% else %}
- <link type="text/css" rel="stylesheet" media="not handheld" href="{% get_static_prefix %}themes/default/style.min.css" />
- <link type="text/css" rel="stylesheet" media="handheld" href="{% get_static_prefix %}themes/default/handheld.min.css" />
+ <link type="text/css" rel="stylesheet" media="screen and (min-width: 600px)" href="{% get_static_prefix %}themes/default/style.min.css" />
+ <link type="text/css" rel="stylesheet" media="handheld, screen and (max-width: 599px)" href="{% get_static_prefix %}themes/default/handheld.min.css" />
  <link rel="stylesheet" type="text/css" media="print" href="{% get_static_prefix %}themes/default/print.min.css"/>
  <script type="text/javascript" src="{% get_static_prefix %}js/jquery-1.11.1.min.js"></script>
    <script type="text/javascript" src="{% get_static_prefix %}js/menu.action.min.js"></script>
