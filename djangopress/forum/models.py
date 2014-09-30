@@ -197,7 +197,7 @@ class Post(models.Model):
         forum = Forum.objects.filter(pk=self.thread.forum.pk)
         if self.thread.forum.last_post_id == None or self.thread.forum.last_post == self:
             forum.update(last_post=Post.objects.filter(thread__forum=self.thread.forum, is_spam=False, is_public=True).exclude(pk=self.pk).order_by('-posted')[0])
-        if self.thread and self.thread.first_post != None:
+        if self.thread and self.thread.first_post_id == None:
             first_post = self.thread.first_post
         else:
             first_post = None

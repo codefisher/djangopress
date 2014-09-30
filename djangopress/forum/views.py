@@ -124,7 +124,7 @@ def new_thread(request, forums_slug, forum_id):
             thread.forum = forum
             thread.save()
             responce = process_post(request, thread, post_form, forums)
-            if thread.first_post.is_spam or not thread.first_post.is_public:
+            if thread.first_post_id == None and thread.first_post.is_spam or not thread.first_post.is_public:
                 return responce
             site = Site.objects.get_current()
             for user in forum.subscriptions.all():
@@ -212,21 +212,22 @@ def process_post(request, thread, post_form, forums):
     post.format = forums.format
     post.save()
     site = Site.objects.get_current()
-    for user in chain(thread.subscriptions.all(), thread.forum.subscriptions.all()):
-        if user == request.user:
-            continue
-        # should check here if the last post was after the user last visted
-        # in which cause we don't need to email them
-        message_data = {
-            "site": site,
-            "user": user,
-            "thread": thread,
-            "forums": forums,
-            "post": post,
-            "scheme": "https" if request.is_secure() else "http",
-        }
-        message = render_to_string('forum/email/subscription_notification.txt', message_data)
-        user.email_user("Topic Subscription Notification for %s" % forums.name, message)
+    if post.is_public and not post.is_spam:
+        for user in chain(thread.subscriptions.all(), thread.forum.subscriptions.all()):
+            if user == request.user:
+                continue
+            # TODO: should check here if the last post was after the user last visited
+            # in which cause we don't need to email them
+            message_data = {
+                "site": site,
+                "user": user,
+                "thread": thread,
+                "forums": forums,
+                "post": post,
+                "scheme": "https" if request.is_secure() else "http",
+            }
+            message = render_to_string('forum/email/subscription_notification.txt', message_data)
+            user.email_user("Topic Subscription Notification for %s" % forums.name, message)
     data = {
             "post": post,
             "title": "Post Submitted",

@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+
+{% block content %}
+	<form action="{% url 'iptools-index' %}" method="post">
+		{% csrf_token %}
+		{{ form.as_p }}
+		<p><input type="submit" value="Submit" /></p>
+    </fieldset>
+    {% if response %}
+	    {% if client_ip %}
+	    	<p>The details of your ip address: {{ ip_address }}.</p>
+	    {% else %}
+	    	<p>The details of the submitted ip address: {{ ip_address }}.</p>
+	    {% endif %}
+	    <table>
+	    	<tr>
+	    		<td>IP Address</td>
+	    		<td>{{ ip_address }}</td>
+	    	</tr>
+	    	<tr>
+	    		<td>Continent</td>
+	    		<td>{{ response.continent.name }}</td>
+	    	</tr>
+	    	<tr>
+	    		<td>Country</td>
+	    		<td>{{ response.country.name }}{% if flag %} <img src="{{ flag }}" />{% endif %}</td>
+	    	</tr>
+	    	<tr>
+	    		<td>Country Code</td>
+	    		<td>{{ response.country.iso_code }}</td>
+	    	</tr>
+	    	<tr>
+	    		<td>City</td>
+	    		<td>{{ response.city.name }}</td>
+	    	</tr>
+	    	<tr>
+	    		<td>Subdivision Most Specific</td>
+	    		<td>{{ response.subdivisions.most_specific.name }}</td>
+	    	</tr>
+	    	<tr>
+	    		<td>Latitude</td>
+	    		<td>{{ response.location.latitude }}</td>
+	    	</tr>
+	    	<tr>
+	    		<td>Longitude</td>
+	    		<td>{{ response.location.longitude }}</td>
+	    	</tr>
+	    	<tr>
+	    		<td>Time zone</td>
+	    		<td>{{ response.location.time_zone }}</td>
+	    	</tr>
+	    	{% comment %}
+	    	<tr>
+	    		<td>ISP</td>
+	    		<td>{{ response.traits.isp }}</td>
+	    	</tr>
+	    	<tr>
+	    		<td>Organization</td>
+	    		<td>{{ response.traits.organization }}</td>
+	    	</tr>
+	    	<tr>
+	    		<td>Autonomous System Number</td>
+	    		<td>{{ response.traits.autonomous_system_number }}</td>
+	    	</tr>
+	    	<tr>
+	    		<td>Autonomous System Organization</td>
+	    		<td>{{ response.traits.autonomous_system_organization }}</td>
+	    	</tr>
+	    	<tr>
+	    		<td>User type</td>
+	    		<td>{{ response.traits.user_type }}</td>
+	    	</tr>
+	    	<tr>
+	    		<td>Domain</td>
+	    		<td>{{ response.traits.domain }}</td>
+	    	</tr>
+	    	<tr>
+	    		<td>Is Anonymous Proxy</td>
+	    		<td>{{ response.traits.is_anonymous_proxy|yesno }}</td>
+	    	</tr>
+	    	{% endcomment %}
+	    	<tr>
+	    		<td>Hostname</td>
+	    		<td>{{ hostname }}</td>
+	    	</tr>
+	    	<tr>
+	    		<td>Alternative host names</td>
+	    		<td>{{ aliaslist|join:", " }}</td>
+	    	</tr>
+	    	<tr>
+	    		<td>Interface Addresses</td>
+	    		<td>{{ ipaddrlist|join:", " }}</td>
+	    	</tr>
+	    </table>
+	{% else %}
+		<p>Could not find anything about {{ ip_address }}.</p>
+    {% endif %}
+{% endblock %}
