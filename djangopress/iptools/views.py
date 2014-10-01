@@ -37,11 +37,11 @@ def get_ip_country_flag(ip_address):
         response = reader.city(ip_address)
         iso_code = response.country.iso_code
     except AddressNotFoundError:
-        return None
+        return None, None
     if os.path.isfile(os.path.join(FLAG_FOLDER, '%s.png' % iso_code.lower())):
-        return FLAG_WEB_FOLDER + '%s.png' % iso_code.lower()
+        return FLAG_WEB_FOLDER + '%s.png' % iso_code.lower(), iso_code
     else:
-        return None
+        return None, None
     
 class  IPForm(forms.Form):
     ip = forms.GenericIPAddressField(label="IP Address")

@@ -9,7 +9,7 @@
     To donate, just press the button below, or if you want to be added to the list of people who have donated, please fill in the forum first.
 </p>
 
-<p>{{ form.render }}</p>
+{{ form.render }}
 
 <form action="{% url 'donate-index' %}" method="post">
     {% csrf_token %}

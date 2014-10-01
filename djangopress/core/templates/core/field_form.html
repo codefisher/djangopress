@@ -11,7 +11,7 @@
 	                {% if field.field.widget|is_checkbox %}
 	                   <span class="form-checkbox">{{ field }} {{ field.label_tag }}</span>
 	                {% else %}
-	                   <span class="form-input{% if field.errors %} input-error{% endif %}">{{ field.label_tag }} {{ field }}</span>
+	                   <span class="form-input{% if field.errors %} input-error{% endif %}">{% if field.label %}{{ field.label_tag }} {% endif %}{{ field }}</span>
 	                {% endif %}
 	                {% if field.help_text %}
 	                    <div class="form-field-help">{{ field.help_text }}</div>

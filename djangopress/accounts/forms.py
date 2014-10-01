@@ -33,7 +33,10 @@ for i in range(-12,13):
 zones = collections.defaultdict(list)
 for zone in pytz.common_timezones:
     region, sep, city = zone.partition("/")
-    zones[region].append((zone, zone.replace("_", " ").partition("/")[2].replace('/', ' ')))
+    zone_name = zone.replace("_", " ").partition("/")[2].replace('/', ' ')
+    if not zone_name:
+        zone_name = zone
+    zones[region].append((zone, zone_name))
 long_zones = sorted([(region, list(sorted(items)))
                         for region, items in zones.items()
                     ])
