@@ -85,7 +85,8 @@ def register(request):
         if 'djangopress.iptools' in settings.INSTALLED_APPS:
             from djangopress.iptools.views import get_request_time_zone
             tzname = get_request_time_zone(request)
-            form = UserForm(timezone=tzname)
+            form = UserForm()
+            form.fields['timezone'].initial = tzname
         else:
             form = UserForm()
     data.update({
