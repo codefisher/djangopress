@@ -36,7 +36,7 @@ class Page(models.Model):
     template = models.ForeignKey(PageTemplate, blank=False)
 
     parent = models.ForeignKey("Page", related_name="sub_pages", blank=True, null=True)
-    location = models.CharField(max_length=200, db_index=True,
+    location = models.CharField(max_length=200, unique=True,
             blank=True, null=True, editable=False)
     override_location = models.CharField(max_length=200, blank=True, null=True)
     slug = models.SlugField(blank=False, null=False)
