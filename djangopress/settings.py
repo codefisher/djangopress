@@ -52,7 +52,7 @@ STATIC_URL = '/static/'
 MIDDLEWARE_CLASSES = (
     #'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'codefisher_apps.middleware.PagesMiddleware',
+    'codefisher_apps.reverseproxy.middleware.ProxyMiddleware',
     'djangopress.pages.middleware.PagesMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',

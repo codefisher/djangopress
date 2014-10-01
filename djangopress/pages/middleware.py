@@ -8,7 +8,7 @@ class PagesMiddleware(object):
         if response.status_code != 404:
             return response # No need to check for a flatpage for non-404 responses.
         try:
-            return show_page(request, request.path_info)
+            return show_page(request, request.path)
         # Return the original response if any errors happened. Because this
         # is a middleware, we can't assume the errors will be caught elsewhere.
         except Http404:
