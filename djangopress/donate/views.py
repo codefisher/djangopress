@@ -1,12 +1,20 @@
+import time
 from django.shortcuts import render
 from django.core.urlresolvers import reverse
+from django.utils.safestring import mark_safe
 from django.conf import settings
 from django.forms import ModelForm
 from djangopress.donate.models import Donation
 from django.views.decorators.csrf import csrf_exempt
-import time
-
 from paypal.standard.forms import PayPalPaymentsForm
+
+class DonationPayPalPaymentsForm(PayPalPaymentsForm):
+
+    def render(self):
+        return mark_safe(u"""<form action="%s" method="post">
+        %s
+        <input type="image" src="%s" style="border:0;" name="submit" alt="Buy it Now" />
+        </form>""" % (self.get_endpoint(), self.as_p(), self.get_image()))
 
 class DonateForm(ModelForm):
     class Meta:
@@ -32,7 +40,7 @@ def index(request):
                 "cancel_return": "http://%s" % request.get_host() + reverse('donate-index'),
             }
             # Create the instance.
-            form = PayPalPaymentsForm(initial=paypal_dict, button_type='donate')
+            form = DonationPayPalPaymentsForm(initial=paypal_dict, button_type='donate')
             context = {"form": form, "title": "Donate"}
             return render(request, "donate/process.html", context)
     else:
@@ -46,7 +54,7 @@ def index(request):
         "cancel_return": "https://%s" % request.get_host() + reverse('donate-index'),
     }
    
-    form = PayPalPaymentsForm(initial=paypal_dict, button_type='donate')
+    form = DonationPayPalPaymentsForm(initial=paypal_dict, button_type='donate')
     donations = Donation.objects.filter(validated=True).order_by('-amount', '-date')
     context = {"form": form, "donate": donate_form, "donations": donations, "title": "Donate"}
     return render(request, "donate/index.html", context)
