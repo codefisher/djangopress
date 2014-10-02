@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block head_tags %}
-    <link type="text/css" rel="stylesheet" href="{% get_static_prefix %}themes/default/forum.css">
+    <link type="text/css" rel="stylesheet" href="{% get_static_prefix %}css/forum.css">
 {% endblock %}
 
 {% block page_title_prefix %}{% if forums %}{{ forums.name }} :: {% else %} {{ block.super }}{% endif %}{% endblock %}

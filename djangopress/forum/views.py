@@ -123,14 +123,14 @@ def new_thread(request, forums_slug, forum_id):
                 thread.poster_email = post_form.cleaned_data["poster_email"]
             thread.forum = forum
             thread.save()
-            responce = process_post(request, thread, post_form, forums)
-            if thread.first_post_id == None and thread.first_post.is_spam or not thread.first_post.is_public:
+            responce, new_post = process_post(request, thread, post_form, forums)
+            if new_post.is_spam or not new_post.is_public:
                 return responce
             site = Site.objects.get_current()
             for user in forum.subscriptions.all():
                 if user == request.user:
                     continue
-                # should check here if the last post was after the user last visted
+                # TODO: should check here if the last post was after the user last visted
                 # in which cause we don't need to email them
                 message_data = {
                     "site": site,
@@ -237,7 +237,7 @@ def process_post(request, thread, post_form, forums):
     responce = render(request, 'forum/post/posted.html' , data)
     if not post.is_spam and post.is_public:
         responce["Refresh"] = "3;%s" % reverse('forum-view-post', kwargs={"forums_slug": forums.slug, "post_id": post.pk})
-    return responce
+    return responce, post
 
 def reply_thread(request, forums_slug, thread_id):
     forums = get_forum(forums_slug)
@@ -263,7 +263,8 @@ def reply_thread(request, forums_slug, thread_id):
         else:
             post_form = PostAnonymousForm(request.POST)
         if post_form.is_valid():
-            return process_post(request, thread, post_form, forums)
+            responce, new_post = process_post(request, thread, post_form, forums)
+            return responce
     else:
         if request.user.is_authenticated():
             post_form = PostForm()

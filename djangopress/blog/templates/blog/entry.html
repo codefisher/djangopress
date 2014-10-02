@@ -1,5 +1,6 @@
 <div class="blog-entry">
-    <div id="previous-next-links">
+	{% if previous or next %}
+    <div class="previous-next-links">
         {% if previous %}
             <a class="previous-link" href="{{ previous.get_absolute_url }}">&laquo; {{ previous.title }}</a>
         {% endif %}
@@ -7,6 +8,7 @@
             <a class="next-link" href="{{ next.get_absolute_url }}">{{ next.title }}  &raquo;</a>
         {% endif %}
     </div>
+    {% endif %}
     <h3><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h3>
     <small>{{ entry.posted|date:"DATE_FORMAT" }} by {{ entry.author }}</small>
     <div class="blog-entry-content">
