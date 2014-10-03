@@ -239,7 +239,10 @@ input[disabled] {
     text-align:right;
     margin:0.5em;
 }
-
+.center {
+	margin:0 auto;
+	text-align:center;
+}
 code {
     white-space:pre;
 }

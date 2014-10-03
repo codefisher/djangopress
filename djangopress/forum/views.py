@@ -477,17 +477,17 @@ def show_post_list(request, forums, threads_query, title, page, url_name, url_ar
 
 def moved_forum(request, forums_slug):
     fid = request.GET.get('id')
-    if not re.match(r'^\d+$', fid):
+    if not re.match(r'^\d+$', str(fid)):
         raise Http404
     return HttpResponseRedirect(reverse('forum-view', kwargs={'forum_id': fid}))
 
 def moved_thread(request, forums_slug):
     if request.GET.get('pid'):
         pid = request.GET.get('pid')
-        if not re.match(r'^\d+$', pid):
+        if not re.match(r'^\d+$', str(pid)):
             raise Http404
         return HttpResponseRedirect(reverse('forum-view-post', kwargs={'post_id': pid}))
     tid = request.GET.get('id')
-    if not re.match(r'^\d+$', tid):
+    if not re.match(r'^\d+$', str(tid)):
         raise Http404
     return HttpResponseRedirect(reverse('forum-view-thread', kwargs={'thread_id': tid}))

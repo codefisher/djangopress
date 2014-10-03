@@ -3,8 +3,6 @@ from paypal.standard.ipn.signals import payment_was_successful
 from paypal.standard.ipn.models import PayPalIPN
 import datetime
 
-# Create your models here.
-
 class Donation(models.Model):
     name = models.CharField(max_length=50)
     date = models.DateField(default=datetime.datetime.today)

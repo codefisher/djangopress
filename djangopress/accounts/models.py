@@ -80,7 +80,7 @@ class UserProfile(models.Model):
 
     def check_activate_key(self, hsh):
         return (hsh == self.activate_key
-                and datetime.datetime.now() <= self.activate_key_expirary)
+                and datetime.datetime.utcnow() <= self.activate_key_expirary)
 
 class UserProperty(Property):
     user_profile = models.ForeignKey(User, related_name="properties")

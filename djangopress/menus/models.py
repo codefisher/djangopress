@@ -1,9 +1,6 @@
 from django.db import models
 from djangopress.menus.menu import register as menu_register
 
-
-# Create your models here.
-
 class Menu(models.Model):
     name = models.CharField(max_length=100, unique=True)
     class_tag = models.CharField(max_length=100, null=True, blank=True)
