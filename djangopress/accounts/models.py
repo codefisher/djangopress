@@ -11,6 +11,7 @@ from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from djangopress.core.models import Property
 from djangopress.core.format import Library
+from django.utils import timezone
 
 class UserProfile(models.Model):
     EMAIL_SETTINGS = (
@@ -80,7 +81,7 @@ class UserProfile(models.Model):
 
     def check_activate_key(self, hsh):
         return (hsh == self.activate_key
-                and datetime.datetime.utcnow() <= self.activate_key_expirary)
+                and timezone.make_aware(datetime.datetime.utcnow(), timezone.get_default_timezone()) <= self.activate_key_expirary)
 
 class UserProperty(Property):
     user_profile = models.ForeignKey(User, related_name="properties")
