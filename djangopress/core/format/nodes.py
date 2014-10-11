@@ -277,6 +277,7 @@ class Library(object):
         if stop_at == None:
             stop_at = ()
         def func(parser, token):
+            _, arg, kargs = tag_arguments(token.contents)
             if can_contain_self:
                 nodelist = parser.parse(('/%s' % tag_name,))
             else:
