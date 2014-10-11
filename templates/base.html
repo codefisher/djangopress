@@ -10,7 +10,7 @@
    <div id="construction">This site is under construction, for the live site see <a href="http://codefisher.org/">Codefisher.org</a></div>
    {% endcomment %}
 	{% if messages %}
-	<ul class="messages">
+	<ul class="messages content-box">
 	    {% for message in messages %}
 	    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
 	    {% endfor %}
@@ -86,7 +86,7 @@
    </div>
    <div class="side-bar-item">
        <h3>Donations</h3>
-    <div class="side-bar-content">
+    <div id="donations" class="side-bar-content">
         <div class="fragment">
             <h4>Top Donations</h4>
             {% show_best_donations 5 %}

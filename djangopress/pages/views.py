@@ -1,9 +1,9 @@
 # Create your views here.
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from djangopress.pages.models import Page, PageBlock
 from django.conf import settings
-from django.http import HttpResponseRedirect, Http404, HttpResponseForbidden, HttpResponsePermanentRedirect
+from django.http import Http404, HttpResponseForbidden, HttpResponsePermanentRedirect
 from djangopress.pages.forms import PageForm, NewBlockForm, TextForm
 
 
@@ -75,7 +75,7 @@ def page_edit(request, identifier=None, name=None, page=None,
                 forms.append(form)
             print changes
             if changes:
-                return HttpResponseRedirect(page.location)
+                return redirect(page.location)
     else:
         forms = get_forms(blocks, name)
     new_block = NewBlockForm(prefix=name)
@@ -108,7 +108,7 @@ def page_edit_details(request, page, template_name='pages/editor/details.html'):
         form = PageForm(request.POST, instance=page, prefix="page-primary")
         if form.is_valid():
             form.save(True)
-            return HttpResponseRedirect(page.location)
+            return redirect(page.location)
     else:
         form = PageForm(instance=page, prefix="page-primary")
     data = {

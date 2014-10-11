@@ -1,8 +1,7 @@
 # Create your views here.
 
 from django import forms
-from django.shortcuts import render
-from django.http import HttpResponseRedirect
+from django.shortcuts import render, redirect
 from django.core.mail import send_mail
 from djangopress.settings import ADMINS
 from django.core.urlresolvers import reverse
@@ -24,7 +23,7 @@ def contact(request):
                           "%s <%s>" % (form.cleaned_data['name'], form.cleaned_data['email']),
                           [email for name, email in ADMINS], fail_silently=False)
                 if result:
-                    return HttpResponseRedirect(reverse(thanks))
+                    return redirect(reverse(thanks))
                 else:
                     error = "A mail server error caused the sending of mail to fail, please try again later."
             except:

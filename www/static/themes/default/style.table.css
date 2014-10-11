@@ -16,10 +16,14 @@ table td,
 table th {
     padding:2px 5px;
 }
-table td:nth-child(even),
-table th:nth-child(even) {
+table td:nth-child(even) {
     background: rgba(0, 0, 0, 0.1);
     padding:1px;
+}
+
+table th {
+	background: linear-gradient(rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.1) 100%);
+	text-shadow: #000000 1px 1px 2px;
 }
 
 table tr:nth-child(even) {

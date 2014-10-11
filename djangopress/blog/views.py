@@ -7,7 +7,6 @@ from djangopress.blog.models import Blog, Entry, Tag, Category, Comment, Flag
 from django.utils.translation import ugettext as _
 from django.conf import settings
 from djangopress.core.util import get_client_ip
-from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 
 
@@ -30,27 +29,6 @@ def get_entries_for_page(paginator, page):
     except (EmptyPage, InvalidPage) as e:
         raise e # this must be handeled
 
-"""
-def blog_pageinator(request, entries_list, blog, page):
-    paginator = Paginator(entries_list, 10)
-    try:
-        page = int(page)
-    except ValueError:
-        page = 1
-
-    try:
-        entries = paginator.page(page)
-    except (EmptyPage, InvalidPage) as e:
-        return True, HttpResponseRedirect(blog.get_absolute_url(paginator.num_pages))
-
-    return False, {
-        "blog": blog,
-        "entries": entries,
-        "title": blog.name,
-        "respond": True,
-    }
-"""
-
 def index(request, blog_slug, page=1):
     blog = get_blog(blog_slug)
     entries_list = Entry.objects.get_entries(blog=blog)
@@ -58,7 +36,8 @@ def index(request, blog_slug, page=1):
     try:
         entries = get_entries_for_page(paginator, page)
     except (EmptyPage, InvalidPage):
-        return HttpResponseRedirect(blog.get_absolute_url(paginator.num_pages))
+        if page != 1:
+            return redirect(blog.get_absolute_url(paginator.num_pages))
     data =  {
         "blog": blog,
         "entries": entries,
@@ -83,8 +62,9 @@ def archive(request, blog_slug, year, month=None):
     try:
         entries = get_entries_for_page(paginator, request.GET.get('page', 1))
     except (EmptyPage, InvalidPage):
-        kwargs = {'blog_slug':blog_slug, 'year':year, 'month':month}
-        return HttpResponseRedirect("%s?page=%s" % (reverse('blog-archive', kwargs=kwargs), paginator.num_pages))
+        if request.GET.get('page', 1) != 1:
+            kwargs = {'blog_slug':blog_slug, 'year':year, 'month':month}
+            return redirect("%s?page=%s" % (reverse('blog-archive', kwargs=kwargs), paginator.num_pages))
     data.update({
         "blog": blog,
         "entries": entries,
@@ -197,8 +177,9 @@ def tag(request, blog_slug, slug, page=1):
     try:
         entries = get_entries_for_page(paginator, page)
     except (EmptyPage, InvalidPage):
-        kwargs = {'blog_slug':blog_slug, 'page':page}
-        return HttpResponseRedirect(reverse('blog-tag', kwargs=kwargs))
+        if page != 1:
+            kwargs = {'blog_slug':blog_slug, 'page':page}
+            return redirect(reverse('blog-tag', kwargs=kwargs))
     data =  {
         "blog": blog,
         "entries": entries,
@@ -217,8 +198,9 @@ def category(request, blog_slug, slug, page=1):
     try:
         entries = get_entries_for_page(paginator, page)
     except (EmptyPage, InvalidPage):
-        kwargs = {'blog_slug':blog_slug, 'page':page}
-        return HttpResponseRedirect(reverse('blog-category', kwargs=kwargs))
+        if page != 1:
+            kwargs = {'blog_slug':blog_slug, 'page':page}
+            return redirect(reverse('blog-category', kwargs=kwargs))
     data =  {
         "blog": blog,
         "entries": entries,
@@ -231,4 +213,4 @@ def category(request, blog_slug, slug, page=1):
 def moved(request, blog_slug, post):
     blog = get_blog(blog_slug)
     entry = get_object_or_404(Entry, pk=post, blog=blog)
-    return redirect(entry.get_absolute_url())
+    return redirect(entry.get_absolute_url(), permanent=True)

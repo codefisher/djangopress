@@ -83,15 +83,6 @@ table {
     padding:0.5em;
 }
 
-.signature hr,
-.edit-message hr {
-    border:0;
-    border-top: 1px solid rgba(0,0,0, 0.6);
-    border-bottom: 1px solid rgba(0,0,0, 0.3);
-    width:60%;
-    margin:0.5em 0;
-}
-
 .thread-post {
     width: 100%;
 }

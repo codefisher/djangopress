@@ -2,7 +2,7 @@ from django.contrib import admin
 from djangopress.accounts.models import UserProfile, UserProperty
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
-from django.contrib.admin.util import model_ngettext
+from django.contrib.admin.utils import model_ngettext
 from django.contrib import messages
 from django.utils.translation import ugettext as _
 from django.forms import Textarea

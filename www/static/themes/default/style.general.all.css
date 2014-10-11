@@ -34,3 +34,32 @@ img {
 a {
     color:#fff;
 }
+
+hr {
+    border:0;
+    border-top: 1px solid rgba(0,0,0, 0.6);
+    border-bottom: 1px solid rgba(0,0,0, 0.3);
+    width:60%;
+    margin:0.5em 0;
+}
+
+.messages .debug,
+.messages .info {
+	list-style-image:url(/static/images/pastel-svg/16/information.png);
+}
+
+.messages .success {
+	list-style-image:url(/static/images/pastel-svg/16/accept.png);
+}
+
+.messages .warning {
+	list-style-image:url(/static/images/pastel-svg/16/error.png);
+}
+
+.messages .error {
+	list-style-image:url(/static/images/pastel-svg/16/exclamation.png);
+}
+
+.messages {
+	padding-left:2em;
+}

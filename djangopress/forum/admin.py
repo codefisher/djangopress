@@ -2,7 +2,7 @@ from django.contrib import admin
 from djangopress.forum.models import Forum, ForumCategory, ForumGroup, ForumUser, Attachment, Post, Rank, Report, Thread, ForumProperty
 from django.core.exceptions import PermissionDenied
 from django.contrib import messages
-from django.contrib.admin.util import get_deleted_objects, model_ngettext
+from django.contrib.admin.utils import get_deleted_objects, model_ngettext
 from django.db import router
 from django.utils.encoding import force_text
 from django.utils.translation import ugettext as _

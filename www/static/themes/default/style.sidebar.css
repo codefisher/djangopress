@@ -54,7 +54,8 @@
     font-weight:bold;
     font-family:serif;
     color:#1d2419;
-    text-shadow: 0px 1px 0 rgba(255,255,255,0.5);
+    text-decoration:none;
+    text-shadow: 0px 1px 1px rgba(255,255,255,0.5);
 }
 
 .side-bar-item li {

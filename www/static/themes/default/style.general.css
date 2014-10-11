@@ -108,6 +108,10 @@ body {
     padding:0;
 }
 
+#content h1 {
+	text-shadow: #000000 1px 1px 2px;
+}
+
 #content a {
     color:#ffffff;
 }

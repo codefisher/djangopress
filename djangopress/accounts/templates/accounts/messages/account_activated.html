@@ -1,8 +1,10 @@
 {% extends "base.html" %}
+{% load login_form from accounts %}
 
 {% block content %}
     <h2>Account Validated</h2>
     <p>
        {{ user.username|capfirst }}, your account has been validated, you can now login and return to what you were doing.
     </p>
+    {% login_form '/' %}
 {% endblock %}

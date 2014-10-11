@@ -1,8 +1,6 @@
 from django import forms
 from djangopress.forum.models import Thread, Post, Report
 from captcha.fields import ReCaptchaField
-from django.forms import Textarea
-from django.db import models
 
 class ThreadForm(forms.ModelForm):
     class Meta(object):
@@ -21,7 +19,7 @@ class QuickPostForm(forms.ModelForm):
     
     def __init__(self, *args, **kwargs):
         super(QuickPostForm, self).__init__(*args, **kwargs)
-        self.fields['message'].widget = Textarea(attrs={'rows':4})
+        self.fields['message'].widget = forms.Textarea(attrs={'rows':4})
     
           
 class PostAnonymousForm(forms.ModelForm):

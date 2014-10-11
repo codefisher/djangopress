@@ -81,7 +81,7 @@ class UserProfile(models.Model):
 
     def check_activate_key(self, hsh):
         return (hsh == self.activate_key
-                and timezone.make_aware(datetime.datetime.utcnow(), timezone.get_default_timezone()) <= self.activate_key_expirary)
+                and timezone.now() <= self.activate_key_expirary)
 
 class UserProperty(Property):
     user_profile = models.ForeignKey(User, related_name="properties")

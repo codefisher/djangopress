@@ -2,11 +2,10 @@ import datetime
 from itertools import chain
 import re
 
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.conf import settings
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db import models
-from django.http import HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
@@ -22,7 +21,7 @@ from django.utils.encoding import force_str
 try:
     import akismet
 except ImportError:
-    pass
+    akismet = None
 
 def get_forum(forums_slug):
     return get_object_or_404(ForumGroup, slug=forums_slug, sites__id__exact=settings.SITE_ID)
@@ -63,8 +62,8 @@ def view_forum(request, forums_slug, forum_id, page=1):
     try:
         threads = paginator.page(page)
     except (EmptyPage, InvalidPage):
-        return HttpResponseRedirect(forum.get_absolute_url(paginator.num_pages))
-
+        if page != 1:
+            return redirect(forum.get_absolute_url(paginator.num_pages))
     data = {
         "forums": forums,
         "forum": forum,
@@ -74,7 +73,9 @@ def view_forum(request, forums_slug, forum_id, page=1):
     return render(request, 'forum/forum.html' , data)
 
         
-def check_askmet_spam(request, post, form):
+def check_askmet_spam(request, form):
+    if not akismet:
+        return False
     api = akismet.Akismet()
     api.setAPIKey(settings.AKISMET_API_KEY)
     if api.verify_key():
@@ -166,7 +167,8 @@ def view_thread(request, forums_slug, thread_id, page=1):
     try:
         posts = paginator.page(page)
     except (EmptyPage, InvalidPage):
-        return HttpResponseRedirect(thread.get_absolute_url(paginator.num_pages))
+        if page != 1:
+            return redirect(thread.get_absolute_url(paginator.num_pages))
     thread.num_views = models.F('num_views') + 1
     thread.save()
     
@@ -181,7 +183,7 @@ def view_thread(request, forums_slug, thread_id, page=1):
 
 def view_post(request, forums_slug, post_id):
     post = get_object_or_404(Post, pk=post_id)
-    return HttpResponseRedirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post_id))
+    return redirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post_id))
 
 def last_post(request, forums_slug, thread_id):
     thread = get_object_or_404(Thread, pk=thread_id)
@@ -189,17 +191,17 @@ def last_post(request, forums_slug, thread_id):
                     ).select_related('author', 'thread').order_by('posted')
     if not post:
         raise Http404
-    return HttpResponseRedirect("%s#p%s" % (thread.get_absolute_url(post.get_page()), post.pk))
+    return redirect("%s#p%s" % (thread.get_absolute_url(post.get_page()), post.pk))
 
 def process_post(request, thread, post_form, forums):
     post = post_form.save(commit=False)
     if request.user.is_authenticated():
         forum_profile, created = ForumUser.objects.get_or_create(user=request.user)
-        if forum_profile.notify == 'AL' and not request.user.forum_forum_subscriptions.exists():
+        if forum_profile.notify == 'AL' and not request.user.forum_forum_subscriptions.filter(pk=thread.forum.pk).exists():
             thread.subscriptions.add(request.user)
         post.author = request.user
     try:
-        spam = check_askmet_spam(request, post, post_form)
+        spam = check_askmet_spam(request, post_form)
         post.is_spam = spam
         if spam and request.user.is_authenticated():
             profile = request.user.profile
@@ -292,7 +294,7 @@ def report_post(request, forums_slug, post_id):
             if request.user.is_authenticated():
                 report.reported_by = request.user
             report.save()
-        return HttpResponseRedirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post.pk))
+        return redirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post.pk))
     else:
         report_form = ReportForm()
     data = {
@@ -329,7 +331,7 @@ def edit_post(request, forums_slug, post_id):
             post.edited = datetime.datetime.now()
             post.edited_by = request.user
             post.save()
-            return HttpResponseRedirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post.pk))
+            return redirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post.pk))
     else:
         edit_form = PostEditForm(instance=post)
         if post == post.thread.first_post:
@@ -347,15 +349,15 @@ def post_action(request, forums_slug, post_id, redirect_before, do_action, name,
     forums = get_forum(forums_slug)
     post = get_object_or_404(Post, pk=post_id)
     if not has_permission(request, 'forum', permission):
-        return HttpResponseRedirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post.pk))
+        return redirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post.pk))
     if request.method == 'POST' and request.POST.get('post'):
         if redirect_before:
-            redirect = HttpResponseRedirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post.pk))
+            redirect_responce = redirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post.pk))
         do_action(post)
         post.save()
         if not redirect_before:
-            redirect = HttpResponseRedirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post.pk))
-        return redirect
+            redirect_responce = redirect("%s#p%s" % (post.thread.get_absolute_url(post.get_page()), post.pk))
+        return redirect_responce
     data = {
             "post": post,
             "title": name,
@@ -462,11 +464,11 @@ def show_post_list(request, forums, threads_query, title, page, url_name, url_ar
     try:
         threads = paginator.page(page)
     except (EmptyPage, InvalidPage):
-        if not url_args:
-            url_args = {}
-        url_args["page"] = paginator.num_pages
-        return HttpResponseRedirect(reverse(url_name, kwargs=url_args))
-
+        if page != 1:
+            if not url_args:
+                url_args = {}
+            url_args["page"] = paginator.num_pages
+            return redirect(reverse(url_name, kwargs=url_args))
     data = {
         "forums": forums,
         "title": title,
@@ -479,15 +481,15 @@ def moved_forum(request, forums_slug):
     fid = request.GET.get('id')
     if not re.match(r'^\d+$', str(fid)):
         raise Http404
-    return HttpResponseRedirect(reverse('forum-view', kwargs={'forum_id': fid}))
+    return redirect(reverse('forum-view', kwargs={'forum_id': fid}))
 
 def moved_thread(request, forums_slug):
     if request.GET.get('pid'):
         pid = request.GET.get('pid')
         if not re.match(r'^\d+$', str(pid)):
             raise Http404
-        return HttpResponseRedirect(reverse('forum-view-post', kwargs={'post_id': pid}))
+        return redirect(reverse('forum-view-post', kwargs={'post_id': pid}), permanent=True)
     tid = request.GET.get('id')
     if not re.match(r'^\d+$', str(tid)):
         raise Http404
-    return HttpResponseRedirect(reverse('forum-view-thread', kwargs={'thread_id': tid}))
+    return redirect(reverse('forum-view-thread', kwargs={'thread_id': tid}), permanent=True)

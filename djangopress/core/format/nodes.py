@@ -10,7 +10,7 @@ from django.core.exceptions import ValidationError
 def render(string, data, **kwargs):
     return Template(string).render(Context(data))
 
-tag_name_re = re.compile('([^\w\*\-#])')
+tag_name_re = re.compile(r'([^\w\*\-#/])')
 
 def tag_arguments(contents):
     def strip_quotes(value):
@@ -277,7 +277,6 @@ class Library(object):
         if stop_at == None:
             stop_at = ()
         def func(parser, token):
-            _, arg, kargs = tag_arguments(token.contents)
             if can_contain_self:
                 nodelist = parser.parse(('/%s' % tag_name,))
             else:

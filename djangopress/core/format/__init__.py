@@ -115,25 +115,24 @@ try:
     # the Django function because it is easier
     import textile
     def format_textile(text, *args, **kargs):
-        return textile(text)
+        return mark_safe(textile(text))
     Library.add("textile", format_textile, True, "Textile")
 except ImportError:
     pass
 
-"""
 try:
     import markdown
+    import bleach
     def format_markdown(text, *args, **kargs):
-        return markdown(text)
+        return mark_safe(markdown.markdown(bleach.clean(text)))
     Library.add("markdown", format_markdown, True, "Markdown")
 except ImportError:
     pass
 
 try:
-    from docutils.core import publish_parts
+    from restructed_text import html_body
     def format_restructuredtext(text, *args, **kargs):
-        return restructuredtext(text)
+        return mark_safe(html_body(text))
     Library.add("restructuredtext", format_restructuredtext, True, "reStructuredText")
 except ImportError:
     pass
-"""

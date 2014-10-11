@@ -13,17 +13,7 @@ from djangopress.iptools import urls as iptools_urls
 #from django.contrib import databrowse
 #from django.contrib.auth.decorators import login_required
 
-# Uncomment the next two lines to enable the admin:
-from django.contrib import admin
-admin.autodiscover()
-
 urlpatterns = patterns('',
-    # Uncomment the admin/doc line below to enable admin documentation:
-    (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
-    (r'^admin/', include(admin.site.urls)),
-
     # the blog system
     (r'^(?P<blog_slug>[\w\-]+)/blog/', include(blog_urls)),
     (r'^news/', include(blog_urls), {"blog_slug": "news"}),

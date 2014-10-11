@@ -7,6 +7,9 @@
     </div>
     <form action="{% url 'forum-new-thread' forums_slug=forums.slug forum_id=forum.pk %}" method="post">
         {% csrf_token %}
+        {% if not request.user.is_authenticated %}
+        <p><small>Please note that you are not <a href="{% url 'login' %}?next={{request.path}}">logged in</a>.  This post will not be connected to your account, and you will not receive notifications of replies.</small></p>
+        {% endif %}
         <fieldset>
             <legend>Message</legend>
             {{ thread_form.as_p }}

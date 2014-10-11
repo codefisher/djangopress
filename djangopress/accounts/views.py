@@ -1,5 +1,5 @@
 
-from django.shortcuts import Http404, render, get_object_or_404, HttpResponseRedirect
+from django.shortcuts import Http404, render, get_object_or_404, redirect
 from djangopress.accounts.forms import UserForm
 from django.contrib.auth.models import User
 from django.contrib.auth.views import redirect_to_login
@@ -38,8 +38,8 @@ def send_activate_email(request, user, resend=False):
     except BadHeaderError:
         return Http404('Invalid header found.')
     if resend:
-        return HttpResponseRedirect(reverse('accounts-activation-resent', kwargs={"username": user.username}))
-    return HttpResponseRedirect(reverse('accounts-registered', kwargs={"username": user.username}))
+        return redirect(reverse('accounts-activation-resent', kwargs={"username": user.username}))
+    return redirect(reverse('accounts-registered', kwargs={"username": user.username}))
 
 def registered(request, username):
     user = get_object_or_404(User, username=username)
@@ -64,7 +64,7 @@ def resent_activation(request, username):
 def register(request):
     if request.user.is_authenticated():
         # logged in users can't register
-        return HttpResponseRedirect(reverse('accounts-profile'))
+        return redirect(reverse('accounts-profile'))
     data = {}
     if request.method == 'POST':
         form = UserForm(request.POST)
@@ -99,15 +99,15 @@ def activate(request, username, activate_key):
     user = get_object_or_404(User, username=username)
     profile = user.profile
     if user.profile.banned:
-        return HttpResponseRedirect(reverse('accounts-banned', kwargs={"username": username.username}))
+        return redirect(reverse('accounts-banned', kwargs={"username": username.username}))
     if user.is_active:
-        return HttpResponseRedirect(reverse('accounts-already-activated', kwargs={"username": user.username}))
+        return redirect(reverse('accounts-already-activated', kwargs={"username": user.username}))
     if profile.check_activate_key(activate_key):
         user.is_active = True
         user.save()
-        return HttpResponseRedirect(reverse('accounts-activated', kwargs={'username': user.username}))
+        return redirect(reverse('accounts-activated', kwargs={'username': user.username}))
     else:
-        return HttpResponseRedirect(reverse('accounts-activation-invalid', kwargs={'username': user.username}))
+        return redirect(reverse('accounts-activation-invalid', kwargs={'username': user.username}))
 
 def reactivate(request, username):
     """Resend the users activation email"""
@@ -115,7 +115,7 @@ def reactivate(request, username):
         user = get_object_or_404(User, username=username)
         if not user.is_active:
             if user.profile.banned:
-                return HttpResponseRedirect(reverse('accounts-banned', kwargs={"username": username.username}))
+                return redirect(reverse('accounts-banned', kwargs={"username": username.username}))
             else:
                 profile = user.profile
                 profile.set_activate_key()
@@ -144,7 +144,8 @@ def user_list(request, page=1):
     try:
         users = paginator.page(page)
     except (EmptyPage, InvalidPage):
-        return HttpResponseRedirect(user_list_page.get_absolute_url(paginator.num_pages))
+        if page != 1:
+            return redirect(user_list_page.get_absolute_url(paginator.num_pages))
 
     data = {
         "users": users,
