@@ -10,8 +10,9 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.template.loader import render_to_string
-from django.http.response import Http404
-from djangopress.forum.models import ForumGroup, ForumCategory, Forum, Thread, Post, ForumUser, THREADS_PER_PAGE, POSTS_PER_PAGE
+from django.http.response import Http404, HttpResponseRedirect
+from django.contrib import messages
+from djangopress.forum.models import ForumGroup, ForumCategory, Forum, Thread, Post, ForumUser
 from djangopress.core.util import get_client_ip, has_permission
 from djangopress.forum.forms import PostAnonymousForm, PostEditForm, PostForm, ReportForm, ThreadForm, QuickPostForm
 from djangopress.accounts.middleware import get_last_seen
@@ -57,7 +58,7 @@ def view_forum(request, forums_slug, forum_id, page=1):
     
     paginator = Paginator(Thread.objects.filter(forum=forum).select_related(
                 'poster', 'last_post__author', 'forum__category__forums'
-            ).exclude(first_post=None).defer('last_post__message').order_by('-sticky', '-last_post_date'), THREADS_PER_PAGE)
+            ).exclude(first_post=None).defer('last_post__message').order_by('-sticky', '-last_post_date'), forums.number_of_threads)
     
     try:
         threads = paginator.page(page)
@@ -162,7 +163,7 @@ def view_thread(request, forums_slug, thread_id, page=1):
     forums = get_forum(forums_slug)
     thread = get_object_or_404(Thread, pk=thread_id)
     paginator = Paginator(Post.objects.filter(thread=thread, is_spam=False, is_public=True
-                    ).select_related('author', 'thread').order_by('posted'), POSTS_PER_PAGE)
+                    ).select_related('author', 'thread').order_by('posted'), forums.number_of_posts)
     
     try:
         posts = paginator.page(page)
@@ -236,9 +237,16 @@ def process_post(request, thread, post_form, forums):
             "thread": thread,
             "forums": forums,
     }
-    responce = render(request, 'forum/post/posted.html' , data)
-    if not post.is_spam and post.is_public:
-        responce["Refresh"] = "3;%s" % reverse('forum-view-post', kwargs={"forums_slug": forums.slug, "post_id": post.pk})
+    if forums.post_redirect_delay:
+        responce = render(request, 'forum/post/posted.html' , data)
+        if not post.is_spam and post.is_public:
+            responce["Refresh"] = "%s;%s" % (forums.post_redirect_delay, reverse('forum-view-post', kwargs={"forums_slug": forums.slug, "post_id": post.pk}))
+    else:
+        if not post.is_spam and post.is_public:
+            messages.add_message(request, messages.SUCCESS, "Your post has been made.")
+        else:
+            messages.add_message(request, messages.WARNING, "Your post was made, but will not be public till it has been view by an administrator.")
+        responce = HttpResponseRedirect(post.get_absolute_url())
     return responce, post
 
 def reply_thread(request, forums_slug, thread_id):
@@ -459,7 +467,7 @@ def show_user_posts(request, forums_slug, user_id=None, page=1):
 def show_post_list(request, forums, threads_query, title, page, url_name, url_args=None):
     paginator = Paginator(threads_query.select_related(
                 'poster', 'last_post__author', 'forum__category__forums'
-            ).defer('last_post__message').order_by('-sticky', '-last_post_date'), THREADS_PER_PAGE)
+            ).defer('last_post__message').order_by('-sticky', '-last_post_date'), forums.number_of_threads)
     
     try:
         threads = paginator.page(page)

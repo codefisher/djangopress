@@ -38,7 +38,7 @@ class ForumGroupAdmin(admin.ModelAdmin):
             'classes': ('collapse',),
             'fields': ('format', 'show_announcement', 'announcement', 'number_of_threads',
                        'number_of_posts', 'show_smilies', 'display_images', 'make_links', 
-                       'show_avatars', 'show_signature', 'show_quick_post')
+                       'show_avatars', 'show_signature', 'show_quick_post', 'post_redirect_delay')
         }),    
     )
 admin.site.register(ForumGroup, ForumGroupAdmin)

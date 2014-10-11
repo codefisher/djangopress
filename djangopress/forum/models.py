@@ -6,9 +6,6 @@ from django.core.urlresolvers import reverse
 from djangopress.core.format import Library
 from djangopress.core import format
 
-THREADS_PER_PAGE = 40
-POSTS_PER_PAGE = 10
-
 class ForumGroup(models.Model):
     
     class Meta:
@@ -33,6 +30,7 @@ class ForumGroup(models.Model):
     show_avatars = models.BooleanField(default=True)
     show_signature = models.BooleanField(default=True) 
     show_quick_post = models.BooleanField(default=True)
+    post_redirect_delay = models.IntegerField(default=3, help_text="How long to show the successful post page, before redirecting.  Set to 0 to disable.")
     
     def __unicode__(self):
         return self.name
@@ -217,7 +215,7 @@ class Post(models.Model):
         return self.author.username
     
     def get_page(self):
-        return Post.objects.filter(thread=self.thread, posted__lt=self.posted).order_by('posted').count()/POSTS_PER_PAGE +1
+        return Post.objects.filter(thread=self.thread, posted__lt=self.posted, is_spam=False, is_public=True).order_by('posted').count()/(self.thread.forum.category.forums.number_of_posts + 1)
     
     def get_absolute_url(self):
         return reverse('forum-view-post', kwargs={"forums_slug": self.thread.forum.category.forums.slug, 'post_id': self.pk})

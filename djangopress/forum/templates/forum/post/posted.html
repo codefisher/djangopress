@@ -12,7 +12,7 @@
     {% elif not post.is_public %}
         Your post was made, but will not be public till it has been view by an administrator.  <a href="{% url 'forum-last-post' forums_slug=forums.slug thread_id=thread.pk %}">Return to Thread</a>
     {% else %}
-        Thank you for posting at our forums! You will be directed back to your post in 3 seconds. <a href="{{ post.get_absolute_url }}">View Your Post</a>
+        Thank you for posting at our forums! You will be directed back to your post in {{ forums.post_redirect_delay }} second{{ forums.post_redirect_delay|pluralize }}. <a href="{{ post.get_absolute_url }}">View Your Post</a>
     {% endif %}
      </p></div>
 {% endblock %}
