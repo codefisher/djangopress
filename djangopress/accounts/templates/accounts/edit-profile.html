@@ -2,6 +2,8 @@
 {% load field_form %}
 
 {% block content %}
+    <h1>{% if user.profile.avatar %}<img alt="" style="vertical-align:middle;" src="{{ user.profile.avatar.url }}">{% endif %}
+        {{ user.username }}</h1>
     <div class="content-box">
         {% for tab_name, profile in profiles %}
             {% if not forloop.first %} &bull; {% endif %}
@@ -9,7 +11,7 @@
         {% endfor %}
     </div>
     <h2>{{ profile_label }}</h2>
-    <form action="{% url 'accounts-profile' tab=tab username=user.username %}" method="POST" class="field-form">
+    <form action="{% url 'accounts-profile' tab=tab username=user.username %}" enctype="multipart/form-data" method="POST" class="field-form">
         {% for form in profile_data.forms %}
             {% if form.is_text %}
                 {{ form|safe }}

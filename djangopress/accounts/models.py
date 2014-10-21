@@ -12,6 +12,10 @@ from django.db.models.signals import post_save
 from djangopress.core.models import Property
 from djangopress.core.format import Library
 from django.utils import timezone
+from PIL import Image
+
+def avatar_path(instance, filename):
+    return ("avatars/%s/%s-%s-%s" % (time.strftime("%y/%m"), instance.user.pk, instance.user.username.lower(), filename.lower()))
 
 class UserProfile(models.Model):
     EMAIL_SETTINGS = (
@@ -24,8 +28,7 @@ class UserProfile(models.Model):
     homepage = models.CharField(max_length=100, blank=True, null=True)
     #IM contact (jabber, icq, msn, aim, yahoo, gtalk, twitter, facebook)
     location = models.CharField(max_length=50, blank=True, null=True)
-    avatar = models.ImageField(blank=True, null=True,
-            upload_to=os.path.join(settings.MEDIA_UPLOAD, "avatars"))
+    avatar = models.ImageField(blank=True, null=True, upload_to=avatar_path)
     signature = models.TextField(blank=True, null=True)
     timezone = models.CharField(max_length=20, null=True, blank=True)
     language = models.CharField(max_length=20, null=True, blank=True)
@@ -53,21 +56,30 @@ class UserProfile(models.Model):
     def __init__(self, *args, **kwargs):
         super(UserProfile, self).__init__(*args, **kwargs)
         self._banned = self.banned
+        self._avatar = self.avatar
 
     def save(self, force_insert=False, force_update=False):
         if self._banned == False and self.banned == True:
             # if we banned them, they can't then login
             self.user.is_active = False
             self.user.save()
+        if self._avatar != self.avatar and self.avatar:
+            image = Image.open(self.avatar)
+            size = settings.ACCOUNTS_USER_LIMITS.get('avatar', {}).get('size', 50)
+            image.resize((size, size), Image.ANTIALIAS)
+            image.save(self.avatar.path)
         super(UserProfile, self).save(force_insert, force_update)
         self._banned = self.banned
+        self._avatar = self.avatar
     
     def get_signature(self, *args, **kargs):
         if not self.signature:
             return ""
         try:
+            use_images = settings.ACCOUNTS_USER_LIMITS.get('signature', {}).get('images', True)
+            use_links = settings.ACCOUNTS_USER_LIMITS.get('signature', {}).get('links', True)
             bbcode = Library.get("bbcode").get("function")
-            return bbcode(self.signature, *args, **kargs)
+            return bbcode(self.signature, show_images=use_images, should_urlize=use_links, render_links=use_links, *args, **kargs)
         except:
             return ""
 

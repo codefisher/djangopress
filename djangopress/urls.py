@@ -53,7 +53,7 @@ from djangopress.sitemap import sitemap_patterns
 urlpatterns += sitemap_patterns
 
 from local_urls import urlpatterns as locale_urls
-urlpatterns += locale_urls
+urlpatterns = locale_urls + urlpatterns
 
 from codefisher_apps.downloads.urls import urlpatterns as download_urls
 urlpatterns += download_urls

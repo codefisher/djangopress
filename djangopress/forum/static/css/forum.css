@@ -32,6 +32,10 @@
     margin:0.5em;
 }
 
+.post-content img {
+    max-width: 100%;
+}
+
 .post-content-row {
     vertical-align:text-top;
 }

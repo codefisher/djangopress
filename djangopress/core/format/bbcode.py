@@ -18,6 +18,13 @@ class BBcodeImg(LinkNode):
             return self.kargs.get("alt", "")
         return super(BBcodeImg, self).render(context, **kwargs)
 
+class BBcodeLink(LinkNode):
+    def render(self, context, render_links=True, **kwargs):
+        if not render_links:
+            data = self._render(context, **kwargs)
+            return "%s (%s)" % (data.get("content"), data.get("attrs").get("href"))
+        return super(BBcodeLink, self).render(context, **kwargs)
+
 class BBcodeText(TextNode):
     def render(self, context, nofollow=True, trim_url_limit=None, smilies=True, should_urlize=True, **kwargs):
         if smilies:
@@ -51,7 +58,7 @@ def code(parser, token):
 
 for tag in ["url", "link"]:
     BBcodeLibrary.link_tag(tag, link_arg='href', node_name='a',
-        arg_name='href', attrs=('title', ))
+        arg_name='href', attrs=('title', ), cls=BBcodeLink)
 for tag in ["img", "image"]:
     BBcodeLibrary.link_tag(tag, link_arg='src', node_name='img', arg_name="src",
             attrs=("width", "height", "alt", "title"), closes=False, content_attr="alt", cls=BBcodeImg)

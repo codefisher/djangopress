@@ -15,3 +15,8 @@ def has_permission(request, app, name):
     else:
         group = Group.objects.get(name=settings.ANONYMOUS_USER_GROUP)
         return bool(group.permissions.filter(codename=name))
+
+def choose_form(request, authenticated, anonymous, *args, **kargs):
+    if request.user.is_authenticated():
+        return authenticated(*args, **kargs)
+    return anonymous(*args, **kargs)

@@ -13,12 +13,15 @@
             <li class="username"><a href="{{ post.author.profile.get_absolute_url }}">{{ post.author.username }}</a>
             	{% ip_country_flag post.author.profile.get_ip %}
             </li>
+            {% if post.author.profile.avatar %}
+                <li><a href="{{ post.author.profile.get_absolute_url }}"><img alt="" src="{{ post.author.profile.avatar.url }}"></a></li>
+            {% endif %}
             <li>{{ post.author.profile.title }}</li>
             <li>Registered: {{ post.author.date_joined|date }}</li>
             <li>Posts: {{ post.author.forum_profile.num_posts }}</li>
             <li>{% user_status post.author %}</li>
         {% else %}
-            <li class="username">{{ post.poster_name }}</li>
+            <li class="username">{{ post.poster_name }} {% ip_country_flag post.ip %}</li>
             <li>Guest</li>
         {% endif %}
         </ul>
@@ -42,6 +45,6 @@
 {% if use_controls %}
 <tr>
     <td> </td>
-    <td class="post-actions">{% post_actions post request %}</td>
+    <td class="post-actions">{% post_actions post %}</td>
 </tr>
 {% endif %}

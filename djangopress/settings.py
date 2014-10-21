@@ -55,6 +55,7 @@ MIDDLEWARE_CLASSES = (
     'codefisher_apps.reverseproxy.middleware.ProxyMiddleware',
     'djangopress.pages.middleware.PagesMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'djangopress.accounts.middleware.TimezoneMiddleware',
@@ -99,6 +100,7 @@ INSTALLED_APPS = (
     'djangopress.forum',
     'djangopress.donate',
     'djangopress.iptools',
+    'paypal.standard',
     'paypal.standard.ipn',
     'djangopress.contact',
 )

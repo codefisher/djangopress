@@ -18,7 +18,7 @@ class TagAdmin(admin.ModelAdmin):
 admin.site.register(Tag, TagAdmin)
 
 class CommentAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('entry', 'submit_date', 'is_public', 'is_spam')
 admin.site.register(Comment, CommentAdmin)
 
 class FlagAdmin(admin.ModelAdmin):

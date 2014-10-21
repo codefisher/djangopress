@@ -35,8 +35,9 @@ def show_latest_posts(forums_slug, number=5):
         "threads": threads,
     }
 
-@register.inclusion_tag('forum/post/actions.html')
-def post_actions(post, request):
+@register.inclusion_tag('forum/post/actions.html', takes_context=True)
+def post_actions(context, post):
+    request = context['request']
     forum_slug = post.thread.forum.category.forums.slug
     kwargs = {"forums_slug": forum_slug, 'post_id': post.id}
     actions = [{"name": "Report", "url": reverse("forum-report-post", kwargs=kwargs)}]
@@ -64,8 +65,9 @@ def post_actions(post, request):
             "actions": actions
     }
     
-@register.inclusion_tag('forum/thread/actions.html')
-def thread_actions(thread, request):
+@register.inclusion_tag('forum/thread/actions.html', takes_context=True)
+def thread_actions(context, thread):
+    request = context['request']
     forum_slug = thread.forum.category.forums.slug
     kwargs = {"forums_slug": forum_slug, "thread_id": thread.pk}
     actions = []

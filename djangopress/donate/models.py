@@ -17,12 +17,14 @@ def update_donation(sender, **kwargs):
     ipn_obj = sender
     if ipn_obj.payment_status == "Completed":
         # Undertake some action depending upon `ipn_obj`.
-        donation = Donation.objects.get(invoice_id=ipn_obj.invoice)
-        if donation:
-            donation.validated = True
-            donation.amount = ipn_obj.mc_gross
-            donation.payment = ipn_obj
-            donation.save()
+        try:
+            donation = Donation.objects.get(invoice_id=ipn_obj.invoice)
+        except Donation.DoesNotExist:
+            return
+        donation.validated = True
+        donation.amount = ipn_obj.mc_gross
+        donation.payment = ipn_obj
+        donation.save()
     else:
         pass # not a good payment
 payment_was_successful.connect(update_donation)

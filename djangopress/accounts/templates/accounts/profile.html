@@ -14,7 +14,7 @@
         <td>Real Name</td><td>{{ user.first_name }} {{ user.last_name }}</td>
     </tr>
     <tr>
-        <td>Website</td><td>{% if user.profile.homepage %}<a href="{{ user.profile.homepage }}">{{ user.profile.homepage }}</a>{% endif %}</td>
+        <td>Website</td><td>{% if user.profile.homepage %}<a rel="external nofollow" href="{{ user.profile.homepage }}">{{ user.profile.homepage }}</a>{% endif %}</td>
     </tr>
     <tr>
         <td>Status</td><td>{% user_status user %}</td>
