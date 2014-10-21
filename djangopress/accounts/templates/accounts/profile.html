@@ -23,6 +23,6 @@
 {% if user.profile.signature %}
  <h3> Signature </h3>
  <div class="content-box">
-     {{ user.profile.get_signature|safe }}
+     {% show_signature user %}
  </div>
 {% endif %}

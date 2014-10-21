@@ -2,6 +2,8 @@ from django import template
 from django.core.urlresolvers import reverse
 from urlparse import urlparse, urlunparse
 from django.contrib.auth.forms import AuthenticationForm
+from django.conf import settings
+from djangopress.core.format import Library
 
 register = template.Library()
 
@@ -21,3 +23,15 @@ def login_form(context, next_url=None):
            "next": next_url if next_url else context['request'].path,
            "form":  AuthenticationForm(context['request']),
     }
+    
+@register.simple_tag(takes_context=True)
+def show_signature(context, user):
+    if not user.profile.signature:
+        return ""
+    try:
+        use_images = settings.ACCOUNTS_USER_LIMITS.get('signature', {}).get('images', True)
+        use_links = settings.ACCOUNTS_USER_LIMITS.get('signature', {}).get('links', True)
+        bbcode = Library.get("bbcode").get("function")
+        return bbcode(user.profile.signature, context=context, show_images=use_images, should_urlize=use_links, render_links=use_links)
+    except:
+        return ""

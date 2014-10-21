@@ -1,6 +1,7 @@
 {% load forum_tags %}
 {% load online_status_tags %}
 {% load iptools_tags %}
+{% load accounts %}
 
 <tr class="post-title-row">
     <td class="post-date"><a rel="nofollow" href="{{ post.get_absolute_url }}">{{ post.posted }}</a></td>
@@ -33,7 +34,7 @@
             <div class="post-content">{% format_post post user %}</div>
             {% if post.author.profile.signature and forums.show_signature and user.forum_profile.show_sig %}
             <div class="signature"> <hr />
-             {{ post.author.profile.get_signature|safe }}</div>
+             {% show_signature post.author %}</div>
             {% endif %}
             {% if post.edited_by %}
                 <div class="edit-message"> <hr />

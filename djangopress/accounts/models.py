@@ -10,7 +10,6 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from djangopress.core.models import Property
-from djangopress.core.format import Library
 from django.utils import timezone
 from PIL import Image
 
@@ -72,17 +71,6 @@ class UserProfile(models.Model):
         self._banned = self.banned
         self._avatar = self.avatar
     
-    def get_signature(self, *args, **kargs):
-        if not self.signature:
-            return ""
-        try:
-            use_images = settings.ACCOUNTS_USER_LIMITS.get('signature', {}).get('images', True)
-            use_links = settings.ACCOUNTS_USER_LIMITS.get('signature', {}).get('links', True)
-            bbcode = Library.get("bbcode").get("function")
-            return bbcode(self.signature, show_images=use_images, should_urlize=use_links, render_links=use_links, *args, **kargs)
-        except:
-            return ""
-
     def set_activate_key(self):
         salt = hashlib.sha1(str(random.random()) + str(random.random())).hexdigest()[:5]
         key = "".join(str(item) for item in (self.user.username,
