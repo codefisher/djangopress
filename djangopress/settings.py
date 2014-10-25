@@ -63,7 +63,6 @@ MIDDLEWARE_CLASSES = (
     'codefisher_apps.online_status.middleware.OnlineStatusMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
 ROOT_URLCONF = 'djangopress.urls'

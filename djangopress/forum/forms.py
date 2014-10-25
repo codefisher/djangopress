@@ -12,14 +12,12 @@ class PostForm(forms.ModelForm):
         fields = ("message","show_similies")
         model = Post
         
-class QuickPostForm(forms.ModelForm):
-    class Meta(object):
-        fields = ("message",)
-        model = Post
+class QuickPostForm(PostForm):
     
     def __init__(self, *args, **kwargs):
         super(QuickPostForm, self).__init__(*args, **kwargs)
         self.fields['message'].widget = forms.Textarea(attrs={'rows':4})
+        self.fields['show_similies'].widget = forms.HiddenInput()
     
           
 class PostAnonymousForm(forms.ModelForm):

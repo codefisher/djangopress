@@ -240,7 +240,7 @@ def process_post(request, thread, post_form, forums):
     if forums.post_redirect_delay:
         responce = render(request, 'forum/post/posted.html' , data)
         if not post.is_spam and post.is_public:
-            responce["Refresh"] = "%s;%s" % (forums.post_redirect_delay, reverse('forum-view-post', kwargs={"forums_slug": forums.slug, "post_id": post.pk}))
+            responce["Refresh"] = "%s;%s" % (forums.post_redirect_delay, post.get_absolute_url())
     else:
         if not post.is_spam and post.is_public:
             messages.add_message(request, messages.SUCCESS, "Your post has been made.")
@@ -486,18 +486,20 @@ def show_post_list(request, forums, threads_query, title, page, url_name, url_ar
     return render(request, 'forum/thread/list.html' , data)
 
 def moved_forum(request, forums_slug):
+    forums = get_forum(forums_slug)
     fid = request.GET.get('id')
     if not re.match(r'^\d+$', str(fid)):
         raise Http404
-    return redirect(reverse('forum-view', kwargs={'forum_id': fid}))
+    return redirect(reverse('forum-view', kwargs={"forums_slug": forums.slug, 'forum_id': fid}))
 
 def moved_thread(request, forums_slug):
+    forums = get_forum(forums_slug)
     if request.GET.get('pid'):
         pid = request.GET.get('pid')
         if not re.match(r'^\d+$', str(pid)):
             raise Http404
-        return redirect(reverse('forum-view-post', kwargs={'post_id': pid}), permanent=True)
+        return redirect(reverse('forum-view-post', kwargs={"forums_slug": forums.slug, 'post_id': pid}), permanent=True)
     tid = request.GET.get('id')
     if not re.match(r'^\d+$', str(tid)):
         raise Http404
-    return redirect(reverse('forum-view-thread', kwargs={'thread_id': tid}), permanent=True)
+    return redirect(reverse('forum-view-thread', kwargs={"forums_slug": forums.slug, 'thread_id': tid}), permanent=True)

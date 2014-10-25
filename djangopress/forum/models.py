@@ -183,7 +183,7 @@ class Post(models.Model):
             self.thread.delete()
             
     def _decriment_posts(self):
-        if self.thread and self.thread.last_post_id != None:
+        if self.thread_id and self.thread.last_post_id:
             last_post = self.thread.last_post
         else:
             last_post = None
