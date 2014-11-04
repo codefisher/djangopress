@@ -23,7 +23,7 @@ def user_login(sender, user, request, **kwargs):
         request.session.set_expiry(0)
 user_logged_in.connect(user_login)
 
-def login_failed(sender, credentials):
+def login_failed(sender, credentials, **kwargs):
     pass
 user_login_failed.connect(login_failed)
 
