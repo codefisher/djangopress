@@ -143,14 +143,14 @@ class LinkNode(AttrNode):
         if not self.kargs.get(self.link_arg) and not self.arg:
             self.arg = self.nodelist.contents()
         data = super(LinkNode, self)._render(context, **kwargs)
-        link = data["attrs"].get(self.link_arg)
-        request = context['request']
+        link = data["attrs"].get(self.link_arg)        
+        request = context['request'] if context else None
         if not link:
             return ""
         if link[0] == "#":
             return data
         if link[0] == '/':
-            scheme = "https" if request.is_secure() else "http"
+            scheme = "https" if request and request.is_secure() else "http"
             link = "%s://%s%s" % (scheme, Site.objects.get_current(), link)
         if self.node_name == "a":
             data["attrs"]["rel"] = "external nofollow"

@@ -7,8 +7,8 @@ from djangopress.core.format import Library
 
 register = template.Library()
 
-@register.simple_tag
-def format_post(post, user=None):
+@register.simple_tag(takes_context=True)
+def format_post(context, post, user=None):
     formating = Library.get(post.format).get("function")
     smilies = post.show_similies
     show_images = True
@@ -18,7 +18,7 @@ def format_post(post, user=None):
     forms = post.thread.forum.category.forums
     show_images = show_images and forms.display_images
     smilies = smilies and forms.show_smilies
-    return formating(post.message, smilies=smilies, show_images=show_images, should_urlize=forms.make_links)
+    return formating(post.message, context=context, smilies=smilies, show_images=show_images, should_urlize=forms.make_links)
 
 @register.inclusion_tag('forum/post/latest.html')
 def show_latest_posts(forums_slug, number=5):
