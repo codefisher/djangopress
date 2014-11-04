@@ -11,7 +11,7 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from djangopress.accounts.profiles import register as profile_register
 from djangopress import settings
 from djangopress.core.util import get_client_ip
-from django.contrib.auth.signals import user_logged_in
+from django.contrib.auth.signals import user_logged_in, user_login_failed
 
 
 def user_login(sender, user, request, **kwargs):
@@ -22,6 +22,10 @@ def user_login(sender, user, request, **kwargs):
     else:
         request.session.set_expiry(0)
 user_logged_in.connect(user_login)
+
+def login_failed(sender, credentials):
+    pass
+user_login_failed.connect(login_failed)
 
 def send_activate_email(request, user, resend=False):
     site = Site.objects.get_current()
