@@ -24,7 +24,7 @@ def user_login(sender, user, request, **kwargs):
 user_logged_in.connect(user_login)
 
 def login_failed(sender, credentials, **kwargs):
-    pass
+    raise ValueError(credentials)
 user_login_failed.connect(login_failed)
 
 def send_activate_email(request, user, resend=False):

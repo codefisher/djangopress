@@ -48,7 +48,7 @@ def index(request):
     paypal_dict = {
         "business": settings.PAYPAL_RECEIVER_EMAIL,
         "item_name": "Donation to Codefisher.org",
-        "invoice": "simple-donation",
+        "invoice": "simple-donation-%s" % time.strftime("%y%m%d%H%M%S"),
         "notify_url": "https://%s" % request.get_host() + reverse('paypal-ipn'),
         "return_url": "https://%s" % request.get_host() + reverse('donate-thanks'),
         "cancel_return": "https://%s" % request.get_host() + reverse('donate-index'),
