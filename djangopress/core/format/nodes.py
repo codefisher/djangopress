@@ -144,7 +144,7 @@ class LinkNode(AttrNode):
             self.arg = self.nodelist.contents()
         data = super(LinkNode, self)._render(context, **kwargs)
         link = data["attrs"].get(self.link_arg)        
-        request = context['request'] if context else None
+        request = context['request'] if context and 'request' in context else None
         if not link:
             return ""
         if link[0] == "#":
