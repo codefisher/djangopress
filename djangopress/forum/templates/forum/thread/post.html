@@ -32,12 +32,9 @@
             <div class="post-content"><p>This post has been removed.</p></div>
         {% else %}
             <div class="post-content">{% format_post post user %}</div>
-            {% if post.author.profile.signature and forums.show_signature %}
-            {% if not user.is_authenticated or not user.forum_profile or user.forum_profile.show_sig %}
-            <div class="signature"> <hr />
-             {% show_signature post.author %}</div>
-             {% endif %}
-            {% endif %}
+            {% should_show_signiture %}
+                <div class="signature"> <hr /> {% show_signature post.author %}</div>
+            {% end_should_show_signiture %}
             {% if post.edited_by %}
                 <div class="edit-message"> <hr />
                     <p>Edited by {{ post.edited_by.username }} on {{ post.edited }}{% if post.edit_reason %}<br /> Reason: {{ post.edit_reason }} {% endif %}</p></div>

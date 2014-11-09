@@ -14,7 +14,7 @@
             <thead>
                 <tr><th>Forum</th><th>Topics</th><th>Posts</th><th>Last Post</th></tr>
             </thead>
-        {% for forum in category.forum.all %}
+        {% for forum in category.get_forums %}
             <tr><td><h3><a href="{{ forum.get_absolute_url }}">{{ forum.name }}</a> </h3>
                 <p>{{ forum.description }}</p>
                 </td>

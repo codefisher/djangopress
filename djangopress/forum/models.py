@@ -59,6 +59,9 @@ class ForumCategory(models.Model):
     
     def __unicode__(self):
         return self.name
+    
+    def get_forums(self):
+        return self.forum.all().order_by('position')
 
 class Forum(models.Model):
     """

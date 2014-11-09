@@ -78,4 +78,24 @@ def thread_actions(context, thread):
             actions.append({"name": "Subscribe", "url": reverse("forum-subscribe", kwargs=kwargs)})
     return {
             "actions": actions
-    }  
+    }
+    
+class SignatureNode(template.Node):
+    def __init__(self, nodelist):
+        self.nodelist = nodelist
+        
+    def render(self, context):
+        post = context.get('post')
+        user = context.get('user')
+        forums = context.get('forums')
+        if ((post.author and post.author.profile.signature and forums.show_signature) 
+            and (not user.is_authenticated() or not hasattr(user, 'forum_profile') or user.forum_profile.show_sig)): 
+            return self.nodelist.render(context)
+        return ""
+    
+def do_should_show_signiture(parser, token):
+    nodelist = parser.parse(('end_should_show_signiture',))
+    parser.delete_first_token()
+    return SignatureNode(nodelist)
+
+register.tag('should_show_signiture', do_should_show_signiture)
