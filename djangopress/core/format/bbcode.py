@@ -23,6 +23,7 @@ class BBcodeLink(LinkNode):
         if not render_links:
             data = self._render(context, **kwargs)
             return "%s (%s)" % (data.get("content"), data.get("attrs").get("href"))
+        kwargs['should_urlize'] = False # don't want links inside links
         return super(BBcodeLink, self).render(context, **kwargs)
 
 class BBcodeText(TextNode):
