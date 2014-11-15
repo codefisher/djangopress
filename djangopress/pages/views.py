@@ -5,7 +5,7 @@ from djangopress.pages.models import Page, PageBlock
 from django.conf import settings
 from django.http import Http404, HttpResponseForbidden, HttpResponsePermanentRedirect
 from djangopress.pages.forms import PageForm, NewBlockForm, TextForm
-
+from django.utils import cache
 
 def show_page(request, path):
     try:
@@ -120,4 +120,6 @@ def page_edit_details(request, page, template_name='pages/editor/details.html'):
 def page_edit_js(request, template_name='pages/js/edit-page.js'):
     if not request.user.has_perm('pages.change_page'):
         return HttpResponseForbidden()
-    return render(request, template_name, content_type="text/javascript")
+    responce = render(request, template_name, content_type="text/javascript")
+    cache.patch_response_headers(responce, cache_timeout=60*60*24*30)
+    return responce
