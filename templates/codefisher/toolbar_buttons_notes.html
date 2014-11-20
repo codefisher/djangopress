@@ -9,8 +9,21 @@
 {% block content_adds %}
 {% endblock %}
 
+{% block sidebar %}
+   <div class="side-bar-item">
+   <h3>Translation, Please Help!</h3>
+    <div class="side-bar-content">
+        Toolbar Buttons depends on volunteers for translations.  Could you be one of them that will help finish many of the incomplete translations?   If you can, please head over to <a href="http://www.babelzilla.org/forum/index.php?showtopic=1868">BabelZilla</a> and sign up to extensions translation team! 
+    </div>
+    </div>
+    {{ block.super }}
+{% endblock %}
+
 {% block content %}
 	<div class="release_notes">
+	    <div class="right"><a href="https://twitter.com/codefisher/">
+	        <img src="{% get_static_prefix %}images/pastel-svg/16/twitter.png" alt="">
+	        Follow me on Twitter</a></div>
 	    <h2>{{ download.title }} {{ download.version }}</h2>
 	    <small>{{ download.description }}</small>
 

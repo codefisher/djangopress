@@ -105,7 +105,8 @@ body {
 	height:1em;	
 }
 #wrapper.no-sidebar {
-    padding:0;
+    padding-right:0;
+    max-width:100%;
 }
 
 #content h1 {

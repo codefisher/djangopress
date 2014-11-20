@@ -17,5 +17,14 @@
      </div>
     </div>
 {% endspaceless %}
-{% block simple-content %}{% endblock %}
+
+{% block simple-content %}
+    <div id="wrapper" class="no-sidebar">
+        <div id="content">
+        {% block content %}
+        {% endblock %}
+        </div>
+    </div>
+{% endblock %}
+
 {% endblock %}

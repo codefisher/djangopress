@@ -15,6 +15,8 @@ def remove_netloc(url):
 def login_next(context, next_url):
     if not next_url or next_url == reverse('logout'):
         next_url = remove_netloc(context.get('request').META.get('HTTP_REFERER', ''))
+        if next_url == reverse('logout'):
+            next_url = "/"
     return next_url
 
 @register.inclusion_tag('accounts/login_form.html', takes_context=True)

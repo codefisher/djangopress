@@ -1,11 +1,52 @@
 from django import template
 from djangopress.forum.views import get_forum
-from djangopress.forum.models import Thread
+from djangopress.forum.models import Thread, Post
 from djangopress.core.util import has_permission
 from django.core.urlresolvers import reverse
 from djangopress.core.format import Library
+import djangopress.core.format.nodes as nodes
 
 register = template.Library()
+
+class TopicNode(nodes.ArgumentedNode):
+    def __init__(self, token, string, arg, kargs, nodelist):
+        super(TopicNode, self).__init__(token, string, arg, kargs, nodelist)
+        
+    def render(self, context, **kwargs):
+        try:
+            topic = Thread.objects.get(pk=self.arg if self.arg else self.kargs.get('id'))
+        except Thread.DoesNotExist:
+            return ''
+        return """<a href="%s">%s</a>""" % (topic.get_absolute_url(), self.nodelist.render(context, **kwargs))
+
+nodes.Library.argumented_tag("topic", '', cls=TopicNode)
+
+class PostNode(nodes.ArgumentedNode):
+    def __init__(self, token, string, arg, kargs, nodelist):
+        super(PostNode, self).__init__(token, string, arg, kargs, nodelist)
+        
+    def render(self, context, **kwargs):
+        try:
+            post = Post.objects.get(pk=self.arg if self.arg else self.kargs.get('id'), is_spam=False, is_public=True)
+        except Post.DoesNotExist:
+            return ''
+        return """<a href="%s">%s</a>""" % (post.get_absolute_url(), self.nodelist.render(context, **kwargs))
+
+nodes.Library.argumented_tag("post", '', cls=PostNode)
+
+class QuoteNode(nodes.ArgumentedNode):
+    def __init__(self, token, string, arg, kargs, nodelist):
+        super(QuoteNode, self).__init__(token, string, arg, kargs, nodelist)
+        
+    def render(self, context, **kwargs):
+        try:
+            post = Post.objects.get(pk=self.kargs.get('post'), is_spam=False, is_public=True)
+            self.kargs["post_url"] = post.get_absolute_url()
+        except Post.DoesNotExist:
+            pass
+        return super(QuoteNode, self).render(context, **kwargs)
+
+nodes.Library.argumented_tag("quote", '<div class="quote"><span class="title">QUOTE: {% if name %}{{ name }}{% endif %}{% if date %} @ {{ date }}{% endif %}{% if post_url %} <a href="{{post_url}}">*</a>{% endif %}</span><blockquote>{{ content }}</blockquote></div>', cls=QuoteNode)
 
 @register.simple_tag(takes_context=True)
 def format_post(context, post, user=None):

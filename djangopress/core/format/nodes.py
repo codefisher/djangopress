@@ -226,7 +226,7 @@ class Library(object):
         if tag:
             return tag
         elif cls != Library:
-            return Library.get(name)
+            return cls.__bases__[0].get(name)
         raise KeyError
 
     @classmethod
@@ -275,7 +275,7 @@ class Library(object):
         self.tag(tag_name, func)
 
     @classmethod
-    def argumented_tag(self, tag_name, string, can_contain_self=False, stop_at=None):
+    def argumented_tag(self, tag_name, string, can_contain_self=False, stop_at=None, cls=ArgumentedNode):
         if stop_at == None:
             stop_at = ()
         def func(parser, token):
@@ -287,7 +287,7 @@ class Library(object):
             name = tag_arguments(parser.tokens[0].contents)[0]
             if name == '/%s' % tag_name:
                 parser.delete_first_token()
-            return ArgumentedNode(token, string, arg, kargs, nodelist)
+            return cls(token, string, arg, kargs, nodelist)
         self.tag(tag_name, func)
 
     @classmethod
