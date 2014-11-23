@@ -9,7 +9,7 @@
 <html>
 <head>
  <meta charset="utf-8"/>
- <title>{% block page_title_prefix %}Codefisher.org :: {% endblock %}{% block page_title %}{{ title|default:"Firefox Add-ons, Code Resources and More" }}{% endblock %}</title>
+ <title>{% block page_title %}{{ title|default:"Firefox Add-ons, Code Resources and More" }}{% endblock %}{% block page_title_prefix %} :: Codefisher.org{% endblock %}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
  {% if debug %}
  <link type="text/css" rel="stylesheet" media="screen and (min-width: 600px)" href="{% get_static_prefix %}themes/default/style.css" />
@@ -71,6 +71,14 @@
   </div>
   </div>
  </div>
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-57011791-1', 'auto');
+  ga('send', 'pageview');
+</script>
 </body>
 </html>
 {% endspaceless %}
