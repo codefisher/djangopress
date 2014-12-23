@@ -55,8 +55,13 @@
 	padding:1em;
 }
 
+.twitter-follow img {
+	vertical-align: top;
+	padding:0 2px;
+}
+
 .footer-detail {
-	padding:1em;
+	padding:0.5em;
 	color:#2a4305;
 }
 

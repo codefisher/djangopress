@@ -2,6 +2,7 @@ import re
 
 from django.utils.safestring import mark_safe
 from django.utils.text import smart_split
+from django.utils.html import smart_urlquote
 from django.template import Template, Context
 from django.core.validators import URLValidator
 from django.contrib.sites.models import Site
@@ -127,7 +128,7 @@ class AttrNode(TagNode):
     def render(self, context, **kwargs):
         data = self._render(context, **kwargs)
         if type(data) == dict:
-            return render('''<{{tag}}{% for attr, value in attrs.items %} {{attr}}="{{value}}"{% endfor %}{% if closes %}>{{ content }}</{{tag}}>{% else %} />{% endif %}''', data)
+            return render('''<{{tag}}{% for attr, value in attrs.items %} {{attr}}="{{value|safe}}"{% endfor %}{% if closes %}>{{ content|safe }}</{{tag}}>{% else %} />{% endif %}''', data)
         return data
 
 url_re = re.compile("([a-z]+)://")
@@ -151,7 +152,10 @@ class LinkNode(AttrNode):
             return data
         if link[0] == '/':
             scheme = "https" if request and request.is_secure() else "http"
-            link = "%s://%s%s" % (scheme, Site.objects.get_current(), link)
+            try:
+                link = "%s://%s%s" % (scheme, Site.objects.get_current(), link)
+            except:
+                pass
         if self.node_name == "a":
             data["attrs"]["rel"] = "external nofollow"
         match_obj = url_re.match(link)
@@ -160,8 +164,8 @@ class LinkNode(AttrNode):
         try:
             url_validator(link)
         except:
-            return data["attrs"].get(self.link_arg)
-        data["attrs"][self.link_arg] = link
+            return data
+        data["attrs"][self.link_arg] = smart_urlquote(link)
         return data
 
 class ArgumentedNode(TagNode):

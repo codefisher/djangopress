@@ -2,10 +2,10 @@
 	{% if previous or next %}
     <div class="previous-next-links">
         {% if previous %}
-            <a class="previous-link" href="{{ previous.get_absolute_url }}">&laquo; {{ previous.title }}</a>
+            <a rel="prev" class="previous-link" href="{{ previous.get_absolute_url }}">&laquo; {{ previous.title }}</a>
         {% endif %}
         {% if next %}
-            <a class="next-link" href="{{ next.get_absolute_url }}">{{ next.title }}  &raquo;</a>
+            <a rel="next" class="next-link" href="{{ next.get_absolute_url }}">{{ next.title }}  &raquo;</a>
         {% endif %}
     </div>
     {% endif %}

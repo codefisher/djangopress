@@ -10,6 +10,7 @@
 .fly-out-menu ul {
     padding:0;
     margin:0;
+    list-style-type:none;
 }
 .fly-out-menu a:active {
     text-decoration:underline;
@@ -23,42 +24,69 @@
     font-size:0.85em;
     color:#fff;
     text-decoration:none;
+    transition: all 0.2s linear;
 }
 .fly-out-menu ul li ul {
     opacity:0;
-    transition: opacity 0.25s linear;
+    visibility:collapse;
+    transform-origin: top;
+    transform: scaleY(0);
+    transition: opacity 0.4s linear, transform .2s linear;
     position:absolute;
 }
 
 /* top level menu item */
-.fly-out-menu .horizontal li {
+.fly-out-menu .horizontal > li {
     float:left;
     display:block;
-    width:160px;
-    background: url(images/top-level-menu.png);
+    width:155px;
     text-shadow: #000000 1px 1px 1px;
     text-align:center;
+    line-height:30px;
+    margin:2px;
+
+    background:rgba(0, 0, 0, 0.0);
+    border-radius:3px 3px 0 0;
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-bottom: 0;
 }
-.fly-out-menu .horizontal .focused,
-.fly-out-menu .horizontal li:hover {
-    /*text-shadow: #000000 2px 2px 2px;*/
-    background-position: 0px 40px;
+.fly-out-menu .horizontal > li.focused,
+.fly-out-menu .horizontal > li:hover {
     cursor:pointer;
+    box-shadow: inset 0px 0px 2px rgba(0, 0, 0, 0.2);
 }
-.fly-out-menu .horizontal li.has-submenu {
-    background-position: 160px 0px;
+
+.fly-out-menu .horizontal > li.has-submenu:after {
+   content: "▼";
+   display: block;
+   text-shadow: none;
+   position:absolute;
+   color:#fff;
+   font-size:5px;
+   top:1px;
+   right:10px;
 }
-.fly-out-menu .horizontal .focused.has-submenu {
-    background-position: 160px 40px;
+
+.fly-out-menu .horizontal .focused.has-submenu:hover:after {
+	text-shadow: #000000 0px 1px 2px;
 }
 
 /* styles for the sub menus */
+.fly-out-menu .horizontal li ul {
+	width:155px;
+	margin-left:-1px; /* because of the border */
+    border: 1px solid rgba(255, 255, 255, 0.2);
+	border-radius:0 0 4px 4px; 
+    background: rgba(14, 18, 12, 0.9);
+}
+
 .fly-out-menu .horizontal li ul li {
-    background: url(images/sub-menu.png) 0px center repeat-y;
     float:none;
     text-align:left;
     text-shadow: #000000 1px 1px 3px;
     padding:8px 0;
+    transition: background 0.4s linear;
 }
 .fly-out-menu .horizontal li ul li a {
     display:block;
@@ -68,12 +96,23 @@
 
 .fly-out-menu .horizontal li ul .focused,
 .fly-out-menu .horizontal li ul li:hover {
-    background-position: -160px center;
+    background: rgba(6, 8, 5, 0.95);
+    border-left: 1px solid rgba(255, 255, 255, 0.3);
+    border-right: 1px solid rgba(255, 255, 255, 0.2);
+    margin:0 -1px;
 }
 .fly-out-menu .horizontal li ul .last-item,
 .fly-out-menu .horizontal li ul li:last-child  {
-    background-position: 0px bottom;
+    border-radius:0 0 4px 4px; 
 }
+
+.fly-out-menu .horizontal li ul ul,
+.fly-out-menu .horizontal li ul ul .last-item,
+.fly-out-menu .horizontal li ul ul li:last-child {
+	border-radius:4px; 
+}
+
+/*
 .fly-out-menu .horizontal li ul .last-item.focused,
 .fly-out-menu .horizontal li ul li:last-child:hover {
     background-position: -160px bottom;
@@ -85,8 +124,10 @@
 .fly-out-menu .horizontal li ul ul .first-item.focused,
 .fly-out-menu .horizontal li ul ul li:first-child:hover {
     background-position: -160px top;
-}
+}*/
+
 /* for those menus with sub menus */
+/*
 .fly-out-menu .horizontal li ul .has-submenu {
     background-position: -320px center;
 }
@@ -105,6 +146,7 @@
 .fly-out-menu .horizontal li ul .has-submenu.focused.last-item {
     background-position: -480px bottom;
 }
+*/
 
 .fly-out-menu .focused > a,
 .fly-out-menu li:hover > a {
@@ -125,6 +167,9 @@
     position:absolute;
     left:0px;
     top:100%;
+    visibility:visible;
+    opacity:1;
+    transform: scaleY(1);
 }
 .fly-out-menu .horizontal .open > ul {
     margin-top:0px; /* non IE 6 */
@@ -137,6 +182,7 @@
     left:100%;
     margin-left:-5px;
     opacity:1;
+    visibility:visible;
 }
 .fly-out-menu ul.vertical .open-left > ul {
     position:absolute;
@@ -144,6 +190,7 @@
     left:-100%;
     margin-right:-5px;
     opacity:1;
+    visibility:visible;
 }
 /* style rules used just when there is no JavaScript enabled.
    very minimlist with few features.  Will not work in IE 6 */

@@ -14,6 +14,10 @@ function FlyOutMenu(menuId) {
         function(event) {
             return self.mouseover(event);
         },  true);
+    this.setEventListener(menuRoot, 'tap',
+        function(event) {
+            return self.tap(event);
+        },  true);
     this.setEventListener(menuRoot, 'mouseout',
         function(event) {
             return self.mouseout(event);
@@ -52,7 +56,7 @@ FlyOutMenu.prototype.setUpMenu = function(node, depth) {
         subMenu = this.firstChildByName(menuItem, 'ul');
         if(subMenu) {
             menuItem.subMenu = subMenu;
-            subMenu.style.display = "none";
+            //subMenu.style.display = "none";
             this.setClass(menuItem, 'has-submenu');
             this.setClass(subMenu, 'vertical');
             this.setUpMenu(subMenu, depth + 1);
@@ -67,6 +71,10 @@ FlyOutMenu.prototype.click = function(event) {
     if(link) {
         document.location = link.href;
     }
+};
+
+FlyOutMenu.prototype.tap = function(event) {
+
 };
 
 FlyOutMenu.prototype.mouseover = function(event) {
@@ -84,9 +92,9 @@ FlyOutMenu.prototype.mouseover = function(event) {
     if(target.subMenu && !target.focused) {
     	var self = this;
     	target.timeout = setTimeout(function() {
-	        target.subMenu.style.display = "block";
+	        //target.subMenu.style.display = "block";
     		if(self.isClass(target.parentNode, 'horizontal')) {
-	        	self.setClass(target, 'open');
+	        	if(!self.isClass(target, 'open')) self.setClass(target, 'open');
 	        } else {
 	            pos = self.findRealPos(target);
 	            width = window.innerWidth ? window.innerWidth : document.body.offsetWidth;
@@ -110,7 +118,7 @@ FlyOutMenu.prototype.mouseover = function(event) {
                 this.removeClass(siblings[i], 'open-left');
                 this.removeClass(siblings[i], 'open-right');
                 this.removeClass(siblings[i], 'open');
-                siblings[i].subMenu.style.display = "none";
+                //siblings[i].subMenu.style.display = "none";
             }
             this.removeClass(siblings[i], 'focused');
             siblings[i].focused = false;
@@ -139,7 +147,7 @@ FlyOutMenu.prototype.mouseout = function(event) {
             self.removeClass(target, "open-left");
             self.removeClass(target, "open-right");
             self.removeClass(target, "open");
-            target.subMenu.style.display = "none";
+            //target.subMenu.style.display = "none";
         }
     }, 500);
     if(parent.nodeName.toLowerCase() == 'li') {

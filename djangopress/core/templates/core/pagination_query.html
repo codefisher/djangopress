@@ -4,7 +4,7 @@
     <div class="pagination">
         <span class="step-links">
             {% if pages.has_previous %}
-                <a class="previous-link" href="?{{ args }}page={{ pages.previous_page_number }}">&laquo; Previous</a>
+                <a rel="prev" class="previous-link" href="?{{ args }}page={{ pages.previous_page_number }}">&laquo; Previous</a>
             {% else %}
                 <span class="previous-link">&laquo; Previous</span>
             {% endif %}
@@ -22,7 +22,7 @@
             {% if pages.has_next %}
                 <a class="next-link" href="?{{ args }}page={{ pages.next_page_number }}">Next &raquo;</a>
             {% else %}
-                <span class="next-link">Next &raquo;</span>
+                <span rel="next" class="next-link">Next &raquo;</span>
             {% endif %}
         </span>
         {% if show_location %}

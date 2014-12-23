@@ -7,11 +7,14 @@ body, html {
 	display: table;
 	height:105px;
 	width:100%;
-	background:url(images/header-tiny.png) repeat-x;
+	background:#71962f url(images/page-header.png) repeat-x;
+    box-shadow:
+       0 0 0 1px rgba(0,0,0,0.8),
+       0 0 0 2px rgba(255,255,255,0.2);
 	position:relative;
 	line-height:1.5em;
 	color:#ffffff;
-	font-size:1.5em;
+	font-size:1.2em;
 	text-shadow: #000000 1px 1px 1px;
 	box-sizing: border-box;
 	padding:0.5em;
@@ -70,4 +73,47 @@ body, html {
 .fly-out-menu .horizontal li ul,
 .fly-out-menu .horizontal li ul li {
 	display:none;
+}
+
+
+/* search */
+
+#search label {
+    display:block;
+    color:#ffffff;
+    font-size:0.75em;
+    text-shadow: #000000 1px 1px 1px;
+}
+
+#search-controls {
+    position:relative;
+    background:#1d2419;
+    height:21px;
+    margin:2px;
+    border:1px solid #494f46;
+    border-radius:3px;
+    box-shadow: 0 0 0 1px #12160f;
+}
+#search input, #search button {
+    border:0px;
+    outline:0px;
+    margin:0;
+    background:transparent;
+    position:absolute;
+    height:25px;
+}
+
+#search #search-box {
+    line-height:25px;
+    padding:0 25px 0 3px;
+    min-width:100%;
+    max-width:100%;
+    left:0;    top:-2px;
+    color:#ffffff;
+    box-sizing: border-box;
+}
+#search #search-go {
+    width:25px;
+    padding:0;
+    right:0;    top:0;
 }

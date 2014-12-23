@@ -5,7 +5,7 @@
 		{% csrf_token %}
 		{{ form.as_p }}
 		<p><input type="submit" value="Submit" /></p>
-    </fieldset>
+    </form>
     {% if response %}
 	    {% if client_ip %}
 	    	<p>The details of your ip address: {{ ip_address }}.</p>

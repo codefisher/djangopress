@@ -3,6 +3,8 @@
 
 {% block root-content %}
 {% spaceless %}
+
+{% block header %}
     <div id="header">
      <div id="header-content">
       <div id="tag-line">
@@ -16,6 +18,8 @@
      </div>
      </div>
     </div>
+{% endblock %}
+
 {% endspaceless %}
 
 {% block simple-content %}
@@ -26,5 +30,6 @@
         </div>
     </div>
 {% endblock %}
+
 
 {% endblock %}

@@ -12,6 +12,9 @@ TAG_START = '['
 TAG_END = ']'
 #tag_re = re.compile('(%s.*?%s)' % (re.escape(TAG_START), re.escape(TAG_END)))
 
+def decode_html(text):
+    return text.replace('&amp;', '&').replace('&lt;', '<').replace('&gt;', '>')
+
 class BBcodeImg(LinkNode):
     def render(self, context, show_images=True, **kwargs):
         if not show_images:
@@ -28,12 +31,11 @@ class BBcodeLink(LinkNode):
 
 class BBcodeText(TextNode):
     def render(self, context, nofollow=True, trim_url_limit=None, smilies=True, should_urlize=True, **kwargs):
+        text = self.token.contents
+        if should_urlize:
+            text = urlize(decode_html(text), nofollow=nofollow, trim_url_limit=trim_url_limit, autoescape=True)
         if smilies:
             text = add_smilies(self.token.contents)
-        else:
-            text = self.token.contents
-        if should_urlize:
-            text = urlize(text, nofollow=nofollow, trim_url_limit=trim_url_limit)
         return add_line_breaks(text)
 
 class BBcodeParser(Parser):

@@ -31,18 +31,21 @@
             (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
             {% endif %}
-        {% endblock %}
-        {% if page_content %}
-            {{ page_content|safe }}
-        {% else %}
+        {% endblock %}        
+
 	        {% block content %}
-			    <h2>{{ page_header }}</h2>
-			    <p>
-			       {{ page_message }}
-			    </p>
+	           {% if page_content %}
+                    {{ page_content|safe }}
+               {% else %}
+    			    <h2>{{ page_header }}</h2>
+    			    <p>
+    			       {{ page_message }}
+    			    </p>
+    		   {% endif %}
 	        {% endblock %}
-	    {% endif %}
-	   </div>
+	    </div>
+
+
     {% endblock %}
     {% spaceless %}
  </div>
@@ -52,7 +55,7 @@
      <form action="{% url 'haystack-search' %}" method="get" id="search">
       <div class="search-inner">
        <label for="search-box">Search:</label>
-       <div id="search-controls"><input type="text" size="14" id="search-box" name="q" /><input type="submit" id="search-go" value="" /></div>
+       <div id="search-controls"><input type="text" size="14" id="search-box" name="q" /><button type="submit" id="search-go" /><img src="{% get_static_prefix %}images/pastel-svg/16/magnifier.png" alt="Go" /></button></div>
       </div>
      </form>
      {% endblock %}
@@ -99,7 +102,44 @@
     </div>
     </div>
   {% endblock %}
+
  </div>
+        {% block social_media %}
+           <div id="social-media" class="content-box">
+           <!-- twitter -->
+           <span class="social-media" id="socail-media-twitter">
+            <a class="twitter-share-button" href="https://twitter.com/share?count=none">Tweet</a>
+            <script type="text/javascript">
+            window.twttr=(function(d,s,id){var t,js,fjs=d.getElementsByTagName(s)[0];if(d.getElementById(id)){return}js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);return window.twttr||(t={_e:[],ready:function(f){t._e.push(f)}})}(document,"script","twitter-wjs"));
+            </script>
+            </span>
+            <!-- linkedin -->
+            <span class="social-media" id="social-media-linkedin">
+            <script src="//platform.linkedin.com/in.js" type="text/javascript">
+              lang: en_US
+            </script>
+            <script type="IN/Share"></script>
+            </span>
+            <!-- Google +1 -->
+            <span class="social-media" id="social-media-google-plus">
+            <script src="https://apis.google.com/js/platform.js" async defer></script>
+            <span class="g-plusone" data-annotation="none" data-size="medium"></span>
+            </span>
+            <!-- facebook -->
+            <span class="social-media" id="social-media-facebook" style="position:relative; top:-4px;">
+            <span id="fb-root"></span>
+            <script>(function(d, s, id) {
+              var js, fjs = d.getElementsByTagName(s)[0];
+              if (d.getElementById(id)) return;
+              js = d.createElement(s); js.id = id;
+              js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+              fjs.parentNode.insertBefore(js, fjs);
+            }(document, 'script', 'facebook-jssdk'));</script>
+            <span class="fb-share-button" data-href="{{ request.get_full_path }}" data-layout="button"></span>
+            </span>
+            </div>
+        {% endblock %} 
 </div>
+
 {% endspaceless %}
 {% endblock %}
