@@ -8,7 +8,7 @@ from django.utils.translation import ugettext as _
 from django.conf import settings
 from djangopress.core.util import get_client_ip
 from django.core.urlresolvers import reverse
-
+from django.utils import timezone
 
 try:
     import akismet
@@ -50,13 +50,14 @@ def archive(request, blog_slug, year, month=None):
     blog = get_blog(blog_slug)
     data = {"format": "YEAR_MONTH_FORMAT"}
     year = int(year)
-    entries_list = Entry.objects.get_entries(blog=blog).filter(posted__year=year)
-    if month is None:
-        month = 1
-        data["format"] = "Y"
-    else:
-        month = int(month)
-        entries_list = entries_list.filter(posted__month=month)
+    with timezone.override(None):
+        entries_list = Entry.objects.get_entries(blog=blog).filter(posted__year=year)
+        if month is None:
+            month = 1
+            data["format"] = "Y"
+        else:
+            month = int(month)
+            entries_list = entries_list.filter(posted__month=month)
     data["date"] = datetime.date(year=year, month=month, day=1)
     paginator = Paginator(entries_list, 10)
     try:
@@ -113,13 +114,8 @@ def check_askmet_spam(request, entry, comment_form):
 
 def post(request, blog_slug, year, month, day, slug):
     blog = get_blog(blog_slug)
-    kargs = {
-        'posted__year':year,
-        'posted__month':month,
-        'posted__day':day,
-        'slug':slug
-    }
-    entry = get_object_or_404(Entry, **kargs)
+    with timezone.override(None):
+        entry = get_object_or_404(Entry, blog=blog, slug=slug, posted__year=year, posted__month=month, posted__day=day)
     try:
         previous_post = Entry.get_previous_by_posted(entry)
     except Entry.DoesNotExist:
