@@ -1,4 +1,6 @@
 {% extends "forum/base.html" %}
+{% load forum_tags %}
+
 
 {% block content %}
     <div id="bread-crumbs">
@@ -8,6 +10,12 @@
     </div>
     <form action="{% url 'forum-reply-thread' forums_slug=forums.slug thread_id=thread.pk %}" method="post">
         {% csrf_token %}
+        {% if preview %}
+            <div class="content-box">
+                <h2>Preview</h2>
+                {% format_post preview user forums %}
+            </div>
+        {% endif %}
         <fieldset>
             {{ edit_form.non_field_errors }}
             {% if post_form.poster_name %}
@@ -46,7 +54,7 @@
 	          {{ post_form.captcha }}
 			</div>
 			{% endif %}
-        <p><input type="submit" value="Reply" /></p>
+        <p><input type="submit" name="preview" value="Preview Post" /> <input type="submit" name="submit" value="Reply" /></p>
         </fieldset>
     </form>
     <h3>Recient Posts</h3>

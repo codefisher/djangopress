@@ -13,7 +13,7 @@ from django.template.loader import render_to_string
 from django.http.response import Http404, HttpResponseRedirect
 from django.contrib import messages
 from djangopress.forum.models import ForumGroup, ForumCategory, Forum, Thread, Post, ForumUser
-from djangopress.core.util import get_client_ip, has_permission
+from djangopress.core.util import get_client_ip, has_permission, choose_form
 from djangopress.forum.forms import PostAnonymousForm, PostEditForm, PostForm, ReportForm, ThreadForm, QuickPostForm
 from djangopress.accounts.middleware import get_last_seen
 from django.utils.encoding import force_str
@@ -110,13 +110,11 @@ def new_thread(request, forums_slug, forum_id):
                 "anonymous": not request.user.is_authenticated(),
         }
         return render(request, 'forum/thread/new_denied.html' , data)
+    preview = None
     if request.method == 'POST':
         thread_form = ThreadForm(request.POST)
-        if request.user.is_authenticated():
-            post_form = PostForm(request.POST)
-        else:
-            post_form = PostAnonymousForm(request.POST)
-        if thread_form.is_valid() and post_form.is_valid():
+        post_form = choose_form(request, PostForm, PostAnonymousForm, request.POST)
+        if not request.POST.get('preview') and thread_form.is_valid() and post_form.is_valid():
             thread = thread_form.save(commit=False)
             if request.user.is_authenticated():
                 thread.poster = request.user
@@ -125,34 +123,22 @@ def new_thread(request, forums_slug, forum_id):
                 thread.poster_email = post_form.cleaned_data["poster_email"]
             thread.forum = forum
             thread.save()
-            responce, new_post = process_post(request, thread, post_form, forums)
-            if new_post.is_spam or not new_post.is_public:
-                return responce
-            site = Site.objects.get_current()
             for user in forum.subscriptions.all():
                 if user == request.user:
                     continue
-                # TODO: should check here if the last post was after the user last visted
-                # in which cause we don't need to email them
-                message_data = {
-                    "site": site,
-                    "user": user,
-                    "thread": thread,
-                    "forums": forums,
-                    "scheme": "https" if request.is_secure() else "http",
-                }
-                message = render_to_string('forum/email/forum_subscription_notification.txt', message_data)
-                user.email_user("Forum Subscription Notification for %s" % forums.name, message)
-            return responce
+                if not user.forum_subscriptions.filter(pk=thread.pk).exists():
+                    thread.subscriptions.add(user)
+            return process_post(request, thread, post_form, forums)
+        elif request.POST.get('preview'):
+            preview = post_form.save(commit=False)
+            preview.format = forums.format
     else:
         thread_form = ThreadForm()
-        if request.user.is_authenticated():
-            post_form = PostForm()
-        else:
-            post_form = PostAnonymousForm()
+        post_form = choose_form(request, PostForm, PostAnonymousForm)
     data = {
         "forums": forums,
         "forum": forum,
+        "preview": preview,
         "title": settings.TITLE_FORMAT % (forum.name, "New Thread"),
         "thread_form": thread_form,
         "post_form": post_form,
@@ -198,7 +184,7 @@ def process_post(request, thread, post_form, forums):
     post = post_form.save(commit=False)
     if request.user.is_authenticated():
         forum_profile, created = ForumUser.objects.get_or_create(user=request.user)
-        if forum_profile.notify == 'AL' and not request.user.forum_forum_subscriptions.filter(pk=thread.forum.pk).exists():
+        if forum_profile.notify == 'AL' and not request.user.forum_subscriptions.filter(pk=thread.pk).exists():
             thread.subscriptions.add(request.user)
         post.author = request.user
     try:
@@ -216,7 +202,7 @@ def process_post(request, thread, post_form, forums):
     post.save()
     site = Site.objects.get_current()
     if post.is_public and not post.is_spam:
-        for user in chain(thread.subscriptions.all(), thread.forum.subscriptions.all()):
+        for user in thread.subscriptions.all():
             if user == request.user:
                 continue
             # TODO: should check here if the last post was after the user last visited
@@ -247,7 +233,7 @@ def process_post(request, thread, post_form, forums):
         else:
             messages.add_message(request, messages.WARNING, "Your post was made, but will not be public till it has been view by an administrator.")
         responce = HttpResponseRedirect(post.get_absolute_url())
-    return responce, post
+    return responce
 
 def reply_thread(request, forums_slug, thread_id):
     forums = get_forum(forums_slug)
@@ -267,24 +253,22 @@ def reply_thread(request, forums_slug, thread_id):
                 "anonymous": not request.user.is_authenticated(),
         }
         return render(request, 'forum/thread/denied.html' , data)
+    preview = None
     if request.method == 'POST':
-        if request.user.is_authenticated():
-            post_form = PostForm(request.POST)
-        else:
-            post_form = PostAnonymousForm(request.POST)
-        if post_form.is_valid():
-            responce, new_post = process_post(request, thread, post_form, forums)
-            return responce
+        post_form = choose_form(request, PostForm, PostAnonymousForm, request.POST)
+        if request.POST.get('preview'):
+            preview = post_form.save(commit=False)
+            preview.format = forums.format
+        elif post_form.is_valid():
+            return process_post(request, thread, post_form, forums)
     else:
-        if request.user.is_authenticated():
-            post_form = PostForm()
-        else:
-            post_form = PostAnonymousForm()
+        post_form = choose_form(request, PostForm, PostAnonymousForm)
     posts = Post.objects.filter(thread=thread, is_spam=False, is_public=True
                     ).select_related('author', 'thread').order_by('-posted')[:5]
     data = {
         "forums": forums,
         "posts": posts,
+        "preview": preview,
         "thread": thread,
         "title": settings.TITLE_FORMAT % (thread.subject, "Post Reply"),
         "post_form": post_form,

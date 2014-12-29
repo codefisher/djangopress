@@ -1,4 +1,5 @@
 {% extends "forum/base.html" %}
+{% load forum_tags %}
 
 {% block content %}
     <div id="bread-crumbs">
@@ -9,6 +10,12 @@
         {% csrf_token %}
         {% if not request.user.is_authenticated %}
         <p><small>Please note that you are not <a href="{% url 'login' %}?next={{request.path}}">logged in</a>.  This post will not be connected to your account, and you will not receive notifications of replies.</small></p>
+        {% endif %}
+        {% if preview %}
+            <div class="content-box">
+                <h2>Preview</h2>
+                {% format_post preview user forums %}
+            </div>
         {% endif %}
         <fieldset>
             <legend>Message</legend>
@@ -50,7 +57,7 @@
 	          {{ post_form.captcha }}
 			</div>
 			{% endif %}
-			<p><input type="submit" value="Post new Thread" /></p>
+			<p><input type="submit" name="preview" value="Preview Post" /> <input type="submit" value="Post new Thread" /></p>
         </fieldset>
     </form>
 {% endblock %}

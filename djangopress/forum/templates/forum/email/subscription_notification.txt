@@ -1,9 +1,9 @@
-{{ user.username }},
+{{ user.username|safe }},
 
-{{ post.author_name }} has just posted a reply to a thread that you have subscribed to titled "{{ thread.subject }}".
+{{ post.author_name|safe }} has just posted a reply to a thread that you have subscribed to titled "{{ thread.subject|safe }}".
 
 The post can be found here:
-{{ scheme }}://{{ site.domain }}{{ post.get_absolute_url }}
+{{ scheme }}://{{ site.domain }}{{ post.get_absolute_url|safe }}
 
 There may be more replies to this thread, but only 1 email is sent per board visit for each subscribed thread. This is
 to limit the amount of mail that is sent to your inbox.
@@ -15,5 +15,5 @@ You can unsubscribe at any time by logging into your profile and clicking on the
 
 Regards,
 
-The {{ forums.name }} team.
-{{ scheme }}://{{ site.domain }}{{ forums.get_absolute_url }}
+The {{ forums.name|safe }} team.
+{{ scheme }}://{{ site.domain }}{{ forums.get_absolute_url|safe }}

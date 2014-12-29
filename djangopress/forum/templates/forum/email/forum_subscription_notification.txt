@@ -1,11 +1,11 @@
-{{ user.username }},
+{{ user.username|safe }},
 
-{{ thread.author_name }} has just posted a new thread title "{{ thread.subject }}" in the forum "{{ thread.forum.name }}" that you are subscribed to.
+{{ thread.author_name|safe }} has just posted a new thread title "{{ thread.subject|safe }}" in the forum "{{ thread.forum.name|safe }}" that you are subscribed to.
 
 The thread can be found here:
-{{ scheme }}://{{ site.domain }}{{ thread.get_absolute_url }}
+{{ scheme }}://{{ site.domain }}{{ thread.get_absolute_url|safe }}
 
 Regards,
 
-The {{ forums.name }} team.
-{{ scheme }}://{{ site.domain }}{{ forums.get_absolute_url }}
+The {{ forums.name|safe }} team.
+{{ scheme }}://{{ site.domain }}{{ forums.get_absolute_url|safe }}

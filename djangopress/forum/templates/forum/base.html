@@ -9,10 +9,10 @@
 
 {% block search_form %}
 	 <form action="{% url 'haystack-forum-search' %}" method="get" id="search">
-	  <div class="search-inner">
-	   <label for="search-box">Search:</label>
-	   <div id="search-controls"><input type="text" size="14" id="search-box" name="q" /><input type="submit" id="search-go" value="" /></div>
-	  </div>
+      <div class="search-inner">
+       <label for="search-box">Search:</label>
+       <div id="search-controls"><input type="text" size="14" id="search-box" name="q" /><button type="submit" id="search-go"><img src="{% get_static_prefix %}images/pastel-svg/16/magnifier.png" alt="Go" /></button></div>
+      </div>
 	 </form>
 {% endblock %}
      

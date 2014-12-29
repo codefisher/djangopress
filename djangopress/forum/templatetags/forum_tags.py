@@ -49,17 +49,18 @@ class QuoteNode(nodes.ArgumentedNode):
 nodes.Library.argumented_tag("quote", '<div class="quote"><span class="title">QUOTE: {% if name %}{{ name }}{% endif %}{% if date %} @ {{ date }}{% endif %}{% if post_url %} <a href="{{post_url}}">*</a>{% endif %}</span><blockquote>{{ content }}</blockquote></div>', cls=QuoteNode)
 
 @register.simple_tag(takes_context=True)
-def format_post(context, post, user=None):
+def format_post(context, post, user=None, forums=None):
     formating = Library.get(post.format).get("function")
     smilies = post.show_similies
     show_images = True
     if user and user.is_authenticated() and hasattr(user, 'forum_profile'):
         smilies = user.forum_profile.show_simlies if not user.forum_profile.show_simlies else smilies
         show_images = user.forum_profile.show_img
-    forms = post.thread.forum.category.forums
-    show_images = show_images and forms.display_images
-    smilies = smilies and forms.show_smilies
-    return formating(post.message, context=context, smilies=smilies, show_images=show_images, should_urlize=forms.make_links)
+    if not forums:
+        forums = post.thread.forum.category.forums
+    show_images = show_images and forums.display_images
+    smilies = smilies and forums.show_smilies
+    return formating(post.message, context=context, smilies=smilies, show_images=show_images, should_urlize=forums.make_links)
 
 @register.inclusion_tag('forum/post/latest.html')
 def show_latest_posts(forums_slug, number=5):

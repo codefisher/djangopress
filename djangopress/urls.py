@@ -9,6 +9,11 @@ from djangopress.contact import urls as contact_urls
 from djangopress.menus import urls as menu_urls
 from djangopress.iptools import urls as iptools_urls
 
+from django.http import HttpResponsePermanentRedirect
+
+def redirect(request, url):
+    return HttpResponsePermanentRedirect('/' + url)
+
 # django databrowse application
 #from django.contrib import databrowse
 #from django.contrib.auth.decorators import login_required
@@ -32,6 +37,7 @@ urlpatterns = patterns('',
     (r'^donate/', include(donate_urls)),
     (r'^email/', include(contact_urls)),
     (r'^iptools/', include(iptools_urls)),
+    (r'^(?P<url>.*/)[a-z_-]+\.php$', redirect),
 )
 
 try:
