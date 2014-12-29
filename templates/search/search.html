@@ -45,7 +45,7 @@
                     </small>
                 </li>
             {% empty %}
-                <li>No results found.</li>
+                <li>No results found for &#8220;{{ query|escape }}&#8221;. {% if suggestion %} Did you mean: <a href="{% url 'haystack-search' %}?q={{ suggestion|urlencode }}">{{ suggestion }}</a>{% endif %}</li>
             {% endfor %}
             </ul>
 
