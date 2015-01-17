@@ -3,18 +3,18 @@
 
 {% block content %}
     <div>
-      <h1>{{ forums.name }}</h1>
+      <h1><a href="{{ forums.get_absolute_url }}">{{ forums.name }}</a></h1>
       {% if forums.tagline %}<p>{{ forums.tagline}}</p>{% endif %}
     </div>
     <div>
         
        {% for category in categories %}
-        <div class="category"><h2>{{ category.name }}</h2>
+        <div class="category"><h2><a href="{{ category.get_absolute_url }}">{{ category.name }}</a></h2>
         <table>
             <thead>
                 <tr><th>Forum</th><th>Topics</th><th>Posts</th><th>Last Post</th></tr>
             </thead>
-        {% for forum in category.get_forums %}
+        {% for forum in category.forum.items %}
             <tr><td><h3><a href="{{ forum.get_absolute_url }}">{{ forum.name }}</a> </h3>
                 <p>{{ forum.description }}</p>
                 </td>

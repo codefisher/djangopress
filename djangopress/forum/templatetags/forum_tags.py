@@ -1,5 +1,5 @@
 from django import template
-from djangopress.forum.views import get_forum
+from django.conf import settings
 from djangopress.forum.models import Thread, Post
 from djangopress.core.util import has_permission
 from django.core.urlresolvers import reverse
@@ -14,7 +14,7 @@ class TopicNode(nodes.ArgumentedNode):
         
     def render(self, context, **kwargs):
         try:
-            topic = Thread.objects.get(pk=self.arg if self.arg else self.kargs.get('id'))
+            topic = Thread.objects.select_related('forum__category__forums').get(pk=self.arg if self.arg else self.kargs.get('id'))
         except Thread.DoesNotExist:
             return ''
         return """<a href="%s">%s</a>""" % (topic.get_absolute_url(), self.nodelist.render(context, **kwargs))
@@ -27,7 +27,7 @@ class PostNode(nodes.ArgumentedNode):
         
     def render(self, context, **kwargs):
         try:
-            post = Post.objects.get(pk=self.arg if self.arg else self.kargs.get('id'), is_spam=False, is_public=True)
+            post = Post.objects.select_related('thread__forum__category__forums').get(pk=self.arg if self.arg else self.kargs.get('id'), is_spam=False, is_public=True)
         except Post.DoesNotExist:
             return ''
         return """<a href="%s">%s</a>""" % (post.get_absolute_url(), self.nodelist.render(context, **kwargs))
@@ -40,7 +40,7 @@ class QuoteNode(nodes.ArgumentedNode):
         
     def render(self, context, **kwargs):
         try:
-            post = Post.objects.get(pk=self.kargs.get('post'), is_spam=False, is_public=True)
+            post = Post.objects.defer('message').select_related('thread__forum__category__forums').get(pk=self.kargs.get('post'), is_spam=False, is_public=True)
             self.kargs["post_url"] = post.get_absolute_url()
         except Post.DoesNotExist:
             pass
@@ -68,11 +68,9 @@ def show_latest_posts(forums_slug, number=5):
         number = int(number)
     except ValueError:
         number = 5
-    try:
-        forums = get_forum(forums_slug)
-    except:
-        return {} # the forum must not exist, so we fail quitely
-    threads = Thread.objects.filter(forum__category__forums=forums).exclude(last_post=None).order_by('-last_post_date').select_related('last_post')[0:number]
+    threads = Thread.objects.filter(forum__category__forums__slug=forums_slug, 
+                                    forum__category__forums__sites__id__exact=settings.SITE_ID).exclude(last_post=None).order_by('-last_post_date').select_related('last_post', 
+                                    'last_post__thread__forum__category__forums')[0:number]
     return {
         "threads": threads,
     }

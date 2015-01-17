@@ -3,7 +3,28 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
-from djangopress.blog.managers import EntryMananger, CategoryMananger
+
+class EntryMananger(models.Manager):
+
+    def get_entries(self, blog=None, ordered=True):
+        entry_list = self.select_related('blog', 'author').prefetch_related(
+                models.Prefetch('tags', queryset=Tag.objects.select_related('blog')), 
+                models.Prefetch('categories', queryset=Category.objects.select_related('blog'))).filter(status="PB", visibility="VI")
+        if blog is not None:
+            entry_list = entry_list.filter(blog=blog)
+        if ordered:
+            return entry_list.order_by('-sticky', '-posted')
+        return entry_list
+    
+class CategoryMananger(models.Manager):
+
+    def get_categories(self, blog=None, ordered=True):
+        categories_list = self.select_related('blog', 'parent_category').all()
+        if blog is not None:
+            categories_list = categories_list.filter(blog=blog)
+        if ordered:
+            return categories_list.order_by('name')
+        return categories_list
 
 class Tag(models.Model):
     name = models.CharField(max_length=30)
@@ -117,10 +138,10 @@ class Entry(models.Model):
         super(Entry, self).save()
         
     def get_tags(self):
-        return self.tags.all().select_related('blog')
+        return self.tags.all()
     
     def get_categories(self):
-        return self.categories.all().select_related('blog')
+        return self.categories.all()
 
     def get_absolute_url(self):
         kwargs = {

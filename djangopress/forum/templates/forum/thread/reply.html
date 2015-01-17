@@ -3,11 +3,7 @@
 
 
 {% block content %}
-    <div id="bread-crumbs">
-        <a href="{{ forums.get_absolute_url }}">Index</a> 
-        &bull; <a href="{{ thread.forum.get_absolute_url }}">{{ thread.forum.name }}</a>
-        &bull; <a href="{{ thread.get_absolute_url }}">{{ thread.subject }}</a>
-    </div>
+    {% include "forum/thread/crumbs.html" %}
     <form action="{% url 'forum-reply-thread' forums_slug=forums.slug thread_id=thread.pk %}" method="post">
         {% csrf_token %}
         {% if preview %}

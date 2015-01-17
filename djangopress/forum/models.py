@@ -63,6 +63,14 @@ class ForumCategory(models.Model):
     def get_forums(self):
         return self.forum.all().order_by('position')
 
+    def get_absolute_url(self):
+        return reverse("forum-category", kwargs={"forums_slug": self.forums.slug, "category_id":self.pk })
+
+class ForumMananger(models.Manager):
+
+    def items(self):
+        return super(ForumMananger, self).all().order_by('position').defer('last_post__message').select_related('last_post', 'last_post__author', 'last_post__thread__forum__category__forums')
+
 class Forum(models.Model):
     """
     The Forums which threads can be put in.
@@ -74,6 +82,8 @@ class Forum(models.Model):
             ('can_sticky_threads', 'User is allowed to sticky a thread'), #not impl
             ('can_moderate_forum', 'Has access to all the batch moderation options'), #not impl ? should we ?
         )
+        
+    objects = ForumMananger()
     
     name = models.CharField(max_length=100)
     description = models.TextField()

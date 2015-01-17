@@ -3,11 +3,11 @@
 {% load forum_tags %}
 
 {% block content %}
-
     <div id="bread-crumbs">
-        <a href="{{ forums.get_absolute_url }}">Index</a> 
-        &bull; <a href="{{ thread.forum.get_absolute_url }}">{{ thread.forum.name }}</a>
-        &bull; {{ thread.subject }}
+        <a href="{{ forums.get_absolute_url }}">Index</a> &raquo; 
+        <a href="{{ thread.forum.category.get_absolute_url }}">{{ thread.forum.category.name }}</a> &raquo;
+        <a href="{{ thread.forum.get_absolute_url }}">{{ thread.forum.name }}</a> &raquo;
+        {{ thread.subject }}
     </div>
     <div class="forum-pagination">
         {% simple_pagination posts thread %}

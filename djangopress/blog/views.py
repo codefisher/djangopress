@@ -6,7 +6,7 @@ from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from djangopress.blog.models import Blog, Entry, Tag, Category, Comment, Flag
 from django.utils.translation import ugettext as _
 from django.conf import settings
-from djangopress.core.util import get_client_ip
+from djangopress.core.util import get_client_ip, choose_form
 from django.core.urlresolvers import reverse
 from django.utils import timezone
 
@@ -127,10 +127,7 @@ def post(request, blog_slug, year, month, day, slug):
     comments = Comment.objects.filter(entry=entry, is_public=True, is_spam=False).order_by('submit_date')
     comment_message = ""
     if entry.comments_open and request.method == 'POST':
-        if request.user.is_authenticated():
-            comment_form = CommentUserForm(request.POST)
-        else:
-            comment_form = CommentForm(request.POST)
+        comment_form = choose_form(request, CommentUserForm, CommentForm, request.POST)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
             if request.user.is_authenticated():
@@ -147,10 +144,7 @@ def post(request, blog_slug, year, month, day, slug):
             comment.save()
             comment_message = "Your comment has been saved."
     else:
-        if request.user.is_authenticated():
-            comment_form = CommentUserForm()
-        else:
-            comment_form = CommentForm()
+        comment_form = choose_form(request, CommentUserForm, CommentForm)
     data = {
         "title": settings.TITLE_FORMAT % (blog.name, entry.title),
         "entry": entry,

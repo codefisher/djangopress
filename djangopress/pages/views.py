@@ -8,13 +8,14 @@ from djangopress.pages.forms import PageForm, NewBlockForm, TextForm
 from django.utils import cache
 
 def show_page(request, path):
+    page_objects = Page.objects.select_related('template')
     try:
-        page = Page.objects.get(location=path, sites__id__exact=settings.SITE_ID,
+        page = page_objects.get(location=path, sites__id__exact=settings.SITE_ID,
                 visibility="VI", status="PB")
     except Page.DoesNotExist:
         try:
             if path[-1] != '/':
-                Page.objects.get(location=path+'/', sites__id__exact=settings.SITE_ID,
+                page_objects.get(location=path+'/', sites__id__exact=settings.SITE_ID,
                     visibility="VI", status="PB")
                 #did not throw an exception, so lets redirect
                 return HttpResponsePermanentRedirect(path+'/')

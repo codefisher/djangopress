@@ -3,8 +3,9 @@
 
 {% block content %}
     <div id="bread-crumbs">
-        <a href="{{ forums.get_absolute_url }}">Index</a> 
-        &bull; <a href="{{ forum.get_absolute_url }}">{{ forum.name }}</a>
+        <a href="{{ forums.get_absolute_url }}">Index</a> &raquo; 
+        <a href="{{ forum.category.get_absolute_url }}">{{ forum.category.name }}</a> &raquo; 
+        <a href="{{ forum.get_absolute_url }}">{{ forum.name }}</a>
     </div>
     <form action="{% url 'forum-new-thread' forums_slug=forums.slug forum_id=forum.pk %}" method="post">
         {% csrf_token %}

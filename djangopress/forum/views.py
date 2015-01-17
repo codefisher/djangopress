@@ -27,9 +27,11 @@ except ImportError:
 def get_forum(forums_slug):
     return get_object_or_404(ForumGroup, slug=forums_slug, sites__id__exact=settings.SITE_ID)
 
-def index(request, forums_slug):
+def index(request, forums_slug, category_id=None):
     forums = get_forum(forums_slug)
-    categories = ForumCategory.objects.filter(forums=forums).order_by('position')
+    categories = ForumCategory.objects.filter(forums=forums).order_by('position').select_related('forums')
+    if category_id:
+        categories = [get_object_or_404(categories, pk=category_id)]
     total_posts = Post.objects.filter().count()
     total_topics = Thread.objects.filter().count()
     total_users = User.objects.filter(is_active=True).count()
@@ -54,7 +56,7 @@ def moderator_forum(request):
 
 def view_forum(request, forums_slug, forum_id, page=1):
     forums = get_forum(forums_slug)
-    forum = get_object_or_404(Forum.objects.select_related('category__forums'), pk=forum_id)
+    forum = get_object_or_404(Forum.objects.select_related('category', 'category__forums'), pk=forum_id)
     
     paginator = Paginator(Thread.objects.filter(forum=forum).select_related(
                 'poster', 'last_post__author', 'forum__category__forums'
@@ -147,17 +149,16 @@ def new_thread(request, forums_slug, forum_id):
 
 def view_thread(request, forums_slug, thread_id, page=1):
     forums = get_forum(forums_slug)
-    thread = get_object_or_404(Thread, pk=thread_id)
+    thread = get_object_or_404(Thread.objects.select_related('forum', 'forum__category__forums'), pk=thread_id)
     paginator = Paginator(Post.objects.filter(thread=thread, is_spam=False, is_public=True
-                    ).select_related('author', 'thread').order_by('posted'), forums.number_of_posts)
+                    ).select_related('author', 'thread', 'edited_by', 'thread__forum__category__forums', 'author__forum_profile', 'author__profile').order_by('posted'), forums.number_of_posts)
     
     try:
         posts = paginator.page(page)
     except (EmptyPage, InvalidPage):
         if page != 1:
             return redirect(thread.get_absolute_url(paginator.num_pages))
-    thread.num_views = models.F('num_views') + 1
-    thread.save()
+    Thread.objects.filter(pk=thread.pk).update(num_views=models.F('num_views') + 1)
     
     data = {
         "forums": forums,
@@ -262,7 +263,11 @@ def reply_thread(request, forums_slug, thread_id):
         elif post_form.is_valid():
             return process_post(request, thread, post_form, forums)
     else:
-        post_form = choose_form(request, PostForm, PostAnonymousForm)
+        quotes = []
+        for post_id in request.GET.getlist('quote'):
+            post = Post.objects.get(pk=post_id)
+            quotes.append("[quote post=%s]%s[/quote]" % (post.pk, post.message))
+        post_form = choose_form(request, PostForm, PostAnonymousForm, initial={'message': "\n".join(quotes)})
     posts = Post.objects.filter(thread=thread, is_spam=False, is_public=True
                     ).select_related('author', 'thread').order_by('-posted')[:5]
     data = {

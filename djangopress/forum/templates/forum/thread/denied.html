@@ -1,11 +1,7 @@
 {% extends "forum/base.html" %}
 
 {% block content %}
-    <div id="bread-crumbs">
-        <a href="{{ forums.get_absolute_url }}">Index</a> 
-        &bull; <a href="{{ thread.forum.get_absolute_url }}">{{ thread.forum.name }}</a>
-        &bull; <a href="{{ thread.get_absolute_url }}">{{ thread.subject }}</a>
-    </div>
+    {% include "forum/thread/crumbs.html" %}
     <div class="content-box">
         {% if anonymous %}
             <p>We are sorry, but you don't have permissions to reply to this thread.  

@@ -1,0 +1,6 @@
+<div id="bread-crumbs">
+    <a href="{{ forums.get_absolute_url }}">Index</a> &raquo; 
+    <a href="{{ thread.forum.category.get_absolute_url }}">{{ thread.forum.category.name }}</a> &raquo;
+    <a href="{{ thread.forum.get_absolute_url }}">{{ thread.forum.name }}</a> &raquo;
+    <a href="{{ thread.get_absolute_url }}">{{ thread.subject }}</a>
+</div>

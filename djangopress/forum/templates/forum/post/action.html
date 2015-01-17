@@ -1,11 +1,7 @@
 {% extends "forum/base.html" %}
 
 {% block content %}
-    <div id="bread-crumbs">
-        <a href="{{ forums.get_absolute_url }}">Index</a> 
-        &bull; <a href="{{ post.thread.forum.get_absolute_url }}">{{ post.thread.forum.name }}</a>
-        &bull; <a href="{{ post.thread.get_absolute_url }}">{{ post.thread.subject }}</a>
-    </div>
+    {% include "forum/post/crumbs.html" %}
     <h2>{{ name }}</h2>
     <form action="{{ request.path }}" method="post">
         <p>Are you sure you want to {{ message }}.</p>

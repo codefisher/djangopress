@@ -1,5 +1,6 @@
 from django import template
 from djangopress.blog.models import Entry, Blog, Category
+from django.utils import timezone
 
 register = template.Library()
 
@@ -31,11 +32,12 @@ def list_blog_latest(number=5, blog=None):
 
 @register.inclusion_tag('blog/list_archive.html')
 def list_blog_archive(blog):
-    entries_list = Entry.objects.get_entries(blog=blog)
-    dates = entries_list.datetimes('posted', 'month', order='DESC')
-    return {
-        "dates": dates,
-    }
+    with timezone.override(None):
+        entries_list = Entry.objects.get_entries(blog=blog)
+        dates = entries_list.datetimes('posted', 'month', order='DESC')
+        return {
+            "dates": dates,
+        }
 
 @register.inclusion_tag('blog/list_categories.html')
 def list_blog_categories(blog):

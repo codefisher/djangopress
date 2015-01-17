@@ -3,7 +3,8 @@ from djangopress.forum import views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='forum-index'),
-    
+    url(r'^category/(?P<category_id>\d+)/$', views.index, name='forum-category'),
+
     url(r'^thread/(?P<thread_id>\d+)/$', views.view_thread, name='forum-view-thread'),
     url(r'^thread/(?P<thread_id>\d+)/(?P<page>\d+)/$', views.view_thread, name='forum-view-thread'),
     url(r'^thread/(?P<thread_id>\d+)/last/$', views.last_post, name='forum-last-post'),

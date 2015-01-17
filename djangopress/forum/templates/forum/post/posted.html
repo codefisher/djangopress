@@ -1,11 +1,7 @@
 {% extends "forum/base.html" %}
 
 {% block content %}
-    <div id="bread-crumbs">
-        <a href="{{ forums.get_absolute_url }}">Index</a> 
-        &bull; <a href="{{ thread.forum.get_absolute_url }}">{{ thread.forum.name }}</a>
-        &bull; <a href="{{ thread.get_absolute_url }}">{{ thread.subject }}</a>
-    </div>
+    {% include "forum/post/crumbs.html" %}
     <div class="content-box"><p>
     {% if post.is_spam %}
         Your post was made, but was flaged as spam.  It will have to be reviwed by an admin before being made public. <a href="{% url 'forum-last-post' forums_slug=forums.slug thread_id=thread.pk %}">Return to Thread</a>

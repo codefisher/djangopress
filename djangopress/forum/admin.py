@@ -13,7 +13,7 @@ from django.forms import Textarea
 from django.db import models
 
 class ForumAdmin(admin.ModelAdmin):
-    list_display = ('name', 'num_threads', 'num_posts', 'category' , 'parent_forum')
+    list_display = ('name', 'num_threads', 'num_posts', 'category' , 'parent_forum', 'position')
     raw_id_fields = ("last_post", "subscriptions")
 admin.site.register(Forum, ForumAdmin)
 

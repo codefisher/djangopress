@@ -4,6 +4,7 @@
 {% load pages_tags %}
 {% load static %}
 {% load forum_tags %}
+{% load cache %}
 
 {% block doctype %}<!DOCTYPE html>{% endblock %}
 <html>
@@ -29,15 +30,18 @@
 </head>
 <body>
 {% block page_top %}{% endblock %}
-<div id="top-menu">
+<nav id="top-menu">
   <a id="logo" href="/"><img width="175" height="90" src="{% get_static_prefix %}themes/default/images/logo-text.png" alt="Codefisher" /></a>
- {% display_menu 'util-menu' %}
-</div>
+ {% cache 600 util_menu %}
+    {% display_menu 'util-menu' %}
+ {% endcache %}
+</nav>
 {% endspaceless %}
 {% block root-content %}
 {% endblock %}
 {% spaceless %}
- <div id="footer">
+ <footer id="footer">
+ {% cache 600 footer %}
  <div id="footer-content">
   <div class="footer-section" id="footer-blog">
    {% block first_footer_box %}
@@ -66,12 +70,13 @@
     <div class="footer-detail">
       <a href="/email/">Contact</a> &#8226;
       <a href="/about/">About</a>
-      <div class="twitter-follow"><img src="/static/images/pastel-svg/16/twitter.png" alt=""><a href="https://twitter.com/codefisher/">Follow me on Twitter</a></div>
+      <div class="twitter-follow"><img src="/static/images/pastel-svg/16/twitter.png" alt=""><a width="16" height="16" alt="" href="https://twitter.com/codefisher/">Follow me on Twitter</a></div>
    </div>
    {% endblock %}
   </div>
   </div>
- </div>
+  {% endcache %}
+ </footer>
 <script>
   (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
   (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

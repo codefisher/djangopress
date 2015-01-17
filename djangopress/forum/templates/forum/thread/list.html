@@ -2,10 +2,9 @@
 {% load show_pagination %}
 
 {% block content %}
-
 <div id="bread-crumbs">
-    <a href="{{ forums.get_absolute_url }}">Index</a> &bull; {{ title }}
-    
+    <a href="{{ forums.get_absolute_url }}">Index</a> &raquo; 
+    {{ title }}
 </div>
 <div class="forum-pagination">
     {% simple_pagination threads pages %}

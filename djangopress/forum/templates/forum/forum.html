@@ -4,8 +4,9 @@
 {% block content %}
 
 <div id="bread-crumbs">
-    <a href="{{ forums.get_absolute_url }}">Index</a> &bull; {{ title }}
-    
+    <a href="{{ forums.get_absolute_url }}">Index</a> &raquo; 
+    <a href="{{ forum.category.get_absolute_url }}">{{ forum.category.name }}</a> &raquo; 
+    {{ title }}
 </div>
 <div class="forum-pagination">
     {% simple_pagination threads forum %}

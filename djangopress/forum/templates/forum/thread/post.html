@@ -31,7 +31,7 @@
         {% if post.is_removed %}
             <div class="post-content"><p>This post has been removed.</p></div>
         {% else %}
-            <div class="post-content">{% format_post post user %}</div>
+            <article class="post-content">{% format_post post user %}</article>
             {% should_show_signiture %}
                 <div class="signature"> <hr /> {% show_signature post.author %}</div>
             {% end_should_show_signiture %}
@@ -45,6 +45,9 @@
 {% if use_controls %}
 <tr>
     <td> </td>
-    <td class="post-actions">{% post_actions post %}</td>
+    <td class="post-actions">
+        {% post_actions post %}
+        &bull; <a href="{% url 'forum-reply-thread' thread_id=thread.pk forums_slug=forums.slug %}?quote={{ post.pk }}">Quote</a>
+    </td>
 </tr>
 {% endif %}

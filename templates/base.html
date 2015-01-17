@@ -2,13 +2,11 @@
 {% load blog_tags %}
 {% load donate_tags %}
 {% load static %}
+{% load cache %}
 
 {% block simple-content %}
 <div id="wrapper">
-   <div id="content">
-   {% comment %}
-   <div id="construction">This site is under construction, for the live site see <a href="http://codefisher.org/">Codefisher.org</a></div>
-   {% endcomment %}
+   <main id="content">
 	{% if messages %}
 	<ul class="messages content-box">
 	    {% for message in messages %}
@@ -20,7 +18,7 @@
      <div id="general">
         {% block content_adds %}
             {% if not debug %}
-                 <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             <!-- Codefisher Banner -->
             <ins class="adsbygoogle"
                  style="display:block"
@@ -48,8 +46,8 @@
 
     {% endblock %}
     {% spaceless %}
- </div>
- <div id="sidebar">
+ </main>
+ <aside id="sidebar">
   <div id="search-sidebar">
   	{% block search_form %}
      <form action="{% url 'haystack-search' %}" method="get" id="search">
@@ -61,14 +59,6 @@
      {% endblock %}
   </div>
   {% block sidebar %}
-  {% comment %}
-   <div class="side-bar-item">
-    <h3>Latest News</h3>
-    <div class="side-bar-content">
-      {# show_blog_latest 4 22 blug='news' #}
-    </div>
-   </div>
-   {% endcomment %}
    <div class="side-bar-item">
     <h3>Top Content</h3>
     <div class="side-bar-content">
@@ -90,6 +80,7 @@
    <div class="side-bar-item">
        <h3>Donations</h3>
     <div id="donations" class="side-bar-content">
+        {% cache 600 donations %}
         <div class="fragment">
             <h4>Top Donations</h4>
             {% show_best_donations 5 %}
@@ -99,11 +90,12 @@
             {% show_latest_donations 5 %}
 
         </div>
+        {% endcache %}
     </div>
     </div>
   {% endblock %}
 
- </div>
+ </aside>
         {% block social_media %}
            <div id="social-media" class="content-box">
            <!-- twitter -->
@@ -115,12 +107,12 @@
             </span>
             <!-- linkedin -->
             <span class="social-media" id="social-media-linkedin">
-            <script src="//platform.linkedin.com/in.js" type="text/javascript"></script>
+            <script src="https://platform.linkedin.com/in.js" type="text/javascript"></script>
             <script type="IN/Share"></script>
             </span>
             <!-- Google +1 -->
             <span class="social-media" id="social-media-google-plus">
-            <script src="https://apis.google.com/js/platform.js" async defer></script>
+            <script src="https://apis.google.com/js/platform.js" async="async" defer="defer"></script>
             <span class="g-plusone" data-annotation="none" data-size="medium"></span>
             </span>
             <!-- facebook -->
@@ -130,7 +122,7 @@
               var js, fjs = d.getElementsByTagName(s)[0];
               if (d.getElementById(id)) return;
               js = d.createElement(s); js.id = id;
-              js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
+              js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.0";
               fjs.parentNode.insertBefore(js, fjs);
             }(document, 'script', 'facebook-jssdk'));</script>
             <span class="fb-share-button" data-href="{{ request.get_full_path }}" data-layout="button"></span>

@@ -1,11 +1,7 @@
 {% extends "forum/base.html" %}
 
 {% block content %}
-    <div id="bread-crumbs">
-        <a href="{{ forums.get_absolute_url }}">Index</a> 
-        &bull; <a href="{{ post.thread.forum.get_absolute_url }}">{{ post.thread.forum.name }}</a>
-        &bull; <a href="{{ post.thread.get_absolute_url }}">{{ post.thread.subject }}</a>
-    </div>
+    {% include "forum/post/crumbs.html" %}
     <div class="content-box">
             <p>We are sorry, but you don't have permissions to edit to this post.</p>
             <p><a href="{{ post.get_absolute_url }}">Return to thread</a>.</p>
