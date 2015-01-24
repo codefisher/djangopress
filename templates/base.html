@@ -17,8 +17,7 @@
    {% block general %}
      <div id="general">
         {% block content_adds %}
-            {% if not debug %}
-                 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
             <!-- Codefisher Banner -->
             <ins class="adsbygoogle"
                  style="display:block"
@@ -28,8 +27,7 @@
             <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
-            {% endif %}
-        {% endblock %}        
+        {% endblock %}
 
 	        {% block content %}
 	           {% if page_content %}
@@ -96,6 +94,7 @@
   {% endblock %}
 
  </aside>
+        {% comment %}
         {% block social_media %}
            <div id="social-media" class="content-box">
            <!-- twitter -->
@@ -129,6 +128,18 @@
             </span>
             </div>
         {% endblock %} 
+        {% endcomment %}
+        <div id="social-media" class="content-box">
+        <!-- Codefisher Footer -->
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-0498950558756902"
+             data-ad-slot="3175680237"
+             data-ad-format="auto"></ins>
+        <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        </div>
 </div>
 
 {% endspaceless %}

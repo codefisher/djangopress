@@ -176,7 +176,7 @@ def view_post(request, forums_slug, post_id):
 def last_post(request, forums_slug, thread_id):
     thread = get_object_or_404(Thread, pk=thread_id)
     post = Post.objects.filter(thread=thread, is_spam=False, is_public=True
-                    ).select_related('author', 'thread').order_by('posted')
+                    ).select_related('thread').order_by('posted')[0]
     if not post:
         raise Http404
     return redirect("%s#p%s" % (thread.get_absolute_url(post.get_page()), post.pk))

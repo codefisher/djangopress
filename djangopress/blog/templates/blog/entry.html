@@ -11,6 +11,12 @@
     {% endif %}
     <h3><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h3>
     <small>{{ entry.posted|date:"DATE_FORMAT" }} by {{ entry.author }}</small>
+    <div>
+        <a class="twitter-share-button"
+          href="https://twitter.com/share?url={{ request.scheme }}://{{ request.get_host }}{{ entry.get_absolute_url|urlencode }}&text={{ entry.title|urlencode }}">
+        Tweet
+        </a>
+    </div>
     <div class="blog-entry-content">
         {{ entry.body|safe }}
     </div>

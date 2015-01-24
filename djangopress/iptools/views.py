@@ -38,7 +38,7 @@ def get_ip_country_flag(ip_address):
         iso_code = response.country.iso_code
     except AddressNotFoundError:
         return None, None
-    if os.path.isfile(os.path.join(FLAG_FOLDER, '%s.png' % iso_code.lower())):
+    if iso_code and os.path.isfile(os.path.join(FLAG_FOLDER, '%s.png' % iso_code.lower())):
         return FLAG_WEB_FOLDER + '%s.png' % iso_code.lower(), iso_code
     else:
         return None, None
