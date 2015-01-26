@@ -1,0 +1,18 @@
+{% load login_next from accounts %}
+
+<form id="quick-login-form" method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{% login_next next %}" />
+        <div class="creds">
+            <div>{{ form.username.label_tag }}{{ form.username }}</div>
+            <div>{{ form.password.label_tag }}{{ form.password }}</div>
+        </div>
+        <div class="controls">
+            <div><input type="submit" value="login" /></div>
+            <div><a href="{% url 'accounts-register' %}?next={% login_next next %}">Sign Up</a></div>
+        </div>
+        <div class="options">
+            <div class="forgot"><a href="{% url 'password_reset' %}">Forgot Password?</a></div>
+            <div><label><input type="checkbox" name="remember_me">Remember me</label></div>
+        </div>
+</form>

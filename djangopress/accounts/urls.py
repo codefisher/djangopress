@@ -24,6 +24,7 @@ urlpatterns = patterns('',
     url(r'^profile/$', views.user_profile, name='accounts-profile-alt'),
     
     url(r'^banned/(?P<username>.+)/$', views.you_are_banned, name='accounts-banned'),
+    url(r'^quick_login/$', views.quick_login, name='accounts-quick-login'),
 
     url(r'^user/$', views.user_profile, name='accounts-profile'),
     url(r'^user/(?P<username>.+?)/(?P<tab>.+?)/$', views.user_profile, name='accounts-profile'),

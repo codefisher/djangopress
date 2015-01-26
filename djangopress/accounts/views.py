@@ -12,6 +12,7 @@ from djangopress.accounts.profiles import register as profile_register
 from djangopress import settings
 from djangopress.core.util import get_client_ip
 from django.contrib.auth.signals import user_logged_in, user_login_failed
+from django.contrib.auth.forms import AuthenticationForm
 
 
 def user_login(sender, user, request, **kwargs):
@@ -126,6 +127,9 @@ def reactivate(request, username):
                 profile.save()
                 return send_activate_email(request, user, resend=True)
     raise Http404("Invalid request")
+
+def quick_login(request):
+    return render(request, "accounts/quick_login.html", {"form": AuthenticationForm(request)})
 
 def you_are_banned(request, username):
     user = get_object_or_404(User, username=username)
