@@ -177,6 +177,12 @@ class Comment(models.Model):
                 'be displayed instead.')
     is_spam = models.BooleanField('is spam', default=False,
         help_text='Check this box to flag as spam.')
+    
+    def get_user_name(self):
+        return self.user.username if self.user else self.user_name
+    
+    def get_user_url(self):
+        return self.user.profile.homepage if self.user and self.user.profile else self.user_url
 
 class Flag(models.Model):
     user = models.ForeignKey(User, related_name="comment_flags")
