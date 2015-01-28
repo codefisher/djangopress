@@ -48,7 +48,7 @@
       </div>
       {% if request.user.is_authenticated %} 
         <div id="top-tabs">
-            <a class="button-link" href="{% url 'logout' %}?next={{ request.path }}">Logout</a> &bull;
+            <a class="button-link" href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
             <a class="button-link" href="{% url 'accounts-profile' %}" >Profile</a>
         </div>
       {% else %}

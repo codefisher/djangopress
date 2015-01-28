@@ -5,6 +5,11 @@
     <h2><a href="{{ blog.get_absolute_url }}">{{ blog.name }}</a></h2>
     
     {% include "blog/entry.html" %}
+    
+    <p>
+        If you found this interesting you might want to <a href="https://twitter.com/codefisher" class="twitter-follow-button" data-show-count="false">Follow @codefisher</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+    </p>
 
     {% if comment_count == 0 %}
         <h3>This post has no comments, be the first to post.</h3>
@@ -15,7 +20,7 @@
 	           <div class="comment">
 	               <div class="comment-text">{{ comment.comment_text }}</div>
 	               <div class="comment-info">
-                       {% if comment.user %}
+                       {% if comment.user.username %}
                          {% if comment.user.profile.homepage %} 
                          <a rel="nofollow" href="{{comment.user.profile.homepage }}">{{ comment.user.username }}</a>
                          {% else %} {{ comment.user.username }}{% endif %} said this on {{ comment.submit_date }}
