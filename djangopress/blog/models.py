@@ -183,7 +183,7 @@ class Comment(models.Model):
         help_text='Check this box to flag as spam.')
     
     def formatted_comment(self):
-        return mark_safe(markdown.markdown(bleach.clean(text)))
+        return mark_safe(markdown.markdown(bleach.clean(self.comment_text)))
     
     def get_user_name(self):
         return self.user.username if self.user else self.user_name
