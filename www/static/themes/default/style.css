@@ -1,9 +1,11 @@
 @import "style.footer.css";
+@import "style.footer.all.css";
 @import "style.front.css";
 @import "style.general.css";
 @import "style.general.all.css";
 @import "style.menu.css";
 @import "style.sidebar.css";
+@import "style.sidebar.all.css";
 @import "style.top-menu.css";
 @import "style.table.css";
 @import "style.toolbar.css";

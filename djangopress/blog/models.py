@@ -4,6 +4,10 @@ from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
 
+from django.utils.safestring import mark_safe
+import markdown
+import bleach
+
 class EntryMananger(models.Manager):
 
     def get_entries(self, blog=None, ordered=True):
@@ -177,6 +181,9 @@ class Comment(models.Model):
                 'be displayed instead.')
     is_spam = models.BooleanField('is spam', default=False,
         help_text='Check this box to flag as spam.')
+    
+    def formatted_comment(self):
+        return mark_safe(markdown.markdown(bleach.clean(text)))
     
     def get_user_name(self):
         return self.user.username if self.user else self.user_name

@@ -1,11 +1,30 @@
-function FlyOutMenu(menuId) {
+function FlyOutMenu(menuId, wrapWidth, name) {
     var self = this,
         wrapper = document.getElementById(menuId),
         menuRoot = this.firstChildByName(wrapper, 'ul');
+    if(window.innerWidth < wrapWidth) {
+        var list = document.createElement('ul'),
+            item = document.createElement('li'),
+            link = document.createElement('a');
+            link.href = "/";
+            link.innerHTML = name;
+        item.appendChild(link);
+        item.appendChild(menuRoot);
+        list.id = menuRoot.id;
+        menuRoot.id = "";
+        list.className = menuRoot.className;
+        this.setClass(list, 'horizontal');
+        menuRoot.className = "";
+        list.appendChild(item);
+        wrapper.appendChild(list);
+        menuRoot = list;
+    }
+    this.menuRoot = menuRoot;
     wrapper.setAttribute("role", "navigation");
     this.removeClass(wrapper, 'css-fly-out-menu');
     this.currentItem = null;
-
+    menuRoot.setAttribute('tabindex', '0');
+    
     this.setEventListener(document, 'keydown',
         function(event) {
             return self.keydown(event);
@@ -14,9 +33,21 @@ function FlyOutMenu(menuId) {
         function(event) {
             return self.mouseover(event);
         },  true);
-    this.setEventListener(menuRoot, 'tap',
+    this.setEventListener(menuRoot, 'touchstart',
         function(event) {
-            return self.tap(event);
+            return self.touchstart(event);
+        },  true);
+    this.setEventListener(menuRoot, 'touchend',
+        function(event) {
+            return self.touchend(event);
+        },  true);
+    this.setEventListener(document, 'touchend',
+        function(event) {
+            return self.doctouchend(event);
+        },  true);
+    this.setEventListener(menuRoot, 'touchleave',
+        function(event) {
+            return self.mouseout(event);
         },  true);
     this.setEventListener(menuRoot, 'mouseout',
         function(event) {
@@ -73,8 +104,38 @@ FlyOutMenu.prototype.click = function(event) {
     }
 };
 
-FlyOutMenu.prototype.tap = function(event) {
+FlyOutMenu.prototype.touchstart = function(event) {
+    var target = this.getEventTarget(event, 'li');
+    if(target.subMenu) {
+        event.preventDefault();
+        if(target.focused) {
+            this.mouseout(event);
+        } else {
+            this.mouseover(event);
+        }
+    }
+};
 
+FlyOutMenu.prototype.touchend = function(event) {
+    var target = this.getEventTarget(event, 'li');
+    if(target.subMenu) {
+        event.stopPropagation();
+        event.preventDefault();
+    }
+};
+
+FlyOutMenu.prototype.doctouchend = function(event) {
+	if(!this.currentItem) {
+		return;
+	}
+	var target = event.target;
+	while(target) {
+		if(target == this.menuRoot) {
+			return;
+		}
+		target = target.parentNode;
+	}
+	this.blurElement(this.currentItem);
 };
 
 FlyOutMenu.prototype.mouseover = function(event) {
@@ -220,6 +281,7 @@ FlyOutMenu.prototype.focusElement = function(node) {
     var link = this.firstChildByName(node, 'a');
     if(link) {
         link.focus();
+        this.dispatchEvent(link, "focus");
     } else {
         node.focus();
         this.dispatchEvent(node, "focus");
@@ -230,6 +292,7 @@ FlyOutMenu.prototype.blurElement = function(node) {
     var link = this.firstChildByName(node, 'a');
     if(link) {
         link.blur();
+        this.dispatchEvent(link, "blur");
     } else {
         node.blur();
         this.dispatchEvent(node, "blur");
@@ -244,21 +307,29 @@ FlyOutMenu.prototype.dispatchEvent = function(node, eventName) {
 
 FlyOutMenu.prototype.removeClass = function(node, value) {
     if(node) {
-        var currentValue = node.className;
-        if(currentValue === null) {
-            return;
-        }
-        node.className = currentValue.replace(new RegExp(value, 'gi'), '').replace(/ +/, ' ');
+        if(node.classList) {
+            node.classList.remove(value);
+        } else {
+	        var currentValue = node.className;
+	        if(currentValue === null) {
+	            return;
+	        }
+	        node.className = currentValue.replace(new RegExp(value, 'gi'), '').replace(/ +/, ' ');
+	    }
     }
 };
 
 FlyOutMenu.prototype.setClass = function(node, value) {
     if(value !== null) {
-        var currentValue = node.className;
-        if(currentValue) {
-            node.className = currentValue + ' ' + value;
+        if(node.classList) {
+            node.classList.add(value);
         } else {
-            node.className = value;
+	        var currentValue = node.className;
+	        if(currentValue) {
+	            node.className = currentValue + ' ' + value;
+	        } else {
+	            node.className = value;
+	        }
         }
     }
 };

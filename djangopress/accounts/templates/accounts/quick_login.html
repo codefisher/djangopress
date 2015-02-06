@@ -2,6 +2,7 @@
 
 <form id="quick-login-form" method="post" action="{% url 'login' %}">
         {% csrf_token %}
+        <div id="quick-login-contents">
         <input type="hidden" name="next" value="{% login_next next %}" />
         <div class="creds">
             <div>{{ form.username.label_tag }}{{ form.username }}</div>
@@ -14,5 +15,6 @@
         <div class="options">
             <div class="forgot"><a href="{% url 'password_reset' %}">Forgot Password?</a></div>
             <div><label><input type="checkbox" name="remember_me">Remember me</label></div>
+        </div>
         </div>
 </form>

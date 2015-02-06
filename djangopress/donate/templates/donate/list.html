@@ -1,5 +1,5 @@
 <ul>
 {% for donation in donations %}
-<li>${{ donation.amount }} {% if donation.link_url and donation.amount >= 10 %}<a href="{{ donation.link_url }}">{{ donation.link_text }}</a> {% else %}{{ donation.name }}{% endif %}</li>
+<li>${{ donation.amount }} {% if donation.link_url and donation.amount >= 10 %}<a{% if nofollow %} rel="nofollow"{% endif %} href="{{ donation.link_url }}">{{ donation.link_text }}</a> {% else %}{{ donation.name }}{% endif %}</li>
 {% endfor %}
 </ul>

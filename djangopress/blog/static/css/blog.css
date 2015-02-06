@@ -50,8 +50,8 @@ h2.category {
     border-radius:6px;
     box-shadow: 0px 0px 1px rgba(255, 255, 255, 0.5);
     border: 1px solid rgba(0, 0, 0, 0.6);
-    padding:.5em;
-    margin:.5em;
+    padding:0.5em;
+    margin:0.5em;
 }
 
 .comment-text {
@@ -63,4 +63,10 @@ h2.category {
    background:rgba(0, 0, 0, 0.2);
    font-size:0.8em;
    padding:0.2em;
+}
+
+.author-comment {
+	font-size:1.25em;
+	text-shadow: #000000 1px 1px 1px;
+	margin-left:1.5em;
 }

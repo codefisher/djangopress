@@ -1,0 +1,36 @@
+#footer {
+    font-size:0.75em;
+}
+
+.footer-section h3 {
+	padding:0 0.25em 0.25em;
+	margin:0 0.25em 1em;
+	border-bottom:1px solid #98bc55;
+	color:#e8f1d7;
+	text-shadow: #000000 1px 1px 1px;
+}
+
+.footer-section ul {
+	margin:0 0 0 1em;
+	padding:0;
+	/*color:#98bc55;*/
+}
+
+#footer-copyright {
+	text-align:center;
+	padding:1em;
+}
+
+.twitter-follow img {
+	vertical-align: top;
+	padding:0 2px;
+}
+
+.footer-detail {
+	padding:0.5em;
+	color:#2a4305;
+}
+
+.footer-section a {
+	color:#2a4305;
+}

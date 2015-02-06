@@ -5,7 +5,7 @@
     width:100%;
     line-height:32px;
     position:relative;
-    z-index:100;
+    z-index:2;
 }
 .fly-out-menu ul {
     padding:0;
@@ -29,9 +29,6 @@
 .fly-out-menu ul li ul {
     opacity:0;
     visibility:collapse;
-    transform-origin: top;
-    transform: scaleY(0);
-    transition: opacity 0.4s linear, transform .2s linear;
     position:absolute;
 }
 
@@ -59,6 +56,17 @@
 
 .fly-out-menu .horizontal > li.has-submenu:after {
    content: "▼";
+   display: block;
+   text-shadow: none;
+   position:absolute;
+   color:#fff;
+   font-size:5px;
+   top:1px;
+   right:10px;
+}
+
+.fly-out-menu .vertical > li.has-submenu:after {
+   content: "▶";
    display: block;
    text-shadow: none;
    position:absolute;
@@ -161,36 +169,46 @@
     text-decoration:none;
 }
 
-
-.fly-out-menu .horizontal .open ul {
-    margin-top:1px; /* IE 6 */
+.fly-out-menu ul.horizontal > li > ul {
+	transform: scaleY(0);
+	transform-origin: top;
+}
+.fly-out-menu ul.horizontal > li.open > ul {
+    margin-top:0px;
+    opacity:1;
     position:absolute;
     left:0px;
     top:100%;
     visibility:visible;
     opacity:1;
     transform: scaleY(1);
-}
-.fly-out-menu .horizontal .open > ul {
-    margin-top:0px; /* non IE 6 */
-    opacity:1;
+    transition: opacity 0.4s linear, transform .2s linear;
 }
 
-.fly-out-menu ul.vertical .open-right > ul {
+.fly-out-menu ul.vertical > li > ul {
+	transform: scaleX(0);
+}
+
+.fly-out-menu ul.vertical > li.open-right > ul {
     position:absolute;
     top:-1px;
     left:100%;
-    margin-left:-5px;
+    margin-left:0;
     opacity:1;
     visibility:visible;
+    transform: scaleX(1);
+    transition: opacity 0.4s linear, transform .2s linear;
+    transform-origin: left;
 }
-.fly-out-menu ul.vertical .open-left > ul {
+.fly-out-menu ul.vertical > li.open-left > ul {
     position:absolute;
     top:-1px;
     left:-100%;
-    margin-right:-5px;
+    margin-right:0;
     opacity:1;
     visibility:visible;
+    transform: scaleX(1);
+    transform-origin: right;
 }
 /* style rules used just when there is no JavaScript enabled.
    very minimlist with few features.  Will not work in IE 6 */

@@ -17,6 +17,12 @@ function loadQuickLogin() {
 			content.html(data);
 			content.show();
 			$("#id_username").focus();
+			content.click(function(event) {
+				if(event.target.id == "quick-login-form") {
+					content.empty();
+					$("#quick-login-link").show();
+				}
+			});
 		},
 		error: function(jqXHR, textStatus, errorThrown){
 			$("#quick-login-link").show();

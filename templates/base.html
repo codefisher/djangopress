@@ -29,6 +29,7 @@
  <script type="text/javascript" src="{% get_static_prefix %}js/quick-login.js"></script>
  <link rel="alternate" type="application/atom+xml" href="{% url 'blog-feed' blog_slug='news' %}" />
  {% block head_tags %}{{ extra_head_content|safe }}{% endblock %}
+ 
 <script type="text/javascript">
 //<![CDATA[
   (function() {
@@ -52,22 +53,21 @@
 {% block page_top %}{% endblock %}
 <nav id="top-menu">
   <a id="logo" href="/"><img width="175" height="90" src="{% get_static_prefix %}themes/default/images/logo-text.png" alt="Codefisher" /></a>
+ <div class="fly-out-menu css-fly-out-menu" id="links-menu">
  {% cache 600 util_menu %}
-    {% display_menu 'util-menu' %}
+     {% display_menu 'util-menu' %}
  {% endcache %}
+ </div>
+ <script type="text/javascript">new FlyOutMenu('links-menu', 600, 'Site Menu');</script>
 </nav>
 
 {% block header %}
     <header id="header">
      <div id="header-content">
-      <div id="tag-line">
-       <span>The Code Monk at work...</span>
-       <span>Innovative, Fun, Geeky</span>
-      </div>
       {% if request.user.is_authenticated %} 
         <div id="top-tabs">
-            <a class="button-link" href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
-            <a class="button-link" href="{% url 'accounts-profile' %}" >Profile</a>
+            <a id="quick-logout-link" class="button-link" href="{% url 'logout' %}?next={{ request.path }}">Logout</a>
+            <a id="quick-profile-link" class="button-link" href="{% url 'accounts-profile' %}" >Profile</a>
         </div>
       {% else %}
       <div id="quick-login">
@@ -76,17 +76,30 @@
         <div id="quick-login-content"></div>
       </div>
       {% endif %}
+      <div id="tag-line">
+       <span>The Code Monk at work...</span>
+       <span>Innovative, Fun, Geeky</span>
+      </div>
       <nav class="fly-out-menu css-fly-out-menu" id="main-menu">
        {% cache 500 main_menu request.user.username %}
             {% display_menu 'site-menu' %}
        {% endcache %}
-       <script type="text/javascript">new FlyOutMenu('main-menu');</script>
+       <script type="text/javascript">new FlyOutMenu('main-menu', 600, 'Codefisher');</script>
      </nav>
      </div>
     </header>
 {% endblock %}
 {% block wrapper %}
 <div id="wrapper">
+    {% comment %}<ul id="social-media-sidebar" class="social-media-small">
+    {% socialmedia %}
+    {
+        "buttons": ["twitter","googleplus","facebook", "linkedin", "reddit"],
+        "url": "{{ request.scheme }}://{{ request.get_host }}{{ request.get_full_path|escapejs }}",
+        "title": "{{ title|escapejs }}"
+    }
+    {% endsocialmedia %}
+    </ul>{% endcomment %}
    <main id="content">
 	{% if messages %}
 	<ul class="messages content-box">

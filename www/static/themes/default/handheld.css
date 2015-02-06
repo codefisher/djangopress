@@ -1,2 +1,5 @@
 @import "style.general.all.css";
 @import "style.general.handheld.css";
+@import "style.menu.css";
+@import "style.sidebar.all.css";
+@import "style.footer.all.css";

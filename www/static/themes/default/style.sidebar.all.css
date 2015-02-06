@@ -1,0 +1,78 @@
+.side-bar-content p {
+    margin:1em 0;
+    clear:both;
+}
+
+.side-bar-item {
+    font-size:0.75em;
+    padding-bottom:6px;
+    color:#ffffff;
+}
+
+.side-bar-item h3 {
+    font-family:sans-serif;
+    padding:5px 10px 12px 10px;
+    margin:0;
+    width:230px;
+    color:#ffffff;
+    text-shadow: #000000 1px 1px 1px;
+    background-position:-500px bottom;
+}
+
+.side-bar-item a {
+    color:#ffffff;
+}
+
+.side-bar-item h4 {
+    margin:0;
+    display:inline;
+    font-size:1em;
+}
+
+.side-bar-item h4 img {
+    vertical-align: middle;
+}
+
+.side-bar-item h4 a {
+    font-weight:bold;
+    font-family:serif;
+    color:#1d2419;
+    text-decoration:none;
+    text-shadow: 0px 1px 1px rgba(255,255,255,0.5);
+}
+
+.side-bar-item li {
+    list-style-type:circle;
+}
+
+.side-bar-item .fragment {
+    font-family:sans-serif;
+    padding:1em 0px;
+	position:relative;
+}
+
+.side-bar-item .fragment:after,
+.side-bar-item .fragment:before {
+	height: 1px;
+	width:230px;
+ 	content: ""; position: absolute;
+ 	left:0;
+ 	bottom:-1px;
+ 	background:linear-gradient(to right, rgba(255,255,255,0) 5%, rgba(255,255,255,0.6) 50%, rgba(255,255,255,0) 95%);
+}
+
+.side-bar-item .fragment:after {
+	background:linear-gradient(to right, rgba(0,0,0,0) 5%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0) 95%);
+	bottom:-2px;
+}
+
+.side-bar-item .fragment:last-child:after,
+.side-bar-item .fragment:last-child:before {
+    display:none;
+}
+.side-bar-item .fragment p {
+    margin:0;
+}
+.side-bar-item .fragment p a {
+    text-decoration:underline;
+}

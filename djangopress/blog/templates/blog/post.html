@@ -17,8 +17,8 @@
         <h3>This post has {{ comment_count }} comment{{ comment_count|pluralize }} so far.</h3>
 	    <div id="blog-comments">
 	        {% for comment in comments %}
-	           <div class="comment">
-	               <div class="comment-text">{{ comment.comment_text }}</div>
+	           <div class="comment{% if entry.author == comment.user %} author-comment{% endif %}">
+	               <div class="comment-text">{{ comment.formatted_comment }}</div>
 	               <div class="comment-info">
                          {% if comment.get_user_url %} 
                          <a rel="nofollow" href="{{comment.get_user_url }}">{{ comment.get_user_name }}</a>

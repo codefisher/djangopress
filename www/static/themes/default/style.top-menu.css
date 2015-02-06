@@ -2,6 +2,7 @@
 	max-width:1100px;
 	margin:0 auto;
 	height:90px;
+	line-height:1em;
 }
 #logo {
 	margin:0 20px;
@@ -22,6 +23,7 @@
 	text-align:center;
 	padding:30px 11px 15px 11px;
 	margin:0px 0px;
+	line-height:1em;
 }
 #util-menu li a {
 	text-shadow: #000000 1px 1px 1px;
