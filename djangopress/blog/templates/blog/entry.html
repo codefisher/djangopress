@@ -13,7 +13,7 @@
     <small>{{ entry.posted|date:"DATE_FORMAT" }} by {{ entry.author }}</small>
     <div>
         <a class="twitter-share-button"
-          href="https://twitter.com/share?url={{ request.scheme }}://{{ request.get_host }}{{ entry.get_absolute_url|urlencode }}&text={{ entry.title|urlencode }}">
+          href="https://twitter.com/share?url={{ request.scheme }}://{{ request.get_host }}{{ entry.get_absolute_url|urlencode }}&amp;text={{ entry.title|urlencode }}">
         Tweet
         </a>
     </div>
