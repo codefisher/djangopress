@@ -117,11 +117,11 @@ def post(request, blog_slug, year, month, day, slug):
     with timezone.override(None):
         entry = get_object_or_404(Entry, blog=blog, slug=slug, posted__year=year, posted__month=month, posted__day=day)
     try:
-        previous_post = Entry.get_previous_by_posted(entry)
+        previous_post = Entry.get_previous_by_posted(entry, blog=blog)
     except Entry.DoesNotExist:
         previous_post = None
     try:
-        next_post = Entry.get_next_by_posted(entry)
+        next_post = Entry.get_next_by_posted(entry, blog=blog)
     except Entry.DoesNotExist:
         next_post = None
     comments = Comment.objects.filter(entry=entry, is_public=True, is_spam=False).order_by('submit_date')
