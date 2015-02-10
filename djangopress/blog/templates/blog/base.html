@@ -2,6 +2,7 @@
 {% load static %}
 {% load blog_tags %}
 
+{% block page_title %}{{ title }} :: {{ blog.name }}{% endblock %}
 
 {% block head_tags %}
     <link type="text/css" rel="stylesheet" href="{% get_static_prefix %}css/blog.css">

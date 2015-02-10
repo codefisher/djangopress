@@ -146,7 +146,7 @@ def post(request, blog_slug, year, month, day, slug):
     else:
         comment_form = choose_form(request, CommentUserForm, CommentForm)
     data = {
-        "title": settings.TITLE_FORMAT % (blog.name, entry.title),
+        "title": settings.TITLE_FORMAT % (entry.title, blog.name),
         "entry": entry,
         "respond": False,
         "next": next_post,

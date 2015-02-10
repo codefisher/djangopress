@@ -159,6 +159,11 @@ body {
 #content a {
     color:#ffffff;
 }
+
+#content .gist a, #content .gist a:visited, #content .gist a:hover {
+	color:#666666;
+}
+
 #content a:visited {
     color:#d2e8ac;
 }

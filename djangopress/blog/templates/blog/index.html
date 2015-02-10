@@ -1,10 +1,6 @@
 {% extends "blog/base.html" %}
 {% load show_pagination %}
 
-{% block page_title %}
-    {{ title }} {% if blog_heading %}::{{ blog_heading }}{% endif %}
-{% endblock %}
-
 {% block content %}
     {% if blog_heading %}
         <h2 class="category">{{ blog_heading }}</h2>
