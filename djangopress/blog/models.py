@@ -145,7 +145,7 @@ class Entry(models.Model):
     def clean_slug(self):
         slug = self.cleaned_data['slug']
         if not slug:
-            self.slug = re.sub(r"\W+", "-", self.cleaned_data['title'])
+            slug = re.sub(r"\W+", "-", self.cleaned_data['title'])
         return slug
         
     def get_tags(self):
