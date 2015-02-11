@@ -1,4 +1,5 @@
 import datetime
+import re
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
@@ -140,6 +141,12 @@ class Entry(models.Model):
 
     def save(self):
         super(Entry, self).save()
+        
+    def clean_slug(self):
+        slug = self.cleaned_data['slug']
+        if not slug:
+            self.slug = re.sub(r"\W+", "-", self.cleaned_data['title'])
+        return slug
         
     def get_tags(self):
         return self.tags.all()
