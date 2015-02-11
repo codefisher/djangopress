@@ -11,6 +11,11 @@ admin.site.register(Category, CategoryAdmin)
 
 class EntryAdmin(admin.ModelAdmin):
     list_display = ['title', 'slug', 'author', 'posted']
+    
+    prepopulated_fields = {
+        "slug": ("title", )
+    }
+    
 admin.site.register(Entry, EntryAdmin)
 
 class TagAdmin(admin.ModelAdmin):
