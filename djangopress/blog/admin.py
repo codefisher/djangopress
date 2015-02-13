@@ -10,11 +10,36 @@ class CategoryAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 
 class EntryAdmin(admin.ModelAdmin):
+    exclude = ('author',)
+    
     list_display = ['title', 'slug', 'author', 'posted']
     
     prepopulated_fields = {
         "slug": ("title", )
     }
+    
+    fieldsets = (
+        (None, {
+            'fields': ('blog', 'title', 'slug', 'body')
+        }),
+        ('Publishing', {
+            'fields': ('posted', 'status', 'visibility')
+        }),
+        ('Settings', {
+            'fields': ('sticky', 'comments_open')
+        }),
+        ('Tagging', {
+            'fields': ('tags', 'categories')
+        }),
+        ('Meta', {
+            'fields': ('description', 'post_image')
+        }),
+    )
+    
+    def save_model(self, request, obj, form, change):
+        if not change:
+            obj.author = request.user
+        obj.save()
     
 admin.site.register(Entry, EntryAdmin)
 

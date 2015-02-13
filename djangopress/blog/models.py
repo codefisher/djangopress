@@ -1,9 +1,11 @@
 import datetime
+import time
+
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
-
+from djangopress.core.util import smart_truncate_chars
 from django.utils.safestring import mark_safe
 import markdown
 import bleach
@@ -90,6 +92,13 @@ class Blog(models.Model):
         if page is None:
             return reverse("blog-index", kwargs={"blog_slug": self.slug})
         return reverse("blog-index", kwargs={"blog_slug": self.slug, "page": page})
+    
+    def get_feed_url(self):
+        return reverse("blog-feed", kwargs={"blog_slug": self.slug})
+    
+def post_image_path(instance, filename):
+    return ("blog/%s/%s-%s" % (time.strftime("%y/%m"), instance.pk, filename.lower()))
+
 
 class Entry(models.Model):
     PUBLICATION_LEVEL = (
@@ -128,6 +137,10 @@ class Entry(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     categories = models.ManyToManyField(Category)
     comments_open = models.BooleanField(default=True)
+    
+    # meta data
+    description = models.TextField(blank=True, max_length=140, default="")
+    post_image = models.ImageField(blank=True, null=True, upload_to=post_image_path)
 
     class Meta:
         verbose_name = "entry"
@@ -140,6 +153,11 @@ class Entry(models.Model):
 
     def save(self):
         super(Entry, self).save()
+        
+    def get_description(self):
+        if self.description:
+            return self.description
+        return smart_truncate_chars(bleach.clean(self.body, strip=True).strip(), 140)
         
     def get_tags(self):
         return self.tags.all()
@@ -183,7 +201,7 @@ class Comment(models.Model):
         help_text='Check this box to flag as spam.')
     
     def formatted_comment(self):
-        return mark_safe(markdown.markdown(bleach.clean(self.comment_text)))
+        return mark_safe(markdown.markdown(bleach.clean(self.comment_text, strip=True)))
     
     def get_user_name(self):
         return self.user.username if self.user else self.user_name

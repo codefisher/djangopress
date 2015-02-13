@@ -1,6 +1,35 @@
 {% extends "blog/base.html" %}
 {% load field_form %}
 
+{% block head_tags %}
+    {{ block.super }}
+    <meta name="author" content="{{ entry.author }}" />
+    <meta name="title" content="{{ entry.title }}" />
+    <meta name="description" content="{{ entry.get_description }}" />
+    <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ entry.get_absolute_url }}" />
+    
+    {% if entry.post_image %}
+    
+    {% if entry.author.profile.social_twitter %}
+    <!-- twitter -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:image" content="{{ request.scheme }}://{{ request.get_host }}{{ entry.post_image.url }}" />
+    <meta name="twitter:title" content="{{ entry.title }}" />
+    <meta name="twitter:description" content="{{ entry.get_description }}" />
+    <meta name="twitter:site" content="@{{ entry.author.profile.social_twitter.value }}" />
+    <meta name="twitter:url" content="{{ request.scheme }}://{{ request.get_host }}{{ entry.get_absolute_url }}" />
+    {% endif %}
+    
+    <!-- OpenGraph/Facebook -->
+    <meta property="og:title" content="{{ entry.title }}" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="{{ request.scheme }}://{{ request.get_host }}{{ entry.get_absolute_url }}" />
+    <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ entry.post_image.url }}" />
+    <meta property="og:description" content="{{ entry.get_description }}" />
+
+    {% endif %}
+{% endblock %}
+
 {% block content %}
     <h2><a href="{{ blog.get_absolute_url }}">{{ blog.name }}</a></h2>
     

@@ -48,6 +48,13 @@ class UserProfile(models.Model):
             return self.last_ip_used
         return self.registration_ip
             
+    def __getattr__(self, name):
+        if name.startswith("social_"):
+            try:
+                return self.user.social.filter(account=name[7:])[0]
+            except:
+                raise AttributeError(name)
+        return super(UserProfile, self).__getattr__(name)
     
     def get_absolute_url(self):
         return reverse('accounts-profile', kwargs={"username": self.user.username}) 
@@ -82,6 +89,18 @@ class UserProfile(models.Model):
     def check_activate_key(self, hsh):
         return (hsh == self.activate_key
                 and timezone.now() <= self.activate_key_expirary)
+
+class UserSocial(models.Model):
+    ACCOUNTS = (
+        ('twitter', 'Twitter'),
+        ('google_plus', 'Google Plus'),
+        ('facebook', 'Facebook'),
+        ('linkedin', 'Linked In'),
+        ('pinterest', 'Pinterest'),
+    )
+    account = models.CharField(max_length=20, choices=ACCOUNTS)
+    value = models.CharField(max_length=100)
+    user_profile = models.ForeignKey(User, related_name="social")
 
 class UserProperty(Property):
     user_profile = models.ForeignKey(User, related_name="properties")

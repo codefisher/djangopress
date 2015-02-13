@@ -6,6 +6,7 @@
 
 {% block head_tags %}
     <link type="text/css" rel="stylesheet" href="{% get_static_prefix %}css/blog.css">
+    <link rel="alternate" type="application/atom+xml" title="{{ blog.name }}" href="{{ blog.get_feed_url }}" />
 {% endblock %}
 
 {% block sidebar %}

@@ -1,5 +1,5 @@
 from django.contrib import admin
-from djangopress.accounts.models import UserProfile, UserProperty
+from djangopress.accounts.models import UserProfile, UserProperty, UserSocial
 from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin as AuthUserAdmin
 from django.contrib.admin.utils import model_ngettext
@@ -13,6 +13,9 @@ class PropertiesInline(admin.TabularInline):
     formfield_overrides = {
         models.TextField: {'widget': Textarea(attrs={'rows':3})},
     }
+    
+class SocialInline(admin.TabularInline):
+    model = UserSocial
 
 class UserProfileInline(admin.StackedInline):
     model = UserProfile
@@ -39,7 +42,7 @@ class UserAdmin(AuthUserAdmin):
         return super(UserAdmin, self).add_view(*args, **kwargs)
     
     def change_view(self, *args, **kwargs):
-        self.inlines = [UserProfileInline, PropertiesInline]
+        self.inlines = [UserProfileInline, PropertiesInline, SocialInline]
         return super(UserAdmin, self).change_view(*args, **kwargs)
 
 # unregister old user admin
