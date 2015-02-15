@@ -3,7 +3,7 @@
 from django import forms
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
-from djangopress.settings import ADMINS
+from django.conf import settings
 from django.core.urlresolvers import reverse
 
 class ContactForm(forms.Form):
@@ -21,7 +21,7 @@ def contact(request):
                 result = send_mail(form.cleaned_data['subject'], 
                           form.cleaned_data['message'], 
                           "%s <%s>" % (form.cleaned_data['name'], form.cleaned_data['email']),
-                          [email for name, email in ADMINS], fail_silently=False)
+                          [email for name, email in settings.ADMINS], fail_silently=False)
                 if result:
                     return redirect(reverse(thanks))
                 else:
