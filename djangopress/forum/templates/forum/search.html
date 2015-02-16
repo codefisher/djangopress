@@ -6,7 +6,7 @@
 {% block page_title %}Search results for &#8220;{{ query|escape }}&#8221;{% endblock %}
 {% block head_tags %}
 	{{ block.super }}
-    <link type="text/css" rel="stylesheet" href="{% get_static_prefix %}css/search.css">
+    <link type="text/css" rel="stylesheet" href="{% static "css/search.css" %}">
 {% endblock %}
 
 {% block content %}

@@ -12,7 +12,7 @@ admin.site.register(Category, CategoryAdmin)
 class EntryAdmin(admin.ModelAdmin):
     exclude = ('author',)
     
-    list_display = ['title', 'slug', 'author', 'posted']
+    list_display = ('title', 'slug', 'author', 'posted')
     
     prepopulated_fields = {
         "slug": ("title", )

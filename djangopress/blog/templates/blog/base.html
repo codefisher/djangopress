@@ -5,7 +5,7 @@
 {% block page_title_prefix %}{% if title != blog.name %} :: {{ blog.name }}{% endif %}{% endblock %}
 
 {% block head_tags %}
-    <link type="text/css" rel="stylesheet" href="{% get_static_prefix %}css/blog.css">
+    <link type="text/css" rel="stylesheet" href="{% static "css/blog.css" %}">
     <link rel="alternate" type="application/atom+xml" title="{{ blog.name }}" href="{{ blog.get_feed_url }}" />
 {% endblock %}
 
