@@ -131,7 +131,7 @@ def new_thread(request, forums_slug, forum_id):
                 if not user.forum_subscriptions.filter(pk=thread.pk).exists():
                     thread.subscriptions.add(user)
             return process_post(request, thread, post_form, forums)
-        elif request.POST.get('preview'):
+        elif request.POST.get('preview') and post_form.is_valid():
             preview = post_form.save(commit=False)
             preview.format = forums.format
     else:
