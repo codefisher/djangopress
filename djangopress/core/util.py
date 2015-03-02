@@ -1,7 +1,6 @@
 
-from djangopress import settings
+from django.conf import settings
 from django.contrib.auth.models import Group
-
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
