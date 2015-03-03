@@ -258,11 +258,12 @@ def reply_thread(request, forums_slug, thread_id):
     preview = None
     if request.method == 'POST':
         post_form = choose_form(request, PostForm, PostAnonymousForm, request.POST)
-        if request.POST.get('preview'):
-            preview = post_form.save(commit=False)
-            preview.format = forums.format
-        elif post_form.is_valid():
-            return process_post(request, thread, post_form, forums)
+        if post_form.is_valid():
+            if request.POST.get('preview'):
+                preview = post_form.save(commit=False)
+                preview.format = forums.format
+            else:
+                return process_post(request, thread, post_form, forums)
     else:
         quotes = []
         for post_id in request.GET.getlist('quote'):
