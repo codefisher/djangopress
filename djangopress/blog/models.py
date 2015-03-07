@@ -157,7 +157,7 @@ class Entry(models.Model):
     def get_description(self):
         if self.description:
             return self.description
-        return smart_truncate_chars(bleach.clean(self.body, strip=True).strip(), 140)
+        return smart_truncate_chars(bleach.clean(self.body, strip=True, tags=()).strip(), 140)
         
     def get_tags(self):
         return self.tags.all()

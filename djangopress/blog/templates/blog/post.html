@@ -4,7 +4,6 @@
 {% block head_tags %}
     {{ block.super }}
     <meta name="author" content="{{ entry.author }}" />
-    <meta name="title" content="{{ entry.title }}" />
     <meta name="description" content="{{ entry.get_description }}" />
     <link rel="canonical" href="{{ request.scheme }}://{{ request.get_host }}{{ entry.get_absolute_url }}" />
     
