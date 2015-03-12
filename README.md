@@ -6,19 +6,19 @@ Each application is supposed to be loosely coupled, so that they can be used on 
 
 Currently there are applications for:
 
-  CMS
-  Forum
-  Blog
-  Contact Page
-  Accounts
+  * CMS
+  * Forum
+  * Blog
+  * Contact Page
+  * Accounts
   
 We plan to add
   
-  Private Messaging
-  Themes
-  File Uploads
-  Polls
-  Wiki
+  * Private Messaging
+  * Themes
+  * File Uploads
+  * Polls
+  * Wiki
   
 django-Press is never intended to have have the best any of these types of applications.  But solid basic versions, that work together nicely.  
 
