@@ -267,8 +267,11 @@ def reply_thread(request, forums_slug, thread_id):
     else:
         quotes = []
         for post_id in request.GET.getlist('quote'):
-            post = Post.objects.get(pk=post_id)
-            quotes.append("[quote post=%s]%s[/quote]" % (post.pk, post.message))
+            try:
+                post = Post.objects.get(pk=post_id)
+                quotes.append("[quote post=%s]%s[/quote]" % (post.pk, post.message))
+            except Post.DoesNotExist:
+                pass
         post_form = choose_form(request, PostForm, PostAnonymousForm, initial={'message': "\n".join(quotes)})
     posts = Post.objects.filter(thread=thread, is_spam=False, is_public=True
                     ).select_related('author', 'thread').order_by('-posted')[:5]
