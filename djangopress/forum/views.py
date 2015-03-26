@@ -267,6 +267,8 @@ def reply_thread(request, forums_slug, thread_id):
     else:
         quotes = []
         for post_id in request.GET.getlist('quote'):
+            if not post_id or not post_id.isdigit():
+                continue
             try:
                 post = Post.objects.get(pk=post_id)
                 quotes.append("[quote post=%s]%s[/quote]" % (post.pk, post.message))
