@@ -48,7 +48,7 @@ class QuoteNode(nodes.ArgumentedNode):
 
 nodes.Library.argumented_tag("quote", '<div class="quote"><span class="title">QUOTE: {% if name %}{{ name }}{% endif %}{% if date %} @ {{ date }}{% endif %}{% if post_url %} <a href="{{post_url}}">*</a>{% endif %}</span><blockquote>{{ content }}</blockquote></div>', cls=QuoteNode)
 
-@register.simple_tag(takes_context=True)
+
 def format_post(context, post, user=None, forums=None):
     formating = Library.get(post.format).get("function")
     smilies = post.show_similies
@@ -61,6 +61,8 @@ def format_post(context, post, user=None, forums=None):
     show_images = show_images and forums.display_images
     smilies = smilies and forums.show_smilies
     return formating(post.message, context=context, smilies=smilies, show_images=show_images, should_urlize=forums.make_links)
+
+register.simple_tag(format_post, takes_context=True)
 
 @register.inclusion_tag('forum/post/latest.html')
 def show_latest_posts(forums_slug, number=5):

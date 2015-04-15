@@ -1,8 +1,16 @@
 from django.conf.urls import patterns, url
 from djangopress.forum import views
+from djangopress.forum.feeds import ForumsAtomFeed, ForumsFeed, ForumAtomFeed, ForumFeed
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='forum-index'),
+
+    url(r'^feed/$', ForumsAtomFeed(), name='forum-feed'),
+    url(r'^rss/$', ForumsFeed(), name='forum-rss-feed'),
+
+    url(r'^feed/(?P<forum_id>\d+)/$', ForumAtomFeed(), name='forum-feed'),
+    url(r'^rss/(?P<forum_id>\d+)/$', ForumFeed(), name='forum-rss-feed'),
+
     url(r'^category/(?P<category_id>\d+)/$', views.index, name='forum-category'),
 
     url(r'^thread/(?P<thread_id>\d+)/$', views.view_thread, name='forum-view-thread'),
