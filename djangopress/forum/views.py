@@ -56,7 +56,7 @@ def moderator_forum(request):
 
 def view_forum(request, forums_slug, forum_id, page=1):
     forums = get_forum(forums_slug)
-    forum = get_object_or_404(Forum.objects.select_related('category', 'category__forums'), pk=forum_id)
+    forum = get_object_or_404(Forum.objects.select_related('category', 'category__forums'), pk=forum_id, category__forums=forums.pk)
     
     paginator = Paginator(Thread.objects.filter(forum=forum).select_related(
                 'poster', 'last_post__author', 'forum__category__forums'
