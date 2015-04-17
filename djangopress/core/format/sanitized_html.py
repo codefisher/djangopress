@@ -87,7 +87,7 @@ def sanitized_html(text, context=None, *args, **kargs):
     return parse.parse().render(context)
 
 if __name__ == "__main__":
-    print sanitized_html("""
+    print(sanitized_html("""
         <script>alert('hit'); </script>
         <h2 onclick="alert('hit')"><img src="/static/images/icons/toolbar-buttons.png" width="32" height="32" alt=""><a href="#">Toolbar Buttons</a></h2>
         <p>
@@ -105,4 +105,4 @@ if __name__ == "__main__":
             <dt>One</dt>
             <dd>item</dd>
         </dl>
-        """)
+        """))

@@ -150,5 +150,5 @@ if __name__ == "__main__":
     [B] [i]I what help http://codefisher.org/ [/B][/i] that should be something that I need to build into
 
     """)
-    print text
+    print(text)
     open("text.html", "w").write(text)
