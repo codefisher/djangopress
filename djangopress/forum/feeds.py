@@ -35,7 +35,7 @@ class ForumsFeed(Feed):
         return item.posted
 
     def item_categories(self, item):
-        return item.thread.forum.name
+        return [item.thread.forum.name]
 
 class ForumsAtomFeed(ForumsFeed):
     feed_type = Atom1Feed
