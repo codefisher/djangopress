@@ -34,6 +34,11 @@ class ForumsFeed(Feed):
     def item_pubdate(self, item):
         return item.posted
 
+    def item_updateddate(self, item):
+        if item.edited:
+            return item.edited
+        return item.posted
+
     def item_categories(self, item):
         return [item.thread.forum.name]
 

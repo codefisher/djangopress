@@ -36,6 +36,9 @@ class BlogFeed(Feed):
     def item_pubdate(self, item):
         return item.posted
 
+    def item_updateddate(self, item):
+        return item.edited
+
     def item_categories(self, item):
         return (str(category) for category in item.categories.all())
 
