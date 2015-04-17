@@ -113,7 +113,7 @@ class AttrNode(TagNode):
 
     def _render(self, context, **kwargs):
         if self.attrs:
-            args = dict((key, value) for key, value in self.kargs.iteritems() if key in self.attrs)
+            args = dict((key, value) for key, value in self.kargs.items() if key in self.attrs)
         else:
             args = {}
         if self.arg_name:

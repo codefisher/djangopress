@@ -26,7 +26,7 @@ class Library(object):
     @classmethod
     def choices(cls, safe=True):
         return [(name, value["name"])
-                for name, value in cls.formats.iteritems()
+                for name, value in cls.formats.items()
             if value["safe"] or not safe]
 
     @classmethod
@@ -96,7 +96,7 @@ FORMATS = {
         "verbose_name": "Magic HTML",
     },
 }
-for name, value in FORMATS.iteritems():
+for name, value in FORMATS.items():
     Library.add(name, **value)
 
 try:
