@@ -5,7 +5,6 @@ from django.utils.safestring import mark_safe
 from django.utils.html import urlize, escape
 from djangopress.core.format.smilies import add_smilies
 from djangopress.core.format.bbcode import bbcode
-from djangopress.core.format.sanitized_html import sanitized_html
 from djangopress.core.format import magic_html as magic_html_mod
 from djangopress.core.format import html
 from django.utils.encoding import force_unicode

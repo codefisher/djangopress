@@ -1,13 +1,7 @@
 
-import lxml
 import html5lib
 from lxml import html
 from html5lib import sanitizer
-from html5lib.constants import tokenTypes
-
-from pygments import highlight
-from pygments.lexers import get_lexer_by_name
-from pygments.formatters import HtmlFormatter
 
 class Library(object):
     tags = {}
@@ -16,17 +10,24 @@ class Library(object):
     def tag(cls, name=None, func=None):
         cls.tags[name] = func
 
-def format_code(node):
-    if not node.attrib.get('codelang'):
-        return None
-    lexer = get_lexer_by_name(node.attrib.get('codelang'), stripall=True)
-    formatter = HtmlFormatter(linenos=True)
-    code = node.text + ''.join(html.tostring(n) for n in node)
-    result = highlight(code, lexer, formatter)
-    code_node = html.fromstring(result)
-    return code_node
+try:
+    from pygments import highlight
+    from pygments.lexers import get_lexer_by_name
+    from pygments.formatters import HtmlFormatter
 
-Library.tag("//code", format_code)
+    def format_code(node):
+        if not node.attrib.get('codelang'):
+            return None
+        lexer = get_lexer_by_name(node.attrib.get('codelang'), stripall=True)
+        formatter = HtmlFormatter(linenos=True)
+        code = node.text + ''.join(html.tostring(n) for n in node)
+        result = highlight(code, lexer, formatter)
+        code_node = html.fromstring(result)
+        return code_node
+
+    Library.tag("//code", format_code)
+except ImportError:
+    pass
 
 def extended_html(text, *args, **kwargs):
     nodes = html.fragment_fromstring(text, create_parent='div')
