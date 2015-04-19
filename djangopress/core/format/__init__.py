@@ -7,6 +7,7 @@ from djangopress.core.format.smilies import add_smilies
 from djangopress.core.format.bbcode import bbcode
 from djangopress.core.format.sanitized_html import sanitized_html
 from djangopress.core.format import magic_html as magic_html_mod
+from djangopress.core.format import html
 from django.utils.encoding import force_unicode
 
 class Library(object):
@@ -86,7 +87,7 @@ FORMATS = {
         "verbose_name": "BBcode",
     },
     "sanitized_html": {
-        "function": sanitized_html,
+        "function": html.sanatized_html,
         "safe": True,
         "verbose_name": "Sanitized HTML",
     },
@@ -94,6 +95,11 @@ FORMATS = {
         "function": magic_html_mod.magic_html,
         "safe": False,
         "verbose_name": "Magic HTML",
+    },
+    "extended_html": {
+        "function": html.extended_html,
+        "safe": False,
+        "verbose_name": "Extended HTML",
     },
 }
 for name, value in FORMATS.items():
