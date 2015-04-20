@@ -1,9 +1,12 @@
 from django import template
 from django.core.urlresolvers import reverse
-from urlparse import urlparse, urlunparse
+try:
+    from urlparse import urlparse, urlunparse
+except ImportError:
+    from urllib.parse import urlparse, urlunparse
 from django.contrib.auth.forms import AuthenticationForm
 from django.conf import settings
-from djangopress.core.format import Library
+from djangopress.core.format.library import Library
 
 register = template.Library()
 

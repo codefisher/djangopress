@@ -16,7 +16,7 @@ def contact(request):
     error = None
     if request.method == 'POST':
         form = ContactForm(request.POST)
-	if form.is_valid():
+    if form.is_valid():
             try:
                 result = send_mail(form.cleaned_data['subject'], 
                           form.cleaned_data['message'], 

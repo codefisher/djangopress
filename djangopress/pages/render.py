@@ -1,4 +1,4 @@
-from djangopress.core import format
+from djangopress.core.format import library
 
 class RenderRegister(object):
 
@@ -11,7 +11,7 @@ class RenderRegister(object):
         self._choices[name] = verbose_name
         
     def choices(self):
-        return self._choices.items()
+        return list(self._choices.items())
 
     def render(self, block, name, data, context):
         func = self._func.get(name)
@@ -22,7 +22,7 @@ class RenderRegister(object):
 register = RenderRegister()
 
 def make_render(name):
-    return lambda block, data, context: format.Library.format(name, data, False, context=context)
+    return lambda block, data, context: library.Library.format(name, data, False, context=context)
 
-for name, verbose_name in format.Library.choices(False):
+for name, verbose_name in library.Library.choices(False):
     register(name, make_render(name), verbose_name)

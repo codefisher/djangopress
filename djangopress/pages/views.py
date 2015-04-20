@@ -74,7 +74,6 @@ def page_edit(request, identifier=None, name=None, page=None,
                 else:
                     form = TextForm(instance=block, prefix=prefix)
                 forms.append(form)
-            print changes
             if changes:
                 return redirect(page.location)
     else:

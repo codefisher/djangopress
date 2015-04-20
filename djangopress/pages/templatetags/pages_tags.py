@@ -7,7 +7,7 @@ def do_placeholder(parser, token):
     args = token.split_contents()
     nodelist = None
     if len(args) < 2:
-        raise template.TemplateSyntaxError, "not enough arguments"
+        raise template.TemplateSyntaxError("not enough arguments")
     if "with_default" in args:
         nodelist = parser.parse(('endplaceholder',))
         parser.delete_first_token()

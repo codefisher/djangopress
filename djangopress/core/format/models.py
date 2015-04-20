@@ -1,7 +1,7 @@
-from django.conf import settings
 from importlib import import_module
+from django.conf import settings
 from django.utils.module_loading import module_has_submodule
-import nodes
+from . import nodes
 
 def autodiscover():
     for app in settings.INSTALLED_APPS:
