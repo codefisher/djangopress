@@ -7,6 +7,7 @@ from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
 from djangopress.core.util import smart_truncate_chars
 from django.utils.safestring import mark_safe
+from djangopress.core.format.html import extended_html
 import markdown
 import bleach
 
@@ -97,8 +98,9 @@ class Blog(models.Model):
         return reverse("blog-feed", kwargs={"blog_slug": self.slug})
     
 def post_image_path(instance, filename):
-    return ("blog/%s/%s-%s" % (time.strftime("%y/%m"), instance.pk, filename.lower()))
-
+    if instance.pk:
+        return ("blog/%s/%s-%s" % (time.strftime("%y/%m"), instance.pk, filename.lower()))
+    return ("blog/%s/%s" % (time.strftime("%y/%m"), filename.lower()))
 
 class Entry(models.Model):
     PUBLICATION_LEVEL = (
@@ -164,6 +166,9 @@ class Entry(models.Model):
     
     def get_categories(self):
         return self.categories.all()
+
+    def format_body(self):
+        return extended_html(self.body)
 
     def get_absolute_url(self):
         kwargs = {

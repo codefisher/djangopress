@@ -18,7 +18,7 @@
         </a>
     </div>
     <div class="blog-entry-content">
-        {{ entry.body|safe }}
+        {{ entry.format_body|safe }}
     </div>
     <div class="blog-entry-footer">
         {% with entry.get_tags as tags %}
