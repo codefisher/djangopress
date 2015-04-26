@@ -95,7 +95,7 @@ class Forum(models.Model):
     parent_forum = models.ForeignKey('self', null=True, blank=True, related_name="children")
     password = models.CharField(max_length=50, null=True, blank=True)
 
-    subscriptions = models.ManyToManyField(User, null=True, blank=True, related_name='forum_forum_subscriptions')
+    subscriptions = models.ManyToManyField(User, blank=True, related_name='forum_forum_subscriptions')
 
     def __unicode__(self):
         return self.name
@@ -242,7 +242,7 @@ class Thread(models.Model):
     poster_name = models.CharField(blank=True, null=True, max_length=50)
     poster_email = models.EmailField(blank=True, null=True)
     
-    subscriptions = models.ManyToManyField(User, null=True, blank=True, related_name='forum_subscriptions')
+    subscriptions = models.ManyToManyField(User, blank=True, related_name='forum_subscriptions')
 
     poster = models.ForeignKey(User, blank=True, null=True)
     subject = models.CharField(max_length=255)
