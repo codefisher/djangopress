@@ -10,7 +10,7 @@
     </div>
     {% endif %}
     <h3><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h3>
-    <small>{{ entry.posted|date:"DATE_FORMAT" }} by {{ entry.author }}</small>
+    <small><time datetime="{{ entry.posted|date:"Y-m-d H:i:s" }}">{{ entry.posted|date:"DATE_FORMAT" }}</time> by <span class="author">{{ entry.author }}</span></small>
     <div>
         <a class="twitter-share-button"
           href="https://twitter.com/share?url={{ request.scheme }}://{{ request.get_host }}{{ entry.get_absolute_url|urlencode }}&amp;text={{ entry.title|urlencode }}">
