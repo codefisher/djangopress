@@ -1,5 +1,11 @@
 from django.contrib import admin
 from djangopress.blog.models import Category, Entry, Tag, Blog, Comment, Flag
+from django import forms
+
+try:
+    from tinymce import widgets as tinymce_widgets
+except ImportError:
+    tinymce_widgets = None
 
 class BlogAdmin(admin.ModelAdmin):
     pass
@@ -9,7 +15,18 @@ class CategoryAdmin(admin.ModelAdmin):
     pass
 admin.site.register(Category, CategoryAdmin)
 
+
+class EntryAdminForm(forms.ModelForm):
+    class Meta:
+        model = Entry
+        if tinymce_widgets:
+            widgets = {
+                'body': tinymce_widgets.AdminTinyMCE,
+            }
+        exclude = ('author',)
+
 class EntryAdmin(admin.ModelAdmin):
+    form = EntryAdminForm
     exclude = ('author',)
     
     list_display = ('title', 'slug', 'author', 'posted')

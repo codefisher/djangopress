@@ -1,8 +1,24 @@
 from django.contrib import admin
 from djangopress.pages.models import Page, PageTemplate, PageBlock
+from django import forms
+
+try:
+    from tinymce import widgets as tinymce_widgets
+except ImportError:
+    tinymce_widgets = None
+
+class BlockAdminForm(forms.ModelForm):
+    class Meta:
+        model = PageBlock
+        if tinymce_widgets:
+            widgets = {
+                'data': tinymce_widgets.AdminTinyMCE,
+            }
+        exclude = ()
 
 class BlockInline(admin.StackedInline):
     model = PageBlock
+    form = BlockAdminForm
     extra = 0
     min_num = 1
 
@@ -48,6 +64,7 @@ class PageAdmin(admin.ModelAdmin):
     )
 
 class PageBlockAdmin(admin.ModelAdmin):
+    form = BlockAdminForm
 
     list_display = ('block_name', 'position', 'block_id', 'render', 'page', 'page_url')
     
