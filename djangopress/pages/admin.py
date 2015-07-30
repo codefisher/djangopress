@@ -1,6 +1,7 @@
 from django.contrib import admin
-from djangopress.pages.models import Page, PageTemplate, PageBlock
+from django.contrib.sites.models import Site
 from django import forms
+from djangopress.pages.models import Page, PageTemplate, PageBlock, PageFile
 
 try:
     from tinymce import widgets as tinymce_widgets
@@ -16,15 +17,39 @@ class BlockAdminForm(forms.ModelForm):
             }
         exclude = ()
 
+
 class BlockInline(admin.StackedInline):
     model = PageBlock
     form = BlockAdminForm
     extra = 0
     min_num = 1
+    fieldsets = (
+            (None, {
+                'fields': ('data',)
+            }),
+            ('Advanced Options', {
+                'classes': ('collapse',),
+                'fields': ('block_name', 'position', 'block_id', 'render')
+            }),
+    )
+
+class FileAdminForm(forms.ModelForm):
+    class Meta:
+        model = PageFile
+        widgets = {
+            'description': forms.TextInput,
+        }
+        fields = ('upload', 'description')
+
+class FileInline(admin.StackedInline):
+    form = FileAdminForm
+    model = PageFile
+    extra = 1
+    min_num = 0
 
 class PageAdmin(admin.ModelAdmin):
 
-    inlines = [BlockInline]
+    inlines = [BlockInline, FileInline]
     list_display = ('title', 'page_location', 'posted', 'status', 'visibility')
     list_filter = ('status', 'visibility')
     readonly_fields = ('author', 'posted', 'edited_by', 'edited')
@@ -40,22 +65,24 @@ class PageAdmin(admin.ModelAdmin):
             obj.author = request.user
         obj.save()
 
+    def get_form(self, request, obj=None, **kwargs):
+        form = super(PageAdmin, self).get_form(request, obj, **kwargs)
+        form.base_fields['sites'].initial = [Site.objects.get_current()]
+        return form
+
     fieldsets = (
         (None, {
-            'fields': ('slug', 'title', 'template', 'sites', 'parent')
+            'fields': ('slug', 'title', 'parent')
         }),
         ('Display Settings', {
             'fields': ('status', 'visibility', 'login_required')
         }),
-        #('Content', {
-        #    'fields': ('blocks',)
-        #}),
         ('Authors', {
             'fields': ('author', 'posted', 'edited_by', 'edited')
         }),
         ('Advanced Options', {
             'classes': ('collapse',),
-            'fields': ('override_location', 'head_tags')
+            'fields': ('template', 'sites', 'override_location', 'head_tags', 'image')
         }),
         ('SEO options', {
             'classes': ('collapse',),
@@ -65,6 +92,16 @@ class PageAdmin(admin.ModelAdmin):
 
 class PageBlockAdmin(admin.ModelAdmin):
     form = BlockAdminForm
+
+    fieldsets = (
+        (None, {
+            'fields': ('data',)
+        }),
+        ('Advanced Options', {
+            'classes': ('collapse',),
+            'fields': ('block_name', 'position', 'block_id', 'render')
+        }),
+    )
 
     list_display = ('block_name', 'position', 'block_id', 'render', 'page', 'page_url')
     

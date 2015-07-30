@@ -33,7 +33,11 @@ def show_page(request, path):
         "show_toolbar": show_toolbar,
         "enable_page_edit": "edit_cms_page" in request.GET
     }
-    return render(request, page.template.template, data)
+    if page.template:
+        template = page.template.template
+    else:
+        template = "pages/base.html"
+    return render(request, template, data)
 
 def get_blocks(page, identifier, name):
     if identifier:
