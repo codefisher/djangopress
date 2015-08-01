@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+    Photo Gallery
+{% endblock %}
+
+{% block content-title %}
+	Photo Gallery
+{% endblock %}
+
+{% block head_tags %}
+	<script type="text/javascript" src="/media/js/prototype.js"></script>
+	<script type="text/javascript" src="/media/js/scriptaculous.js?load=effects,builder"></script>
+	<script type="text/javascript" src="/media/js/lightbox.js"></script>
+	<link rel="stylesheet" href="/media/css/lightbox.css" type="text/css" media="screen" />
+{% endblock %}
+
+{% block page_image %}<img src="/media/images/banners/statue_bearers.jpg" width="950" height="438" id="header-image" />{% endblock %}
+
+{% block page-description %}
+	<p>
+		Select from the collection of images below to view parish outings and Mass celebrations, including the Coronation of the icon of Our Lady of Czestochowa, Fatima Day and monthly pilgrimages.
+	</p>
+{% endblock %}
+
+{% block content %}
+	{% for gallery, images in galleries %}
+		<div class="gallery {% cycle 'clear' '' %}">
+			<h2><a href="{{ gallery.get_absolute_url }}">{{ gallery.title|safe }}</a></h2>
+			<div class="photos">
+				{% for image in images %}
+					<div class="photo">
+						<a href="/media/{{ image.image }}" rel="lightbox[{{ gallery.slug }}]" title="{{ image.description|striptags }}"><img src="/media/{{ image.thumbnail }}" width="115" height="95">{{ image.description|truncatewords_html:6|safe }}</a>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+	{% endfor %}
+{% endblock %}

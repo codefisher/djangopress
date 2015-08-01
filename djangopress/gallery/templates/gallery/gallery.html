@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block page_title %}
+    {{ gallery.title }}
+{% endblock %}
+
+{% block content-title %}
+	{{ gallery.title }}
+{% endblock %}
+
+{% block head_tags %}
+	<script type="text/javascript" src="/media/js/prototype.js"></script>
+	<script type="text/javascript" src="/media/js/scriptaculous.js?load=effects,builder"></script>
+	<script type="text/javascript" src="/media/js/lightbox.js"></script>
+	<link rel="stylesheet" href="/media/css/lightbox.css" type="text/css" media="screen" />
+{% endblock %}
+
+{% block page_image %}<img src="/media/images/banners/statue_bearers.jpg" width="950" height="438" id="header-image" />{% endblock %}
+
+{% block page-description %}
+	{{ gallery.description|safe }}
+{% endblock %}
+
+{% block content %}
+				{% for image in images %}
+					<div class="photo">
+						<a href="/media/{{ image.image }}" rel="lightbox[{{ gallery.slug }}]" title="{{ image.description|striptags }}"><img src="/media/{{ image.thumbnail }}" width="115" height="95">{{ image.description|truncatewords_html:6|safe }}</a>
+					</div>
+				{% endfor %}
+{% endblock %}
