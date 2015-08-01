@@ -13,11 +13,17 @@ from django.conf import settings
 from djangopress.core.util import get_client_ip
 from django.contrib.auth.signals import user_logged_in, user_login_failed
 from django.contrib.auth.forms import AuthenticationForm
-
+from djangopress.accounts.models import UserProfile
 
 def user_login(sender, user, request, **kwargs):
-    user.profile.last_ip_used = get_client_ip(request)
-    user.profile.save()
+    try:
+        user.profile.last_ip_used = get_client_ip(request)
+        user.profile.save()
+    except:# ReverseSingleRelatedObjectDescriptor.RelatedObjectDoesNotExist as e:
+        profile = UserProfile(user=user)
+        profile.set_activate_key()
+        profile.save()
+        return user_login(sender, user, request, **kwargs)
     if request.POST.get('remember_me', None):
         request.session.set_expiry(settings.KEEP_LOGGED_DURATION)
     else:
