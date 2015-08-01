@@ -11,6 +11,7 @@ class GallerySection(models.Model):
     position = models.IntegerField()
     slug = models.SlugField()
     description = models.TextField(blank=True)
+    listed = models.BooleanField(default=True)
 
     def text_title(self):
         return strip_tags(self.title)
