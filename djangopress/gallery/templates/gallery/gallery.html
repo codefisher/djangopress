@@ -24,7 +24,7 @@
 {% block content %}
 				{% for image in images %}
 					<div class="photo">
-						<a href="/media/{{ image.image }}" rel="lightbox[{{ gallery.slug }}]" title="{{ image.description|striptags }}"><img src="/media/{{ image.thumbnail }}" width="115" height="95">{{ image.description|truncatewords_html:6|safe }}</a>
+						<a href="/media/{{ image.scaled_image }}" rel="lightbox[{{ gallery.slug }}]" title="{{ image.description|striptags }}"><img src="/media/{{ image.thumbnail }}" width="115" height="95">{{ image.description|truncatewords_html:6|safe }}</a>
 					</div>
 				{% endfor %}
 {% endblock %}
