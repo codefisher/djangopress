@@ -23,5 +23,8 @@ class MenuItem(models.Model):
     renderer = models.CharField(max_length=100, default="default", choices=list(menu_register.list_all().items()))
     
     def __unicode__(self):
-        return "%s %s" % (self.label, self.pk)
-    
+        return "%s (#%s)" % (self.label, self.pk)
+
+from djangopress.menus.menu import autodiscover
+
+autodiscover()

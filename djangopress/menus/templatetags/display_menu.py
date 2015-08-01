@@ -6,7 +6,10 @@ register = template.Library()
 
 @register.simple_tag(takes_context=True)
 def display_menu(context, menu_name, renderer=None):
-    menu = Menu.objects.get(name=menu_name)
+    try:
+        menu = Menu.objects.get(name=menu_name)
+    except:
+        return ""
     menu_items = MenuItem.objects.filter(menu=menu).select_related('parent')
     nodes = dict((item, {}) for item in menu_items)
     for item in menu_items:
