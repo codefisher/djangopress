@@ -15,7 +15,7 @@ class ImageForm(forms.ModelForm):
         fields = ("image", )
 
 def index(request):
-	galleries = GallerySection.objects.all().order_by("position")
+	galleries = GallerySection.objects.filter(listed=True).order_by("position")
 	images = [(gallery, Image.objects.filter(gallery=gallery)[:GALLERY_FONT_IMAGES]) for gallery in galleries]
 	data = {
 		"galleries": images
