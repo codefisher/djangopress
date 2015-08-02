@@ -1,5 +1,6 @@
 import PIL
 import os
+import re
 from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.html import strip_tags
@@ -24,16 +25,17 @@ class GallerySection(models.Model):
 
 
 class Image(models.Model):
-    image = models.ImageField(upload_to="images/gallery/",
+    image = models.ImageField(upload_to="images/gallery/%y/%m/",
                               height_field="height", width_field="width")
-    thumbnail = models.ImageField(upload_to="images/gallery/thumbs/",
+    thumbnail = models.ImageField(upload_to="images/gallery/thumbs/%y/%m/",
                                   editable=False)
-    scaled = models.ImageField(upload_to="images/gallery/scaled/",
+    scaled = models.ImageField(upload_to="images/gallery/scaled/%y/%m/",
                                editable=False, null=True, blank=True)
     gallery = models.ForeignKey(GallerySection, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
     width = models.IntegerField(editable=False)
     height = models.IntegerField(editable=False)
+    date = models.DateTimeField(auto_now_add=True)
 
     def get_absolute_url(self):
         return self.image.url
@@ -60,7 +62,8 @@ class Image(models.Model):
             crop = int((width * (95.0 / height) - 115) / 2)
             box = (crop, 0, crop + 115, 95)
             thumb = thumb.crop(box)
-        (head, tail) = os.path.split(self.image.path)
+        path_match = re.match(r'(.+?)((\d+/\d+/)?[^/]+)$', self.image.path)
+        head, tail = path_match.group(1), path_match.group(2)
         self.thumbnail = os.path.join("images", "gallery", "thumbs", tail)
         thumbnail_path = os.path.join(head, "images", "gallery", "thumbs", tail)
         thumb.save(thumbnail_path)
@@ -69,6 +72,7 @@ class Image(models.Model):
 
         if im_width > 600 or im_height > 600:
             im.thumbnail((600, 600), PIL.Image.ANTIALIAS)
+            self.scaled = os.path.join("images", "gallery", "scaled", tail)
             scaled_path = os.path.join(head, "images", "gallery", "scaled", tail)
             im.save(scaled_path, quality=80)
 
