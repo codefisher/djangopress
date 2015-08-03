@@ -3,25 +3,39 @@
 from django import forms
 from django.shortcuts import render, redirect
 from django.core.mail import send_mail
-from django.conf import settings
 from django.core.urlresolvers import reverse
+from .models import MailLog, MailAddress
+from django.forms.models import modelform_factory
 
-class ContactForm(forms.Form):
-    subject = forms.CharField(label="Subject")
-    email = forms.EmailField(label="Email")
-    name = forms.CharField(label="Name")
-    message = forms.CharField(widget=forms.Textarea)
-    
+class ContactForm(forms.ModelForm):
+    class Meta:
+        model = MailLog
+        fields = ('subject', 'email', 'name', 'to', 'message')
+
+def callback(obj):
+    if obj.name == 'to':
+        if MailAddress.objects.count() <= 1:
+            return forms.ModelChoiceField(MailAddress.objects.all(),
+                initial=MailAddress.objects.first(),
+                widget=forms.HiddenInput
+            )
+        return forms.ModelChoiceField(
+            MailAddress.objects.all(),
+            initial=MailAddress.objects.first())
+    return obj.formfield()
+
 def contact(request):
     error = None
+    contact_form = modelform_factory(MailLog, form=ContactForm, formfield_callback=callback)
     if request.method == 'POST':
-        form = ContactForm(request.POST)
+        form = contact_form(request.POST)
         if form.is_valid():
+            mail_entry = form.save()
             try:
-                result = send_mail(form.cleaned_data['subject'], 
-                          form.cleaned_data['message'], 
-                          "%s <%s>" % (form.cleaned_data['name'], form.cleaned_data['email']),
-                          [email for name, email in settings.ADMINS], fail_silently=False)
+                result = send_mail(mail_entry.subject,
+                          mail_entry.message,
+                          "{0} <{1}>".format(mail_entry.name, mail_entry.email),
+                          [mail_entry.to.email], fail_silently=False)
                 if result:
                     return redirect(reverse(thanks))
                 else:
@@ -29,7 +43,7 @@ def contact(request):
             except:
                 error = "A server error caused the sending of mail to fail, please try again later."
     else:
-        form = ContactForm()
+        form = contact_form()
     return render(request, "contact/index.html", {"form": form, "title": "Contact", "error": error})
 
 def thanks(request):
