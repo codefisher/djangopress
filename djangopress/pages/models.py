@@ -16,7 +16,7 @@ class PageTemplate(models.Model):
 
 def page_file_path(instance, filename):
     if instance.pk:
-        return ("pages/{0]/{1}-{2}".format(time.strftime("%y/%m"), instance.pk, filename.lower()))
+        return ("pages/{0}/{1}-{2}".format(time.strftime("%y/%m"), instance.pk, filename.lower()))
     return ("pages/{0}/{1}".format(time.strftime("%y/%m"), filename.lower()))
 
 class Page(models.Model):
@@ -116,8 +116,3 @@ class PageBlock(models.Model):
 
     def content(self, context=None):
         return render_register.render(self, self.render, self.data, context)
-
-class PageFile(models.Model):
-    page = models.ForeignKey(Page, related_name="files")
-    upload = models.FileField(upload_to=page_file_path)
-    description = models.TextField(null=True, blank=True)

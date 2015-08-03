@@ -18,14 +18,17 @@
     {% if page.meta_description %}
         <meta name="description" content="{{ page.meta_description }}" >
     {% endif %}
+{% comment %}
     {% if show_toolbar %}
         <link type="text/css" rel="stylesheet" href="{% static "themes/default/style.page-edit.css" %}">
         <script type="text/javascript" src="{% url 'page-edit-js' %}"></script>
     {% endif %}
+{% endcomment %}
     {% if page.head_tags %} {{ page.head_tags|safe }} {% endif %}
 {% endblock %}
 
 {% block page_top %}
+{% comment %}
     {% if show_toolbar %}
         <div id="djangopress-toolbar">
             {% if enable_page_edit %}
@@ -36,6 +39,7 @@
             <a class="page" href="{% url 'page-edit-details' page=page.id %}" onclick="return editPage(event, {{ page.id }});">Edit page details</a>
         </div>
     {% endif %}
+{% endcomment %}
 {% endblock %}
 
 {% block content %}

@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.contrib.sites.models import Site
 from django import forms
-from djangopress.pages.models import Page, PageTemplate, PageBlock, PageFile
+from djangopress.pages.models import Page, PageTemplate, PageBlock
 
 try:
     from tinymce import widgets as tinymce_widgets
@@ -33,23 +33,9 @@ class BlockInline(admin.StackedInline):
             }),
     )
 
-class FileAdminForm(forms.ModelForm):
-    class Meta:
-        model = PageFile
-        widgets = {
-            'description': forms.TextInput,
-        }
-        fields = ('upload', 'description')
-
-class FileInline(admin.StackedInline):
-    form = FileAdminForm
-    model = PageFile
-    extra = 1
-    min_num = 0
-
 class PageAdmin(admin.ModelAdmin):
 
-    inlines = [BlockInline, FileInline]
+    inlines = [BlockInline]
     list_display = ('title', 'page_location', 'posted', 'status', 'visibility')
     list_filter = ('status', 'visibility')
     readonly_fields = ('author', 'posted', 'edited_by', 'edited')
