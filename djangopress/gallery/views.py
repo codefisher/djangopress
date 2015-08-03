@@ -37,7 +37,7 @@ def upload(request):
         form = ImageForm(request.POST, request.FILES)
         if form.is_valid():
             image = form.save()
-            return HttpResponse("<script>window.top.django.jQuery('.mce-btn.mce-open').parent().find('.mce-textbox').val('{0}').closest('.mce-window').find('.mce-primary').click();</script>".format(image.get_absolute_url()))
+            return HttpResponse("<script>window.top.django.jQuery('.mce-btn.mce-open').parent().find('.mce-textbox').val('{0}');</script>".format(image.get_absolute_url()))
         return HttpResponse("<script>alert('{0}');</script>".format(escapejs('\n'.join([v[0] for k, v in form.errors.items()]))))
     else:
         return HttpResponse("<script>alert('Access Deined');</script>")
