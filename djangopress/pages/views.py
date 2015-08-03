@@ -36,7 +36,7 @@ def show_page(request, path):
     if page.template:
         template = page.template.template
     else:
-        template = "pages/base.html"
+        template = getattr(settings, 'PAGES_DEFAULT_TEMPLATE', "pages/base.html")
     return render(request, template, data)
 
 def get_blocks(page, identifier, name):
