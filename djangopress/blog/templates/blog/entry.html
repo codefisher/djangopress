@@ -39,7 +39,7 @@
 	                {% endfor %}
 	            {% endif %}
             {% endwith %}
-            {% if respond %}
+            {% if respond and blog.comments_enabled %}
                 &bull; <a href="{{ entry.get_absolute_url }}#respond">Leave a comment</a>
             {% endif %}
         </span>

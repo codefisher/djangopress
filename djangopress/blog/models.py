@@ -76,6 +76,7 @@ class Blog(models.Model):
     slug = models.SlugField(blank=True, null=True, unique=True)
     tagline = models.TextField(blank=True, null=False)
     sites = models.ManyToManyField(Site)
+    comments_enabled = models.BooleanField(default=True)
 
     class Meta:
         verbose_name = "blog"

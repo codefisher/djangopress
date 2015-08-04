@@ -7,8 +7,17 @@ try:
 except ImportError:
     tinymce_widgets = None
 
+class BlogAdminForm(forms.ModelForm):
+    class Meta:
+        model = Blog
+        if tinymce_widgets:
+            widgets = {
+                'tagline': tinymce_widgets.AdminTinyMCE,
+            }
+        exclude = ()
+
 class BlogAdmin(admin.ModelAdmin):
-    pass
+    form = BlogAdminForm
 admin.site.register(Blog, BlogAdmin)
 
 class CategoryAdmin(admin.ModelAdmin):

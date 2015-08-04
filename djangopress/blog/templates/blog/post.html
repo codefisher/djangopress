@@ -39,6 +39,7 @@
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
     </p>
 
+	{% if blog.comments_enabled %}
     {% if comment_count == 0 %}
         <h3>This post has no comments, be the first to post.</h3>
     {% else %}
@@ -68,5 +69,6 @@
         </form>
     </div>
     {% endif %}
+	{% endif %}
 
 {% endblock %}

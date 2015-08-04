@@ -126,7 +126,7 @@ def post(request, blog_slug, year, month, day, slug):
         next_post = None
     comments = Comment.objects.filter(entry=entry, is_public=True, is_spam=False).order_by('submit_date')
     comment_message = ""
-    if entry.comments_open and request.method == 'POST':
+    if entry.comments_open and blog.comments_enabled and request.method == 'POST':
         comment_form = choose_form(request, CommentUserForm, CommentForm, request.POST)
         if comment_form.is_valid():
             comment = comment_form.save(commit=False)
