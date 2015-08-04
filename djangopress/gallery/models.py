@@ -18,7 +18,7 @@ class GallerySection(models.Model):
         return strip_tags(self.title)
 
     def __unicode__(self):
-        return self.title
+        return strip_tags(self.title)
 
     def get_absolute_url(self):
         return reverse("gallery-gallery", kwargs={"slug": self.slug})
@@ -65,7 +65,7 @@ class Image(models.Model):
         path_match = re.match(r'(.+?)((\d+/\d+/)?[^/]+)$', self.image.path)
         head, tail = path_match.group(1), path_match.group(2)
         self.thumbnail = os.path.join("images", "gallery", "thumbs", tail)
-        thumbnail_path = os.path.join(head, "images", "gallery", "thumbs", tail)
+        thumbnail_path = os.path.join(head, "thumbs", tail)
         thumb.save(thumbnail_path)
 
         super(Image, self).save(*args, **kwargs)
@@ -73,7 +73,7 @@ class Image(models.Model):
         if im_width > 600 or im_height > 600:
             im.thumbnail((600, 600), PIL.Image.ANTIALIAS)
             self.scaled = os.path.join("images", "gallery", "scaled", tail)
-            scaled_path = os.path.join(head, "images", "gallery", "scaled", tail)
+            scaled_path = os.path.join(head, "scaled", tail)
             im.save(scaled_path, quality=80)
 
     def scaled_image(self):

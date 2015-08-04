@@ -28,6 +28,7 @@ admin.site.register(GallerySection, GalleryAdmin)
 
 class ImageAdmin(admin.ModelAdmin):
     list_display = ('thumb', 'image', 'gallery', 'description')
+    list_filter = ('gallery',)
 
     def thumb(self, obj):
         return '<img src="{}">'.format(obj.thumbnail.url)
