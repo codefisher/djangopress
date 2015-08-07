@@ -28,7 +28,7 @@ class Image(models.Model):
     image = models.ImageField(upload_to="images/gallery/%y/%m/",
                               height_field="height", width_field="width")
     thumbnail = models.ImageField(upload_to="images/gallery/thumbs/%y/%m/",
-                                  editable=False)
+                                  editable=False, null=True, blank=True)
     scaled = models.ImageField(upload_to="images/gallery/scaled/%y/%m/",
                                editable=False, null=True, blank=True)
     gallery = models.ForeignKey(GallerySection, null=True, blank=True)
@@ -40,12 +40,22 @@ class Image(models.Model):
     def get_absolute_url(self):
         return self.image.url
 
+    def ensure_folder(self, path):
+        folder = os.path.dirname(path)
+        try:
+            os.makedirs(folder)
+        except OSError:
+            pass
+
     def save(self, *args, **kwargs):
         try:
             im = PIL.Image.open(self.image)
         except:
             super(Image, self).save(*args, **kwargs)
             return
+
+        super(Image, self).save(*args, **kwargs)
+
         thumb = im.copy()
         im_width, im_height = thumb.size
         if 115.0 / im_width > 95.0 / im_height:
@@ -66,14 +76,14 @@ class Image(models.Model):
         head, tail = path_match.group(1), path_match.group(2)
         self.thumbnail = os.path.join("images", "gallery", "thumbs", tail)
         thumbnail_path = os.path.join(head, "thumbs", tail)
+        self.ensure_folder(thumbnail_path)
         thumb.save(thumbnail_path)
-
-        super(Image, self).save(*args, **kwargs)
 
         if im_width > 600 or im_height > 600:
             im.thumbnail((600, 600), PIL.Image.ANTIALIAS)
             self.scaled = os.path.join("images", "gallery", "scaled", tail)
             scaled_path = os.path.join(head, "scaled", tail)
+            self.ensure_folder(scaled_path)
             im.save(scaled_path, quality=80)
 
     def scaled_image(self):
