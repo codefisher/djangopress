@@ -16,7 +16,22 @@ class GalleryAdminForm(forms.ModelForm):
             }
         exclude = ()
 
+class ImageAdminForm(forms.ModelForm):
+    class Meta(object):
+        model = Image
+        widgets = {
+            'description': forms.TextInput
+        }
+        exclude = ()
+
+class ImageInline(admin.StackedInline):
+    model = Image
+    form = ImageAdminForm
+    extra = 0
+    min_num = 1
+
 class GalleryAdmin(admin.ModelAdmin):
+    inlines = [ImageInline]
     form = GalleryAdminForm
     list_display = ('text_title', 'position')
     list_editable = ('position', )
@@ -31,7 +46,9 @@ class ImageAdmin(admin.ModelAdmin):
     list_filter = ('gallery',)
 
     def thumb(self, obj):
-        return '<img src="{}">'.format(obj.thumbnail.url)
+        if obj.thumbnail:
+            return '<img src="{}">'.format(obj.thumbnail.url)
+        return obj.image
     thumb.allow_tags = True
 
 

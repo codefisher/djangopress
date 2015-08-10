@@ -1,9 +1,12 @@
 import PIL
 import os
 import re
+from lxml import html
 from django.db import models
+from django.template.loader import render_to_string
 from django.core.urlresolvers import reverse
 from django.utils.html import strip_tags
+from djangopress.core.format.html import Library
 
 # Create your models here.
 
@@ -86,6 +89,8 @@ class Image(models.Model):
             self.ensure_folder(scaled_path)
             im.save(scaled_path, quality=80)
 
+        super(Image, self).save(*args, **kwargs)
+
     def scaled_image(self):
         if self.scaled:
             return self.scaled
@@ -93,3 +98,21 @@ class Image(models.Model):
 
     def __unicode__(self):
         return self.image.name
+
+def gallery(node):
+    gallery_id = node.attrib.get('id')
+    show_description = node.attrib.get('show_description', False)
+    show_title = node.attrib.get('show_title', False)
+    gallery = GallerySection.objects.get(pk=gallery_id)
+    images = Image.objects.filter(gallery=gallery)
+    if node.attrib.get('count'):
+        images = images[0:int(node.attrib.get('count'))]
+    data = {
+        "gallery": gallery,
+        "images": images,
+        "show_description": show_description,
+        "show_title": show_title
+    }
+    return html.fromstring(render_to_string("gallery/tag.html", data))
+
+Library.tag("//gallery", gallery)
