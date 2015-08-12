@@ -22,9 +22,11 @@
 			<h2><a href="{{ gallery.get_absolute_url }}">{{ gallery.title|safe }}</a></h2>
 			<div class="photos">
 				{% for image in images %}
+				<div class="photo">
 					<a href="/media/{{ image.scaled_image }}" data-lightbox="lightbox-{{ gallery.slug }}" data-title="{{ image.description|striptags }}"><img src="/media/{{ image.thumbnail }}" width="115" alt="{{ image.description|striptags }}" height="95">
 						<span class="photo-description">{{ image.description|safe }}</span>
 					</a>
+				</div>
 				{% endfor %}
 			</div>
 		</div>
