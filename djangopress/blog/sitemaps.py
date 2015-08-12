@@ -1,5 +1,5 @@
 from django.contrib.sitemaps import Sitemap
-from djangopress.blog.models import Entry, Blog, Category, Tag
+from .models import Entry, Blog, Category, Tag
 from djangopress.core.sitemap import register
 from django.conf import settings
 
