@@ -2,6 +2,8 @@
 from django.conf import settings
 from django.contrib.auth.models import Group
 
+ANONYMOUS_USER_GROUP = getattr(settings, 'ANONYMOUS_USER_GROUP', None)
+
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
@@ -11,9 +13,10 @@ def get_client_ip(request):
 def has_permission(request, app, name):
     if request.user.is_authenticated():
         return request.user.has_perm('%s.%s' % (app, name))
-    else:
-        group = Group.objects.get(name=settings.ANONYMOUS_USER_GROUP)
+    elif ANONYMOUS_USER_GROUP:
+        group = Group.objects.get(name=ANONYMOUS_USER_GROUP)
         return bool(group.permissions.filter(codename=name))
+    return False
 
 def choose_form(request, authenticated, anonymous, *args, **kargs):
     if request.user.is_authenticated():

@@ -1,5 +1,4 @@
 import random
-import os
 import datetime
 import time
 import hashlib
@@ -12,6 +11,8 @@ from django.db.models.signals import post_save
 from djangopress.core.models import Property
 from django.utils import timezone
 from PIL import Image
+
+DEFAULT_USER_GROUP = getattr(settings, 'DEFAULT_USER_GROUP', None)
 
 def avatar_path(instance, filename):
     return ("avatars/%s/%s-%s-%s" % (time.strftime("%y/%m"), instance.user.pk, instance.user.username.lower(), filename.lower()))
@@ -113,7 +114,7 @@ def create_profile(sender, **kargs):
 post_save.connect(create_profile, User, dispatch_uid="djangopress.accounts.create_profile")
 
 def add_to_group(sender, **kargs):
-    if kargs.get("created", False):
+    if DEFAULT_USER_GROUP and kargs.get("created", False):
         user = kargs.get("instance")
-        user.groups.add(Group.objects.get(name=settings.DEFAULT_USER_GROUP))
+        user.groups.add(Group.objects.get(name=DEFAULT_USER_GROUP))
 post_save.connect(add_to_group, User, dispatch_uid="djangopress.accounts.add_to_group")
