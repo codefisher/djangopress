@@ -34,7 +34,7 @@ class CategoryMananger(models.Manager):
         return categories_list
 
 class Tag(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, unique=True)
     description = models.TextField(blank=True)
     slug = models.SlugField(blank=True, unique=True)
     blog = models.ForeignKey("Blog", related_name="tags")
@@ -51,7 +51,7 @@ class Tag(models.Model):
         return reverse("blog-tag", kwargs={"slug": self.slug, "blog_slug": self.blog.slug})
 
 class Category(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, unique=True)
     description = models.TextField(blank=True)
     slug = models.SlugField(blank=True, unique=True)
     parent_category = models.ForeignKey('self', null=True, blank=True,
@@ -138,7 +138,7 @@ class Entry(models.Model):
     visibility = models.CharField(blank=False, max_length=2,
             choices=VISIBILITY_LEVEL, default="VI")
     tags = models.ManyToManyField(Tag, blank=True)
-    categories = models.ManyToManyField(Category)
+    categories = models.ManyToManyField(Category, blank=True)
     comments_open = models.BooleanField(default=True)
     
     # meta data
