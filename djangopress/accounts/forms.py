@@ -12,30 +12,6 @@ if 'captcha' in settings.INSTALLED_APPS:
 else:
     ReCaptchaField = None
 
-
-"""
-zone_names = {
-    "Etc/GMT-8": "PST",
-    "Etc/GMT-7": "MST",
-    "Etc/GMT-6": "CST",
-    "Etc/GMT-5": "EST",
-    "Etc/GMT-4": "AST",
-    "Etc/GMT-3": "ADT",
-    "Etc/GMT":  "GMT",
-    "Etc/GMT+1": "CET"
-}
-short_zones = []
-for i in range(-12,13):
-    if not i:
-        short_zones.append(("Etc/GMT", "GMT"))
-    else:
-        name = zone_names.get("Etc/GMT%+d" % i, "")
-        if name:
-            short_zones.append(("Etc/GMT%+d" % i, "GMT %+03d (%s)" % (i, name)))
-        else:
-            short_zones.append(("Etc/GMT%+d" % i, "GMT %+03d" % i))
-"""
-
 zones = collections.defaultdict(list)
 for zone in pytz.common_timezones:
     region, sep, city = zone.partition("/")
