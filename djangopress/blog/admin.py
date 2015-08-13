@@ -41,6 +41,8 @@ class CategoryInput(forms.TextInput):
     def value_from_datadict(self, data, files, name):
         result = []
         blog = Blog.objects.get(pk=data.get('blog'))
+        if data.get(name) is None:
+            return None
         for name in data.get(name).split(','):
             name = name.strip()
             if not name:
