@@ -1,6 +1,11 @@
 from django import forms
 from djangopress.forum.models import Thread, Post, Report
-from captcha.fields import ReCaptchaField
+from django.conf import settings
+
+if 'captcha' in settings.INSTALLED_APPS:
+    from captcha.fields import ReCaptchaField
+else:
+    ReCaptchaField = None
 
 class ThreadForm(forms.ModelForm):
     class Meta(object):
@@ -21,10 +26,14 @@ class QuickPostForm(PostForm):
     
           
 class PostAnonymousForm(forms.ModelForm):
-    captcha = ReCaptchaField(label='')
+    if ReCaptchaField:
+        captcha = ReCaptchaField(label='')
 
     class Meta(object):
-        fields = ("poster_name", "poster_email", "message", "show_similies", "captcha")
+        if ReCaptchaField:
+            fields = ("poster_name", "poster_email", "message", "show_similies", "captcha")
+        else:
+            fields = ("poster_name", "poster_email", "message", "show_similies")
         model = Post
         
     def __init__(self, *args, **kwargs):

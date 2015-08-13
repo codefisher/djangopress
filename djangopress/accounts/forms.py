@@ -2,10 +2,16 @@ import collections
 import pytz
 from django import forms
 from django.contrib.auth.models import User
-from captcha.fields import ReCaptchaField
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.utils.translation import ugettext as _
 from django.utils.translation import ugettext_lazy as __
+
+if 'captcha' in settings.INSTALLED_APPS:
+    from captcha.fields import ReCaptchaField
+else:
+    ReCaptchaField = None
+
 
 """
 zone_names = {
@@ -51,8 +57,12 @@ class UserForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ('username', 'password1', 'password2', 'email', 'email2',
+        if ReCaptchaField:
+            fields = ('username', 'password1', 'password2', 'email', 'email2',
                   'timezone', 'captcha')
+        else:
+            fields = ('username', 'password1', 'password2', 'email', 'email2',
+                  'timezone')
     
     password1 = forms.CharField(label=__("Password"),
             widget=forms.PasswordInput(render_value=False))
@@ -66,15 +76,23 @@ class UserForm(forms.ModelForm):
             help_text=__("For times to be displayed correctly you must select your locale timezone"))
 
     #remember_between_visits = forms.BooleanField(initial=True)
-    captcha = ReCaptchaField(label='')
+    if ReCaptchaField:
+        captcha = ReCaptchaField(label='')
 
-    fieldsets = (
-        ("User Name & Password", ('username', 'password1', 'password2')),
-        ("Email", ('email', 'email2')),
-        ("Location", ('timezone',)),
-        ('Verification', ('captcha', ))
-        #("Privacy", ('remember_between_visits',)),
-    )
+        fieldsets = (
+            ("User Name & Password", ('username', 'password1', 'password2')),
+            ("Email", ('email', 'email2')),
+            ("Location", ('timezone',)),
+            ('Verification', ('captcha', ))
+            #("Privacy", ('remember_between_visits',)),
+        )
+    else:
+        fieldsets = (
+            ("User Name & Password", ('username', 'password1', 'password2')),
+            ("Email", ('email', 'email2')),
+            ("Location", ('timezone',)),
+            #("Privacy", ('remember_between_visits',)),
+        )
 
     def clean_username(self):
         try:
