@@ -4,15 +4,7 @@
     {{ gallery.title }}
 {% endblock %}
 
-{% block content-title %}
-	{{ gallery.title }}
-{% endblock %}
-
 {% block page_image %}<img src="/media/images/banners/statue_bearers.jpg" width="950" height="438" id="header-image" />{% endblock %}
-
-{% block page-description %}
-	{{ gallery.description|safe }}
-{% endblock %}
 
 {% block content %}
 	{% for image in images %}

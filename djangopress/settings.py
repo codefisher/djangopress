@@ -1,23 +1,17 @@
-MIDDLEWARE_CLASSES = [
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'codefisher_apps.reverseproxy.middleware.ProxyMiddleware',
-    'djangopress.pages.middleware.PagesMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'djangopress.accounts.middleware.TimezoneMiddleware',
-    'djangopress.accounts.middleware.LastSeenMiddleware',
-    'codefisher_apps.online_status.middleware.OnlineStatusMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
-]
-
-TITLE_FORMAT = "%s :: %s"
-
-from django.conf.global_settings import TEMPLATE_CONTEXT_PROCESSORS as TCP
-
-TEMPLATE_CONTEXT_PROCESSORS = TCP + (
-    'django.core.context_processors.request',
-)
+ACCOUNTS_USER_LIMITS = {
+    "avatar": {
+        "size": 50,
+        "file_size": 1024*100,
+        "max_upload_size": 200,
+    },
+    "attachments": {
+        "file_size": 1024*500,
+        "total": 1024*1024*5,
+    },
+    "signature": {
+        "lines": 4,
+        "length": 500,
+        "images": True,
+        "links": True,
+    }
+}

@@ -18,6 +18,7 @@ from djangopress.forum.forms import PostAnonymousForm, PostEditForm, PostForm, R
 from djangopress.accounts.middleware import get_last_seen
 from django.utils.encoding import force_str
 
+TITLE_FORMAT = getattr(settings, 'FORUM_TITLE_FORMAT', "%s :: %s")
 
 try:
     import akismet
@@ -141,7 +142,7 @@ def new_thread(request, forums_slug, forum_id):
         "forums": forums,
         "forum": forum,
         "preview": preview,
-        "title": settings.TITLE_FORMAT % (forum.name, "New Thread"),
+        "title": TITLE_FORMAT % (forum.name, "New Thread"),
         "thread_form": thread_form,
         "post_form": post_form,
     }
@@ -282,7 +283,7 @@ def reply_thread(request, forums_slug, thread_id):
         "posts": posts,
         "preview": preview,
         "thread": thread,
-        "title": settings.TITLE_FORMAT % (thread.subject, "Post Reply"),
+        "title": TITLE_FORMAT % (thread.subject, "Post Reply"),
         "post_form": post_form,
     }
     return render(request, 'forum/thread/reply.html' , data)

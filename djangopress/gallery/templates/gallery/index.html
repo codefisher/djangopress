@@ -8,14 +8,6 @@
 	Photo Gallery
 {% endblock %}
 
-{% block page_image %}<img src="/media/images/banners/statue_bearers.jpg" width="950" height="438" id="header-image" />{% endblock %}
-
-{% block page-description %}
-	<p>
-		Select from the collection of images below to view parish outings and Mass celebrations, including the Coronation of the icon of Our Lady of Czestochowa, Fatima Day and monthly pilgrimages.
-	</p>
-{% endblock %}
-
 {% block content %}
 	{% for gallery, images in galleries %}
 		<div class="gallery {% cycle 'clear' '' %}">

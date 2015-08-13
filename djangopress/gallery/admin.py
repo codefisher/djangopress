@@ -32,6 +32,11 @@ class ImageInline(admin.StackedInline):
 
 class GalleryAdmin(admin.ModelAdmin):
     inlines = [ImageInline]
+
+    prepopulated_fields = {
+        "slug": ("title", )
+    }
+
     form = GalleryAdminForm
     list_display = ('text_title', 'position')
     list_editable = ('position', )

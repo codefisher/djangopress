@@ -35,6 +35,10 @@ class BlockInline(admin.StackedInline):
 
 class PageAdmin(admin.ModelAdmin):
 
+    prepopulated_fields = {
+        "slug": ("title", )
+    }
+
     inlines = [BlockInline]
     list_display = ('title', 'page_location', 'posted', 'status', 'visibility')
     list_filter = ('status', 'visibility')
@@ -58,7 +62,7 @@ class PageAdmin(admin.ModelAdmin):
 
     fieldsets = (
         (None, {
-            'fields': ('slug', 'title', 'parent')
+            'fields': ('title', 'slug', 'parent')
         }),
         ('Display Settings', {
             'fields': ('status', 'visibility', 'login_required')

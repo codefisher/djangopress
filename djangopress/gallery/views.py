@@ -16,7 +16,7 @@ class ImageForm(forms.ModelForm):
 
 def index(request):
 	galleries = GallerySection.objects.filter(listed=True).order_by("position")
-	images = [(gallery, Image.objects.filter(gallery=gallery)[:GALLERY_FONT_IMAGES]) for gallery in galleries]
+	images = [(gallery, Image.objects.filter(gallery=gallery).order_by('-date')[:GALLERY_FONT_IMAGES]) for gallery in galleries]
 	data = {
 		"galleries": images
 	}
@@ -24,7 +24,7 @@ def index(request):
 
 def gallery(request, slug):
 	gallery = GallerySection.objects.get(slug=slug)
-	images = Image.objects.filter(gallery=gallery)
+	images = Image.objects.filter(gallery=gallery).order_by('-date')
 	data = {
 		"gallery": gallery,
 		"images": images,
