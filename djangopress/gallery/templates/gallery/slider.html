@@ -1,0 +1,21 @@
+<div class="slider-wrapper theme-custom">
+<div class="ribbon">&nbsp;</div>
+<div id="slider_{{ gallery.pk }}" class="nivoSlider">
+	{% for image in images %}
+		<img title="#htmlcaption_{{ gallery.pk }}_{{ image.pk }}" src="/media/{{ image.scaled_image }}" />
+    {% endfor %}
+	</div>
+	{% for image in images %}
+<div id="htmlcaption_{{ gallery.pk }}_{{ image.pk }}" class="nivo-html-caption">
+<p>{{ image.description|safe }}</p>
+</div>
+	{% endfor %}
+</div>
+<script>// <![CDATA[
+$(window).load(function() {
+    $('#slider_{{ gallery.pk }}').nivoSlider({
+        effect: 'fade',
+        pauseTime: 6000,
+   });
+});
+// ]]></script>

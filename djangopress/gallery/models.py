@@ -113,6 +113,10 @@ def gallery(node):
         "show_description": show_description,
         "show_title": show_title
     }
-    return html.fromstring(render_to_string("gallery/tag.html", data))
+    if node.attrib.get('slider', False):
+        template = "gallery/slider.html"
+    else:
+        template = "gallery/tag.html"
+    return html.fromstring(render_to_string(template, data))
 
 Library.tag("//gallery", gallery)
