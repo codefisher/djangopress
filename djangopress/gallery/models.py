@@ -1,4 +1,4 @@
-import PIL
+import PIL.Image
 import os
 import re
 from lxml import html
@@ -52,7 +52,8 @@ class Image(models.Model):
 
     def save(self, *args, **kwargs):
         try:
-            im = PIL.Image.open(self.image)
+            im = PIL.Image.open(self.image.path)
+            format = im.format
         except:
             super(Image, self).save(*args, **kwargs)
             return
@@ -80,14 +81,14 @@ class Image(models.Model):
         self.thumbnail = os.path.join("images", "gallery", "thumbs", tail)
         thumbnail_path = os.path.join(head, "thumbs", tail)
         self.ensure_folder(thumbnail_path)
-        thumb.save(thumbnail_path)
+        thumb.save(thumbnail_path, format)
 
         if im_width > 600 or im_height > 600:
             im.thumbnail((600, 600), PIL.Image.ANTIALIAS)
             self.scaled = os.path.join("images", "gallery", "scaled", tail)
             scaled_path = os.path.join(head, "scaled", tail)
             self.ensure_folder(scaled_path)
-            im.save(scaled_path, quality=80)
+            im.save(scaled_path, format, quality=80)
 
         super(Image, self).save(*args, **kwargs)
 

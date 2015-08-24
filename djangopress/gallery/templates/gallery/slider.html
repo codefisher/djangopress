@@ -2,20 +2,28 @@
 <div class="ribbon">&nbsp;</div>
 <div id="slider_{{ gallery.pk }}" class="nivoSlider">
 	{% for image in images %}
-		<img title="#htmlcaption_{{ gallery.pk }}_{{ image.pk }}" src="/media/{{ image.scaled_image }}" />
+		<img{% if image.description %} title="#htmlcaption_{{ gallery.pk }}_{{ image.pk }}"{% endif %} src="/media/{{ image.scaled_image }}" />
     {% endfor %}
 	</div>
 	{% for image in images %}
-<div id="htmlcaption_{{ gallery.pk }}_{{ image.pk }}" class="nivo-html-caption">
-<p>{{ image.description|safe }}</p>
-</div>
+		{% if image.description %}
+		<div id="htmlcaption_{{ gallery.pk }}_{{ image.pk }}" class="nivo-html-caption">
+			<p>{{ image.description|safe }}</p>
+		</div>
+		{% endif %}
 	{% endfor %}
 </div>
 <script>// <![CDATA[
-$(window).load(function() {
-    $('#slider_{{ gallery.pk }}').nivoSlider({
-        effect: 'fade',
-        pauseTime: 6000,
-   });
+$(window).load(function () {
+	$('#slider_{{ gallery.pk }}').nivoSlider({
+		effect: 'fade',
+		pauseTime: 6000,
+		afterLoad: function (slider) {
+			var slider = $('#slider_1028182510557599_1033805573328626');
+			var height = slider.children('.nivo-main-image').height();
+			slider.css("max-height", height);
+			slider.css("min-height", height);
+		}
+	});
 });
 // ]]></script>
