@@ -42,6 +42,12 @@ class GalleryAdmin(admin.ModelAdmin):
     list_editable = ('position', )
     ordering = ('position', 'title')
 
+    def save_related(self, request, form, formsets, change):
+        super(GalleryAdmin, self).save_related(request, form, formsets, change)
+        for formset in formsets:
+            for image in formset.queryset.all():
+                if not image.thumbnail or change:
+                    image.save()
 
 admin.site.register(GallerySection, GalleryAdmin)
 

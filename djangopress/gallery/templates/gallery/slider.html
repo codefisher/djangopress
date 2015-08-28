@@ -2,7 +2,7 @@
 <div class="ribbon">&nbsp;</div>
 <div id="slider_{{ gallery.pk }}" class="nivoSlider">
 	{% for image in images %}
-		<img{% if image.description %} title="#htmlcaption_{{ gallery.pk }}_{{ image.pk }}"{% endif %} src="/media/{{ image.scaled_image }}" />
+		<img{% if image.description %} title="#htmlcaption_{{ gallery.pk }}_{{ image.pk }}"{% endif %} src="/media/{{ image.image }}" />
     {% endfor %}
 	</div>
 	{% for image in images %}

@@ -39,6 +39,7 @@ class Image(models.Model):
     width = models.IntegerField(editable=False)
     height = models.IntegerField(editable=False)
     date = models.DateTimeField(auto_now_add=True)
+    position = models.IntegerField(default=0)
 
     def get_absolute_url(self):
         return self.image.url
@@ -105,7 +106,7 @@ def gallery(node):
     show_description = node.attrib.get('show_description', False)
     show_title = node.attrib.get('show_title', False)
     gallery = GallerySection.objects.get(pk=gallery_id)
-    images = Image.objects.filter(gallery=gallery).order_by('-date')
+    images = Image.objects.filter(gallery=gallery).order_by('position', '-date')
     if node.attrib.get('count'):
         images = images[0:int(node.attrib.get('count'))]
     data = {

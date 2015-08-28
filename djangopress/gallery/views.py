@@ -24,7 +24,7 @@ def index(request):
 
 def gallery(request, slug):
 	gallery = GallerySection.objects.get(slug=slug)
-	images = Image.objects.filter(gallery=gallery).order_by('-date')
+	images = Image.objects.filter(gallery=gallery).order_by('position', '-date')
 	data = {
 		"gallery": gallery,
 		"images": images,
