@@ -46,7 +46,7 @@ class GalleryAdmin(admin.ModelAdmin):
         super(GalleryAdmin, self).save_related(request, form, formsets, change)
         for formset in formsets:
             for image in formset.queryset.all():
-                if not image.thumbnail or change:
+                if not image.thumbnail.file or change:
                     image.save()
 
 admin.site.register(GallerySection, GalleryAdmin)
