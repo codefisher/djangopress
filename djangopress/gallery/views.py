@@ -1,6 +1,6 @@
 # Create your views here.
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 from django import forms
 from django.utils.html import escapejs
 from django.views.decorators.csrf import csrf_exempt
@@ -23,13 +23,16 @@ def index(request):
 	return render(request, 'gallery/index.html' , data)
 
 def gallery(request, slug):
-	gallery = GallerySection.objects.get(slug=slug)
-	images = Image.objects.filter(gallery=gallery).order_by('position', '-date')
-	data = {
-		"gallery": gallery,
-		"images": images,
-	}
-	return render(request, 'gallery/gallery.html' , data)
+    try:
+        gallery = GallerySection.objects.get(slug=slug)
+    except GallerySection.DoesNotExist:
+        raise Http404
+    images = Image.objects.filter(gallery=gallery).order_by('position', '-date')
+    data = {
+        "gallery": gallery,
+        "images": images,
+    }
+    return render(request, 'gallery/gallery.html' , data)
 
 @csrf_exempt
 def upload(request):
