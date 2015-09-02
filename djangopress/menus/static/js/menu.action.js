@@ -159,7 +159,7 @@ FlyOutMenu.prototype.mouseover = function(event) {
 	        } else {
 	            pos = self.findRealPos(target);
 	            width = window.innerWidth ? window.innerWidth : document.body.offsetWidth;
-	            if((pos[0] + (target.offsetWidth * 2)) > width) {
+	            if((pos[0] + (target.offsetWidth * 2)) > width && pos[0] > target.offsetWidth) {
 	            	self.setClass(target, 'open-left');
 	            } else {
 	            	self.setClass(target, 'open-right');
