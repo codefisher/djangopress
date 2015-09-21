@@ -13,7 +13,7 @@ from djangopress.core.format.html import Library
 class GallerySection(models.Model):
     title = models.CharField(max_length=100)
     position = models.IntegerField(default=0)
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
     description = models.TextField(blank=True)
     listed = models.BooleanField(default=True)
 
