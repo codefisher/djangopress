@@ -1,4 +1,4 @@
-from django.conf.urls import patterns, url, include
+from django.conf.urls import url, include
 from djangopress.forum import urls as forum_urls
 from djangopress.accounts import urls as accounts_urls
 from djangopress.blog import urls as blog_urls
@@ -18,7 +18,7 @@ def redirect(request, url):
 #from django.contrib import databrowse
 #from django.contrib.auth.decorators import login_required
 
-urlpatterns = patterns('',
+urlpatterns = [
     # the blog system
     (r'^(?P<blog_slug>[\w\-]+)/blog/', include(blog_urls)),
     (r'^news/', include(blog_urls), {"blog_slug": "news"}),
@@ -38,12 +38,12 @@ urlpatterns = patterns('',
     (r'^email/', include(contact_urls)),
     (r'^iptools/', include(iptools_urls)),
     (r'^(?P<url>.*/)[a-z_-]+\.php$', redirect),
-)
+]
 
 try:
     from djangopress.core.search import ModelSetSearchForm, ModelSetSearchView, search_view_factory
 
-    urlpatterns += patterns('',
+    urlpatterns += [
         # the haystack search
         url(r'^search/', search_view_factory(
                 view_class=ModelSetSearchView,
@@ -51,7 +51,7 @@ try:
                 results_per_page=10,
                 models=["pages.page", "blog.entry"],
             ), name='haystack-search'),
-    )
+    ]
 except ImportError:
     pass
 
