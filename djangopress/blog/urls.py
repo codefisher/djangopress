@@ -1,8 +1,8 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from djangopress.blog.feeds import BlogFeed, BlogAtomFeed
 from djangopress.blog import views
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', views.index, name='blog-index'),
     url(r'^page/(?P<page>\d*)/$', views.index, name='blog-index'),
         
@@ -21,4 +21,4 @@ urlpatterns = patterns('',
 
     # rule for backwards compatibility with old site
     url(r'^archive[\-/].*[\-/](?P<post>\d+)/?', views.moved, name='blog-moved'),
-)
+]

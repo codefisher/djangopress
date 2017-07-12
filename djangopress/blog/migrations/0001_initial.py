@@ -36,8 +36,8 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=30)),
                 ('description', models.TextField(blank=True)),
                 ('slug', models.SlugField(unique=True, blank=True)),
-                ('blog', models.ForeignKey(related_name=b'categories', to='blog.Blog')),
-                ('parent_category', models.ForeignKey(related_name=b'child_categories', blank=True, to='blog.Category', null=True)),
+                ('blog', models.ForeignKey(related_name=b'categories', to='blog.Blog', on_delete=models.CASCADE)),
+                ('parent_category', models.ForeignKey(related_name=b'child_categories', blank=True, to='blog.Category', null=True, on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'category',
@@ -78,10 +78,10 @@ class Migration(migrations.Migration):
                 ('sticky', models.BooleanField(default=False)),
                 ('visibility', models.CharField(default=b'VI', max_length=2, choices=[(b'VI', b'Visible'), (b'PR', b'Private')])),
                 ('comments_open', models.BooleanField(default=True)),
-                ('author', models.ForeignKey(related_name=b'blog_entries', to=settings.AUTH_USER_MODEL)),
-                ('blog', models.ForeignKey(related_name=b'entries', to='blog.Blog')),
+                ('author', models.ForeignKey(related_name=b'blog_entries', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
+                ('blog', models.ForeignKey(related_name=b'entries', to='blog.Blog', on_delete=models.CASCADE)),
                 ('categories', models.ManyToManyField(to='blog.Category')),
-                ('edited_by', models.ForeignKey(related_name=b'blog_edited_entries', blank=True, editable=False, to=settings.AUTH_USER_MODEL, null=True)),
+                ('edited_by', models.ForeignKey(related_name=b'blog_edited_entries', blank=True, editable=False, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'entry',
@@ -95,8 +95,8 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('flag', models.CharField(max_length=100, verbose_name=b'flag')),
                 ('flag_date', models.DateTimeField(auto_now_add=True)),
-                ('comment', models.ForeignKey(related_name=b'flag', to='blog.Comment')),
-                ('user', models.ForeignKey(related_name=b'comment_flags', to=settings.AUTH_USER_MODEL)),
+                ('comment', models.ForeignKey(related_name=b'flag', to='blog.Comment', on_delete=models.CASCADE)),
+                ('user', models.ForeignKey(related_name=b'comment_flags', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -109,7 +109,7 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=30)),
                 ('description', models.TextField(blank=True)),
                 ('slug', models.SlugField(unique=True, blank=True)),
-                ('blog', models.ForeignKey(related_name=b'tags', to='blog.Blog')),
+                ('blog', models.ForeignKey(related_name=b'tags', to='blog.Blog', on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'tag',
@@ -130,19 +130,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='comment',
             name='entry',
-            field=models.ForeignKey(to='blog.Entry'),
+            field=models.ForeignKey(to='blog.Entry', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='comment',
             name='parent',
-            field=models.ForeignKey(blank=True, to='blog.Comment', null=True),
+            field=models.ForeignKey(blank=True, to='blog.Comment', null=True, on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='comment',
             name='user',
-            field=models.ForeignKey(related_name=b'blog_comments', blank=True, to=settings.AUTH_USER_MODEL, null=True),
+            field=models.ForeignKey(related_name=b'blog_comments', blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AlterUniqueTogether(

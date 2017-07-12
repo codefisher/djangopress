@@ -24,7 +24,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='IntProperty',
             fields=[
-                ('property_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='core.Property')),
+                ('property_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='core.Property', on_delete=models.CASCADE)),
                 ('property_value', models.IntegerField()),
             ],
             options={
@@ -34,7 +34,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='CharProperty',
             fields=[
-                ('property_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='core.Property')),
+                ('property_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='core.Property', on_delete=models.CASCADE)),
                 ('property_value', models.CharField(max_length=255)),
             ],
             options={

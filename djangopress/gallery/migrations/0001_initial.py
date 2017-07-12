@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
                 ('description', models.TextField()),
                 ('width', models.IntegerField(editable=False)),
                 ('height', models.IntegerField(editable=False)),
-                ('gallery', models.ForeignKey(to='gallery.GallerySection')),
+                ('gallery', models.ForeignKey(to='gallery.GallerySection', on_delete=models.CASCADE)),
             ],
         ),
     ]

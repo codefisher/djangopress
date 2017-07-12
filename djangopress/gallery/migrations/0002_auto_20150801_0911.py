@@ -24,6 +24,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='image',
             name='gallery',
-            field=models.ForeignKey(blank=True, to='gallery.GallerySection', null=True),
+            field=models.ForeignKey(blank=True, to='gallery.GallerySection', null=True, on_delete=models.CASCADE),
         ),
     ]

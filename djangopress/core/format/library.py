@@ -83,11 +83,6 @@ FORMATS = {
         "safe": True,
         "verbose_name": "BBcode",
     },
-    "sanitized_html": {
-        "function": html.sanatized_html,
-        "safe": True,
-        "verbose_name": "Sanitized HTML",
-    },
     "magic_html": {
         "function": magic_html_mod.magic_html,
         "safe": False,
@@ -120,6 +115,14 @@ try:
     def format_textile(text, *args, **kargs):
         return mark_safe(textile(text))
     Library.add("textile", format_textile, True, "Textile")
+except ImportError:
+    pass
+
+try:
+    import bleach
+    def format_bleach(text, *args, **kargs):
+        return mark_safe(bleach.clean(text))
+    Library.add("sanitized_html", format_bleach, True, "Sanitized HTML")
 except ImportError:
     pass
 

@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
 from djangopress.core.models import Property
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from djangopress.core.format.library import Library
 
 class ForumGroup(models.Model):
@@ -46,7 +46,7 @@ class ForumGroup(models.Model):
         return reverse("forum-index", kwargs={"forums_slug": self.slug})
     
 class ForumProperty(Property):
-    forums = models.ForeignKey(ForumGroup, related_name="properties")
+    forums = models.ForeignKey(ForumGroup, related_name="properties", on_delete=models.CASCADE)
 
 class ForumCategory(models.Model):
     """
@@ -54,7 +54,7 @@ class ForumCategory(models.Model):
     """
     name = models.CharField(max_length=100, unique=True)
     position = models.IntegerField(default=1)
-    forums = models.ForeignKey(ForumGroup, related_name="category")
+    forums = models.ForeignKey(ForumGroup, related_name="category", on_delete=models.CASCADE)
     
     def __unicode__(self):
         return self.name
@@ -91,8 +91,8 @@ class Forum(models.Model):
     num_posts = models.IntegerField(default=0, verbose_name='Number of Posts')
     last_post = models.ForeignKey('Post', on_delete=models.SET_NULL, null=True, blank=True)
     position = models.IntegerField(default=1)
-    category = models.ForeignKey('ForumCategory', null=True, blank=True, related_name="forum")
-    parent_forum = models.ForeignKey('self', null=True, blank=True, related_name="children")
+    category = models.ForeignKey('ForumCategory', null=True, blank=True, related_name="forum", on_delete=models.CASCADE)
+    parent_forum = models.ForeignKey('self', null=True, blank=True, related_name="children", on_delete=models.CASCADE)
     password = models.CharField(max_length=50, null=True, blank=True)
 
     subscriptions = models.ManyToManyField(User, blank=True, related_name='forum_forum_subscriptions')
@@ -116,7 +116,7 @@ class Post(models.Model):
             ('can_mark_spam', 'Can mark a post as spam/not spam')
         )
         
-    author = models.ForeignKey(User, related_name="forum_posts", blank=True,  null=True)
+    author = models.ForeignKey(User, related_name="forum_posts", blank=True,  null=True, on_delete=models.CASCADE)
 
     ## for anonymous users
     poster_name = models.CharField(blank=True, null=True, max_length=50)
@@ -124,7 +124,7 @@ class Post(models.Model):
 
     ip = models.GenericIPAddressField()
     message = models.TextField()
-    thread = models.ForeignKey('Thread', related_name="posts")
+    thread = models.ForeignKey('Thread', related_name="posts", on_delete=models.CASCADE)
     
     # we record this here is even if the format of the forum changes
     # old posts will still render in the format they are written in
@@ -133,7 +133,7 @@ class Post(models.Model):
     show_similies = models.BooleanField(default=True, help_text="Show smilies as icons for this post.")
 
     posted = models.DateTimeField(auto_now_add=True)
-    edited_by = models.ForeignKey(User, related_name="forum_posts_edited", blank=True, null=True)
+    edited_by = models.ForeignKey(User, related_name="forum_posts_edited", blank=True, null=True, on_delete=models.CASCADE)
     edited = models.DateTimeField(null=True, blank=True)
     edit_reason = models.CharField(null=True, blank=True, max_length=200)
     
@@ -244,7 +244,7 @@ class Thread(models.Model):
     
     subscriptions = models.ManyToManyField(User, blank=True, related_name='forum_subscriptions')
 
-    poster = models.ForeignKey(User, blank=True, null=True)
+    poster = models.ForeignKey(User, blank=True, null=True, on_delete=models.CASCADE)
     subject = models.CharField(max_length=255)
     posted = models.DateTimeField(auto_now_add=True)
     
@@ -256,8 +256,8 @@ class Thread(models.Model):
     num_posts = models.IntegerField(default=0)
     closed = models.BooleanField(default=False)
     sticky = models.BooleanField(default=False)
-    moved_to = models.ForeignKey('Thread', blank=True, null=True) # not implimented
-    forum = models.ForeignKey(Forum)
+    moved_to = models.ForeignKey('Thread', blank=True, null=True, on_delete=models.CASCADE) # not implimented
+    forum = models.ForeignKey(Forum, on_delete=models.CASCADE)
     
     def __unicode__(self):
         return self.subject
@@ -300,12 +300,12 @@ class Report(models.Model):
     """
     The reported posts for spamming etc
     """
-    post = models.ForeignKey(Post, related_name="reports")
-    reported_by = models.ForeignKey(User, null=True, blank=True, related_name="forum_reports")
+    post = models.ForeignKey(Post, related_name="reports", on_delete=models.CASCADE)
+    reported_by = models.ForeignKey(User, null=True, blank=True, related_name="forum_reports", on_delete=models.CASCADE)
     created_date = models.DateTimeField(auto_now_add=True)
     message = models.TextField()
     moderated = models.BooleanField(default=False)
-    moderated_by = models.ForeignKey(User, blank=True, null=True, related_name="forum_moderated_reports")
+    moderated_by = models.ForeignKey(User, blank=True, null=True, related_name="forum_moderated_reports", on_delete=models.CASCADE)
     
     def __unicode__(self):
         return u"Report for %s" % unicode(self.post)
@@ -321,7 +321,7 @@ class ForumUser(models.Model):
        #('DN', 'Send daily digest')
     )
 
-    user = models.OneToOneField(User, related_name='forum_profile')
+    user = models.OneToOneField(User, related_name='forum_profile', on_delete=models.CASCADE)
     num_threads = models.IntegerField(default=0)
     num_posts = models.IntegerField(default=0)
     
@@ -335,10 +335,10 @@ class ForumUser(models.Model):
     show_sig = models.BooleanField(default=True, verbose_name="Show Signature", help_text="Show user signature after their posts.")
 
 class Attachment(models.Model):
-    post = models.ForeignKey('Post', related_name="attachments")
-    #thread = models.ForeignKey('Thread', related_name="attachments")
+    post = models.ForeignKey('Post', related_name="attachments", on_delete=models.CASCADE)
+    #thread = models.ForeignKey('Thread', related_name="attachments", on_delete=models.CASCADE)
 
-    poster = models.ForeignKey(User, related_name="forum_attachments")
+    poster = models.ForeignKey(User, related_name="forum_attachments", on_delete=models.CASCADE)
     download_count = models.IntegerField(default=0)
     comment = models.TextField()
     attachment = models.FileField(upload_to='forum/upload/%Y/%m/%d/')

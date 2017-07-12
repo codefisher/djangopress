@@ -4,7 +4,7 @@ import re
 from lxml import html
 from django.db import models
 from django.template.loader import render_to_string
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.html import strip_tags
 from djangopress.core.format.html import Library
 
@@ -34,7 +34,7 @@ class Image(models.Model):
                                   editable=False, null=True, blank=True)
     scaled = models.ImageField(upload_to="images/gallery/scaled/%y/%m/",
                                editable=False, null=True, blank=True)
-    gallery = models.ForeignKey(GallerySection, null=True, blank=True)
+    gallery = models.ForeignKey(GallerySection, null=True, blank=True, on_delete=models.CASCADE)
     description = models.TextField(null=True, blank=True)
     width = models.IntegerField(editable=False)
     height = models.IntegerField(editable=False)

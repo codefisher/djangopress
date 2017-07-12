@@ -1,5 +1,5 @@
 from django import template
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 try:
     from urlparse import urlparse, urlunparse
 except ImportError:

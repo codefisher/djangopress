@@ -2,7 +2,7 @@ from django import template
 from django.conf import settings
 from djangopress.forum.models import Thread, Post
 from djangopress.core.util import has_permission
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from djangopress.core.format.library import Library
 import djangopress.core.format.nodes as nodes
 

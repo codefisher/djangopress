@@ -15,8 +15,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ForumProperty',
             fields=[
-                ('property_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='core.Property')),
-                ('forums', models.ForeignKey(related_name=b'property', to='forum.ForumGroup')),
+                ('property_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='core.Property', on_delete=models.CASCADE)),
+                ('forums', models.ForeignKey(related_name=b'property', to='forum.ForumGroup', on_delete=models.CASCADE)),
             ],
             options={
             },

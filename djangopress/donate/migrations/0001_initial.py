@@ -23,7 +23,7 @@ class Migration(migrations.Migration):
                 ('link_text', models.CharField(max_length=50, null=True, blank=True)),
                 ('validated', models.BooleanField(default=False)),
                 ('invoice_id', models.CharField(max_length=50, null=True, blank=True)),
-                ('payment', models.ForeignKey(blank=True, to='ipn.PayPalIPN', null=True)),
+                ('payment', models.ForeignKey(blank=True, to='ipn.PayPalIPN', null=True, on_delete=models.CASCADE)),
             ],
             options={
             },

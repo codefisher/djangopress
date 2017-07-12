@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='forumproperty',
             name='forums',
-            field=models.ForeignKey(related_name=b'properties', to='forum.ForumGroup'),
+            field=models.ForeignKey(related_name=b'properties', to='forum.ForumGroup', on_delete=models.CASCADE),
         ),
     ]

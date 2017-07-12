@@ -1,8 +1,8 @@
-from django.conf.urls import patterns, url, include
+from django.conf.urls import url
 from .views import index, gallery, upload
 
-urlpatterns = patterns('',
+urlpatterns = [
 	url(r'^$', index, name='gallery-index'),
     url(r'^upload/$', upload, name='gallery-upload'),
 	url(r'^(?P<slug>.+)/$', gallery, name='gallery-gallery'),
-)
+]

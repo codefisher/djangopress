@@ -32,7 +32,7 @@ class Migration(migrations.Migration):
                 ('banned', models.BooleanField(default=False)),
                 ('email_settings', models.CharField(default=b'HI', max_length=2, choices=[(b'HI', b'Hide Email'), (b'SW', b'Show Email'), (b'HB', b'Use Web Form')])),
                 ('properties', models.ManyToManyField(to='core.Property', null=True, blank=True)),
-                ('user', models.OneToOneField(related_name=b'profile', to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(related_name=b'profile', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
             },

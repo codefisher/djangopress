@@ -13,8 +13,8 @@ class MenuItem(models.Model):
     label = models.CharField(max_length=100)
     link = models.CharField(max_length=255, null=True, blank=True)
     
-    menu = models.ForeignKey(Menu)
-    parent = models.ForeignKey('MenuItem', null=True, blank=True)
+    menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
+    parent = models.ForeignKey('MenuItem', null=True, blank=True, on_delete=models.CASCADE)
     
     index = models.IntegerField(default=0)
     

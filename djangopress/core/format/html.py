@@ -1,7 +1,4 @@
-
-import html5lib
 from lxml import html
-from html5lib import sanitizer
 
 class Library(object):
     tags = {}
@@ -37,16 +34,3 @@ def extended_html(text, *args, **kwargs):
             if new is not None:
                 n.getparent().replace(n, new)
     return ''.join(html.tostring(node) for node in nodes)
-
-class StripSanitizer(sanitizer.HTMLSanitizer):
-    def disallowed_token(self, token, token_type):
-        return None
-
-def sanatized_html(text):
-    p = html5lib.HTMLParser(tokenizer=StripSanitizer)
-    doc = p.parseFragment(text)
-    walker = html5lib.getTreeWalker("etree")
-    stream = walker(doc)
-    s = html5lib.serializer.HTMLSerializer()
-    output = s.serialize(stream)
-    return ''.join(output)

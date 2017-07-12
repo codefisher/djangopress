@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('account', models.CharField(max_length=20, choices=[(b'twitter', b'Twitter'), (b'google_plus', b'Google Plus'), (b'facebook', b'Facebook'), (b'linkedin', b'Linked In'), (b'pinterest', b'Pinterest')])),
                 ('value', models.CharField(max_length=100)),
-                ('user_profile', models.ForeignKey(related_name=b'social', to=settings.AUTH_USER_MODEL)),
+                ('user_profile', models.ForeignKey(related_name=b'social', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
             },

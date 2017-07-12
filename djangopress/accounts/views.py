@@ -3,7 +3,7 @@ from django.shortcuts import Http404, render, get_object_or_404, redirect
 from djangopress.accounts.forms import UserForm
 from django.contrib.auth.models import User
 from django.contrib.auth.views import redirect_to_login
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.core.mail import send_mail, BadHeaderError
 from django.template.loader import render_to_string
 from django.contrib.sites.models import Site

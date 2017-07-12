@@ -1,11 +1,11 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from djangopress.accounts.profiles import autodiscover
 from djangopress.accounts import views
 from django.contrib.auth import views as auth_views
 
 autodiscover() # find all the parts for the profile pages
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^register/$', views.register, name='accounts-register'),
     url(r'^register/confirm/(?P<username>.+)/(?P<activate_key>.+)/', views.activate, name='accounts-confirm'),
     url(r'^register/reactivate/(?P<username>.+)/$', views.reactivate, name='accounts-reactivate'),
@@ -29,9 +29,9 @@ urlpatterns = patterns('',
     url(r'^user/$', views.user_profile, name='accounts-profile'),
     url(r'^user/(?P<username>.+?)/(?P<tab>.+?)/$', views.user_profile, name='accounts-profile'),
     url(r'^user/(?P<username>.+?)/$', views.user_profile, name='accounts-profile'),
-)
+]
 
-urlpatterns += patterns('',
+urlpatterns += [
     url(r'^login/$', auth_views.login, {
             "template_name": "accounts/login.html"
         }, name='login'),
@@ -57,4 +57,4 @@ urlpatterns += patterns('',
     url(r'^password_reset/complete/$', auth_views.password_reset_complete, {
                 "template_name": "accounts/password_reset_complete.html"
             }, name='password_reset_complete'),
-)
+]

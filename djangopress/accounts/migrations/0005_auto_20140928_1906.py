@@ -17,8 +17,8 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='UserProperty',
             fields=[
-                ('property_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='core.Property')),
-                ('user_profile', models.ForeignKey(related_name=b'properties', to=settings.AUTH_USER_MODEL)),
+                ('property_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='core.Property', on_delete=models.CASCADE)),
+                ('user_profile', models.ForeignKey(related_name=b'properties', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
             },

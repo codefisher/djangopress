@@ -1,6 +1,6 @@
 from djangopress.menus.menu import register
 from django.template import Template, RequestContext
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 class LoginRender(object):
     def __init__(self):

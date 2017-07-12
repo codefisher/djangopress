@@ -30,7 +30,7 @@ class Migration(migrations.Migration):
                 ('meta_page_title', models.TextField(null=True, verbose_name=b'Page title tag', blank=True)),
                 ('meta_keywords', models.TextField(null=True, verbose_name=b'Keywords meta tag', blank=True)),
                 ('meta_description', models.TextField(null=True, verbose_name=b'Description meta tag', blank=True)),
-                ('author', models.ForeignKey(related_name=b'pages', editable=False, to=settings.AUTH_USER_MODEL)),
+                ('author', models.ForeignKey(related_name=b'pages', editable=False, to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
                 'verbose_name': 'page',
@@ -66,7 +66,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TextBlock',
             fields=[
-                ('pageblock_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='pages.PageBlock')),
+                ('pageblock_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='pages.PageBlock', on_delete=models.CASCADE)),
                 ('data', models.TextField(verbose_name=b'Content', blank=True)),
                 ('format', models.CharField(max_length=30, choices=[(b'magic_html', b'Magic HTML'), (b'bbcode', b'BBcode'), (b'sanitized_html', b'Sanitized HTML'), (b'plain_text', b'Plain Text'), (b'html', b'HTML'), (b'template', b'Django Template')])),
             ],
@@ -83,13 +83,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='page',
             name='edited_by',
-            field=models.ForeignKey(related_name=b'edited_pages', editable=False, to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(related_name=b'edited_pages', editable=False, to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='page',
             name='parent',
-            field=models.ForeignKey(related_name=b'sub_pages', blank=True, to='pages.Page', null=True),
+            field=models.ForeignKey(related_name=b'sub_pages', blank=True, to='pages.Page', null=True, on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -101,7 +101,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='page',
             name='template',
-            field=models.ForeignKey(to='pages.PageTemplate'),
+            field=models.ForeignKey(to='pages.PageTemplate', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AlterUniqueTogether(

@@ -1,6 +1,6 @@
 import time
 from django.shortcuts import render
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.conf import settings
 from django.forms import ModelForm

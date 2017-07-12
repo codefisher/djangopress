@@ -1,7 +1,7 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from djangopress.donate import views
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', views.index, name='donate-index'),
     url(r'^thanks$', views.thanks, name='donate-thanks'),
-)
+]

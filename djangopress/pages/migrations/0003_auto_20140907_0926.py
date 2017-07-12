@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='pageblock',
             name='page',
-            field=models.ForeignKey(blank=True, to='pages.Page', null=True),
+            field=models.ForeignKey(blank=True, to='pages.Page', null=True, on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(

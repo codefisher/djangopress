@@ -39,17 +39,17 @@ class Page(models.Model):
     title = models.CharField(blank=False, max_length=200,
             verbose_name="Page Title")
     sites = models.ManyToManyField(Site)
-    template = models.ForeignKey(PageTemplate, blank=True, null=True)
+    template = models.ForeignKey(PageTemplate, blank=True, null=True, on_delete=models.CASCADE)
 
-    parent = models.ForeignKey("Page", related_name="sub_pages", blank=True, null=True)
+    parent = models.ForeignKey("Page", related_name="sub_pages", blank=True, null=True, on_delete=models.CASCADE)
     location = models.CharField(max_length=200, unique=True,
             blank=True, null=True, editable=False)
     override_location = models.CharField(max_length=200, blank=True, null=True)
     slug = models.SlugField(blank=False, null=False)
     image = models.ImageField(upload_to=page_file_path, blank=True, null=True)
 
-    author = models.ForeignKey(User, editable=False, related_name="pages")
-    edited_by = models.ForeignKey(User, editable=False, related_name="edited_pages")
+    author = models.ForeignKey(User, editable=False, related_name="pages", on_delete=models.CASCADE)
+    edited_by = models.ForeignKey(User, editable=False, related_name="edited_pages", on_delete=models.CASCADE)
     edited = models.DateTimeField(blank=True,
             auto_now=True, verbose_name="Last Edited", editable=False)
     posted = models.DateTimeField(blank=True, default=datetime.datetime.now,
@@ -99,7 +99,7 @@ class PageBlock(models.Model):
     data = models.TextField(blank=True, verbose_name="Content")
     render = models.CharField(max_length=30, choices=render_register.choices(),
                               default='extended_html')
-    page = models.ForeignKey(Page, null=True, blank=True, related_name="blocks")
+    page = models.ForeignKey(Page, null=True, blank=True, related_name="blocks", on_delete=models.CASCADE)
 
     class Meta:
         ordering = ['position']

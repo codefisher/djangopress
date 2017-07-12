@@ -7,7 +7,7 @@ from djangopress.blog.models import Blog, Entry, Tag, Category, Comment, Flag
 from django.utils.translation import ugettext as _
 from django.conf import settings
 from djangopress.core.util import get_client_ip, choose_form
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.utils import timezone
 
 try:

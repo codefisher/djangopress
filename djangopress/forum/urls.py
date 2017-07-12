@@ -1,8 +1,8 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 from djangopress.forum import views
 from djangopress.forum.feeds import ForumsAtomFeed, ForumsFeed, ForumAtomFeed, ForumFeed
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', views.index, name='forum-index'),
 
     url(r'^feed/$', ForumsAtomFeed(), name='forum-feed'),
@@ -49,13 +49,13 @@ urlpatterns = patterns('',
     # examples of supporting a legacy forum
     url(r'^viewforum.php', views.moved_forum, name='forum-moved'),
     url(r'^viewtopic.php', views.moved_thread, name='forum-thread-moved'),
-)
+]
 
 try:
     from djangopress.core.search import ModelSetSearchForm, search_view_factory
     from djangopress.forum.search import ForumSearchView
 
-    urlpatterns += patterns('',
+    urlpatterns += [
         # the haystack search
         url(r'^search/', search_view_factory(
                 view_class=ForumSearchView,
@@ -64,6 +64,6 @@ try:
                 template='forum/search.html',
                 models=["forum.post"],
             ), name='haystack-forum-search'),
-    )
+    ]
 except ImportError:
     pass

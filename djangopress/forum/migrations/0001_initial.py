@@ -81,7 +81,7 @@ class Migration(migrations.Migration):
                 ('show_img', models.BooleanField(default=True, help_text=b'Show images in forum posts.', verbose_name=b'Show Images')),
                 ('show_avatars', models.BooleanField(default=True, help_text=b'Show that avatar images of users.')),
                 ('show_sig', models.BooleanField(default=True, help_text=b'Show user signature after their posts.', verbose_name=b'Show Signature')),
-                ('user', models.OneToOneField(related_name=b'forum_profile', to=settings.AUTH_USER_MODEL)),
+                ('user', models.OneToOneField(related_name=b'forum_profile', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -103,8 +103,8 @@ class Migration(migrations.Migration):
                 ('is_public', models.BooleanField(default=True, help_text=b'Uncheck this box to make the post effectively disappear from the site.', verbose_name=b'is public')),
                 ('is_removed', models.BooleanField(default=False, help_text=b'Check this box if the post is inappropriate. A "This post has been removed" message will be displayed instead.', verbose_name=b'is removed')),
                 ('is_spam', models.BooleanField(default=False, help_text=b'Check this box to flag as spam.', verbose_name=b'is spam')),
-                ('author', models.ForeignKey(related_name=b'forum_posts', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
-                ('edited_by', models.ForeignKey(related_name=b'forum_posts_edited', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('author', models.ForeignKey(related_name=b'forum_posts', blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)),
+                ('edited_by', models.ForeignKey(related_name=b'forum_posts_edited', blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)),
             ],
             options={
                 'permissions': (('can_edit_own_posts', 'User is allowed to edit posts they have made'), ('can_edit_others_posts', 'User is allowed to edit posts others have made'), ('can_mark_removed', 'Can mark the post as removed/not removed'), ('can_mark_public', 'Can mark if a post is public or not'), ('can_mark_spam', 'Can mark a post as spam/not spam')),
@@ -129,9 +129,9 @@ class Migration(migrations.Migration):
                 ('created_date', models.DateTimeField(auto_now_add=True)),
                 ('message', models.TextField()),
                 ('moderated', models.BooleanField(default=False)),
-                ('moderated_by', models.ForeignKey(related_name=b'forum_moderated_reports', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
-                ('post', models.ForeignKey(related_name=b'reports', to='forum.Post')),
-                ('reported_by', models.ForeignKey(related_name=b'forum_reports', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('moderated_by', models.ForeignKey(related_name=b'forum_moderated_reports', blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)),
+                ('post', models.ForeignKey(related_name=b'reports', to='forum.Post', on_delete=models.CASCADE)),
+                ('reported_by', models.ForeignKey(related_name=b'forum_reports', blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)),
             ],
             options={
             },
@@ -151,10 +151,10 @@ class Migration(migrations.Migration):
                 ('closed', models.BooleanField(default=False)),
                 ('sticky', models.BooleanField(default=False)),
                 ('first_post', models.ForeignKey(related_name=b'thread_first', on_delete=django.db.models.deletion.SET_NULL, blank=True, to='forum.Post', null=True)),
-                ('forum', models.ForeignKey(to='forum.Forum')),
+                ('forum', models.ForeignKey(to='forum.Forum', on_delete=models.CASCADE)),
                 ('last_post', models.ForeignKey(related_name=b'thread_last', on_delete=django.db.models.deletion.SET_NULL, blank=True, to='forum.Post', null=True)),
-                ('moved_to', models.ForeignKey(blank=True, to='forum.Thread', null=True)),
-                ('poster', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('moved_to', models.ForeignKey(blank=True, to='forum.Thread', null=True, on_delete=models.CASCADE)),
+                ('poster', models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)),
                 ('subscriptions', models.ManyToManyField(related_name=b'forum_subscriptions', null=True, to=settings.AUTH_USER_MODEL, blank=True)),
             ],
             options={
@@ -165,19 +165,19 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='post',
             name='thread',
-            field=models.ForeignKey(related_name=b'posts', to='forum.Thread'),
+            field=models.ForeignKey(related_name=b'posts', to='forum.Thread', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='forumcategory',
             name='forums',
-            field=models.ForeignKey(related_name=b'category', to='forum.ForumGroup'),
+            field=models.ForeignKey(related_name=b'category', to='forum.ForumGroup', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='forum',
             name='category',
-            field=models.ForeignKey(related_name=b'forum', blank=True, to='forum.ForumCategory', null=True),
+            field=models.ForeignKey(related_name=b'forum', blank=True, to='forum.ForumCategory', null=True, on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -189,7 +189,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='forum',
             name='parent_forum',
-            field=models.ForeignKey(related_name=b'children', blank=True, to='forum.Forum', null=True),
+            field=models.ForeignKey(related_name=b'children', blank=True, to='forum.Forum', null=True, on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -201,13 +201,13 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='attachment',
             name='post',
-            field=models.ForeignKey(related_name=b'attachments', to='forum.Post'),
+            field=models.ForeignKey(related_name=b'attachments', to='forum.Post', on_delete=models.CASCADE),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='attachment',
             name='poster',
-            field=models.ForeignKey(related_name=b'forum_attachments', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(related_name=b'forum_attachments', to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE),
             preserve_default=True,
         ),
     ]

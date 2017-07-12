@@ -5,7 +5,7 @@ import hashlib
 
 from django.db import models
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.auth.models import User, Group
 from django.db.models.signals import post_save
 from djangopress.core.models import Property
@@ -30,8 +30,8 @@ class UserProfile(models.Model):
     location = models.CharField(max_length=50, blank=True, null=True)
     avatar = models.ImageField(blank=True, null=True, upload_to=avatar_path)
     signature = models.TextField(blank=True, null=True)
-    timezone = models.CharField(max_length=20, null=True, blank=True)
-    language = models.CharField(max_length=20, null=True, blank=True)
+    timezone = models.CharField(max_length=50, null=True, blank=True)
+    language = models.CharField(max_length=50, null=True, blank=True)
     registration_ip = models.GenericIPAddressField(blank=True, null=True, )
     last_ip_used = models.GenericIPAddressField(blank=True, null=True)
     admin_note = models.TextField(blank=True, null=True)
@@ -39,7 +39,7 @@ class UserProfile(models.Model):
     activate_key_expirary = models.DateTimeField(blank=True, editable=False)
     banned = models.BooleanField(default=False)
     #remember_between_visits = models.BooleanField(default=True)
-    user = models.OneToOneField(User, related_name="profile")
+    user = models.OneToOneField(User, related_name="profile", on_delete=models.CASCADE)
     email_settings = models.CharField(choices=EMAIL_SETTINGS, default='HI', max_length=2)
     gender = models.CharField(max_length=1, blank=True, null=True, default=None, choices=(('', 'Private'), ('M', 'Male'), ('F', 'Female')))
     date_of_birth = models.DateTimeField(blank=True, null=True)
@@ -101,10 +101,10 @@ class UserSocial(models.Model):
     )
     account = models.CharField(max_length=20, choices=ACCOUNTS)
     value = models.CharField(max_length=100)
-    user_profile = models.ForeignKey(User, related_name="social")
+    user_profile = models.ForeignKey(User, related_name="social", on_delete=models.CASCADE)
 
 class UserProperty(Property):
-    user_profile = models.ForeignKey(User, related_name="properties")
+    user_profile = models.ForeignKey(User, related_name="properties", on_delete=models.CASCADE)
     
 def create_profile(sender, **kargs):
     if kargs.get("created", False):

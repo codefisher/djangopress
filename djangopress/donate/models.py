@@ -1,5 +1,5 @@
 from django.db import models
-from paypal.standard.ipn.signals import payment_was_successful
+from paypal.standard.ipn.signals import valid_ipn_received
 from paypal.standard.ipn.models import PayPalIPN
 import datetime
 
@@ -11,7 +11,7 @@ class Donation(models.Model):
     link_text = models.CharField(max_length=50, blank=True, null=True, verbose_name="Link Text (optional)")
     validated = models.BooleanField(default=False)
     invoice_id = models.CharField(max_length=50, null=True, blank=True)
-    payment = models.ForeignKey(PayPalIPN, null=True, blank=True)
+    payment = models.ForeignKey(PayPalIPN, null=True, blank=True, on_delete=models.CASCADE)
 
 def update_donation(sender, **kwargs):
     ipn_obj = sender
@@ -27,4 +27,4 @@ def update_donation(sender, **kwargs):
         donation.save()
     else:
         pass # not a good payment
-payment_was_successful.connect(update_donation)
+valid_ipn_received.connect(update_donation)

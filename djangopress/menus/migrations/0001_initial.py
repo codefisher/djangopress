@@ -32,8 +32,8 @@ class Migration(migrations.Migration):
                 ('id_tag', models.CharField(max_length=100, null=True, blank=True)),
                 ('class_tag', models.CharField(max_length=100, null=True, blank=True)),
                 ('renderer', models.CharField(default=b'default', max_length=100)),
-                ('menu', models.ForeignKey(to='menus.Menu')),
-                ('parent', models.ForeignKey(blank=True, to='menus.MenuItem', null=True)),
+                ('menu', models.ForeignKey(to='menus.Menu', on_delete=models.CASCADE)),
+                ('parent', models.ForeignKey(blank=True, to='menus.MenuItem', null=True, on_delete=models.CASCADE)),
             ],
             options={
             },
