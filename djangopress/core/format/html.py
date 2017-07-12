@@ -17,7 +17,7 @@ try:
             return None
         lexer = get_lexer_by_name(node.attrib.get('codelang'), stripall=True)
         formatter = HtmlFormatter(linenos=True)
-        code = node.text + ''.join(html.tostring(n, encoding='unicode') for n in node)
+        code = node.text + b''.join(html.tostring(n) for n in node)
         result = highlight(code, lexer, formatter)
         code_node = html.fromstring(result)
         return code_node
@@ -33,4 +33,4 @@ def extended_html(text, *args, **kwargs):
             new = func(n)
             if new is not None:
                 n.getparent().replace(n, new)
-    return ''.join(html.tostring(node, encoding='unicode') for node in nodes)
+    return b''.join(html.tostring(node) for node in nodes)
