@@ -8,6 +8,7 @@ from djangopress.donate import urls as donate_urls
 from djangopress.contact import urls as contact_urls
 from djangopress.menus import urls as menu_urls
 from djangopress.iptools import urls as iptools_urls
+from django.conf import settings
 
 from django.http import HttpResponsePermanentRedirect
 
@@ -41,17 +42,18 @@ urlpatterns = [
 ]
 
 try:
-    from djangopress.core.search import ModelSetSearchForm, ModelSetSearchView, search_view_factory
+    if 'haystack' in settings.INSTALLED_APPS:
+        from djangopress.core.search import ModelSetSearchForm, ModelSetSearchView, search_view_factory
 
-    urlpatterns += [
-        # the haystack search
-        url(r'^search/', search_view_factory(
-                view_class=ModelSetSearchView,
-                form_class=ModelSetSearchForm,
-                results_per_page=10,
-                models=["pages.page", "blog.entry"],
-            ), name='haystack-search'),
-    ]
+        urlpatterns += [
+            # the haystack search
+            url(r'^search/', search_view_factory(
+                    view_class=ModelSetSearchView,
+                    form_class=ModelSetSearchForm,
+                    results_per_page=10,
+                    models=["pages.page", "blog.entry"],
+                ), name='haystack-search'),
+        ]
 except ImportError:
     pass
 
