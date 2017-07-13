@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from djangopress.forum import views
 from djangopress.forum.feeds import ForumsAtomFeed, ForumsFeed, ForumAtomFeed, ForumFeed
+from django.conf import settings
 
 urlpatterns = [
     url(r'^$', views.index, name='forum-index'),
@@ -52,18 +53,19 @@ urlpatterns = [
 ]
 
 try:
-    from djangopress.core.search import ModelSetSearchForm, search_view_factory
-    from djangopress.forum.search import ForumSearchView
+    if 'haystack' in settings.INSTALLED_APPS:
+        from djangopress.core.search import ModelSetSearchForm, search_view_factory
+        from djangopress.forum.search import ForumSearchView
 
-    urlpatterns += [
-        # the haystack search
-        url(r'^search/', search_view_factory(
-                view_class=ForumSearchView,
-                form_class=ModelSetSearchForm,
-                results_per_page=10,
-                template='forum/search.html',
-                models=["forum.post"],
-            ), name='haystack-forum-search'),
-    ]
+        urlpatterns += [
+            # the haystack search
+            url(r'^search/', search_view_factory(
+                    view_class=ForumSearchView,
+                    form_class=ModelSetSearchForm,
+                    results_per_page=10,
+                    template='forum/search.html',
+                    models=["forum.post"],
+                ), name='haystack-forum-search'),
+        ]
 except ImportError:
     pass
