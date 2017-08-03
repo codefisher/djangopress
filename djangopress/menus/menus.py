@@ -13,9 +13,7 @@ class ListRender(object):
             {% load display_menu %}
             <li {% if item.id_tag %} id="{{ item.id_tag }}" {% endif %}{% if item.class_tag %} class="{{ item.class_tag }}"{% endif %}>
                 <a href="{{ item.link }}">{{ item.label }}</a>
-                {% if sub_menu %}
                     {% display_submenu item sub_menu %}
-                {% endif %}
             </li>""")
         
     def _tag_active_item(self, context, tree):
@@ -29,6 +27,8 @@ class ListRender(object):
             pass
         
     def render_menu(self, context, tree, menu=None, renderer=None):
+        if not tree:
+            return ''
         tree = sorted(((item, sub_menu) for item, sub_menu in tree.items()), key=lambda x: x[0].index)
         self._tag_active_item(context, tree)
         return self._menu.render(RequestContext(context.get("request"), {"menu": menu, "tree": tree, 'renderer': renderer}))
@@ -53,9 +53,7 @@ class HeadingRender(ListRender):
             <div class="heading-menu">
             <h2 {% if item.id_tag %} id="{{ item.id_tag }}" {% endif %}{% if item.class_tag %} class="{{ item.class_tag }}"{% endif %}>
                 <a href="{{ item.link }}">{{ item.label }}</a></h2>
-                {% if sub_menu %}
-                    {% display_submenu item sub_menu %}
-                {% endif %}
+                {% display_submenu item sub_menu %}
                 </div>
             """)
 
