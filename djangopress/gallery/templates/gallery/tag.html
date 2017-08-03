@@ -1,3 +1,5 @@
+{% load gallery_tags %}
+
 {% if show_title %}
 <h2><a href="{{ gallery.get_absolute_url }}">{{ gallery.title|safe }}</a></h2>
 {% endif %}
@@ -7,9 +9,9 @@
 <div class="photos page-images">
 	{% for image in images %}
 		<div class="photo">
-			<a href="/media/{{ image.image }}" data-lightbox="lightbox-{{ gallery.slug }}" data-title="{{ image.description|striptags }}">
-				<img src="/media/{{ image.thumbnail }}" width="115" alt="{{ image.description|striptags }}" height="95">
-				<span class="photo-description">{{ image.description|safe }}</span>
+			<a href="{{ image.scaled }}" data-lightbox="lightbox-{{ gallery.slug }}" data-title="{{ image.description|striptags }}">
+				{% gallery_thumbnail image %}
+				{% if image.description %}<span {% if thumber %}style="width:{{thumber.width}}px" {% endif %}class="photo-description">{{ image.description|safe }}</span>{% endif %}
 			</a>
 		</div>
 	{% endfor %}

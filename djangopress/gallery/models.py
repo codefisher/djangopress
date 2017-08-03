@@ -1,14 +1,57 @@
-import PIL.Image
-import os
-import re
 from lxml import html
 from django.db import models
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.html import strip_tags
 from djangopress.core.format.html import Library
+from django.conf import settings
 
-# Create your models here.
+GALLERY_SETTINGS = getattr(settings, 'GALLERY_SETTINGS', {
+    "sizes": {
+        "thumb": {
+            "mode": "gallery-crop",
+            "width": 115,
+            "height": 95
+        },
+        "scaled": {
+            "mode": "gallery-resize",
+            "width": 1200,
+            "height": 1200
+        },
+        "slider": {
+            "mode": "gallery-crop",
+            "width": 870,
+            "height": 410
+        }
+    }
+})
+
+class Thumber(object):
+    def __init__(self, width=None, height=None):
+        self._width = width
+        self._height = height
+
+    @property
+    def width(self):
+        if self._width:
+            return self._width
+        sizes = GALLERY_SETTINGS.get("sizes").get("thumb")
+        return sizes.get('width')
+
+    @property
+    def height(self):
+        if self._height:
+            return self._height
+        sizes = GALLERY_SETTINGS.get("sizes").get("thumb")
+        return sizes.get('height')
+
+    def thumb(self, image):
+        sizes = GALLERY_SETTINGS.get("sizes").get("thumb")
+        return reverse(sizes.get("mode"), kwargs={
+            "image": image.image.name,
+            "width": self.width,
+            "height": self.height
+        })
 
 class GallerySection(models.Model):
     title = models.CharField(max_length=100)
@@ -20,20 +63,37 @@ class GallerySection(models.Model):
     def text_title(self):
         return strip_tags(self.title)
 
-    def __unicode__(self):
+    def __str__(self):
         return strip_tags(self.title)
 
     def get_absolute_url(self):
         return reverse("gallery-gallery", kwargs={"slug": self.slug})
 
+    def as_html(self, count=None, show_description=False,
+                show_title=False, slider=False, thumber=None):
+        if not thumber:
+            thumber = Thumber()
+        images = Image.objects.filter(
+            gallery=self).order_by('position', '-date')
+        if count:
+            images = images[0:int(count)]
+        data = {
+            "gallery": self,
+            "images": images,
+            "show_description": show_description,
+            "show_title": show_title,
+            "thumber": thumber
+        }
+        if slider:
+            template = "gallery/slider.html"
+        else:
+            template = "gallery/tag.html"
+        return render_to_string(template, data)
+
 
 class Image(models.Model):
     image = models.ImageField(upload_to="images/gallery/%y/%m/",
                               height_field="height", width_field="width")
-    thumbnail = models.ImageField(upload_to="images/gallery/thumbs/%y/%m/",
-                                  editable=False, null=True, blank=True)
-    scaled = models.ImageField(upload_to="images/gallery/scaled/%y/%m/",
-                               editable=False, null=True, blank=True)
     gallery = models.ForeignKey(GallerySection, null=True, blank=True, on_delete=models.CASCADE)
     description = models.TextField(null=True, blank=True)
     width = models.IntegerField(editable=False)
@@ -44,81 +104,44 @@ class Image(models.Model):
     def get_absolute_url(self):
         return self.image.url
 
-    def ensure_folder(self, path):
-        folder = os.path.dirname(path)
-        try:
-            os.makedirs(folder)
-        except OSError:
-            pass
+    @property
+    def thumbnail(self):
+        sizes = GALLERY_SETTINGS.get("sizes").get("thumb")
+        return reverse(sizes.get("mode"), kwargs={
+            "image": self.image.name,
+            "width": sizes.get("width"),
+            "height": sizes.get("height")
+        })
 
-    def save(self, *args, **kwargs):
-        try:
-            im = PIL.Image.open(self.image.path)
-            format = im.format
-        except:
-            super(Image, self).save(*args, **kwargs)
-            return
+    @property
+    def scaled(self):
+        sizes = GALLERY_SETTINGS.get("sizes").get("scaled")
+        return reverse(sizes.get("mode"), kwargs={
+            "image": self.image.name,
+            "width": sizes.get("width"),
+            "height": sizes.get("height")
+        })
 
-        super(Image, self).save(*args, **kwargs)
+    @property
+    def slider(self):
+        sizes = GALLERY_SETTINGS.get("sizes").get("slider")
+        return reverse(sizes.get("mode"), kwargs={
+            "image": self.image.name,
+            "width": sizes.get("width"),
+            "height": sizes.get("height")
+        })
 
-        thumb = im.copy()
-        im_width, im_height = thumb.size
-        if 115.0 / im_width > 95.0 / im_height:
-            thumb.thumbnail((115, im_height * (115.0 / im_width)),
-                            PIL.Image.ANTIALIAS)
-            width, height = thumb.size
-            crop = int((height * (115.0 / width) - 95) / 2)
-            box = (0, crop, 115, crop + 95)
-            thumb = thumb.crop(box)
-        else:
-            thumb.thumbnail(((im_width * (95.0 / im_height)), 95),
-                            PIL.Image.ANTIALIAS)
-            width, height = thumb.size
-            crop = int((width * (95.0 / height) - 115) / 2)
-            box = (crop, 0, crop + 115, 95)
-            thumb = thumb.crop(box)
-        path_match = re.match(r'(.+?)((\d+/\d+/)?[^/]+)$', self.image.path)
-        head, tail = path_match.group(1), path_match.group(2)
-        self.thumbnail = os.path.join("images", "gallery", "thumbs", tail)
-        thumbnail_path = os.path.join(head, "thumbs", tail)
-        self.ensure_folder(thumbnail_path)
-        thumb.save(thumbnail_path, format)
-
-        if im_width > 600 or im_height > 600:
-            im.thumbnail((600, 600), PIL.Image.ANTIALIAS)
-            self.scaled = os.path.join("images", "gallery", "scaled", tail)
-            scaled_path = os.path.join(head, "scaled", tail)
-            self.ensure_folder(scaled_path)
-            im.save(scaled_path, format, quality=80)
-
-        super(Image, self).save(*args, **kwargs)
-
-    def scaled_image(self):
-        if self.scaled:
-            return self.scaled
-        return self.image
-
-    def __unicode__(self):
+    def __str__(self):
         return self.image.name
 
 def gallery(node):
     gallery_id = node.attrib.get('id')
     show_description = node.attrib.get('show_description', False)
     show_title = node.attrib.get('show_title', False)
+    count = node.attrib.get('count')
+    slider = node.attrib.get('slider', False)
     gallery = GallerySection.objects.get(pk=gallery_id)
-    images = Image.objects.filter(gallery=gallery).order_by('position', '-date')
-    if node.attrib.get('count'):
-        images = images[0:int(node.attrib.get('count'))]
-    data = {
-        "gallery": gallery,
-        "images": images,
-        "show_description": show_description,
-        "show_title": show_title
-    }
-    if node.attrib.get('slider', False):
-        template = "gallery/slider.html"
-    else:
-        template = "gallery/tag.html"
-    return html.fromstring(render_to_string(template, data))
+    return  html.fromstring(gallery.as_html(count=count, show_description=show_description,
+                show_title=show_title, slider=slider))
 
 Library.tag("//gallery", gallery)

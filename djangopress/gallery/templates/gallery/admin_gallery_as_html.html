@@ -1,0 +1,23 @@
+{% extends "admin/base_site.html" %}
+{% load gallery_tags %}
+
+{% block content %}
+
+<form action="" method="post">
+	{% csrf_token %}
+	{{ gallery_form }}
+
+	<input type="hidden" name="action" value="as_html" />
+	<input type="submit" name="apply" value="Submit" />
+</form>
+<p>
+<a href="{{ location }}">Back to Gallery Index</a>
+</p>
+{% for gallery in galleries %}
+	<h2>{{ gallery.title }}</h2>
+	<textarea style="width:100%" rows="15">{% gallery_as_html gallery %}</textarea>
+{% endfor %}
+<p>
+<a href="{{ location }}">Back to Gallery Index</a>
+</p>
+{% endblock %}

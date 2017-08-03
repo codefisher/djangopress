@@ -1,8 +1,10 @@
+{% load gallery_tags %}
+
 <div class="slider-wrapper theme-custom">
 <div class="ribbon">&nbsp;</div>
 <div id="slider_{{ gallery.pk }}" class="nivoSlider">
 	{% for image in images %}
-		<img alt="{{ image.description|striptags }}"{% if image.description %} title="#htmlcaption_{{ gallery.pk }}_{{ image.pk }}"{% endif %} src="/media/{{ image.image }}" />
+		<img alt="{{ image.description|striptags }}"{% if image.description %} title="#htmlcaption_{{ gallery.pk }}_{{ image.pk }}"{% endif %} src="{{ image.slider }}" />
     {% endfor %}
 	</div>
 	{% for image in images %}

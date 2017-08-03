@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load gallery_tags %}
 
 {% block page_title %}
     Photo Gallery
@@ -15,8 +16,8 @@
 			<div class="photos">
 				{% for image in images %}
 				<div class="photo">
-					<a href="/media/{{ image.image }}" data-lightbox="lightbox-{{ gallery.slug }}" data-title="{{ image.description|striptags }}"><img src="/media/{{ image.thumbnail }}" width="115" alt="{{ image.description|striptags }}" height="95">
-						<span class="photo-description">{{ image.description|safe }}</span>
+					<a href="{{ image.scaled }}" data-lightbox="lightbox-{{ gallery.slug }}" data-title="{{ image.description|striptags }}">{% gallery_thumbnail image %}
+						<span {% if thumber %}style="width:{{thumber.width}}px" {% endif %}class="photo-description">{{ image.description|safe }}</span>
 					</a>
 				</div>
 				{% endfor %}
