@@ -1,6 +1,7 @@
 from django import template
 from djangopress.menus.menu import register as menu_register
 from djangopress.menus.models import Menu, MenuItem
+from django.conf import settings
 
 register = template.Library()
 
@@ -18,7 +19,9 @@ def display_menu(context, menu_name, renderer=None):
     tree = dict((key, value) for key, value in nodes.items() if key.parent is None)
     try:
         return menu_register.get_renderer(renderer if renderer else menu.renderer).render_menu(context, tree, menu, renderer)
-    except:
+    except Exception as e:
+        if settings.DEBUG:
+            raise e
         return ""
 
 @register.simple_tag(takes_context=True)

@@ -7,6 +7,6 @@ TINYMCE_DEFAULT_CONFIG = {
     'plugins': "table code image link colorpicker textcolor wordcount",
     'tools': "inserttable",
     'toolbar': "undo redo | styleselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | forecolor backcolor",
-    'extended_valid_elements': 'script[language|type|src],events,#gallery[class|id|show_description|show_title|count|slider]'
+    'extended_valid_elements': 'script[language|type|src],events[template|start],#gallery[class|id|show_description|show_title|count|slider]'
 }
 TINYMCE_JS_URL = "/static/js/tinymce/tinymce.min.js"

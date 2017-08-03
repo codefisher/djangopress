@@ -31,7 +31,7 @@ class ForumGroup(models.Model):
     show_quick_post = models.BooleanField(default=True)
     post_redirect_delay = models.IntegerField(default=3, help_text="How long to show the successful post page, before redirecting.  Set to 0 to disable.")
     
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
     def get_format(self):
@@ -56,7 +56,7 @@ class ForumCategory(models.Model):
     position = models.IntegerField(default=1)
     forums = models.ForeignKey(ForumGroup, related_name="category", on_delete=models.CASCADE)
     
-    def __unicode__(self):
+    def __str__(self):
         return self.name
     
     def get_forums(self):
@@ -97,7 +97,7 @@ class Forum(models.Model):
 
     subscriptions = models.ManyToManyField(User, blank=True, related_name='forum_forum_subscriptions')
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
     
     def get_absolute_url(self, page=None):
@@ -150,7 +150,7 @@ class Post(models.Model):
     def get_format(self):
         return Library.get(self.format)
     
-    def __unicode__(self):
+    def __str__(self):
         return u"%s %s" % (self.thread.subject, self.posted)
 
     def __init__(self, *args, **kwargs):
@@ -259,7 +259,7 @@ class Thread(models.Model):
     moved_to = models.ForeignKey('Thread', blank=True, null=True, on_delete=models.CASCADE) # not implimented
     forum = models.ForeignKey(Forum, on_delete=models.CASCADE)
     
-    def __unicode__(self):
+    def __str__(self):
         return self.subject
     
     def save(self, *args, **kwargs):
@@ -307,7 +307,7 @@ class Report(models.Model):
     moderated = models.BooleanField(default=False)
     moderated_by = models.ForeignKey(User, blank=True, null=True, related_name="forum_moderated_reports", on_delete=models.CASCADE)
     
-    def __unicode__(self):
+    def __str__(self):
         return u"Report for %s" % unicode(self.post)
 
 class ForumUser(models.Model):

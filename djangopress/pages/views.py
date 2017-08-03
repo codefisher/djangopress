@@ -10,12 +10,19 @@ from django.utils import cache
 def show_page(request, path):
     page_objects = Page.objects.select_related('template')
     try:
-        page = page_objects.get(location=path, sites__id__exact=settings.SITE_ID,
+        if hasattr(request, 'user') and request.user.is_authenticated and request.user.is_staff:
+            page = page_objects.get(location=path, sites__id__exact=settings.SITE_ID)
+        else:
+            page = page_objects.get(location=path, sites__id__exact=settings.SITE_ID,
                 visibility="VI", status="PB")
     except Page.DoesNotExist:
         try:
             if path[-1] != '/':
-                page_objects.get(location=path+'/', sites__id__exact=settings.SITE_ID,
+                if hasattr(request, 'user') and request.user.is_authenticated and request.user.is_staff:
+                    page_objects.get(location=path + '/',
+                                     sites__id__exact=settings.SITE_ID)
+                else:
+                    page_objects.get(location=path+'/', sites__id__exact=settings.SITE_ID,
                     visibility="VI", status="PB")
                 #did not throw an exception, so lets redirect
                 return HttpResponsePermanentRedirect(path+'/')

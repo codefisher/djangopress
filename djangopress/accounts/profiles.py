@@ -22,7 +22,7 @@ class ProfileText(object):
     def is_text(self):
         return True
     
-    def __unicode__(self):
+    def __str__(self):
         return self._text
 
 class ProfileRegister(object):

@@ -11,7 +11,7 @@ class PageTemplate(models.Model):
     template = models.CharField(blank=False, max_length=200,
             help_text="The path to any template file accessible to the template loader")
     
-    def __unicode__(self):
+    def __str__(self):
         return self.name
 
 def page_file_path(instance, filename):
@@ -76,7 +76,7 @@ class Page(models.Model):
         verbose_name_plural = "pages"
         unique_together = ("slug", "parent")
 
-    def __unicode__(self):
+    def __str__(self):
         return self.title
 
     def get_absolute_url(self):
@@ -104,7 +104,7 @@ class PageBlock(models.Model):
     class Meta:
         ordering = ['position']
 
-    def __unicode__(self):
+    def __str__(self):
         if self.page:
             return "%s %s %s" % (self.block_name, self.position, self.page.get_absolute_url())
         return "%s %s" % (self.block_name, self.position)

@@ -6,7 +6,7 @@ class Menu(models.Model):
     class_tag = models.CharField(max_length=100, null=True, blank=True)
     renderer = models.CharField(max_length=100, default="default")
     
-    def __unicode__(self):
+    def __str__(self):
         return self.name
     
 class MenuItem(models.Model):
@@ -22,7 +22,7 @@ class MenuItem(models.Model):
     class_tag = models.CharField(max_length=100, null=True, blank=True)
     renderer = models.CharField(max_length=100, default="default", choices=list(menu_register.list_all().items()))
     
-    def __unicode__(self):
+    def __str__(self):
         return "%s (#%s)" % (self.label, self.pk)
 
 from djangopress.menus.menu import autodiscover
