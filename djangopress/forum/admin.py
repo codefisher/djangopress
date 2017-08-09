@@ -61,7 +61,7 @@ def post_delete_selected(modeladmin, request, queryset):
 
     using = router.db_for_write(modeladmin.model)
 
-    deletable_objects, perms_needed, protected = get_deleted_objects(
+    deletable_objects, model_count, perms_needed, protected = get_deleted_objects(
         queryset, opts, request.user, modeladmin.admin_site, using)
     
     if not request.POST.get('post'):
