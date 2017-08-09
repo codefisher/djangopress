@@ -30,8 +30,8 @@ class ImageAdminForm(forms.ModelForm):
 class ImageInline(admin.StackedInline):
     model = Image
     form = ImageAdminForm
-    extra = 0
-    min_num = 1
+    extra = 1
+    min_num = 0
 
 class ThumbnailForm(forms.Form):
     _selected_action = forms.CharField(widget=forms.MultipleHiddenInput)

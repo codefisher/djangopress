@@ -8,6 +8,7 @@
 {% block content %}
 	<h1>{{ gallery.title }}</h1>
 	{{ gallery.description|safe }}
+	<div id="gallery">
 	{% for image in images %}
 		<div class="photo">
 			<a href="{{ image.scaled }}" data-lightbox="lightbox-{{ gallery.slug }}" data-title="{{ image.description|striptags }}">{% gallery_thumbnail image %}
@@ -15,4 +16,5 @@
 			</a>
 		</div>
 	{% endfor %}
+	</div>
 {% endblock %}
