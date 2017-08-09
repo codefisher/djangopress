@@ -88,29 +88,29 @@ class CommentUserForm(forms.ModelForm):
         fields = ('comment_text', )
         
 def check_askmet_spam(request, entry, comment_form):
-    api = akismet.Akismet()
-    api.setAPIKey(settings.AKISMET_API_KEY)
-    if api.verify_key():
-        data = {
-                "user_ip": get_client_ip(request),
-                "user_agent": request.META.get("HTTP_USER_AGENT"),
-                "referrer": request.META.get("HTTP_REFERER"),
-                "permalink": entry.get_absolute_url(),
-        }
-        if request.user.is_authenticated():
-            data.update({
-                "comment_author": request.user.username,
-                "comment_author_email": request.user.email,
-                "comment_author_url": request.user.profile.homepage,
-            })
-        else:
-            data.update({
-                "comment_author": comment_form.cleaned_data["user_name"],
-                "comment_author_email": comment_form.cleaned_data["user_email"],
-                "comment_author_url": comment_form.cleaned_data["user_url"],
-            })
-        return api.comment_check(comment_form.cleaned_data["comment_text"], data)
-    return False
+    try:
+        api = akismet.Akismet(key=settings.AKISMET_API.get('key'),
+                              blog_url=settings.AKISMET_API.get('blog_url'))
+    except akismet.ConfigurationError as e:
+        return False
+    except akismet.APIKeyError as e:
+        return False
+    if request.user.is_authenticated():
+        return api.comment_check(user_ip=get_client_ip(request),
+                                 user_agent=request.META.get("HTTP_USER_AGENT"),
+                                 referrer=request.META.get("HTTP_REFERER"),
+                                 comment_content=comment_form.cleaned_data["comment_text"],
+                                 comment_author=request.user.username,
+                                 comment_author_email=request.user.email,
+                                 comment_author_url=request.user.profile.homepage)
+    else:
+        return api.comment_check(user_ip=get_client_ip(request),
+                                 user_agent=request.META.get("HTTP_USER_AGENT"),
+                                 referrer=request.META.get("HTTP_REFERER"),
+                                 comment_content=comment_form.cleaned_data["message"],
+                                 comment_author= comment_form.cleaned_data["user_name"],
+                                 comment_author_email=comment_form.cleaned_data["user_email"],
+                                 comment_author_url=comment_form.cleaned_data["user_url"])
 
 def post(request, blog_slug, year, month, day, slug):
     blog = get_blog(blog_slug)

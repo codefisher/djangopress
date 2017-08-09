@@ -80,27 +80,28 @@ def view_forum(request, forums_slug, forum_id, page=1):
 def check_askmet_spam(request, form):
     if not akismet:
         return False
-    api = akismet.Akismet()
-    api.setAPIKey(settings.AKISMET_API_KEY)
-    if api.verify_key():
-        data = {
-                "user_ip": get_client_ip(request),
-                "user_agent": request.META.get("HTTP_USER_AGENT"),
-                "referrer": request.META.get("HTTP_REFERER"),
-        }
-        if request.user.is_authenticated():
-            data.update({
-                "comment_author": request.user.username,
-                "comment_author_email": request.user.email,
-                "comment_author_url": request.user.profile.homepage,
-            })
-        else:
-            data.update({
-                "comment_author": form.cleaned_data["poster_name"],
-                "comment_author_email": form.cleaned_data["poster_email"],
-            })
-        return api.comment_check(force_str(form.cleaned_data["message"]), data)
-    return False
+    try:
+        api = akismet.Akismet(key=settings.AKISMET_API.get('key'),
+                              blog_url=settings.AKISMET_API.get('blog_url'))
+    except akismet.ConfigurationError as e:
+        return False
+    except akismet.APIKeyError as e:
+        return False
+    if request.user.is_authenticated():
+        return api.comment_check(user_ip=get_client_ip(request),
+                                 user_agent=request.META.get("HTTP_USER_AGENT"),
+                                 referrer=request.META.get("HTTP_REFERER"),
+                                 comment_content=form.cleaned_data["message"],
+                                 comment_author=request.user.username,
+                                 comment_author_email=request.user.email,
+                                 comment_author_url=request.user.profile.homepage)
+    else:
+        return api.comment_check(user_ip=get_client_ip(request),
+                                 user_agent=request.META.get("HTTP_USER_AGENT"),
+                                 referrer=request.META.get("HTTP_REFERER"),
+                                 comment_content=form.cleaned_data["message"],
+                                 comment_author= form.cleaned_data["poster_name"],
+                                 comment_author_email=form.cleaned_data["poster_email"])
 
 def new_thread(request, forums_slug, forum_id):
     forums = get_forum(forums_slug)
