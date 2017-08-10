@@ -88,7 +88,7 @@ class PostAdmin(admin.ModelAdmin):
     list_filter = ('is_spam', 'is_public', 'is_removed')
     search_fields = ('thread__subject', 'poster_name', 'author__username')
     
-    actions=['mark_as_spam']
+    actions=['mark_as_spam', 'mark_as_not_spam']
     
     def thread_subject(self, obj):
         return truncatechars(obj.thread.subject, 60)
@@ -109,12 +109,21 @@ class PostAdmin(admin.ModelAdmin):
         for obj in queryset:
             obj.is_spam = True
             obj.save()            
-        self.message_user(request, _("Successfully deleted %(count)d %(items)s.") % {
+        self.message_user(request, _("Successfully marked as spam %(count)d %(items)s.") % {
                 "count": n, "items": model_ngettext(self.opts, n)
             }, messages.SUCCESS)
     mark_as_spam.short_description = "Mark selected as spam"
-    
-    
+
+    def mark_as_not_spam(self, request, queryset):
+        n = queryset.count()
+        for obj in queryset:
+            obj.is_spam = False
+            obj.save()
+        self.message_user(request, _("Successfully marked as not spam %(count)d %(items)s.") % {
+                "count": n, "items": model_ngettext(self.opts, n)
+            }, messages.SUCCESS)
+    mark_as_not_spam.short_description = "Mark selected as not spam"
+
 admin.site.register(Post, PostAdmin)
 
 class RankAdmin(admin.ModelAdmin):
