@@ -17,7 +17,7 @@ class Command(BaseCommand):
             print("Akismet is not configured correctly")
         except akismet.APIKeyError as e:
             print("Not using a valid key")
-        for post in Post.objects.filter(is_spam=False):
+        for post in Post.objects.filter(is_spam=False).order_by('-posted'):
             if post.author:
                 is_spam = api.comment_check(user_ip=post.ip, user_agent='',
                                             comment_content=post.message,
