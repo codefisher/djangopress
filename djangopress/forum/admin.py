@@ -123,13 +123,13 @@ class PostAdmin(admin.ModelAdmin):
                 except akismet.APIKeyError as e:
                     self.message_user(request, "Not using a valid key", messages.ERROR)
                 if post.author:
-                    api.submit_spam(user_ip=post.ip, user_agent='',
+                    api.submit_spam(user_ip=post.ip, user_agent=post.user_agent,
                                         comment_content=post.message,
                                         comment_author=post.author.username,
                                         comment_author_email=post.author.email,
                                         comment_author_url=post.author.profile.homepage)
                 else:
-                    api.submit_spam(user_ip=post.ip, user_agent='',
+                    api.submit_spam(user_ip=post.ip, user_agent=post.user_agent,
                                         comment_content=post.message,
                                         comment_author=post.poster_name,
                                         comment_author_email=post.poster_email)
@@ -153,13 +153,13 @@ class PostAdmin(admin.ModelAdmin):
                 except akismet.APIKeyError as e:
                     self.message_user(request, "Not using a valid key", messages.ERROR)
                 if post.author:
-                    api.submit_ham(user_ip=post.ip, user_agent='',
+                    api.submit_ham(user_ip=post.ip, user_agent=post.user_agent,
                                         comment_content=post.message,
                                         comment_author=post.author.username,
                                         comment_author_email=post.author.email,
                                         comment_author_url=post.author.profile.homepage)
                 else:
-                    api.submit_ham(user_ip=post.ip, user_agent='',
+                    api.submit_ham(user_ip=post.ip, user_agent=post.user_agent,
                                         comment_content=post.message,
                                         comment_author=post.poster_name,
                                         comment_author_email=post.poster_email)

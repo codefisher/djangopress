@@ -17,13 +17,13 @@ class Command(BaseCommand):
             print("Not using a valid key")
         for post in Post.objects.filter(is_spam=False).order_by('-posted'):
             if post.author:
-                is_spam = api.comment_check(user_ip=post.ip, user_agent='',
+                is_spam = api.comment_check(user_ip=post.ip, user_agent=post.user_agent,
                                             comment_content=post.message,
                                             comment_author=post.author.username,
                                             comment_author_email=post.author.email,
                                             comment_author_url=post.author.profile.homepage)
             else:
-                is_spam = api.comment_check(user_ip=post.ip, user_agent='',
+                is_spam = api.comment_check(user_ip=post.ip, user_agent=post.user_agent,
                                             comment_content=post.message,
                                             comment_author=post.poster_name,
                                             comment_author_email=post.poster_email)
