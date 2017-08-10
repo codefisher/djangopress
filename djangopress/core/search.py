@@ -1,6 +1,6 @@
 from haystack.forms import SearchForm
 from haystack.views import SearchView
-from django.db import models
+from django.apps import apps
 
 class ModelSetSearchForm(SearchForm):
     def __init__(self, *args, **kwargs):
@@ -11,7 +11,7 @@ class ModelSetSearchForm(SearchForm):
     def get_models(self):
         search_models = []
         for model in self.models:
-            search_models.append(models.get_model(*model.split('.')))
+            search_models.append(apps.get_model(*model.split('.')))
         return search_models
 
     def search(self):
