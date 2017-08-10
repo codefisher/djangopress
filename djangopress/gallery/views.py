@@ -87,8 +87,8 @@ def size_image(request, image, width, height, sizer):
             response['Content-Type'] = content_type
     else:
         # we assume nginx, we just tell it to request the file which is now saved
-        responce = HttpResponse()
-        responce["X-Accel-Redirect"] = request.path
+        response = HttpResponse()
+        response["X-Accel-Redirect"] = request.path
     return response
 
 
