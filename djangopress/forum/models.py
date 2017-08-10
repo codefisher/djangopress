@@ -227,7 +227,7 @@ class Post(models.Model):
         return self.author.username
     
     def get_page(self):
-        return Post.objects.filter(thread=self.thread, posted__lt=self.posted, is_spam=False, is_public=True).order_by('posted').count()/(self.thread.forum.category.forums.number_of_posts) + 1
+        return Post.objects.filter(thread=self.thread, posted__lt=self.posted, is_spam=False, is_public=True).order_by('posted').count()//(self.thread.forum.category.forums.number_of_posts) + 1
     
     def get_absolute_url(self):
         return reverse('forum-view-post', kwargs={"forums_slug": self.thread.forum.category.forums.slug, 'post_id': self.pk})
