@@ -122,6 +122,7 @@ class Post(models.Model):
     poster_name = models.CharField(blank=True, null=True, max_length=50)
     poster_email = models.EmailField(blank=True, null=True)
 
+    user_agent = models.CharField(blank=True, null=True, max_length=255, default='')
     ip = models.GenericIPAddressField()
     message = models.TextField()
     thread = models.ForeignKey('Thread', related_name="posts", on_delete=models.CASCADE)

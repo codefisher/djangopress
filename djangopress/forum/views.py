@@ -201,6 +201,7 @@ def process_post(request, thread, post_form, forums):
     except NameError:
         post.is_spam = False
     post.ip = get_client_ip(request)
+    post.user_agent = request.META.get("HTTP_USER_AGENT")[0:250]
     post.thread = thread
     post.format = forums.format
     post.save()
