@@ -3,8 +3,6 @@ from djangopress.forum.models import Thread, Post, Forum
 import time
 import akismet
 from django.conf import settings
-from django.utils.encoding import force_str
-
 
 class Command(BaseCommand):
     help = 'Check if any posts are spam and marks them as such'
