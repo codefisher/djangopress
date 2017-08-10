@@ -80,10 +80,10 @@ class UserProfile(models.Model):
         self._avatar = self.avatar
     
     def set_activate_key(self):
-        salt = hashlib.sha1(str(random.random()) + str(random.random())).hexdigest()[:5]
+        salt = hashlib.sha1((str(random.random()) + str(random.random())).encode('utf-8')).hexdigest()[:5]
         key = "".join(str(item) for item in (self.user.username,
                 self.user.email, datetime.datetime.now()))
-        hsh = hashlib.sha1(salt + key).hexdigest()
+        hsh = hashlib.sha1((salt + key).encode('utf-8')).hexdigest()
         self.activate_key = hsh
         self.activate_key_expirary = datetime.datetime.fromtimestamp(time.time() + (7 * 24 * 60 * 60))
 
