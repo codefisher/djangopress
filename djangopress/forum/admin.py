@@ -11,6 +11,12 @@ from django.contrib.admin import SimpleListFilter
 from django.template.defaultfilters import truncatechars
 from django.forms import Textarea
 from django.db import models
+from django.conf import settings
+
+try:
+    import akismet
+except ImportError:
+    akismet = None
 
 class ForumAdmin(admin.ModelAdmin):
     list_display = ('name', 'num_threads', 'num_posts', 'category' , 'parent_forum', 'position')
@@ -106,9 +112,29 @@ class PostAdmin(admin.ModelAdmin):
     
     def mark_as_spam(self, request, queryset):
         n = queryset.count()
-        for obj in queryset:
-            obj.is_spam = True
-            obj.save()            
+        for post in queryset:
+            if akismet:
+                try:
+                    api = akismet.Akismet(key=settings.AKISMET_API.get('key'),
+                                          blog_url=settings.AKISMET_API.get(
+                                              'blog_url'))
+                except akismet.ConfigurationError as e:
+                    self.message_user(request, "Akismet is not configured correctly", messages.ERROR)
+                except akismet.APIKeyError as e:
+                    self.message_user(request, "Not using a valid key", messages.ERROR)
+                if post.author:
+                    api.submit_spam(user_ip=post.ip, user_agent='',
+                                        comment_content=post.message,
+                                        comment_author=post.author.username,
+                                        comment_author_email=post.author.email,
+                                        comment_author_url=post.author.profile.homepage)
+                else:
+                    api.submit_spam(user_ip=post.ip, user_agent='',
+                                        comment_content=post.message,
+                                        comment_author=post.poster_name,
+                                        comment_author_email=post.poster_email)
+            post.is_spam = True
+            post.save()
         self.message_user(request, _("Successfully marked as spam %(count)d %(items)s.") % {
                 "count": n, "items": model_ngettext(self.opts, n)
             }, messages.SUCCESS)
@@ -116,9 +142,29 @@ class PostAdmin(admin.ModelAdmin):
 
     def mark_as_not_spam(self, request, queryset):
         n = queryset.count()
-        for obj in queryset:
-            obj.is_spam = False
-            obj.save()
+        for post in queryset:
+            if akismet:
+                try:
+                    api = akismet.Akismet(key=settings.AKISMET_API.get('key'),
+                                          blog_url=settings.AKISMET_API.get(
+                                              'blog_url'))
+                except akismet.ConfigurationError as e:
+                    self.message_user(request, "Akismet is not configured correctly", messages.ERROR)
+                except akismet.APIKeyError as e:
+                    self.message_user(request, "Not using a valid key", messages.ERROR)
+                if post.author:
+                    api.submit_ham(user_ip=post.ip, user_agent='',
+                                        comment_content=post.message,
+                                        comment_author=post.author.username,
+                                        comment_author_email=post.author.email,
+                                        comment_author_url=post.author.profile.homepage)
+                else:
+                    api.submit_ham(user_ip=post.ip, user_agent='',
+                                        comment_content=post.message,
+                                        comment_author=post.poster_name,
+                                        comment_author_email=post.poster_email)
+            post.is_spam = False
+            post.save()
         self.message_user(request, _("Successfully marked as not spam %(count)d %(items)s.") % {
                 "count": n, "items": model_ngettext(self.opts, n)
             }, messages.SUCCESS)
