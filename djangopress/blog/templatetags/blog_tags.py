@@ -19,7 +19,10 @@ def show_blog_latest(number=5, words=20, blog=None):
 
 @register.inclusion_tag('blog/list_latest.html')
 def list_blog_latest(number=5, blog=None):
-    blog = Blog.objects.get(slug=blog)
+    try:
+        blog = Blog.objects.get(slug=blog)
+    except Blog.DoesNotExist:
+        return {}
     try:
         number = int(number)
     except ValueError:
