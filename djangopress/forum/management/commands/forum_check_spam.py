@@ -7,6 +7,12 @@ from django.conf import settings
 class Command(BaseCommand):
     help = 'Check if any posts are spam and marks them as such'
 
+    def add_arguments(self, parser):
+        parser.add_argument(
+            '--end',
+            help='The ID to stop at.',
+        )
+
     def handle(self, *args, **options):
         try:
             api = akismet.Akismet(key=settings.AKISMET_API.get('key'),
@@ -15,7 +21,10 @@ class Command(BaseCommand):
             print("Akismet is not configured correctly")
         except akismet.APIKeyError as e:
             print("Not using a valid key")
-        for post in Post.objects.filter(is_spam=False).order_by('-posted'):
+        posts = Post.objects.filter(is_spam=False).order_by('-posted')
+        if 'end' in options:
+            posts = posts.filter(pk__gt=options['end'])
+        for post in posts:
             if post.author:
                 is_spam = api.comment_check(user_ip=post.ip, user_agent=post.user_agent,
                                             comment_content=post.message,
