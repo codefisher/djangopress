@@ -13,6 +13,15 @@ class Donation(models.Model):
     invoice_id = models.CharField(max_length=50, null=True, blank=True)
     payment = models.ForeignKey(PayPalIPN, null=True, blank=True, on_delete=models.CASCADE)
 
+    def should_link(self):
+        if self.amount >= 20:
+            return True
+        elif self.amount >= 10:
+            today = datetime.date.today()
+            if self.date > datetime.date(today.year - 2, today.month, today.day):
+                return True
+        return False
+
 def update_donation(sender, **kwargs):
     ipn_obj = sender
     if ipn_obj.payment_status == "Completed":

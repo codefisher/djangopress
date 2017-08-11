@@ -28,7 +28,7 @@ A list of people that I would really like to thank for donating.
 <table>
     {% for donation in donations %}
         <tr>
-            <td>{% if donation.link_url and donation.amount >= 10 %}<a rel="nofollow" href="{{ donation.link_url }}">{{ donation.link_text }}</a> {% else %}{{ donation.name }}{% endif %}</td>
+            <td>{% if donation.link_url and donation.should_link %}<a rel="nofollow" href="{{ donation.link_url }}">{{ donation.link_text }}</a> {% else %}{{ donation.name }}{% endif %}</td>
             <td>${{ donation.amount }}</td>
             <td>{{ donation.date }}</td>
         </tr>
