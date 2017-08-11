@@ -1,4 +1,5 @@
 from django import template
+from django.utils.safestring import mark_safe
 from djangopress.iptools.views import get_ip_country_flag
 register = template.Library()
 
@@ -8,5 +9,5 @@ def ip_country_flag(ip_address):
         return ''
     flag, iso_code = get_ip_country_flag(ip_address)
     if flag: 
-        return '<img src="%s" alt="%s"/>' % (flag, iso_code)
+        return mark_safe('<img src="%s" alt="%s"/>' % (flag, iso_code))
     return ''
