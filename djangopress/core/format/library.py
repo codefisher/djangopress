@@ -5,7 +5,7 @@ from djangopress.core.format.smilies import add_smilies
 from djangopress.core.format.bbcode import bbcode
 from djangopress.core.format import magic_html as magic_html_mod
 from djangopress.core.format import html
-from django.utils.encoding import force_text, force_unicode
+from django.utils.encoding import force_text
 
 class Library(object):
     formats = {}
@@ -102,7 +102,7 @@ try:
     from creole.html_emitter import HtmlEmitter
     def format_wiki(text, *args, **kargs):
         document = Parser(text).parse()
-        return mark_safe(force_unicode(HtmlEmitter(document).emit(),
+        return mark_safe(force_text(HtmlEmitter(document).emit(),
                  encoding='utf-8', output='utf-8'))
     Library.add("wiki", format_wiki, True, "Wiki")
 except ImportError:
