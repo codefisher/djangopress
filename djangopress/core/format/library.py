@@ -5,7 +5,7 @@ from djangopress.core.format.smilies import add_smilies
 from djangopress.core.format.bbcode import bbcode
 from djangopress.core.format import magic_html as magic_html_mod
 from djangopress.core.format import html
-from django.utils.encoding import force_text
+from django.utils.encoding import force_text, force_unicode
 
 class Library(object):
     formats = {}

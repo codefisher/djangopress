@@ -309,7 +309,7 @@ class Report(models.Model):
     moderated_by = models.ForeignKey(User, blank=True, null=True, related_name="forum_moderated_reports", on_delete=models.CASCADE)
     
     def __str__(self):
-        return u"Report for %s" % unicode(self.post)
+        return "Report for %s" % str(self.post)
 
 class ForumUser(models.Model):
     """

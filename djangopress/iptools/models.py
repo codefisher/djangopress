@@ -1,5 +1,4 @@
 import os
-from django.db import models
 import geoip2.database
 from django.conf import settings
 
