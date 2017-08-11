@@ -80,13 +80,7 @@ def view_forum(request, forums_slug, forum_id, page=1):
 def check_askmet_spam(request, form):
     if not akismet:
         return False
-    try:
-        api = akismet.Akismet(key=settings.AKISMET_API.get('key'),
-                              blog_url=settings.AKISMET_API.get('blog_url'))
-    except akismet.ConfigurationError as e:
-        return False
-    except akismet.APIKeyError as e:
-        return False
+    api = get_akismet()
     if request.user.is_authenticated():
         return api.comment_check(user_ip=get_client_ip(request),
                                  user_agent=request.META.get("HTTP_USER_AGENT"),
@@ -383,16 +377,52 @@ def restore_post(request, forums_slug, post_id):
     def do_action(post):
         post.is_public = True
     return post_action(request, forums_slug, post_id, False, do_action, "Restore Post", "restore the post", "can_mark_public")
-    
+
+def get_akismet():
+    try:
+        return akismet.Akismet(key=settings.AKISMET_API.get('key'),
+                              blog_url=settings.AKISMET_API.get(
+                                  'blog_url'))
+    except akismet.ConfigurationError as e:
+        pass
+    except akismet.APIKeyError as e:
+        pass
+    return None
+
 def spam_post(request, forums_slug, post_id):
     def do_action(post):
         post.is_spam = True
-        # we we could call upon akismet
+        api = get_akismet()
+        if api:
+            if post.author:
+                api.submit_spam(user_ip=post.ip, user_agent=post.user_agent,
+                                comment_content=post.message,
+                                comment_author=post.author.username,
+                                comment_author_email=post.author.email,
+                                comment_author_url=post.author.profile.homepage)
+            else:
+                api.submit_spam(user_ip=post.ip, user_agent=post.user_agent,
+                                comment_content=post.message,
+                                comment_author=post.poster_name,
+                                comment_author_email=post.poster_email)
     return post_action(request, forums_slug, post_id, True, do_action, "Mark as Spam", "mark the post as spam", "can_mark_spam")
     
 def not_spam_post(request, forums_slug, post_id):
     def do_action(post):
         post.is_spam = False
+        api = get_akismet()
+        if api:
+            if post.author:
+                api.submit_ham(user_ip=post.ip, user_agent=post.user_agent,
+                                comment_content=post.message,
+                                comment_author=post.author.username,
+                                comment_author_email=post.author.email,
+                                comment_author_url=post.author.profile.homepage)
+            else:
+                api.submit_ham(user_ip=post.ip, user_agent=post.user_agent,
+                                comment_content=post.message,
+                                comment_author=post.poster_name,
+                                comment_author_email=post.poster_email)
     return post_action(request, forums_slug, post_id, False, do_action, "Mark as Not Spam", "mark the post as not span", "can_mark_spam")
     
 def remove_post(request, forums_slug, post_id):
