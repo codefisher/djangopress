@@ -70,8 +70,10 @@ def show_latest_posts(forums_slug, number=5):
         number = int(number)
     except ValueError:
         number = 5
-    threads = Thread.objects.filter(forum__category__forums__slug=forums_slug, 
-                                    forum__category__forums__sites__id__exact=settings.SITE_ID).exclude(last_post=None).exclude(first_post=None).order_by('-last_post_date').select_related('last_post',
+    threads = Thread.objects.filter(forum__category__forums__slug=forums_slug,
+                                    last_post__is_spam=False, last_post__is_public=True,
+                                    last_post__is_removed=False,
+                                    forum__category__forums__sites__id__exact=settings.SITE_ID).exclude(last_post=None).order_by('-last_post_date').select_related('last_post',
                                     'last_post__thread__forum__category__forums')[0:number]
     return {
         "threads": threads,
