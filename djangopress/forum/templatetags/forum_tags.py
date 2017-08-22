@@ -14,7 +14,7 @@ class TopicNode(nodes.ArgumentedNode):
         
     def render(self, context, **kwargs):
         try:
-            topic = Thread.objects.select_related('forum__category__forums').get(pk=self.arg if self.arg else self.kargs.get('id'))
+            topic = Thread.objects.select_related('forum__category__forums').get(pk=self.arg if self.arg else self.kargs.get('id')).exclude(first_post=None)
         except Thread.DoesNotExist:
             return ''
         return """<a href="%s">%s</a>""" % (topic.get_absolute_url(), self.nodelist.render(context, **kwargs))
@@ -71,7 +71,7 @@ def show_latest_posts(forums_slug, number=5):
     except ValueError:
         number = 5
     threads = Thread.objects.filter(forum__category__forums__slug=forums_slug, 
-                                    forum__category__forums__sites__id__exact=settings.SITE_ID).exclude(last_post=None).order_by('-last_post_date').select_related('last_post', 
+                                    forum__category__forums__sites__id__exact=settings.SITE_ID).exclude(last_post=None).exclude(first_post=None).order_by('-last_post_date').select_related('last_post',
                                     'last_post__thread__forum__category__forums')[0:number]
     return {
         "threads": threads,

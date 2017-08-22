@@ -83,16 +83,16 @@ def check_askmet_spam(request, form):
     api = get_akismet()
     if request.user.is_authenticated():
         return api.comment_check(user_ip=get_client_ip(request),
-                                 user_agent=request.META.get("HTTP_USER_AGENT"),
-                                 referrer=request.META.get("HTTP_REFERER"),
+                                 user_agent=request.META.get("HTTP_USER_AGENT", ""),
+                                 referrer=request.META.get("HTTP_REFERER", ""),
                                  comment_content=form.cleaned_data["message"],
                                  comment_author=request.user.username,
                                  comment_author_email=request.user.email,
                                  comment_author_url=request.user.profile.homepage)
     else:
         return api.comment_check(user_ip=get_client_ip(request),
-                                 user_agent=request.META.get("HTTP_USER_AGENT"),
-                                 referrer=request.META.get("HTTP_REFERER"),
+                                 user_agent=request.META.get("HTTP_USER_AGENT", ""),
+                                 referrer=request.META.get("HTTP_REFERER", ""),
                                  comment_content=form.cleaned_data["message"],
                                  comment_author= form.cleaned_data["poster_name"],
                                  comment_author_email=form.cleaned_data["poster_email"])
@@ -195,7 +195,7 @@ def process_post(request, thread, post_form, forums):
     except NameError:
         post.is_spam = False
     post.ip = get_client_ip(request)
-    post.user_agent = request.META.get("HTTP_USER_AGENT")[0:250]
+    post.user_agent = request.META.get("HTTP_USER_AGENT", "")[0:250]
     post.thread = thread
     post.format = forums.format
     post.save()
