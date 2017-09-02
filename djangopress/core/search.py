@@ -2,6 +2,8 @@ from haystack.forms import SearchForm
 from haystack.views import SearchView
 from django.apps import apps
 
+from django.shortcuts import render
+
 class ModelSetSearchForm(SearchForm):
     def __init__(self, *args, **kwargs):
         self.models = kwargs["models"]
@@ -39,5 +41,12 @@ def search_view_factory(view_class=SearchView, *args, **kwargs):
     that allows the url() to pass parameters to the view
     '''
     def search_view(request, *vargs, **vkwargs):
-        return view_class(*args, **kwargs)(request, *vargs, **vkwargs)
+        try:
+            return view_class(*args, **kwargs)(request, *vargs, **vkwargs)
+        except e:
+            # we had problems with the search failing randomly on certain queries
+            # this at least means they get a page to repeat the search
+            if 'template' in kwargs:
+                return render(request, kwargs.get('template'), {})
+            raise e
     return search_view
