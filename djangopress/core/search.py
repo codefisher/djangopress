@@ -43,7 +43,7 @@ def search_view_factory(view_class=SearchView, *args, **kwargs):
     def search_view(request, *vargs, **vkwargs):
         try:
             return view_class(*args, **kwargs)(request, *vargs, **vkwargs)
-        except e:
+        except Exception as e:
             # we had problems with the search failing randomly on certain queries
             # this at least means they get a page to repeat the search
             if 'template' in kwargs:
