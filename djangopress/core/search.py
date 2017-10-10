@@ -46,7 +46,5 @@ def search_view_factory(view_class=SearchView, *args, **kwargs):
         except Exception as e:
             # we had problems with the search failing randomly on certain queries
             # this at least means they get a page to repeat the search
-            if 'template' in kwargs:
-                return render(request, kwargs.get('template'), {})
-            raise e
+            return render(request, kwargs.get('template'), {})
     return search_view
