@@ -33,11 +33,6 @@
     <h2><a href="{{ blog.get_absolute_url }}">{{ blog.name }}</a></h2>
     
     {% include "blog/entry.html" %}
-    
-    <p class="clear">
-        If you found this interesting you might want to <a href="https://twitter.com/codefisher" class="twitter-follow-button" data-show-count="false">Follow @codefisher</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-    </p>
 
 	{% if blog.comments_enabled %}
     {% if comment_count == 0 %}
