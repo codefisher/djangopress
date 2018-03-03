@@ -7,6 +7,6 @@ class MailAddressAdmin(admin.ModelAdmin):
 admin.site.register(MailAddress, MailAddressAdmin)
 
 class MailLogAdmin(admin.ModelAdmin):
-    list_display = ('subject', 'name', 'email')
+    list_display = ('subject', 'name', 'email', 'created_date')
 
 admin.site.register(MailLog, MailLogAdmin)
