@@ -8,8 +8,13 @@ from django.contrib.auth.models import User
 from djangopress.core.util import smart_truncate_chars
 from django.utils.safestring import mark_safe
 from djangopress.core.format.html import extended_html
+from djangopress.core.format.html import Library
+from django.template.loader import render_to_string, get_template
+from djangopress.gallery.models import GALLERY_SETTINGS
+from lxml import html
 import markdown
 import bleach
+
 
 class EntryMananger(models.Manager):
 
@@ -146,6 +151,15 @@ class Entry(models.Model):
     description = models.TextField(blank=True, max_length=140, default="")
     post_image = models.ImageField(blank=True, null=True, upload_to=post_image_path)
 
+    @property
+    def thumbnail(self):
+        sizes = GALLERY_SETTINGS.get("sizes").get("thumb")
+        return reverse(sizes.get("mode"), kwargs={
+            "image": self.post_image.name,
+            "width": sizes.get("width"),
+            "height": sizes.get("height")
+        })
+
     class Meta:
         verbose_name = "entry"
         verbose_name_plural = "entries"
@@ -222,3 +236,21 @@ class Flag(models.Model):
     comment = models.ForeignKey(Comment, related_name="flag", on_delete=models.CASCADE)
     flag = models.CharField('flag', max_length=100)
     flag_date = models.DateTimeField(auto_now_add=True)
+
+def show_blog_latest(node):
+    try:
+        number = int(node.attrib.get('count', 5))
+    except ValueError:
+        number = 5
+    words = node.attrib.get('words', 20)
+    images = (node.attrib.get('images') == "images")
+    blog = Blog.objects.get(slug=node.attrib.get('blog'))
+    entries_list = Entry.objects.get_entries(blog=blog)[0:number]
+    result = render_to_string('blog/show_latest.html', {
+                                  "entries": entries_list,
+                                  "words": words,
+                                  "images": images
+                              })
+    return html.fromstring(result)
+
+Library.tag("//show_blog_latest", show_blog_latest)

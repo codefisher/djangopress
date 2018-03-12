@@ -97,16 +97,16 @@ def check_askmet_spam(request, entry, comment_form):
         return False
     if request.user.is_authenticated():
         return api.comment_check(user_ip=get_client_ip(request),
-                                 user_agent=request.META.get("HTTP_USER_AGENT"),
-                                 referrer=request.META.get("HTTP_REFERER"),
+                                 user_agent=request.META.get("HTTP_USER_AGENT", ""),
+                                 referrer=request.META.get("HTTP_REFERER", ""),
                                  comment_content=comment_form.cleaned_data["comment_text"],
                                  comment_author=request.user.username,
                                  comment_author_email=request.user.email,
                                  comment_author_url=request.user.profile.homepage)
     else:
         return api.comment_check(user_ip=get_client_ip(request),
-                                 user_agent=request.META.get("HTTP_USER_AGENT"),
-                                 referrer=request.META.get("HTTP_REFERER"),
+                                 user_agent=request.META.get("HTTP_USER_AGENT", ""),
+                                 referrer=request.META.get("HTTP_REFERER", ""),
                                  comment_content=comment_form.cleaned_data["message"],
                                  comment_author= comment_form.cleaned_data["user_name"],
                                  comment_author_email=comment_form.cleaned_data["user_email"],
@@ -134,7 +134,7 @@ def post(request, blog_slug, year, month, day, slug):
                 comment.user = request.user
             comment.ip_address = get_client_ip(request)
             comment.entry = entry
-            comment.user_agent = request.META.get("HTTP_USER_AGENT")
+            comment.user_agent = request.META.get("HTTP_USER_AGENT", "")
 
             try:
                 comment.is_spam = check_askmet_spam(request, entry, comment_form)
