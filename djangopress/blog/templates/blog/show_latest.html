@@ -1,10 +1,10 @@
 {% for entry in entries %}
     <div class="blog-fragment">
-     <h4><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h4>
-        <span class="blog-post-date"><span class="month">{{ entry.posted|date:"M" }}</span> <span class="day">{{ entry.posted|date:"jS" }}</span></span>
         {% if images and entry.post_image %}
         <a href="{{ entry.get_absolute_url }}"><img class="blog-post-thumbnail" src="{{ entry.thumbnail }}" /></a>
         {% endif %}
-     {{ entry.body|striptags|truncatewords:words }} <a href="{{ entry.get_absolute_url }}">more</a>
+        <h4><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h4>
+        <span class="blog-post-date"><span class="month">{{ entry.posted|date:"M" }}</span> <span class="day">{{ entry.posted|date:"jS" }}</span></span>
+        <div class="">{{ entry.body|striptags|truncatewords:words }} <a class="blog-post-readmore" href="{{ entry.get_absolute_url }}">Read More</a></div>
     </div>
 {% endfor %}
