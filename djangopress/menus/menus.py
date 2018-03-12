@@ -12,7 +12,7 @@ class ListRender(object):
     _item = Template("""
             {% load display_menu %}
             <li {% if item.id_tag %} id="{{ item.id_tag }}" {% endif %}{% if item.class_tag %} class="{{ item.class_tag }}"{% endif %}>
-                <a href="{{ item.link }}">{{ item.label }}</a>
+                {% if item.link %}<a href="{{ item.link }}">{{ item.label }}</a>{% else %}{{ item.label }}{% endif %}
                     {% display_submenu item sub_menu %}
             </li>""")
         
@@ -52,7 +52,7 @@ class HeadingRender(ListRender):
             {% load display_menu %}
             <div class="heading-menu">
             <h2 {% if item.id_tag %} id="{{ item.id_tag }}" {% endif %}{% if item.class_tag %} class="{{ item.class_tag }}"{% endif %}>
-                <a href="{{ item.link }}">{{ item.label }}</a></h2>
+                {% if item.link %}<a href="{{ item.link }}">{{ item.label }}</a>{% else %}{{ item.label }}{% endif %}
                 {% display_submenu item sub_menu %}
                 </div>
             """)
