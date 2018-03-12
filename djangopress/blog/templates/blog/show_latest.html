@@ -5,6 +5,6 @@
         {% endif %}
         <h4><a href="{{ entry.get_absolute_url }}">{{ entry.title }}</a></h4>
         <span class="blog-post-date"><span class="month">{{ entry.posted|date:"M" }}</span> <span class="day">{{ entry.posted|date:"jS" }}</span></span>
-        <div class="">{{ entry.body|striptags|truncatewords:words }} <a class="blog-post-readmore" href="{{ entry.get_absolute_url }}">Read More</a></div>
+        <div class="blog-post-short">{{ entry.body|striptags|truncatewords:words }} <a class="blog-post-readmore" href="{{ entry.get_absolute_url }}">Read More</a></div>
     </div>
 {% endfor %}
