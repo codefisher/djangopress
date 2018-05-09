@@ -108,7 +108,7 @@ def crop(request, image, width, height):
         try:
             im.save(out_file)
         except ValueError as e:
-            if e.message == "unknown file extension: ": # no file extension
+            if str(e) == "unknown file extension: ": # no file extension
                 im.save(out_file, "JPEG")
             else:
                 raise e
@@ -121,7 +121,7 @@ def resize(request, image, width=None, height=None):
         try:
             im.save(out_file)
         except ValueError as e:
-            if e.message == "unknown file extension: ": # no file extension
+            if str(e) == "unknown file extension: ": # no file extension
                 im.save(out_file, "JPEG")
             else:
                 raise e
