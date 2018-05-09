@@ -105,14 +105,24 @@ def crop(request, image, width, height):
             im = im.resize((new_width, height), PIL.Image.ANTIALIAS)
             diff = (new_width - width) / 2
             im = im.crop((diff, 0, new_width - diff, height))
-        im.save(out_file)
-
+        try:
+            im.save(out_file)
+        except ValueError as e:
+            if e.message == "unknown file extension: ": # no file extension
+                im.save(out_file, "JPEG")
+            else:
+                raise e
     return size_image(request, image, width, height, sizer)
 
 
 def resize(request, image, width=None, height=None):
     def sizer(im, width, height, out_file):
         im.thumbnail((width, height), PIL.Image.ANTIALIAS)
-        im.save(out_file)
-
+        try:
+            im.save(out_file)
+        except ValueError as e:
+            if e.message == "unknown file extension: ": # no file extension
+                im.save(out_file, "JPEG")
+            else:
+                raise e
     return size_image(request, image, width, height, sizer)
