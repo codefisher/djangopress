@@ -6,7 +6,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'relative_urls': False,
     'plugins': "table code image link colorpicker textcolor wordcount",
     'tools': "inserttable",
-    'toolbar': "undo redo | styleselect fontsizeselect fontselect | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | forecolor backcolor",
+    'toolbar': "undo redo | styleselect fontsizeselect fontselect | removeformat | bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image | forecolor backcolor",
     'extended_valid_elements': 'script[language|type|src],events[template|start],#gallery[class|id|show_description|show_title|count|slider],#show_blog_latest[class|id|words|images|blog|count]'
 }
 TINYMCE_JS_URL = "/static/js/tinymce/tinymce.min.js"
