@@ -1,5 +1,12 @@
 {% extends "forum/base.html" %}
 {% load forum_tags %}
+{% if post_form.captcha %}
+    {% load recaptcha2 %}
+    {% block head_tags %}
+        {{ block.super }}
+        {% recaptcha_init %}
+    {% endblock %}
+{% endif %}
 
 {% block content %}
     <div id="bread-crumbs">
