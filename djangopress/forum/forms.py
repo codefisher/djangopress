@@ -4,7 +4,7 @@ from django.conf import settings
 from importlib import import_module
 
 if hasattr(settings, 'CAPTCHA_APP') and settings.CAPTCHA_APP in settings.INSTALLED_APPS:
-    fields = import_module("{}.fields".format(settings.CAPTCHA))
+    fields = import_module("{}.fields".format(settings.CAPTCHA_APP))
     ReCaptchaField = fields.ReCaptchaField
 else:
     ReCaptchaField = None
