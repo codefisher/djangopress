@@ -1,9 +1,11 @@
 from django import forms
 from djangopress.forum.models import Thread, Post, Report
 from django.conf import settings
+from importlib import import_module
 
-if 'captcha' in settings.INSTALLED_APPS:
-    from captcha.fields import ReCaptchaField
+if hasattr(settings, 'CAPTCHA_APP') and settings.CAPTCHA_APP in settings.INSTALLED_APPS:
+    fields = import_module("{}.fields".format(settings.CAPTCHA))
+    ReCaptchaField = fields.ReCaptchaField
 else:
     ReCaptchaField = None
 
