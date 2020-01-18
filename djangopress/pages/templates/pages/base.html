@@ -50,9 +50,16 @@
         <ul class="messages">
             <li class="warning">This page is not published or is not visible.</li>
         </ul>
-    {% endif %}
+    {% else %}
     <h1>{{ page.title }}</h1>
+
+    {% if page.image %}
+            <img style="max-width:100%" href="{{ request.scheme }}://{{ request.get_host }}{{ page.image.url }}" />
+    {% endif %}
+
     {% placeholder "content" primary %}
+
+    {% endif %}}
 {% endblock %}
 
 {% block sidebar %}
