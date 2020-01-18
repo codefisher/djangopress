@@ -18,6 +18,9 @@
     {% if page.meta_description %}
         <meta name="description" content="{{ page.meta_description }}" >
     {% endif %}
+    {% if page.image %}
+            <meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ page.image.url }}" />
+    {% endif %}
 {% comment %}
     {% if show_toolbar %}
         <link type="text/css" rel="stylesheet" href="{% static "themes/default/style.page-edit.css" %}">
